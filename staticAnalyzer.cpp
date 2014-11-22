@@ -4,6 +4,7 @@
 #include <sstream>
 #include <map>
 #include <utility>
+#include <fstream>
 
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
@@ -23,17 +24,66 @@
 using namespace clang;
 using namespace std;
 
+SourceManager *m_srcMgr = NULL;
+Rewriter *m_rewriter = NULL;
+
 class MyASTVisitor : public RecursiveASTVisitor<MyASTVisitor>
 {
 public:
+    bool VisitDecl(Decl *d){
+	SourceLocation startLocation = d->getLocStart();
+	SourceManager &srcmgr = *m_srcMgr;
+	unsigned int lineNum = srcmgr.getExpansionLineNumber(startLocation);
+	unsigned int colNum = srcmgr.getExpansionColumnNumber(startLocation);
+//	char * kindName = d->getDeclKindName();
+	DeclContext* cont = d->getDeclContext();
+//	printf("Test %d\n",lineNum);
+	d->dumpColor();
+	if(isa<VarDecl>(d)){
+		VarDecl *varDe = cast<VarDecl>(d);
+		
+		m_rewriter->InsertTextAfter(varDe->getLocStart(),"/*loc start on VarDecl*/");
+		m_rewriter->InsertTextAfter(varDe->getLocEnd(),"/*loc end on VarDecl*/");
+		cout<<varDe->getQualifiedNameAsString();
+		QualType tp = varDe->getType();
+		cout<<" @ "<<tp.getAsString();
+		//cout<<" @ "<<varDe->getDeclName().getAsString();
+		printf(" VarDecl : %s lineNum: %d\n",d->getDeclKindName(),lineNum);
+	}
+	return true;
+    }
+
     bool VisitStmt(Stmt *s) {
-        // Fill out this function for your homework
-        return true;
+	SourceLocation startLocation = s->getLocStart();
+	SourceManager &srcmgr = *m_srcMgr;
+	unsigned int lineNum = srcmgr.getExpansionLineNumber(startLocation);
+	unsigned int colNum = srcmgr.getExpansionColumnNumber(startLocation);
+	
+	string insertSent = "/*loc stmt start*/";
+//	printf("%s\n",s->getStmtClassName());
+	if(isa<IntegerLiteral>(s)){
+		IntegerLiteral *intLit = cast<IntegerLiteral>(s);
+		QualType tp = intLit->getType();
+
+		m_rewriter->InsertTextAfter(intLit->getLocStart(),insertSent);
+		m_rewriter->InsertTextAfter(intLit->getLocEnd(),"/*loc stmt end*/");
+		//cout<<"@ "<<tp.getAsString();	
+		//printf("%d",intLit->getType());//->getAsString()<<endl;
+		//printf("IntegerLiteral %d\n",lineNum);
+	}
+	
+	if(isa<DeclStmt>(s)){
+		//s->viewAST();
+		//printf("DeclStmt : %d\n", lineNum);
+	}
+
+	return true;
     }
     
     bool VisitFunctionDecl(FunctionDecl *f) {
-        // Fill out this function for your homework
-        return true;
+        string funcName = f->getNameInfo().getAsString();
+	cout<<"function: " <<f->getName().str() <<endl;
+	return true;
     }
 };
 
@@ -85,6 +135,7 @@ int main(int argc, char *argv[])
     // SourceManager handles loading and caching of source files into memory.
     TheCompInst.createSourceManager(FileMgr);
     SourceManager &SourceMgr = TheCompInst.getSourceManager();
+    m_srcMgr = &SourceMgr;
     
     // Prreprocessor runs within a single source file
     TheCompInst.createPreprocessor();
@@ -95,6 +146,7 @@ int main(int argc, char *argv[])
     // A Rewriter helps us manage the code rewriting task.
     Rewriter TheRewriter;
     TheRewriter.setSourceMgr(SourceMgr, TheCompInst.getLangOpts());
+    m_rewriter = &TheRewriter;
 
     // Set the main file handled by the source manager to the input file.
     const FileEntry *FileIn = FileMgr.getFile(argv[1]);
@@ -108,6 +160,15 @@ int main(int argc, char *argv[])
 
     // Parse the file to AST, registering our consumer as the AST consumer.
     ParseAST(TheCompInst.getPreprocessor(), &TheConsumer, TheCompInst.getASTContext());
+
+    const RewriteBuffer *RewriteBuf = TheRewriter.getRewriteBufferFor(SourceMgr.getMainFileID());
+    
+    string fileNameInstru = string(argv[1]);
+    fileNameInstru.replace(fileNameInstru.end()-2,fileNameInstru.end(),"-instrument.c");
+    ofstream output(fileNameInstru.c_str(),ofstream::out);
+    output << string(RewriteBuf->begin(),RewriteBuf->end());
+    output.close();
+
 
     return 0;
 }

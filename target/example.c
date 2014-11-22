@@ -13,6 +13,10 @@ int f1(int a) {
 
 int main() {
 	int a = 0;		
+	int *bb;
+	int arr[100] = {0};
+
+	f1(a);
 	
 	//if-else if-else
 	if( a == 1) {
