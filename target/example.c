@@ -1,3 +1,4 @@
+#include<stdio.h>
 //example.c
 int static_var = 1;
 
@@ -25,8 +26,12 @@ int main() {
 		a = 1;
 	} else {
 		a = 4;
-	}	
+		arr[a] = 20;
+	}
 	
+	arr[99] = 30;
+//	printf("%d",arr[140]);
+
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
 		a += i;

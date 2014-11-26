@@ -8,6 +8,7 @@
 
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
+#include "clang/AST/ParentMap.h"
 #include "clang/Basic/Diagnostic.h"
 #include "clang/Basic/FileManager.h"
 #include "clang/Basic/SourceManager.h"
@@ -26,10 +27,13 @@ using namespace std;
 
 SourceManager *m_srcMgr = NULL;
 Rewriter *m_rewriter = NULL;
+ASTContext *astcontext = NULL;
+
 
 class MyASTVisitor : public RecursiveASTVisitor<MyASTVisitor>
 {
 public:
+
     bool VisitDecl(Decl *d){
 	SourceLocation startLocation = d->getLocStart();
 	SourceManager &srcmgr = *m_srcMgr;
@@ -59,8 +63,31 @@ public:
 	unsigned int lineNum = srcmgr.getExpansionLineNumber(startLocation);
 	unsigned int colNum = srcmgr.getExpansionColumnNumber(startLocation);
 	
+	if(lineNum==6){
+		m_rewriter->InsertTextAfter(startLocation,"_idxCheck_();");
+	}	
 	string insertSent = "/*loc stmt start*/";
 //	printf("%s\n",s->getStmtClassName());
+	
+	if(isa<CompoundStmt>(s)){
+		CompoundStmt *cmdSt = cast<CompoundStmt>(s);
+		printf("TT %d %d\n",lineNum,colNum);
+		for(StmtIterator b = cmdSt->child_begin();b!=cmdSt->child_end();b++){
+			if(!strcmp("BinaryOperator",b->getStmtClassName())){
+				printf("Binary Op!\n");
+				m_rewriter->InsertTextAfter(b->getLocStart(),"/*compound start*/");
+				m_rewriter->InsertTextAfter(b->getLocEnd(),"/*compound end*/");
+			}
+		}
+	}
+
+
+	if(isa<BinaryOperator>(s)){
+		BinaryOperator *cmdSt = cast<BinaryOperator>(s);
+		m_rewriter->InsertTextAfter(cmdSt->getLocStart(),"/*binOp start*/");
+		m_rewriter->InsertTextAfter(cmdSt->getLocEnd(),"/*binOp end*/");
+	}
+	
 	if(isa<IntegerLiteral>(s)){
 		IntegerLiteral *intLit = cast<IntegerLiteral>(s);
 		QualType tp = intLit->getType();
@@ -85,6 +112,7 @@ public:
 	cout<<"function: " <<f->getName().str() <<endl;
 	return true;
     }
+
 };
 
 class MyASTConsumer : public ASTConsumer
@@ -160,6 +188,8 @@ int main(int argc, char *argv[])
 
     // Parse the file to AST, registering our consumer as the AST consumer.
     ParseAST(TheCompInst.getPreprocessor(), &TheConsumer, TheCompInst.getASTContext());
+    astcontext = &TheCompInst.getASTContext();
+
 
     const RewriteBuffer *RewriteBuf = TheRewriter.getRewriteBufferFor(SourceMgr.getMainFileID());
     
