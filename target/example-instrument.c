@@ -1,68 +1,71 @@
 #include<stdio.h>
 //example.c
-/*loc start on VarDecl*/int static_var = /*loc end on VarDecl*//*loc stmt start*//*loc stmt end*/1;
+int static_var = 1;
 
-int f1(/*loc start on VarDecl*/int /*loc end on VarDecl*/a) {
-	_idxCheck_();_idxCheck_();static_var++;
+int f1(int a) {
+	_varCheck_();_varCheck_();static_var++;
 	//if-else
-	if( /*binOp start*/a == /*binOp end*//*loc stmt start*//*loc stmt end*/1) {
-		return /*loc stmt start*//*loc stmt end*/2;
+	if( /*binOp start*/a == /*binOp end*/1) {
+		return 2;
 	} else {
-		return /*loc stmt start*//*loc stmt end*/4;
+		return 4;
 	}
 }
 
 int main() {
-	/*loc start on VarDecl*/int a = /*loc end on VarDecl*//*loc stmt start*//*loc stmt end*/0;		
-	/*loc start on VarDecl*/int */*loc end on VarDecl*/bb;
-	/*loc start on VarDecl*/int arr[/*loc stmt start*//*loc stmt end*/100] = {/*loc stmt start*//*loc stmt end*/0/*loc end on VarDecl*/};
+	int a = 0;		
+	int *bb;
+	int arr[100] = {0};
 
 	f1(a);
 	
 	//if-else if-else
-	if( /*binOp start*/a == /*binOp end*//*loc stmt start*//*loc stmt end*/1) {
-		/*compound start*//*binOp start*/a =  /*compound end*//*binOp end*//*loc stmt start*//*loc stmt end*/2;
-	} else if ( /*binOp start*/a == /*binOp end*//*loc stmt start*//*loc stmt end*/2){
-		/*compound start*//*binOp start*/a = /*compound end*//*binOp end*//*loc stmt start*//*loc stmt end*/1;
+	if( /*binOp start*/a == /*binOp end*/1) {
+		/*compound start*//*binOp start*/a =  /*compound end*//*binOp end*/2;
+	} else if ( /*binOp start*/a == /*binOp end*/2){
+		/*compound start*//*binOp start*/a = /*compound end*//*binOp end*/1;
 	} else {
-		/*compound start*//*binOp start*/a = /*compound end*//*binOp end*//*loc stmt start*//*loc stmt end*/4;
-		/*compound start*//*binOp start*/arr[a] = /*compound end*//*binOp end*//*loc stmt start*//*loc stmt end*/20;
+		/*compound start*//*binOp start*/a = /*compound end*//*binOp end*/4;
+		/*compound start*//*binOp start*/arr[a] = /*compound end*//*binOp end*/20;
 	}
 	
-	/*compound start*//*binOp start*/arr[/*loc stmt start*//*loc stmt end*/99] = /*compound end*//*binOp end*//*loc stmt start*//*loc stmt end*/30;
+	/*compound start*//*binOp start*/arr[99] = /*compound end*//*binOp end*/30;
 //	printf("%d",arr[140]);
 
 	//for	
-	for( /*loc start on VarDecl*/int i = /*loc end on VarDecl*//*loc stmt start*//*loc stmt end*/0 ; /*binOp start*/i < /*binOp end*//*loc stmt start*//*loc stmt end*/10 ; i++ ) {
-		/*binOp start*/a += /*binOp end*/i;
+	for( int i = 0 ; /*binOp start*/i < /*binOp end*/10 ; i++ ) {
+		/*assign start*//*binOp start*/a += /*assign end*//*binOp end*/i;
+	}
+	for(int i=0;/*binOp start*/i</*binOp end*/10;i++){
+		/*compound start*//*binOp start*/a = /*binOp start*/a+/*compound end*//*binOp end*//*binOp end*/i;
 	}
 	
 	//while
-	while( /*binOp start*/a < /*binOp end*//*loc stmt start*//*loc stmt end*/100 ) {
-		/*binOp start*/a += /*binOp end*/a;
+	while( /*binOp start*/a < /*binOp end*/100 ) {
+		/*assign start*//*binOp start*/a += /*assign end*//*binOp end*/a;
 	}
 	
 	//do-while
 	do {
 		switch(a) {
-			case /*loc stmt start*//*loc stmt end*/100: 
-				/*binOp start*/a += /*binOp end*//*loc stmt start*//*loc stmt end*/10;
+			case 100: 
+				/*case assign start*//*binOp start*/a += /*binOp end*/10;
 				break;
-			case /*loc stmt start*//*loc stmt end*/200: 
-				/*binOp start*/a = /*binOp start*/a == /*binOp end*//*loc stmt start*//*loc stmt end*/3 ? /*loc stmt start*//*loc stmt end*/1 : /*binOp end*//*loc stmt start*//*loc stmt end*/2;// ?: operator 
-				/*binOp start*/a += /*binOp end*//*loc stmt start*//*loc stmt end*/20;
+			case 200: 
+				/*case comp start*//*binOp start*/a = /*binOp start*/a == /*binOp end*/3 ? 1 : /*case comp end*//*binOp end*/2;// ?: operator 
+				/*assign start*//*binOp start*/a += /*assign end*//*binOp end*/20;
 				break;
 			default:
-				/*binOp start*/a += /*binOp end*//*loc stmt start*//*loc stmt end*/1;
+				/*case assign start*//*binOp start*/a += /*binOp end*/1;
 		}
-	} while( /*binOp start*/a == /*binOp end*//*loc stmt start*//*loc stmt end*/0 );
+	} while( /*binOp start*/a == /*binOp end*/0 );
 
 	switch(a) {
-		case /*loc stmt start*//*loc stmt end*/150:
-			/*binOp start*/a+=/*binOp end*//*loc stmt start*//*loc stmt end*/20;
+		case 150:
+			/*case assign start*//*binOp start*/a+=/*binOp end*/20;
 			break;
-		case /*loc stmt start*//*loc stmt end*/250:
-			/*binOp start*/a+=/*binOp end*//*loc stmt start*//*loc stmt end*/30;
+		case 250:
+			/*case comp start*//*binOp start*/a=/*binOp start*/a+/*case comp end*//*binOp end*//*binOp end*/30;
 			break;
 	}
 }

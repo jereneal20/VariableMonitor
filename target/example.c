@@ -36,6 +36,9 @@ int main() {
 	for( int i = 0 ; i < 10 ; i++ ) {
 		a += i;
 	}
+	for(int i=0;i<10;i++){
+		a = a+i;
+	}
 	
 	//while
 	while( a < 100 ) {
@@ -62,7 +65,7 @@ int main() {
 			a+=20;
 			break;
 		case 250:
-			a+=30;
+			a=a+30;
 			break;
 	}
 }

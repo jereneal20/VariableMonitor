@@ -28,7 +28,7 @@ using namespace std;
 SourceManager *m_srcMgr = NULL;
 Rewriter *m_rewriter = NULL;
 ASTContext *astcontext = NULL;
-
+ofstream *varOutput = NULL;
 
 class MyASTVisitor : public RecursiveASTVisitor<MyASTVisitor>
 {
@@ -41,18 +41,15 @@ public:
 	unsigned int colNum = srcmgr.getExpansionColumnNumber(startLocation);
 //	char * kindName = d->getDeclKindName();
 	DeclContext* cont = d->getDeclContext();
-//	printf("Test %d\n",lineNum);
 	d->dumpColor();
 	if(isa<VarDecl>(d)){
 		VarDecl *varDe = cast<VarDecl>(d);
 		
-		m_rewriter->InsertTextAfter(varDe->getLocStart(),"/*loc start on VarDecl*/");
-		m_rewriter->InsertTextAfter(varDe->getLocEnd(),"/*loc end on VarDecl*/");
-		cout<<varDe->getQualifiedNameAsString();
+		//m_rewriter->InsertTextAfter(varDe->getLocStart(),"/*loc start VarDecl*/");
+		//m_rewriter->InsertTextAfter(varDe->getLocEnd(),"/*loc end VarDecl*/");
 		QualType tp = varDe->getType();
-		cout<<" @ "<<tp.getAsString();
-		//cout<<" @ "<<varDe->getDeclName().getAsString();
-		printf(" VarDecl : %s lineNum: %d\n",d->getDeclKindName(),lineNum);
+		cout<<varDe->getQualifiedNameAsString()<<" @ "<<tp.getAsString();
+		printf(" @ %s lineNum: %d\n",d->getDeclKindName(),lineNum);
 	}
 	return true;
     }
@@ -64,7 +61,7 @@ public:
 	unsigned int colNum = srcmgr.getExpansionColumnNumber(startLocation);
 	
 	if(lineNum==6){
-		m_rewriter->InsertTextAfter(startLocation,"_idxCheck_();");
+		m_rewriter->InsertTextAfter(startLocation,"_varCheck_();");
 	}	
 	string insertSent = "/*loc stmt start*/";
 //	printf("%s\n",s->getStmtClassName());
@@ -78,9 +75,36 @@ public:
 				m_rewriter->InsertTextAfter(b->getLocStart(),"/*compound start*/");
 				m_rewriter->InsertTextAfter(b->getLocEnd(),"/*compound end*/");
 			}
+			if(!strcmp("CompoundAssignOperator",b->getStmtClassName())){
+				printf("Compound Assign Op!\n");
+				m_rewriter->InsertTextAfter(b->getLocStart(),"/*assign start*/");
+				m_rewriter->InsertTextAfter(b->getLocEnd(),"/*assign end*/");
+			}
+		
 		}
 	}
 
+	if(isa<CaseStmt>(s)||isa<DefaultStmt>(s)){ //isa<DefaultStmt>(s)
+		//CaseStmt *caseSt = cast<CaseStmt>(s);
+		printf("TR %d %d\n",lineNum,colNum);
+		for(StmtIterator b = s->child_begin();b!=s->child_end();b++){
+			if(*b==NULL){
+				printf("NULL!\n");
+				continue;
+			}
+			if(!strcmp("BinaryOperator",b->getStmtClassName())){
+				printf("Binary Ca Op!\n");
+				m_rewriter->InsertTextAfter(b->getLocStart(),"/*case comp start*/");
+				m_rewriter->InsertTextAfter(b->getLocEnd(),"/*case comp end*/");
+			}
+			if(!strcmp("CompoundAssignOperator",b->getStmtClassName())){
+				printf("Compound Ca Assign Op!\n");
+				m_rewriter->InsertTextAfter(b->getLocStart(),"/*case assign start*/");
+				//m_rewriter->InsertTextAfter(b->getLocEnd(),"/*case assign end*/");
+			}
+		
+		}
+	}
 
 	if(isa<BinaryOperator>(s)){
 		BinaryOperator *cmdSt = cast<BinaryOperator>(s);
@@ -92,8 +116,8 @@ public:
 		IntegerLiteral *intLit = cast<IntegerLiteral>(s);
 		QualType tp = intLit->getType();
 
-		m_rewriter->InsertTextAfter(intLit->getLocStart(),insertSent);
-		m_rewriter->InsertTextAfter(intLit->getLocEnd(),"/*loc stmt end*/");
+		//m_rewriter->InsertTextAfter(intLit->getLocStart(),insertSent);
+		//m_rewriter->InsertTextAfter(intLit->getLocEnd(),"/*loc stmt end*/");
 		//cout<<"@ "<<tp.getAsString();	
 		//printf("%d",intLit->getType());//->getAsString()<<endl;
 		//printf("IntegerLiteral %d\n",lineNum);
@@ -182,7 +206,13 @@ int main(int argc, char *argv[])
     
     // Inform Diagnostics that processing of a source file is beginning. 
     TheCompInst.getDiagnosticClient().BeginSourceFile(TheCompInst.getLangOpts(),&TheCompInst.getPreprocessor());
-    
+   
+    string varSaveFileName = string(argv[1]);
+    varSaveFileName.replace(varSaveFileName.end()-2,varSaveFileName.end(),"-varData");
+    ofstream varDataOut(varSaveFileName.c_str(),ofstream::out);
+    varOutput = &varDataOut;
+
+ 
     // Create an AST consumer instance which is going to get called by ParseAST.
     MyASTConsumer TheConsumer;
 
