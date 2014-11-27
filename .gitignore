@@ -1,4 +1,6 @@
 *.out
+*.swo
+*.swp
 staticAnalyzer
 Tamplate.zip
 kcov-template.zip
