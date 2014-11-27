@@ -1,0 +1,889 @@
+errno@int@Var@44
+@const char *@ParmVar@20
+@int@ParmVar@20
+<anonymous>@char *@ParmVar@29
+size_t@int@ParmVar@29
+<anonymous>@char *@ParmVar@30
+size_t@int@ParmVar@30
+<anonymous>@char **@ParmVar@30
+matchers@struct matcher []@Var@26
+matcher@char *@Var@47
+match_icase@int@Var@51
+match_words@int@Var@52
+match_lines@int@Var@53
+matcher@char *@Var@123
+match_icase@int@Var@124
+match_words@int@Var@125
+match_lines@int@Var@126
+compile@void (*)()@Var@129
+execute@char *(*)()@Var@130
+prog@char *@Var@133
+filename@char *@Var@134
+errseen@int@Var@135
+mesg@const char *@ParmVar@142
+errnum@int@ParmVar@145
+mesg@const char *@ParmVar@158
+errnum@int@ParmVar@161
+buffer@char *@Var@211
+bufsalloc@int@Var@212
+bufalloc@int@Var@213
+bufdesc@int@Var@214
+bufbeg@char *@Var@215
+buflim@char *@Var@216
+bufmapped@int@Var@226
+bufstat@struct stat@Var@227
+bufoffset@int@Var@228
+fd@int@ParmVar@235
+initialized@int@Var@237
+out_quiet@int@Var@356
+out_invert@int@Var@357
+out_file@int@Var@358
+out_line@int@Var@359
+out_byte@int@Var@360
+out_before@int@Var@361
+out_after@int@Var@362
+totalcc@int@Var@365
+lastnl@char *@Var@366
+lastout@char *@Var@367
+totalnl@int@Var@370
+pending@int@Var@371
+lim@char *@ParmVar@375
+beg@char *@Var@377
+beg@char *@ParmVar@387
+lim@char *@ParmVar@388
+sep@char@ParmVar@389
+lim@char *@ParmVar@410
+nl@char *@Var@412
+beg@char *@ParmVar@431
+lim@char *@ParmVar@432
+nlinesp@int *@ParmVar@433
+used@int@Var@435
+bp@char *@Var@436
+p@char *@Var@436
+nl@char *@Var@436
+i@int@Var@437
+n@int@Var@437
+beg@char *@ParmVar@496
+lim@char *@ParmVar@497
+nlines@int@Var@499
+n@int@Var@499
+p@char *@Var@500
+b@char *@Var@500
+endp@char *@Var@501
+fd@int@ParmVar@533
+nlines@int@Var@535
+i@int@Var@535
+beg@char *@Var@537
+lim@char *@Var@537
+version@char [21]@Var@597
+name@char *@ParmVar@613
+i@int@Var@615
+argc@int@ParmVar@629
+argv@char **@ParmVar@630
+keys@char *@Var@632
+keyfound@int@Var@634
+count_matches@int@Var@634
+no_filenames@int@Var@634
+list_files@int@Var@634
+suppress_errors@int@Var@634
+opt@int@Var@635
+cc@int@Var@635
+desc@int@Var@635
+count@int@Var@635
+status@int@Var@635
+optarg@char *@Var@637
+optind@int@Var@638
+optarg@char *@Var@31
+optind@int@Var@45
+opterr@int@Var@50
+optopt@int@Var@54
+argc@int@ParmVar@106
+argv@char *const *@ParmVar@106
+shortopts@const char *@ParmVar@106
+longopts@const struct option *@ParmVar@107
+longind@int *@ParmVar@107
+argc@int@ParmVar@108
+argv@char *const *@ParmVar@108
+shortopts@const char *@ParmVar@109
+longopts@const struct option *@ParmVar@110
+longind@int *@ParmVar@110
+argc@int@ParmVar@113
+argv@char *const *@ParmVar@113
+shortopts@const char *@ParmVar@114
+longopts@const struct option *@ParmVar@115
+longind@int *@ParmVar@115
+long_only@int@ParmVar@116
+optarg@char *@Var@969
+optind@int@Var@984
+nextchar@char *@Var@993
+opterr@int@Var@998
+optopt@int@Var@1004
+ordering@enum <anonymous enum at target/grep.c:1035:8>@Var@1035
+str@const char *@ParmVar@1060
+chr@int@ParmVar@1061
+from@const char *@ParmVar@1074
+to@char *@ParmVar@1075
+size@int@ParmVar@1076
+i@int@Var@1078
+first_nonopt@int@Var@1090
+last_nonopt@int@Var@1091
+argv@char **@ParmVar@1104
+nonopts_size@int@Var@1106
+temp@char **@Var@1107
+argc@int@ParmVar@1182
+argv@char *const *@ParmVar@1183
+optstring@const char *@ParmVar@1184
+longopts@const struct option *@ParmVar@1185
+longind@int *@ParmVar@1186
+long_only@int@ParmVar@1187
+option_index@int@Var@1189
+c@char@Var@1435
+temp@char *@Var@1436
+argc@int@ParmVar@1516
+argv@char *const *@ParmVar@1517
+optstring@const char *@ParmVar@1518
+re_syntax_table@char [256]@Var@1704
+c@int@Var@1709
+done@int@Var@1710
+re_syntax_options@reg_syntax_t@Var@137
+syntax@reg_syntax_t@ParmVar@404
+pattern@const char *@ParmVar@410
+length@int@ParmVar@410
+buffer@struct re_pattern_buffer *@ParmVar@410
+buffer@struct re_pattern_buffer *@ParmVar@417
+buffer@struct re_pattern_buffer *@ParmVar@426
+string@const char *@ParmVar@426
+length@int@ParmVar@426
+start@int@ParmVar@426
+range@int@ParmVar@426
+regs@struct re_registers *@ParmVar@426
+buffer@struct re_pattern_buffer *@ParmVar@433
+string1@const char *@ParmVar@433
+length1@int@ParmVar@433
+string2@const char *@ParmVar@433
+length2@int@ParmVar@433
+start@int@ParmVar@433
+range@int@ParmVar@433
+regs@struct re_registers *@ParmVar@433
+stop@int@ParmVar@433
+buffer@struct re_pattern_buffer *@ParmVar@441
+string@const char *@ParmVar@441
+length@int@ParmVar@441
+start@int@ParmVar@441
+regs@struct re_registers *@ParmVar@441
+buffer@struct re_pattern_buffer *@ParmVar@447
+string1@const char *@ParmVar@447
+length1@int@ParmVar@447
+string2@const char *@ParmVar@447
+length2@int@ParmVar@447
+start@int@ParmVar@447
+regs@struct re_registers *@ParmVar@447
+stop@int@ParmVar@447
+buffer@struct re_pattern_buffer *@ParmVar@465
+regs@struct re_registers *@ParmVar@465
+num_regs@unsigned int@ParmVar@465
+starts@regoff_t *@ParmVar@465
+ends@regoff_t *@ParmVar@465
+@const char *@ParmVar@469
+@const char *@ParmVar@470
+preg@regex_t *@ParmVar@473
+pattern@const char *@ParmVar@473
+cflags@int@ParmVar@473
+preg@const regex_t *@ParmVar@475
+string@const char *@ParmVar@475
+nmatch@int@ParmVar@475
+pmatch@regmatch_t *@ParmVar@475
+eflags@int@ParmVar@475
+preg@regex_t *@ParmVar@480
+re_syntax_options@reg_syntax_t@Var@2448
+syntax@reg_syntax_t@ParmVar@2460
+ret@reg_syntax_t@Var@2462
+re_error_msg@const char *[17]@Var@2471
+pattern@const char *@ParmVar@2714
+size@int@ParmVar@2715
+syntax@reg_syntax_t@ParmVar@2716
+bufp@struct re_pattern_buffer *@ParmVar@2717
+c@unsigned char@Var@2722
+c1@unsigned char@Var@2722
+p1@const char *@Var@2725
+b@unsigned char *@Var@2728
+compile_stack@compile_stack_type@Var@2731
+p@const char *@Var@2734
+pend@const char *@Var@2735
+translate@char *@Var@2738
+pending_exact@unsigned char *@Var@2744
+laststart@unsigned char *@Var@2749
+begalt@unsigned char *@Var@2752
+beg_interval@const char *@Var@2756
+fixup_alt_jump@unsigned char *@Var@2761
+regnum@regnum_t@Var@2766
+old_buffer@unsigned char *@Var@2840
+old_buffer@unsigned char *@Var@2855
+keep_string_p@boolean@Var@2880
+zero_times_ok@char@Var@2883
+many_times_ok@char@Var@2883
+old_buffer@unsigned char *@Var@2948
+old_buffer@unsigned char *@Var@2973
+old_buffer@unsigned char *@Var@2987
+old_buffer@unsigned char *@Var@2997
+had_char_class@boolean@Var@3003
+old_buffer@unsigned char *@Var@3009
+old_buffer@unsigned char *@Var@3015
+old_buffer@unsigned char *@Var@3023
+ret@reg_errcode_t@Var@3070
+ret@reg_errcode_t@Var@3077
+str@char [7]@Var@3091
+ch@int@Var@3114
+is_alnum@boolean@Var@3115
+is_alpha@boolean@Var@3116
+is_blank@boolean@Var@3117
+is_cntrl@boolean@Var@3118
+is_digit@boolean@Var@3119
+is_graph@boolean@Var@3120
+is_lower@boolean@Var@3121
+is_print@boolean@Var@3122
+is_punct@boolean@Var@3123
+is_space@boolean@Var@3124
+is_upper@boolean@Var@3125
+is_xdigit@boolean@Var@3126
+old_buffer@unsigned char *@Var@3259
+old_buffer@unsigned char *@Var@3289
+this_group_regnum@regnum_t@Var@3310
+inner_group_loc@unsigned char *@Var@3329
+old_buffer@unsigned char *@Var@3333
+old_buffer@unsigned char *@Var@3349
+old_buffer@unsigned char *@Var@3377
+lower_bound@int@Var@3399
+upper_bound@int@Var@3399
+old_buffer@unsigned char *@Var@3464
+nbytes@unsigned int@Var@3481
+old_buffer@unsigned char *@Var@3483
+old_buffer@unsigned char *@Var@3577
+old_buffer@unsigned char *@Var@3583
+old_buffer@unsigned char *@Var@3588
+old_buffer@unsigned char *@Var@3592
+old_buffer@unsigned char *@Var@3596
+old_buffer@unsigned char *@Var@3600
+old_buffer@unsigned char *@Var@3604
+old_buffer@unsigned char *@Var@3608
+old_buffer@unsigned char *@Var@3626
+old_buffer@unsigned char *@Var@3674
+old_buffer@unsigned char *@Var@3678
+op@re_opcode_t@ParmVar@3715
+loc@unsigned char *@ParmVar@3716
+arg@int@ParmVar@3717
+op@re_opcode_t@ParmVar@3728
+loc@unsigned char *@ParmVar@3729
+arg1@int@ParmVar@3730
+arg2@int@ParmVar@3730
+op@re_opcode_t@ParmVar@3743
+loc@unsigned char *@ParmVar@3744
+arg@int@ParmVar@3745
+end@unsigned char *@ParmVar@3746
+pfrom@unsigned char *@Var@3748
+pto@unsigned char *@Var@3749
+op@re_opcode_t@ParmVar@3762
+loc@unsigned char *@ParmVar@3763
+arg1@int@ParmVar@3764
+arg2@int@ParmVar@3764
+end@unsigned char *@ParmVar@3765
+pfrom@unsigned char *@Var@3767
+pto@unsigned char *@Var@3768
+pattern@const char *@ParmVar@3783
+p@const char *@ParmVar@3783
+syntax@reg_syntax_t@ParmVar@3784
+prev@const char *@Var@3786
+prev_prev_backslash@boolean@Var@3787
+p@const char *@ParmVar@3802
+pend@const char *@ParmVar@3802
+syntax@int@ParmVar@3803
+next@const char *@Var@3805
+next_backslash@boolean@Var@3806
+next_next@const char *@Var@3807
+compile_stack@compile_stack_type@ParmVar@3824
+regnum@regnum_t@ParmVar@3825
+this_element@int@Var@3827
+p_ptr@const char **@ParmVar@3852
+pend@const char *@ParmVar@3852
+translate@char *@ParmVar@3853
+syntax@reg_syntax_t@ParmVar@3854
+b@unsigned char *@ParmVar@3855
+this_char@unsigned int@Var@3857
+p@const char *@Var@3859
+range_start@int@Var@3860
+range_end@int@Var@3860
+re_max_failures@int@Var@3911
+bufp@struct re_pattern_buffer *@ParmVar@4184
+j@int@Var@4186
+k@int@Var@4186
+fail_stack@fail_stack_type@Var@4187
+destination@char *@Var@4189
+num_regs@unsigned int@Var@4192
+fastmap@char *@Var@4194
+pattern@unsigned char *@Var@4195
+size@unsigned long@Var@4196
+p@const unsigned char *@Var@4197
+pend@unsigned char *@Var@4198
+path_can_be_null@boolean@Var@4204
+succeed_n_p@boolean@Var@4207
+bufp@struct re_pattern_buffer *@ParmVar@4469
+regs@struct re_registers *@ParmVar@4470
+num_regs@unsigned int@ParmVar@4471
+starts@regoff_t *@ParmVar@4472
+ends@regoff_t *@ParmVar@4472
+bufp@struct re_pattern_buffer *@ParmVar@4496
+string@const char *@ParmVar@4497
+size@int@ParmVar@4498
+startpos@int@ParmVar@4498
+range@int@ParmVar@4498
+regs@struct re_registers *@ParmVar@4499
+bufp@struct re_pattern_buffer *@ParmVar@4529
+string1@const char *@ParmVar@4530
+size1@int@ParmVar@4531
+string2@const char *@ParmVar@4530
+size2@int@ParmVar@4531
+startpos@int@ParmVar@4532
+range@int@ParmVar@4533
+regs@struct re_registers *@ParmVar@4534
+stop@int@ParmVar@4535
+val@int@Var@4537
+fastmap@char *@Var@4538
+translate@char *@Var@4539
+total_size@int@Var@4540
+endpos@int@Var@4541
+d@const char *@Var@4580
+lim@int@Var@4581
+irange@int@Var@4582
+c@char@Var@4604
+bufp@struct re_pattern_buffer *@ParmVar@4788
+string@const char *@ParmVar@4789
+size@int@ParmVar@4790
+pos@int@ParmVar@4790
+regs@struct re_registers *@ParmVar@4791
+bufp@struct re_pattern_buffer *@ParmVar@4813
+string1@const char *@ParmVar@4814
+size1@int@ParmVar@4815
+string2@const char *@ParmVar@4814
+size2@int@ParmVar@4815
+pos@int@ParmVar@4816
+regs@struct re_registers *@ParmVar@4817
+stop@int@ParmVar@4818
+mcnt@int@Var@4821
+p1@unsigned char *@Var@4822
+end1@const char *@Var@4825
+end2@const char *@Var@4825
+end_match_1@const char *@Var@4829
+end_match_2@const char *@Var@4829
+d@const char *@Var@4832
+dend@const char *@Var@4832
+p@unsigned char *@Var@4835
+pend@unsigned char *@Var@4836
+translate@char *@Var@4839
+fail_stack@fail_stack_type@Var@4850
+num_regs@unsigned int@Var@4859
+lowest_active_reg@unsigned int@Var@4862
+highest_active_reg@unsigned int@Var@4863
+regstart@const char **@Var@4872
+regend@const char **@Var@4872
+old_regstart@const char **@Var@4879
+old_regend@const char **@Var@4879
+reg_info@register_info_type *@Var@4887
+best_regs_set@unsigned int@Var@4893
+best_regstart@const char **@Var@4894
+best_regend@const char **@Var@4894
+match_end@const char *@Var@4904
+reg_dummy@const char **@Var@4907
+reg_info_dummy@register_info_type *@Var@4908
+same_str_p@boolean@Var@5041
+r@unsigned int@Var@5212
+r@unsigned int@Var@5226
+c@unsigned char@Var@5235
+not@boolean@Var@5236
+r@unsigned int@Var@5253
+r@unsigned char@Var@5339
+is_a_jump_n@boolean@Var@5368
+r@unsigned int@Var@5410
+destination@char *@Var@5426
+this_reg@int@Var@5426
+d2@const char *@Var@5441
+dend2@const char *@Var@5441
+regno@int@Var@5442
+destination@char *@Var@5573
+this_reg@int@Var@5573
+destination@char *@Var@5626
+this_reg@int@Var@5626
+p2@unsigned char *@Var@5636
+c@unsigned char@Var@5671
+not@int@Var@5688
+dummy_low_reg@unsigned int@Var@5727
+dummy_high_reg@unsigned int@Var@5727
+pdummy@unsigned char *@Var@5728
+sdummy@const char *@Var@5729
+this_reg@int@Var@5732
+string_temp@const unsigned char *@Var@5732
+destination@char *@Var@5765
+this_reg@int@Var@5765
+destination@char *@Var@5778
+this_reg@int@Var@5778
+r@unsigned int@Var@5921
+r@unsigned int@Var@5930
+this_reg@int@Var@5946
+string_temp@const unsigned char *@Var@5946
+is_a_jump_n@boolean@Var@5958
+p@unsigned char **@ParmVar@6013
+end@unsigned char *@ParmVar@6013
+reg_info@register_info_type *@ParmVar@6014
+mcnt@int@Var@6016
+p1@unsigned char *@Var@6018
+p@unsigned char *@ParmVar@6122
+end@unsigned char *@ParmVar@6122
+reg_info@register_info_type *@ParmVar@6123
+mcnt@int@Var@6125
+p1@unsigned char *@Var@6126
+p@unsigned char **@ParmVar@6159
+end@unsigned char *@ParmVar@6159
+reg_info@register_info_type *@ParmVar@6160
+mcnt@int@Var@6162
+ret@boolean@Var@6163
+reg_no@int@Var@6164
+p1@unsigned char *@Var@6165
+s1@unsigned char *@ParmVar@6247
+s2@unsigned char *@ParmVar@6247
+len@int@ParmVar@6248
+translate@char *@ParmVar@6249
+p1@unsigned char *@Var@6251
+p2@unsigned char *@Var@6251
+pattern@const char *@ParmVar@6273
+length@int@ParmVar@6274
+bufp@struct re_pattern_buffer *@ParmVar@6275
+ret@reg_errcode_t@Var@6277
+re_comp_buf@struct re_pattern_buffer@Var@6302
+s@const char *@ParmVar@6306
+ret@reg_errcode_t@Var@6308
+s@const char *@ParmVar@6344
+len@const int@Var@6346
+preg@regex_t *@ParmVar@6392
+pattern@const char *@ParmVar@6393
+cflags@int@ParmVar@6394
+ret@reg_errcode_t@Var@6396
+syntax@unsigned int@Var@6397
+i@unsigned int@Var@6414
+pmatch@regmatch_t []@Var@6471
+eflags@int@Var@6472
+preg@regex_t *@ParmVar@6577
+@int@ParmVar@308
+@int@ParmVar@308
+@char *@ParmVar@313
+size_t@int@ParmVar@313
+@struct dfa *@ParmVar@313
+@int@ParmVar@313
+@struct dfa *@ParmVar@327
+@char *@ParmVar@327
+@char *@ParmVar@327
+@int@ParmVar@327
+@int *@ParmVar@327
+@int *@ParmVar@327
+@struct dfa *@ParmVar@330
+@struct dfa *@ParmVar@335
+@char *@ParmVar@338
+size_t@int@ParmVar@338
+@struct dfa *@ParmVar@338
+@struct dfa *@ParmVar@342
+@int@ParmVar@342
+@int@ParmVar@346
+@struct dfa *@ParmVar@346
+@int *@ParmVar@346
+@char *@ParmVar@354
+b@int@ParmVar@6804
+c@int *@ParmVar@6805
+b@int@ParmVar@6812
+c@int *@ParmVar@6813
+b@int@ParmVar@6820
+c@int *@ParmVar@6821
+src@int *@ParmVar@6828
+dst@int *@ParmVar@6829
+i@int@Var@6831
+s@int *@ParmVar@6839
+i@int@Var@6841
+s@int *@ParmVar@6849
+i@int@Var@6851
+s1@int *@ParmVar@6859
+s2@int *@ParmVar@6860
+i@int@Var@6862
+dfa@struct dfa *@Var@6871
+s@int *@ParmVar@6876
+i@int@Var@6878
+syntax_bits@int@Var@6890
+syntax_bits_set@int@Var@6890
+case_fold@int@Var@6893
+bits@int@ParmVar@6898
+fold@int@ParmVar@6899
+lexstart@char *@Var@6911
+lexptr@char *@Var@6912
+lexleft@int@Var@6913
+lasttok@token@Var@6914
+laststart@int@Var@6915
+parens@int@Var@6917
+minrep@int@Var@6918
+maxrep@int@Var@6918
+c@int@ParmVar@6934
+c@int@ParmVar@6935
+c@int@ParmVar@6936
+c@int@ParmVar@6937
+c@int@ParmVar@6938
+c@int@ParmVar@6939
+c@int@ParmVar@6940
+c@int@ParmVar@6941
+c@int@ParmVar@6942
+c@int@ParmVar@6943
+c@int@ParmVar@6944
+prednames@struct <anonymous struct at target/grep.c:6949:8> [12]@Var@6949
+s@char *@ParmVar@6969
+len@int@Var@6971
+c@token@Var@6982
+c1@token@Var@6982
+c2@token@Var@6982
+backslash@int@Var@6983
+invert@int@Var@6983
+ccl@charclass@Var@6984
+i@int@Var@6985
+tok@token@Var@7299
+depth@int@Var@7300
+t@token@ParmVar@7310
+@int@ParmVar@7369
+tindex@int@ParmVar@7398
+ntoks1@int@Var@7400
+tindex@int@ParmVar@7421
+ntokens@int@ParmVar@7421
+i@int@Var@7423
+tindex@int@Var@7432
+ntokens@int@Var@7432
+i@int@Var@7432
+toplevel@int@ParmVar@7477
+d@struct dfa *@Var@7498
+src@position_set *@ParmVar@7533
+dst@position_set *@ParmVar@7534
+i@int@Var@7536
+p@position@ParmVar@7549
+s@position_set *@ParmVar@7550
+i@int@Var@7552
+t1@position@Var@7553
+t2@position@Var@7553
+s1@position_set *@ParmVar@7576
+s2@position_set *@ParmVar@7577
+m@position_set *@ParmVar@7578
+i@int@Var@7580
+j@int@Var@7580
+p@position@ParmVar@7602
+s@position_set *@ParmVar@7603
+i@int@Var@7605
+d@struct dfa *@ParmVar@7621
+s@position_set *@ParmVar@7622
+newline@int@ParmVar@7623
+letter@int@ParmVar@7624
+hash@int@Var@7626
+constraint@int@Var@7627
+i@int@Var@7628
+j@int@Var@7628
+s@position_set *@ParmVar@7691
+d@struct dfa *@ParmVar@7692
+i@int@Var@7694
+j@int@Var@7694
+visited@int *@Var@7695
+p@position@Var@7696
+old@position@Var@7696
+d@struct dfa *@ParmVar@7805
+searchflag@int@ParmVar@7806
+nullable@int *@Var@7808
+nfirstpos@int *@Var@7809
+firstpos@position *@Var@7810
+nlastpos@int *@Var@7811
+lastpos@position *@Var@7812
+nalloc@int *@Var@7813
+tmp@position_set@Var@7814
+merged@position_set@Var@7815
+wants_newline@int@Var@7816
+o_nullable@int *@Var@7817
+o_nfirst@int *@Var@7818
+o_nlast@int *@Var@7818
+o_firstpos@position *@Var@7819
+o_lastpos@position *@Var@7819
+i@int@Var@7820
+j@int@Var@7820
+pos@position *@Var@7821
+s@int@ParmVar@8068
+d@struct dfa *@ParmVar@8069
+trans@int *@ParmVar@8070
+grps@position_set [256]@Var@8072
+labels@charclass [256]@Var@8073
+ngrps@int@Var@8074
+pos@position@Var@8075
+matches@charclass@Var@8076
+matchesf@int@Var@8077
+intersect@charclass@Var@8078
+intersectf@int@Var@8079
+leftovers@charclass@Var@8080
+leftoversf@int@Var@8081
+letters@charclass@Var@8082
+newline@charclass@Var@8083
+follows@position_set@Var@8084
+tmp@position_set@Var@8085
+state@int@Var@8086
+wants_newline@int@Var@8087
+state_newline@int@Var@8088
+wants_letter@int@Var@8089
+state_letter@int@Var@8090
+initialized@int@Var@8091
+i@int@Var@8092
+j@int@Var@8092
+k@int@Var@8092
+match@int@Var@8165
+label@int@Var@8165
+c@int@Var@8291
+s@int@ParmVar@8317
+d@struct dfa *@ParmVar@8318
+trans@int *@Var@8320
+i@int@Var@8321
+oldalloc@int@Var@8366
+d@struct dfa *@ParmVar@8395
+d@struct dfa *@ParmVar@8422
+begin@char *@ParmVar@8423
+end@char *@ParmVar@8424
+newline@int@ParmVar@8425
+count@int *@ParmVar@8426
+backref@int *@ParmVar@8427
+s@int@Var@8429
+s1@int@Var@8429
+tmp@int@Var@8429
+p@unsigned char *@Var@8430
+trans@int **@Var@8431
+t@int *@Var@8431
+sbit@int [256]@Var@8433
+sbit_init@int@Var@8434
+i@int@Var@8438
+d@struct dfa *@ParmVar@8521
+d@struct dfa *@Var@8542
+searchflag@int@Var@8543
+d@struct dfa *@ParmVar@8583
+i@int@Var@8585
+dm@struct dfamust *@Var@8586
+ndm@struct dfamust *@Var@8586
+old@char *@ParmVar@8695
+new@char *@ParmVar@8696
+result@char *@Var@8698
+oldsize@int@Var@8699
+newsize@int@Var@8699
+string@char *@ParmVar@8718
+lookin@char *@ParmVar@8725
+lookfor@char *@ParmVar@8726
+cp@char *@Var@8728
+len@int@Var@8729
+cp@char *@ParmVar@8740
+cpp@char **@ParmVar@8748
+i@int@Var@8750
+cpp@char **@ParmVar@8763
+new@char *@ParmVar@8764
+len@int@ParmVar@8765
+i@int@Var@8767
+j@int@Var@8767
+left@char *@ParmVar@8811
+right@char *@ParmVar@8812
+cpp@char **@Var@8814
+lcp@char *@Var@8815
+rcp@char *@Var@8816
+i@int@Var@8817
+len@int@Var@8817
+old@char **@ParmVar@8847
+new@char **@ParmVar@8848
+i@int@Var@8850
+left@char **@ParmVar@8867
+right@char **@ParmVar@8868
+both@char **@Var@8870
+temp@char **@Var@8871
+lnum@int@Var@8872
+rnum@int@Var@8872
+mp@must *@ParmVar@8909
+dfa@struct dfa *@ParmVar@8917
+musts@must *@Var@8919
+mp@must *@Var@8920
+result@char *@Var@8921
+ri@int@Var@8922
+i@int@Var@8923
+exact@int@Var@8924
+t@token@Var@8925
+must0@must@Var@8926
+dm@struct dfamust *@Var@8927
+new@char **@Var@8987
+lmp@must *@Var@8988
+rmp@must *@Var@8989
+j@int@Var@8990
+ln@int@Var@8990
+rn@int@Var@8990
+n@int@Var@8990
+lmp@must *@Var@9041
+rmp@must *@Var@9042
+tp@char *@Var@9055
+@char *@ParmVar@37
+@kwset_t@ParmVar@42
+@char *@ParmVar@42
+size_t@int@ParmVar@42
+@kwset_t@ParmVar@46
+@kwset_t@ParmVar@54
+@char *@ParmVar@54
+size_t@int@ParmVar@54
+@struct kwsmatch *@ParmVar@54
+@kwset_t@ParmVar@57
+@struct obstack *@ParmVar@173
+@int@ParmVar@173
+@struct obstack *@ParmVar@174
+@void *@ParmVar@174
+@struct obstack *@ParmVar@175
+@int@ParmVar@175
+@int@ParmVar@175
+@void *(*)()@ParmVar@176
+@void (*)()@ParmVar@176
+@struct obstack *@ParmVar@177
+@int@ParmVar@177
+@int@ParmVar@177
+@void *(*)()@ParmVar@178
+@void (*)()@ParmVar@178
+@void *@ParmVar@178
+obstack@struct obstack *@ParmVar@191
+obstack@struct obstack *@ParmVar@193
+size@int@ParmVar@193
+obstack@struct obstack *@ParmVar@195
+address@void *@ParmVar@195
+size@int@ParmVar@195
+obstack@struct obstack *@ParmVar@196
+address@void *@ParmVar@196
+size@int@ParmVar@196
+obstack@struct obstack *@ParmVar@198
+block@void *@ParmVar@198
+obstack@struct obstack *@ParmVar@200
+size@int@ParmVar@200
+obstack@struct obstack *@ParmVar@202
+data@void *@ParmVar@202
+size@int@ParmVar@202
+obstack@struct obstack *@ParmVar@203
+data@void *@ParmVar@203
+size@int@ParmVar@203
+obstack@struct obstack *@ParmVar@205
+data_char@int@ParmVar@205
+obstack@struct obstack *@ParmVar@206
+data@void *@ParmVar@206
+obstack@struct obstack *@ParmVar@207
+data@int@ParmVar@207
+obstack@struct obstack *@ParmVar@209
+obstack@struct obstack *@ParmVar@211
+obstack@struct obstack *@ParmVar@213
+obstack@struct obstack *@ParmVar@214
+data_char@int@ParmVar@214
+obstack@struct obstack *@ParmVar@215
+data@void *@ParmVar@215
+obstack@struct obstack *@ParmVar@216
+data@int@ParmVar@216
+obstack@struct obstack *@ParmVar@217
+size@int@ParmVar@217
+obstack@struct obstack *@ParmVar@219
+obstack@struct obstack *@ParmVar@220
+obstack@struct obstack *@ParmVar@221
+obstack@struct obstack *@ParmVar@222
+trans@char *@ParmVar@9281
+kwset@struct kwset *@Var@9283
+__h@struct obstack *@Var@9292
+__o@struct obstack *@Var@9292
+__len@int@Var@9292
+__o1@struct obstack *@Var@9292
+value@void *@Var@9292
+tree@struct tree *@ParmVar@9471
+last@struct trie **@ParmVar@9472
+tree@struct tree *@ParmVar@9486
+fail@struct trie *@ParmVar@9487
+recourse@struct trie *@ParmVar@9488
+link@struct tree *@Var@9490
+tree@struct tree *@ParmVar@9523
+depth@unsigned int@ParmVar@9524
+delta@unsigned char *@ParmVar@9525
+a@struct tree *@ParmVar@9538
+b@struct tree *@ParmVar@9539
+tree@struct tree *@ParmVar@9559
+next@struct trie **@ParmVar@9560
+kws@kwset_t@ParmVar@9573
+kwset@struct kwset *@Var@9575
+i@int@Var@9576
+curr@struct trie *@Var@9577
+fail@struct trie *@Var@9577
+trans@char *@Var@9578
+delta@unsigned char@Var@9579
+last@struct trie *@Var@9580
+__h@struct obstack *@Var@9599
+__o@struct obstack *@Var@9599
+__len@int@Var@9599
+__o1@struct obstack *@Var@9599
+value@void *@Var@9599
+kwsmatch@struct kwsmatch *@Var@9781
+kwsmatch@struct kwsmatch *@Var@9942
+kws@kwset_t@ParmVar@9966
+kwset@struct kwset *@Var@9968
+__o@struct obstack *@Var@9971
+__obj@void *@Var@9971
+_obstack@struct obstack *@Var@10034
+h@struct obstack *@ParmVar@10068
+size@int@ParmVar@10069
+alignment@int@ParmVar@10070
+chunkfun@void *(*)()@ParmVar@10071
+freefun@void (*)()@ParmVar@10072
+chunk@struct _obstack_chunk *@Var@10074
+extra@int@Var@10089
+h@struct obstack *@ParmVar@10112
+size@int@ParmVar@10113
+alignment@int@ParmVar@10114
+chunkfun@void *(*)()@ParmVar@10115
+freefun@void (*)()@ParmVar@10116
+arg@void *@ParmVar@10117
+chunk@struct _obstack_chunk *@Var@10119
+extra@int@Var@10134
+h@struct obstack *@ParmVar@10164
+length@int@ParmVar@10165
+old_chunk@struct _obstack_chunk *@Var@10167
+new_chunk@struct _obstack_chunk *@Var@10168
+new_size@long@Var@10169
+obj_size@int@Var@10170
+i@int@Var@10171
+already@int@Var@10172
+h@struct obstack *@ParmVar@10225
+obj@void *@ParmVar@10226
+lp@struct _obstack_chunk *@Var@10228
+plp@struct _obstack_chunk *@Var@10229
+h@struct obstack *@ParmVar@10253
+obj@void *@ParmVar@10254
+lp@struct _obstack_chunk *@Var@10256
+plp@struct _obstack_chunk *@Var@10257
+h@struct obstack *@ParmVar@10287
+obj@void *@ParmVar@10288
+lp@struct _obstack_chunk *@Var@10290
+plp@struct _obstack_chunk *@Var@10291
+@char *@ParmVar@10515
+size_t@int@ParmVar@10515
+@char *@ParmVar@10516
+size_t@int@ParmVar@10516
+@char *@ParmVar@10517
+size_t@int@ParmVar@10517
+@char **@ParmVar@10517
+@char *@ParmVar@10518
+size_t@int@ParmVar@10518
+@char *@ParmVar@10519
+size_t@int@ParmVar@10519
+@char **@ParmVar@10519
+matchers@struct matcher [9]@Var@10529
+dfa_1@struct dfa@Var@10545
+regex@struct re_pattern_buffer@Var@10548
+kwset@kwset_t@Var@10553
+lastexact@int@Var@10558
+mesg@char *@ParmVar@10562
+trans@char@Var@10570
+i@int@Var@10571
+dm@struct dfamust *@Var@10588
+err@char *@Var@10589
+endp@char **@Var@10747
+endp@char **@Var@10882

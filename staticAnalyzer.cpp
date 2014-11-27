@@ -46,9 +46,13 @@ public:
 		VarDecl *varDe = cast<VarDecl>(d);
 		
 		//m_rewriter->InsertTextAfter(varDe->getLocStart(),"/*loc start VarDecl*/");
-		//m_rewriter->InsertTextAfter(varDe->getLocEnd(),"/*loc end VarDecl*/");
 		QualType tp = varDe->getType();
 		cout<<varDe->getQualifiedNameAsString()<<" @ "<<tp.getAsString();
+		cout<<" @ "<<d->getDeclKindName()<<" lineNum:"<<lineNum<<endl;
+		(*varOutput)<<varDe->getQualifiedNameAsString()<<"@";
+		(*varOutput)<<tp.getAsString()<<"@";
+		(*varOutput)<<d->getDeclKindName()<<"@";
+		(*varOutput)<<lineNum<<endl;
 		printf(" @ %s lineNum: %d\n",d->getDeclKindName(),lineNum);
 	}
 	return true;
@@ -60,9 +64,9 @@ public:
 	unsigned int lineNum = srcmgr.getExpansionLineNumber(startLocation);
 	unsigned int colNum = srcmgr.getExpansionColumnNumber(startLocation);
 	
-	if(lineNum==6){
-		m_rewriter->InsertTextAfter(startLocation,"_varCheck_();");
-	}	
+//	if(lineNum==6){
+//		m_rewriter->InsertTextAfter(startLocation,"_varCheck_();");
+//	}	
 	string insertSent = "/*loc stmt start*/";
 //	printf("%s\n",s->getStmtClassName());
 	
@@ -228,7 +232,7 @@ int main(int argc, char *argv[])
     ofstream output(fileNameInstru.c_str(),ofstream::out);
     output << string(RewriteBuf->begin(),RewriteBuf->end());
     output.close();
-
+    varDataOut.close();
 
     return 0;
 }
