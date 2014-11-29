@@ -27,12 +27,20 @@ using namespace std;
 
 SourceManager *m_srcMgr = NULL;
 Rewriter *m_rewriter = NULL;
+LangOptions *m_langOpts = NULL;
 ASTContext *astcontext = NULL;
 ofstream *varOutput = NULL;
 
 class MyASTVisitor : public RecursiveASTVisitor<MyASTVisitor>
 {
 public:
+
+    void insertProbeOnStmt(StmtIterator stmt){ //semicolon is essentially needed
+	SourceLocation endOfStmt = Lexer::findLocationAfterToken(stmt->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
+	m_rewriter->InsertTextBefore(endOfStmt,"/*end of stmt*/");
+	m_rewriter->InsertTextAfter(stmt->getLocStart(),"/*compound start*/");
+	//m_rewriter->InsertTextAfter(stmt->getLocEnd(),"/*compound end*/");
+    }
 
     bool VisitDecl(Decl *d){
 	SourceLocation startLocation = d->getLocStart();
@@ -67,44 +75,46 @@ public:
 //	if(lineNum==6){
 //		m_rewriter->InsertTextAfter(startLocation,"_varCheck_();");
 //	}	
-	string insertSent = "/*loc stmt start*/";
 //	printf("%s\n",s->getStmtClassName());
+
+	if(isa<IfStmt>(s)||isa<WhileStmt>(s)||isa<ForStmt>(s)){
+		int iter = 0;
+		for(StmtIterator b = s->child_begin();b!=s->child_end();b++,iter++){
+			if(isa<ForStmt>(s)&&iter!=4) continue;
+			if((iter==2||iter==4)&&!strcmp("BinaryOperator",b->getStmtClassName())){
+				insertProbeOnStmt(b);
+			}	
+			
+		}
+	}
 	
 	if(isa<CompoundStmt>(s)){
 		CompoundStmt *cmdSt = cast<CompoundStmt>(s);
-		printf("TT %d %d\n",lineNum,colNum);
+		//printf("TT %d %d\n",lineNum,colNum);
 		for(StmtIterator b = cmdSt->child_begin();b!=cmdSt->child_end();b++){
 			if(!strcmp("BinaryOperator",b->getStmtClassName())){
-				printf("Binary Op!\n");
-				m_rewriter->InsertTextAfter(b->getLocStart(),"/*compound start*/");
-				m_rewriter->InsertTextAfter(b->getLocEnd(),"/*compound end*/");
+				//printf("Binary Op!\n");
+				insertProbeOnStmt(b);	
 			}
 			if(!strcmp("CompoundAssignOperator",b->getStmtClassName())){
-				printf("Compound Assign Op!\n");
-				m_rewriter->InsertTextAfter(b->getLocStart(),"/*assign start*/");
-				m_rewriter->InsertTextAfter(b->getLocEnd(),"/*assign end*/");
+				//printf("Compound Assign Op!\n");
+				insertProbeOnStmt(b); //This is for assign operator
 			}
 		
 		}
 	}
 
-	if(isa<CaseStmt>(s)||isa<DefaultStmt>(s)){ //isa<DefaultStmt>(s)
-		//CaseStmt *caseSt = cast<CaseStmt>(s);
-		printf("TR %d %d\n",lineNum,colNum);
+	if(isa<CaseStmt>(s)||isa<DefaultStmt>(s)){
+		//printf("TR %d %d\n",lineNum,colNum);
 		for(StmtIterator b = s->child_begin();b!=s->child_end();b++){
 			if(*b==NULL){
 				printf("NULL!\n");
 				continue;
 			}
-			if(!strcmp("BinaryOperator",b->getStmtClassName())){
-				printf("Binary Ca Op!\n");
-				m_rewriter->InsertTextAfter(b->getLocStart(),"/*case comp start*/");
-				m_rewriter->InsertTextAfter(b->getLocEnd(),"/*case comp end*/");
-			}
-			if(!strcmp("CompoundAssignOperator",b->getStmtClassName())){
-				printf("Compound Ca Assign Op!\n");
-				m_rewriter->InsertTextAfter(b->getLocStart(),"/*case assign start*/");
-				//m_rewriter->InsertTextAfter(b->getLocEnd(),"/*case assign end*/");
+			if(!strcmp("BinaryOperator",b->getStmtClassName())||!strcmp("CompoundAssignOperator",b->getStmtClassName())){
+				insertProbeOnStmt(b);
+				//m_rewriter->InsertTextAfter(b->getLocStart(),"/*case comp start*/");
+				//m_rewriter->InsertTextAfter(b->getLocEnd(),"/*case comp end*/");
 			}
 		
 		}
@@ -112,16 +122,14 @@ public:
 
 	if(isa<BinaryOperator>(s)){
 		BinaryOperator *cmdSt = cast<BinaryOperator>(s);
-		m_rewriter->InsertTextAfter(cmdSt->getLocStart(),"/*binOp start*/");
-		m_rewriter->InsertTextAfter(cmdSt->getLocEnd(),"/*binOp end*/");
+		//m_rewriter->InsertTextAfter(cmdSt->getLocStart(),"/*binOp start*/");
+		//m_rewriter->InsertTextAfter(cmdSt->getLocEnd(),"/*binOp end*/");
 	}
 	
 	if(isa<IntegerLiteral>(s)){
 		IntegerLiteral *intLit = cast<IntegerLiteral>(s);
 		QualType tp = intLit->getType();
 
-		//m_rewriter->InsertTextAfter(intLit->getLocStart(),insertSent);
-		//m_rewriter->InsertTextAfter(intLit->getLocEnd(),"/*loc stmt end*/");
 		//cout<<"@ "<<tp.getAsString();	
 		//printf("%d",intLit->getType());//->getAsString()<<endl;
 		//printf("IntegerLiteral %d\n",lineNum);
@@ -211,6 +219,11 @@ int main(int argc, char *argv[])
     // Inform Diagnostics that processing of a source file is beginning. 
     TheCompInst.getDiagnosticClient().BeginSourceFile(TheCompInst.getLangOpts(),&TheCompInst.getPreprocessor());
    
+
+    //Language options which use for inserting statement right before ;
+    LangOptions langOpts = TheCompInst.getLangOpts();
+    m_langOpts = &langOpts;
+
     string varSaveFileName = string(argv[1]);
     varSaveFileName.replace(varSaveFileName.end()-2,varSaveFileName.end(),"-varData");
     ofstream varDataOut(varSaveFileName.c_str(),ofstream::out);

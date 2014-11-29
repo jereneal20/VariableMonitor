@@ -3,9 +3,9 @@
 int static_var = 1;
 
 int f1(int a) {
-	_varCheck_();_varCheck_();static_var++;
+	static_var++;
 	//if-else
-	if( /*binOp start*/a == /*binOp end*/1) {
+	if( a == 1) {
 		return 2;
 	} else {
 		return 4;
@@ -20,52 +20,52 @@ int main() {
 	f1(a);
 	
 	//if-else if-else
-	if( /*binOp start*/a == /*binOp end*/1) {
-		/*compound start*//*binOp start*/a =  /*compound end*//*binOp end*/2;
-	} else if ( /*binOp start*/a == /*binOp end*/2){
-		/*compound start*//*binOp start*/a = /*compound end*//*binOp end*/1;
-	} else {
-		/*compound start*//*binOp start*/a = /*compound end*//*binOp end*/4;
-		/*compound start*//*binOp start*/arr[a] = /*compound end*//*binOp end*/20;
+	if( a == 1) {
+		/*compound start*/a =  2;/*end of stmt*/
+	} else if ( a == 2)
+		/*compound start*/a = 1;/*end of stmt*/
+	 else {
+		/*compound start*/a = 4;/*end of stmt*/
+		/*compound start*/arr[a] = 20;/*end of stmt*/
 	}
 	
-	/*compound start*//*binOp start*/arr[99] = /*compound end*//*binOp end*/30;
+	/*compound start*/arr[99] = 30;/*end of stmt*/
 //	printf("%d",arr[140]);
 
 	//for	
-	for( int i = 0 ; /*binOp start*/i < /*binOp end*/10 ; i++ ) {
-		/*assign start*//*binOp start*/a += /*assign end*//*binOp end*/i;
+	for( int i = 0 ; i < 10 ; i++ ) {
+		/*compound start*/a += i;/*end of stmt*/
 	}
-	for(int i=0;/*binOp start*/i</*binOp end*/10;i++){
-		/*compound start*//*binOp start*/a = /*binOp start*/a+/*compound end*//*binOp end*//*binOp end*/i;
-	}
+	for(int i=0;i<10;i++)
+		/*compound start*/a = a+i;/*end of stmt*/
+	
 	
 	//while
-	while( /*binOp start*/a < /*binOp end*/100 ) {
-		/*assign start*//*binOp start*/a += /*assign end*//*binOp end*/a;
+	while( a < 100 ) {
+		/*compound start*/a += a;/*end of stmt*/
 	}
 	
 	//do-while
 	do {
 		switch(a) {
 			case 100: 
-				/*case assign start*//*binOp start*/a += /*binOp end*/10;
+				/*compound start*/a += 10;/*end of stmt*/
 				break;
 			case 200: 
-				/*case comp start*//*binOp start*/a = /*binOp start*/a == /*binOp end*/3 ? 1 : /*case comp end*//*binOp end*/2;// ?: operator 
-				/*assign start*//*binOp start*/a += /*assign end*//*binOp end*/20;
+				/*compound start*/a = a == 3 ? 1 : 2;/*end of stmt*/// ?: operator 
+				/*compound start*/a += 20;/*end of stmt*/
 				break;
 			default:
-				/*case assign start*//*binOp start*/a += /*binOp end*/1;
+				/*compound start*/a += 1;/*end of stmt*/
 		}
-	} while( /*binOp start*/a == /*binOp end*/0 );
+	} while( a == 0 );
 
 	switch(a) {
 		case 150:
-			/*case assign start*//*binOp start*/a+=/*binOp end*/20;
+			/*compound start*/a+=20;/*end of stmt*/
 			break;
 		case 250:
-			/*case comp start*//*binOp start*/a=/*binOp start*/a+/*case comp end*//*binOp end*//*binOp end*/30;
+			/*compound start*/a=a+30;/*end of stmt*/
 			break;
 	}
 }

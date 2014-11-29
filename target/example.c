@@ -22,9 +22,9 @@ int main() {
 	//if-else if-else
 	if( a == 1) {
 		a =  2;
-	} else if ( a == 2){
+	} else if ( a == 2)
 		a = 1;
-	} else {
+	 else {
 		a = 4;
 		arr[a] = 20;
 	}
@@ -36,9 +36,9 @@ int main() {
 	for( int i = 0 ; i < 10 ; i++ ) {
 		a += i;
 	}
-	for(int i=0;i<10;i++){
+	for(int i=0;i<10;i++)
 		a = a+i;
-	}
+	
 	
 	//while
 	while( a < 100 ) {

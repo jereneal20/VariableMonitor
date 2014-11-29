@@ -1,5 +1,6 @@
 *.out
 *.swo
+*.swn
 *.swp
 staticAnalyzer
 Tamplate.zip

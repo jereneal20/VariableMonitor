@@ -305,7 +305,7 @@ struct _IO_FILE {
 
   int _mode;
 
-  char _unused2[/*binOp start*//*binOp start*//*binOp start*/15 * sizeof (int/*binOp end*/) - /*binOp start*/4 * sizeof (void */*binOp end*//*binOp end*/) - sizeof (size_t/*binOp end*/)];
+  char _unused2[15 * sizeof (int) - 4 * sizeof (void *) - sizeof (size_t)];
 
 };
 
@@ -1136,7 +1136,7 @@ typedef int __sig_atomic_t;
 
 typedef struct
   {
-    unsigned long int __val[(/*binOp start*/1024 / (/*binOp start*/8 * sizeof (unsigned long int/*binOp end*/)/*binOp end*/))];
+    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
   } __sigset_t;
 # 35 "/usr/include/sys/select.h" 2 3 4
 
@@ -1183,7 +1183,7 @@ typedef struct
 
 
 
-    __fd_mask __fds_bits[/*binOp start*/1024 / (/*binOp start*/8 * (int) sizeof (__fd_mask/*binOp end*/)/*binOp end*/)];
+    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
 
 
   } fd_set;
@@ -2756,7 +2756,7 @@ enum
 
 
 
-    _SC_IPV6 = /*binOp start*/_SC_LEVEL1_ICACHE_SIZE + /*binOp end*/50,
+    _SC_IPV6 = _SC_LEVEL1_ICACHE_SIZE + 50,
 
     _SC_RAW_SOCKETS,
 
@@ -3324,7 +3324,7 @@ error(mesg, errnum)
     fprintf(stdout, "%s: %s: %s\n", prog, mesg, strerror(errnum));
   else
     fprintf(stdout, "%s: %s\n", prog, mesg);
-  /*compound start*//*binOp start*/errseen = /*compound end*//*binOp end*/1;
+  /*compound start*/errseen = /*compound end*/1;/*end of stmt*/
 }
 
 
@@ -3347,8 +3347,8 @@ xmalloc(size)
 {
   char *result;
 
-  /*compound start*//*binOp start*/result = malloc(size/*compound end*//*binOp end*/);
-  if (/*binOp start*/size && !/*binOp end*/result)
+  /*compound start*/result = malloc(size/*compound end*/);/*end of stmt*/
+  if (size && !result)
     fatal("memory exhausted", 0);
   return result;
 }
@@ -3362,10 +3362,10 @@ xrealloc(ptr, size)
   char *result;
 
   if (ptr)
-    /*binOp start*/result = realloc(ptr, size/*binOp end*/);
+    /*compound start*/result = realloc(ptr, size/*compound end*/);/*end of stmt*/
   else
-    /*binOp start*/result = malloc(size/*binOp end*/);
-  if (/*binOp start*/size && !/*binOp end*/result)
+    result = malloc(size);
+  if (size && !result)
     fatal("memory exhausted", 0);
   return result;
 }
@@ -3647,30 +3647,30 @@ reset(fd)
 
   if (!initialized)
     {
-      /*compound start*//*binOp start*/initialized = /*compound end*//*binOp end*/1;
+      /*compound start*/initialized = /*compound end*/1;/*end of stmt*/
 
-      /*compound start*//*binOp start*/bufsalloc = (/*binOp start*/(8192) > (getpagesize()/*binOp end*/) ? (8192) : (getpagesize())/*compound end*//*binOp end*/);
-
-
-
-      /*compound start*//*binOp start*/bufalloc = /*binOp start*/5 * /*compound end*//*binOp end*//*binOp end*/bufsalloc;
+      /*compound start*/bufsalloc = ((8192) > (getpagesize()) ? (8192) : (getpagesize())/*compound end*/);/*end of stmt*/
 
 
 
-      /*compound start*//*binOp start*/buffer = valloc(/*binOp start*/bufalloc + /*binOp end*/1/*compound end*//*binOp end*/);
+      /*compound start*/bufalloc = 5 * /*compound end*/bufsalloc;/*end of stmt*/
+
+
+
+      /*compound start*/buffer = valloc(bufalloc + 1/*compound end*/);/*end of stmt*/
       if (!buffer)
  fatal("memory exhausted", 0);
-      /*compound start*//*binOp start*/bufbeg = /*compound end*//*binOp end*/buffer;
-      /*compound start*//*binOp start*/buflim = /*compound end*//*binOp end*/buffer;
+      /*compound start*/bufbeg = /*compound end*/buffer;/*end of stmt*/
+      /*compound start*/buflim = /*compound end*/buffer;/*end of stmt*/
     }
-  /*compound start*//*binOp start*/bufdesc = /*compound end*//*binOp end*/fd;
+  /*compound start*/bufdesc = /*compound end*/fd;/*end of stmt*/
 
-  if (/*binOp start*//*binOp start*/fstat(fd, &bufstat) < /*binOp end*/0 || !(/*binOp start*/(/*binOp start*/((bufstat.st_mode)) & /*binOp end*/0170000) == (0100000/*binOp end*/)/*binOp end*/))
-    /*binOp start*/bufmapped = /*binOp end*/0;
+  if (fstat(fd, &bufstat) < 0 || !((((bufstat.st_mode)) & 0170000) == (0100000)))
+    /*compound start*/bufmapped = /*compound end*/0;/*end of stmt*/
   else
     {
-      /*compound start*//*binOp start*/bufmapped = /*compound end*//*binOp end*/1;
-      /*compound start*//*binOp start*/bufoffset = lseek(fd, 0, 1/*compound end*//*binOp end*/);
+      /*compound start*/bufmapped = /*compound end*/1;/*end of stmt*/
+      /*compound start*/bufoffset = lseek(fd, 0, 1/*compound end*/);/*end of stmt*/
     }
 
 }
@@ -3690,40 +3690,40 @@ fillbuf(save)
 
   static int pagesize;
 
-  if (/*binOp start*//*binOp start*/pagesize == /*binOp end*/0 && /*binOp start*/(/*binOp start*/pagesize = getpagesize(/*binOp end*/)) == /*binOp end*//*binOp end*/0)
+  if (pagesize == 0 && (pagesize = getpagesize()) == 0)
     abort();
 
-  if (/*binOp start*/save > /*binOp end*/bufsalloc)
+  if (save > bufsalloc)
     {
-      while (/*binOp start*/save > /*binOp end*/bufsalloc)
- /*binOp start*/bufsalloc *= /*binOp end*/2;
-      /*compound start*//*binOp start*/bufalloc = /*binOp start*/5 * /*compound end*//*binOp end*//*binOp end*/bufsalloc;
-      /*compound start*//*binOp start*/nbuffer = valloc(/*binOp start*/bufalloc + /*binOp end*/1/*compound end*//*binOp end*/);
+      while (save > bufsalloc)
+ bufsalloc *= 2;
+      /*compound start*/bufalloc = 5 * /*compound end*/bufsalloc;/*end of stmt*/
+      /*compound start*/nbuffer = valloc(bufalloc + 1/*compound end*/);/*end of stmt*/
       if (!nbuffer)
  fatal("memory exhausted", 0);
     }
   else
-    /*binOp start*/nbuffer = /*binOp end*/buffer;
+    nbuffer = buffer;
 
-  /*compound start*//*binOp start*/sp = /*binOp start*/buflim - /*compound end*//*binOp end*//*binOp end*/save;
-  /*compound start*//*binOp start*/dp = /*binOp start*//*binOp start*/nbuffer + /*binOp end*/bufsalloc - /*compound end*//*binOp end*//*binOp end*/save;
-  /*compound start*//*binOp start*/bufbeg = /*compound end*//*binOp end*/dp;
+  /*compound start*/sp = buflim - /*compound end*/save;/*end of stmt*/
+  /*compound start*/dp = nbuffer + bufsalloc - /*compound end*/save;/*end of stmt*/
+  /*compound start*/bufbeg = /*compound end*/dp;/*end of stmt*/
   while (save--)
-    /*binOp start*/*dp++ = *sp/*binOp end*/++;
+    /*compound start*/*dp++ = *sp/*compound end*/++;/*end of stmt*/
 
 
 
 
-  /*compound start*//*binOp start*/buffer = /*compound end*//*binOp end*/nbuffer;
+  /*compound start*/buffer = /*compound end*/nbuffer;/*end of stmt*/
 
 
-  if (/*binOp start*//*binOp start*/bufmapped && /*binOp start*//*binOp start*/bufoffset % /*binOp end*/pagesize == /*binOp end*//*binOp end*/0
-      && /*binOp start*//*binOp start*/bufstat.st_size - /*binOp end*/bufoffset >= /*binOp start*/bufalloc - /*binOp end*//*binOp end*//*binOp end*/bufsalloc)
+  if (bufmapped && bufoffset % pagesize == 0
+      && bufstat.st_size - bufoffset >= bufalloc - bufsalloc)
     {
-      /*compound start*//*binOp start*/maddr = /*binOp start*/buffer + /*compound end*//*binOp end*//*binOp end*/bufsalloc;
-      /*compound start*//*binOp start*/maddr = mmap(maddr, /*binOp start*/bufalloc - /*binOp end*/bufsalloc, /*binOp start*/0x1 | /*binOp end*/0x2,
-     /*binOp start*/0x02 | /*binOp end*/0x10, bufdesc, bufoffset/*compound end*//*binOp end*/);
-      if (/*binOp start*/maddr == (caddr_t) -/*binOp end*/1)
+      /*compound start*/maddr = buffer + /*compound end*/bufsalloc;/*end of stmt*/
+      /*compound start*/maddr = mmap(maddr, bufalloc - bufsalloc, 0x1 | 0x2,
+     0x02 | 0x10, bufdesc, bufoffset/*compound end*/);/*end of stmt*/
+      if (maddr == (caddr_t) -1)
  {
    fprintf(stdout, "%s: warning: %s: %s\n", filename,
     strerror((*__errno_location ())));
@@ -3735,8 +3735,8 @@ fillbuf(save)
 
 
 
-      /*compound start*//*binOp start*/cc = /*binOp start*/bufalloc - /*compound end*//*binOp end*//*binOp end*/bufsalloc;
-      /*assign start*//*binOp start*/bufoffset += /*assign end*//*binOp end*/cc;
+      /*compound start*/cc = bufalloc - /*compound end*/bufsalloc;/*end of stmt*/
+      /*compound start*/bufoffset += /*compound end*/cc;/*end of stmt*/
     }
   else
     {
@@ -3746,18 +3746,18 @@ fillbuf(save)
 
       if (bufmapped)
  {
-   /*compound start*//*binOp start*/bufmapped = /*compound end*//*binOp end*/0;
+   /*compound start*/bufmapped = /*compound end*/0;/*end of stmt*/
    lseek(bufdesc, bufoffset, 0);
  }
-      /*compound start*//*binOp start*/cc = read(bufdesc, /*binOp start*/buffer + /*binOp end*/bufsalloc, /*binOp start*/bufalloc - /*binOp end*/bufsalloc/*compound end*//*binOp end*/);
+      /*compound start*/cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc/*compound end*/);/*end of stmt*/
     }
 
 
 
-  if (/*binOp start*/cc > /*binOp end*/0)
-    /*binOp start*/buflim = /*binOp start*//*binOp start*/buffer + /*binOp end*/bufsalloc + /*binOp end*//*binOp end*/cc;
+  if (cc > 0)
+    /*compound start*/buflim = buffer + bufsalloc + /*compound end*/cc;/*end of stmt*/
   else
-    /*binOp start*/buflim = /*binOp start*/buffer + /*binOp end*//*binOp end*/bufsalloc;
+    buflim = buffer + bufsalloc;
   return cc;
 }
 
@@ -3785,10 +3785,10 @@ nlscan(lim)
 {
   char *beg;
 
-  for (/*binOp start*/beg = /*binOp end*/lastnl; /*binOp start*/beg < /*binOp end*/lim; ++beg)
-    if (/*binOp start*/*beg == /*binOp end*/'\n')
+  for (beg = lastnl; beg < lim; ++beg)
+    if (*beg == '\n')
       ++totalnl;
-  /*compound start*//*binOp start*/lastnl = /*compound end*//*binOp end*/beg;
+  /*compound start*/lastnl = /*compound end*/beg;/*end of stmt*/
 }
 
 static void
@@ -3803,14 +3803,14 @@ prline(beg, lim, sep)
     {
       nlscan(beg);
       printf("%d%c", ++totalnl, sep);
-      /*compound start*//*binOp start*/lastnl = /*compound end*//*binOp end*/lim;
+      /*compound start*/lastnl = /*compound end*/lim;/*end of stmt*/
     }
   if (out_byte)
-    printf("%lu%c", /*binOp start*/totalcc + (/*binOp start*/beg - /*binOp end*/bufbeg/*binOp end*/), sep);
-  fwrite(beg, 1, /*binOp start*/lim - /*binOp end*/beg, stdout);
+    printf("%lu%c", totalcc + (beg - bufbeg), sep);
+  fwrite(beg, 1, lim - beg, stdout);
   if (ferror(stdout))
     error("writing output", (*__errno_location ()));
-  /*compound start*//*binOp start*/lastout = /*compound end*//*binOp end*/lim;
+  /*compound start*/lastout = /*compound end*/lim;/*end of stmt*/
 }
 
 
@@ -3821,14 +3821,14 @@ prpending(lim)
   char *nl;
 
   if (!lastout)
-    /*binOp start*/lastout = /*binOp end*/bufbeg;
-  while (/*binOp start*//*binOp start*/pending > /*binOp end*/0 && /*binOp start*/lastout < /*binOp end*//*binOp end*/lim)
+    /*compound start*/lastout = /*compound end*/bufbeg;/*end of stmt*/
+  while (pending > 0 && lastout < lim)
     {
       --pending;
-      if (/*binOp start*/(/*binOp start*/nl = memchr(lastout, '\n', /*binOp start*/lim - /*binOp end*/lastout/*binOp end*/)) != /*binOp end*/0)
+      if ((nl = memchr(lastout, '\n', lim - lastout)) != 0)
  ++nl;
       else
- /*binOp start*/nl = /*binOp end*/lim;
+ nl = lim;
       prline(lastout, nl, '-');
     }
 }
@@ -3845,56 +3845,56 @@ prtext(beg, lim, nlinesp)
   char *bp, *p, *nl;
   int i, n;
 
-  if (/*binOp start*/!out_quiet && /*binOp start*/pending > /*binOp end*//*binOp end*/0)
+  if (!out_quiet && pending > 0)
     prpending(beg);
 
-  /*compound start*//*binOp start*/p = /*compound end*//*binOp end*/beg;
+  /*compound start*/p = /*compound end*/beg;/*end of stmt*/
 
   if (!out_quiet)
     {
 
 
-      /*compound start*//*binOp start*/bp = lastout ? lastout : /*compound end*//*binOp end*/bufbeg;
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp end*/out_before; ++i)
- if (/*binOp start*/p > /*binOp end*/bp)
+      /*compound start*/bp = lastout ? lastout : /*compound end*/bufbeg;/*end of stmt*/
+      for (i = 0; i < out_before; ++i)
+ if (p > bp)
    do
      --p;
-   while (/*binOp start*//*binOp start*/p > /*binOp end*/bp && /*binOp start*/p[-1] != /*binOp end*//*binOp end*/'\n');
+   while (p > bp && p[-1] != '\n');
 
 
 
-      if (/*binOp start*//*binOp start*/(/*binOp start*/out_before || /*binOp end*/out_after) && /*binOp end*/used && /*binOp start*/p != /*binOp end*//*binOp end*/lastout)
+      if ((out_before || out_after) && used && p != lastout)
  puts("--");
 
-      while (/*binOp start*/p < /*binOp end*/beg)
+      while (p < beg)
  {
-   /*compound start*//*binOp start*/nl = memchr(p, '\n', /*binOp start*/beg - /*binOp end*/p/*compound end*//*binOp end*/);
-   prline(p, /*binOp start*/nl + /*binOp end*/1, '-');
-   /*compound start*//*binOp start*/p = /*binOp start*/nl + /*compound end*//*binOp end*//*binOp end*/1;
+   /*compound start*/nl = memchr(p, '\n', beg - p/*compound end*/);/*end of stmt*/
+   prline(p, nl + 1, '-');
+   /*compound start*/p = nl + /*compound end*/1;/*end of stmt*/
  }
     }
 
   if (nlinesp)
     {
 
-      for (/*binOp start*/n = /*binOp end*/0; /*binOp start*/p < /*binOp end*/lim; ++n)
+      for (n = 0; p < lim; ++n)
  {
-   if (/*binOp start*/(/*binOp start*/nl = memchr(p, '\n', /*binOp start*/lim - /*binOp end*/p/*binOp end*/)) != /*binOp end*/0)
+   if ((nl = memchr(p, '\n', lim - p)) != 0)
      ++nl;
    else
-     /*binOp start*/nl = /*binOp end*/lim;
+     nl = lim;
    if (!out_quiet)
      prline(p, nl, ':');
-   /*compound start*//*binOp start*/p = /*compound end*//*binOp end*/nl;
+   /*compound start*/p = /*compound end*/nl;/*end of stmt*/
  }
-      /*compound start*//*binOp start*/*nlinesp = /*compound end*//*binOp end*/n;
+      /*compound start*/*nlinesp = /*compound end*/n;/*end of stmt*/
     }
   else
     if (!out_quiet)
       prline(beg, lim, ':');
 
-  /*compound start*//*binOp start*/pending = /*compound end*//*binOp end*/out_after;
-  /*compound start*//*binOp start*/used = /*compound end*//*binOp end*/1;
+  /*compound start*/pending = /*compound end*/out_after;/*end of stmt*/
+  /*compound start*/used = /*compound end*/1;/*end of stmt*/
 }
 
 
@@ -3909,29 +3909,29 @@ grepbuf(beg, lim)
   register char *p, *b;
   char *endp;
 
-  /*compound start*//*binOp start*/nlines = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/p = /*compound end*//*binOp end*/beg;
-  while (/*binOp start*/(/*binOp start*/b = (*execute)(p, /*binOp start*/lim - /*binOp end*/p, &endp/*binOp end*/)) != /*binOp end*/0)
+  /*compound start*/nlines = /*compound end*/0;/*end of stmt*/
+  /*compound start*/p = /*compound end*/beg;/*end of stmt*/
+  while ((b = (*execute)(p, lim - p, &endp)) != 0)
     {
 
-      if (/*binOp start*//*binOp start*/b == /*binOp end*/lim && (/*binOp start*/(/*binOp start*//*binOp start*/b > /*binOp end*/beg && /*binOp start*/b[-1] == /*binOp end*//*binOp end*/'\n') || /*binOp start*/b == /*binOp end*//*binOp end*/beg/*binOp end*/))
+      if (b == lim && ((b > beg && b[-1] == '\n') || b == beg))
  break;
       if (!out_invert)
  {
    prtext(b, endp, (int *) 0);
-   /*assign start*//*binOp start*/nlines += /*assign end*//*binOp end*/1;
+   /*compound start*/nlines += /*compound end*/1;/*end of stmt*/
  }
-      else if (/*binOp start*/p < /*binOp end*/b)
+      else if (p < b)
  {
    prtext(p, b, &n);
-   /*assign start*//*binOp start*/nlines += /*assign end*//*binOp end*/n;
+   /*compound start*/nlines += /*compound end*/n;/*end of stmt*/
  }
-      /*compound start*//*binOp start*/p = /*compound end*//*binOp end*/endp;
+      /*compound start*/p = /*compound end*/endp;/*end of stmt*/
     }
-  if (/*binOp start*/out_invert && /*binOp start*/p < /*binOp end*//*binOp end*/lim)
+  if (out_invert && p < lim)
     {
       prtext(p, lim, &n);
-      /*assign start*//*binOp start*/nlines += /*assign end*//*binOp end*/n;
+      /*compound start*/nlines += /*compound end*/n;/*end of stmt*/
     }
   return nlines;
 }
@@ -3947,56 +3947,56 @@ grep(fd)
 
   reset(fd);
 
-  /*compound start*//*binOp start*/totalcc = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/lastout = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/totalnl = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/pending = /*compound end*//*binOp end*/0;
+  /*compound start*/totalcc = /*compound end*/0;/*end of stmt*/
+  /*compound start*/lastout = /*compound end*/0;/*end of stmt*/
+  /*compound start*/totalnl = /*compound end*/0;/*end of stmt*/
+  /*compound start*/pending = /*compound end*/0;/*end of stmt*/
 
-  /*compound start*//*binOp start*/nlines = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/residue = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/save = /*compound end*//*binOp end*/0;
+  /*compound start*/nlines = /*compound end*/0;/*end of stmt*/
+  /*compound start*/residue = /*compound end*/0;/*end of stmt*/
+  /*compound start*/save = /*compound end*/0;/*end of stmt*/
 
   for (;;)
     {
-      if (/*binOp start*/fillbuf(save) < /*binOp end*/0)
+      if (fillbuf(save) < 0)
  {
    error(filename, (*__errno_location ()));
    return nlines;
  }
-      /*compound start*//*binOp start*/lastnl = /*compound end*//*binOp end*/bufbeg;
+      /*compound start*/lastnl = /*compound end*/bufbeg;/*end of stmt*/
       if (lastout)
- /*binOp start*/lastout = /*binOp end*/bufbeg;
-      if (/*binOp start*//*binOp start*/buflim - /*binOp end*/bufbeg == /*binOp end*/save)
+ /*compound start*/lastout = /*compound end*/bufbeg;/*end of stmt*/
+      if (buflim - bufbeg == save)
  break;
-      /*compound start*//*binOp start*/beg = /*binOp start*//*binOp start*/bufbeg + /*binOp end*/save - /*compound end*//*binOp end*//*binOp end*/residue;
-      for (/*binOp start*/lim = /*binOp end*/buflim; /*binOp start*//*binOp start*/lim > /*binOp end*/beg && /*binOp start*/lim[-1] != /*binOp end*//*binOp end*/'\n'; --lim)
+      /*compound start*/beg = bufbeg + save - /*compound end*/residue;/*end of stmt*/
+      for (lim = buflim; lim > beg && lim[-1] != '\n'; --lim)
  ;
-      /*compound start*//*binOp start*/residue = /*binOp start*/buflim - /*compound end*//*binOp end*//*binOp end*/lim;
-      if (/*binOp start*/beg < /*binOp end*/lim)
+      /*compound start*/residue = buflim - /*compound end*/lim;/*end of stmt*/
+      if (beg < lim)
  {
-   /*assign start*//*binOp start*/nlines += grepbuf(beg, lim/*assign end*//*binOp end*/);
+   /*compound start*/nlines += grepbuf(beg, lim/*compound end*/);/*end of stmt*/
    if (pending)
      prpending(lim);
  }
-      /*compound start*//*binOp start*/i = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/beg = /*compound end*//*binOp end*/lim;
-      while (/*binOp start*//*binOp start*//*binOp start*/i < /*binOp end*/out_before && /*binOp start*/beg > /*binOp end*//*binOp end*/bufbeg && /*binOp start*/beg != /*binOp end*//*binOp end*/lastout)
+      /*compound start*/i = /*compound end*/0;/*end of stmt*/
+      /*compound start*/beg = /*compound end*/lim;/*end of stmt*/
+      while (i < out_before && beg > bufbeg && beg != lastout)
  {
    ++i;
    do
      --beg;
-   while (/*binOp start*//*binOp start*/beg > /*binOp end*/bufbeg && /*binOp start*/beg[-1] != /*binOp end*//*binOp end*/'\n');
+   while (beg > bufbeg && beg[-1] != '\n');
  }
-      if (/*binOp start*/beg != /*binOp end*/lastout)
- /*binOp start*/lastout = /*binOp end*/0;
-      /*compound start*//*binOp start*/save = /*binOp start*//*binOp start*/residue + /*binOp end*/lim - /*compound end*//*binOp end*//*binOp end*/beg;
-      /*assign start*//*binOp start*/totalcc += /*binOp start*//*binOp start*/buflim - /*binOp end*/bufbeg - /*assign end*//*binOp end*//*binOp end*/save;
+      if (beg != lastout)
+ /*compound start*/lastout = /*compound end*/0;/*end of stmt*/
+      /*compound start*/save = residue + lim - /*compound end*/beg;/*end of stmt*/
+      /*compound start*/totalcc += buflim - bufbeg - /*compound end*/save;/*end of stmt*/
       if (out_line)
  nlscan(beg);
     }
   if (residue)
     {
-      /*assign start*//*binOp start*/nlines += grepbuf(/*binOp start*//*binOp start*/bufbeg + /*binOp end*/save - /*binOp end*/residue, buflim/*assign end*//*binOp end*/);
+      /*compound start*/nlines += grepbuf(bufbeg + save - residue, buflim/*compound end*/);/*end of stmt*/
       if (pending)
  prpending(buflim);
     }
@@ -4023,11 +4023,11 @@ setmatcher(name)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; matchers[i].name; ++i)
-    if (/*binOp start*/strcmp(name, matchers[i].name) == /*binOp end*/0)
+  for (i = 0; matchers[i].name; ++i)
+    if (strcmp(name, matchers[i].name) == 0)
       {
- /*compound start*//*binOp start*/compile = matchers[i]./*compound end*//*binOp end*/compile;
- /*compound start*//*binOp start*/execute = matchers[i]./*compound end*//*binOp end*/execute;
+ /*compound start*/compile = matchers[i]./*compound end*/compile;/*end of stmt*/
+ /*compound start*/execute = matchers[i]./*compound end*/execute;/*end of stmt*/
  return 1;
       }
   return 0;
@@ -4046,23 +4046,23 @@ main(argc, argv)
   extern char *optarg;
   extern int optind;
 
-  /*compound start*//*binOp start*/argv[0] = /*compound end*//*binOp end*/"target";
+  /*compound start*/argv[0] = /*compound end*/"target";/*end of stmt*/
 
-  /*compound start*//*binOp start*/prog = argv[0/*compound end*//*binOp end*/];
-  if (/*binOp start*/prog && strrchr(prog, '/'/*binOp end*/))
-    /*binOp start*/prog = /*binOp start*/strrchr(prog, '/') + /*binOp end*//*binOp end*/1;
+  /*compound start*/prog = argv[0/*compound end*/];/*end of stmt*/
+  if (prog && strrchr(prog, '/'))
+    /*compound start*/prog = strrchr(prog, '/') + /*compound end*/1;/*end of stmt*/
 
-  /*compound start*//*binOp start*/keys = ((void *)0/*compound end*//*binOp end*/);
-  /*compound start*//*binOp start*/keycc = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/keyfound = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/count_matches = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/no_filenames = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/list_files = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/suppress_errors = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/matcher = ((void *)0/*compound end*//*binOp end*/);
+  /*compound start*/keys = ((void *)0/*compound end*/);/*end of stmt*/
+  /*compound start*/keycc = /*compound end*/0;/*end of stmt*/
+  /*compound start*/keyfound = /*compound end*/0;/*end of stmt*/
+  /*compound start*/count_matches = /*compound end*/0;/*end of stmt*/
+  /*compound start*/no_filenames = /*compound end*/0;/*end of stmt*/
+  /*compound start*/list_files = /*compound end*/0;/*end of stmt*/
+  /*compound start*/suppress_errors = /*compound end*/0;/*end of stmt*/
+  /*compound start*/matcher = ((void *)0/*compound end*/);/*end of stmt*/
 
-  while (/*binOp start*/(/*binOp start*/opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"/*binOp end*/))
-  != (-1/*binOp end*/))
+  while ((opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"))
+  != (-1))
     switch (opt)
       {
       case '0':
@@ -4075,36 +4075,36 @@ main(argc, argv)
       case '7':
       case '8':
       case '9':
- /*case comp start*//*binOp start*/out_before = /*binOp start*//*binOp start*//*binOp start*/10 * /*binOp end*/out_before + /*binOp end*/opt - /*case comp end*//*binOp end*//*binOp end*/'0';
- /*compound start*//*binOp start*/out_after = /*binOp start*//*binOp start*//*binOp start*/10 * /*binOp end*/out_after + /*binOp end*/opt - /*compound end*//*binOp end*//*binOp end*/'0';
+ /*compound start*/out_before = 10 * out_before + opt - /*compound end*/'0';/*end of stmt*/
+ /*compound start*/out_after = 10 * out_after + opt - /*compound end*/'0';/*end of stmt*/
  break;
       case 'A':
- /*case comp start*//*binOp start*/out_after = atoi(optarg/*case comp end*//*binOp end*/);
- if (/*binOp start*/out_after < /*binOp end*/0)
+ /*compound start*/out_after = atoi(optarg/*compound end*/);/*end of stmt*/
+ if (out_after < 0)
    usage();
  break;
       case 'B':
- /*case comp start*//*binOp start*/out_before = atoi(optarg/*case comp end*//*binOp end*/);
- if (/*binOp start*/out_before < /*binOp end*/0)
+ /*compound start*/out_before = atoi(optarg/*compound end*/);/*end of stmt*/
+ if (out_before < 0)
    usage();
  break;
       case 'C':
- /*case comp start*//*binOp start*/out_before = /*binOp start*/out_after = /*case comp end*//*binOp end*//*binOp end*/2;
+ /*compound start*/out_before = out_after = /*compound end*/2;/*end of stmt*/
  break;
       case 'E':
- if (/*binOp start*/matcher && /*binOp start*/strcmp(matcher, "egrep") != /*binOp end*//*binOp end*/0)
+ if (matcher && strcmp(matcher, "egrep") != 0)
    fatal("you may specify only one of -E, -F, or -G", 0);
- /*compound start*//*binOp start*/matcher = /*compound end*//*binOp end*/"posix-egrep";
+ /*compound start*/matcher = /*compound end*/"posix-egrep";/*end of stmt*/
  break;
       case 'F':
- if (/*binOp start*/matcher && /*binOp start*/strcmp(matcher, "fgrep") != /*binOp end*//*binOp end*/0)
+ if (matcher && strcmp(matcher, "fgrep") != 0)
    fatal("you may specify only one of -E, -F, or -G", 0);;
- /*compound start*//*binOp start*/matcher = /*compound end*//*binOp end*/"fgrep";
+ /*compound start*/matcher = /*compound end*/"fgrep";/*end of stmt*/
  break;
       case 'G':
- if (/*binOp start*/matcher && /*binOp start*/strcmp(matcher, "grep") != /*binOp end*//*binOp end*/0)
+ if (matcher && strcmp(matcher, "grep") != 0)
    fatal("you may specify only one of -E, -F, or -G", 0);
- /*compound start*//*binOp start*/matcher = /*compound end*//*binOp end*/"grep";
+ /*compound start*/matcher = /*compound end*/"grep";/*end of stmt*/
  break;
       case 'V':
  fprintf(stdout, "%s\n", version);
@@ -4112,82 +4112,82 @@ main(argc, argv)
       case 'X':
  if (matcher)
    fatal("matcher already specified", 0);
- /*compound start*//*binOp start*/matcher = /*compound end*//*binOp end*/optarg;
+ /*compound start*/matcher = /*compound end*/optarg;/*end of stmt*/
  break;
       case 'b':
- /*case comp start*//*binOp start*/out_byte = /*case comp end*//*binOp end*/1;
+ /*compound start*/out_byte = /*compound end*/1;/*end of stmt*/
  break;
       case 'c':
- /*case comp start*//*binOp start*/out_quiet = /*case comp end*//*binOp end*/1;
- /*compound start*//*binOp start*/count_matches = /*compound end*//*binOp end*/1;
+ /*compound start*/out_quiet = /*compound end*/1;/*end of stmt*/
+ /*compound start*/count_matches = /*compound end*/1;/*end of stmt*/
  break;
       case 'e':
- /*case comp start*//*binOp start*/cc = strlen(optarg/*case comp end*//*binOp end*/);
- /*compound start*//*binOp start*/keys = xrealloc(keys, /*binOp start*//*binOp start*/keycc + /*binOp end*/cc + /*binOp end*/1/*compound end*//*binOp end*/);
+ /*compound start*/cc = strlen(optarg/*compound end*/);/*end of stmt*/
+ /*compound start*/keys = xrealloc(keys, keycc + cc + 1/*compound end*/);/*end of stmt*/
  if (keyfound)
-   /*binOp start*/keys[keycc++] = /*binOp end*/'\n';
+   /*compound start*/keys[keycc++] = /*compound end*/'\n';/*end of stmt*/
  strcpy(&keys[keycc], optarg);
- /*assign start*//*binOp start*/keycc += /*assign end*//*binOp end*/cc;
- /*compound start*//*binOp start*/keyfound = /*compound end*//*binOp end*/1;
+ /*compound start*/keycc += /*compound end*/cc;/*end of stmt*/
+ /*compound start*/keyfound = /*compound end*/1;/*end of stmt*/
  break;
       case 'f':
- /*case comp start*//*binOp start*/fp = /*binOp start*/strcmp(optarg, "-") != /*binOp end*/0 ? fopen(optarg, "r") : /*case comp end*//*binOp end*/stdin;
+ /*compound start*/fp = strcmp(optarg, "-") != 0 ? fopen(optarg, "r") : /*compound end*/stdin;/*end of stmt*/
  if (!fp)
    fatal(optarg, (*__errno_location ()));
- for (/*binOp start*/keyalloc = /*binOp end*/1; /*binOp start*/keyalloc <= /*binOp end*/keycc; /*binOp start*/keyalloc *= /*binOp end*/2)
+ for (keyalloc = 1; keyalloc <= keycc; keyalloc *= 2)
    ;
- /*compound start*//*binOp start*/keys = xrealloc(keys, keyalloc/*compound end*//*binOp end*/);
- /*compound start*//*binOp start*/oldcc = /*compound end*//*binOp end*/keycc;
+ /*compound start*/keys = xrealloc(keys, keyalloc/*compound end*/);/*end of stmt*/
+ /*compound start*/oldcc = /*compound end*/keycc;/*end of stmt*/
  if (keyfound)
-   /*binOp start*/keys[keycc++] = /*binOp end*/'\n';
- while (/*binOp start*/!feof(fp)
-        && /*binOp start*/(/*binOp start*/cc = fread(/*binOp start*/keys + /*binOp end*/keycc, 1, /*binOp start*/keyalloc - /*binOp end*/keycc, fp/*binOp end*/)) > /*binOp end*//*binOp end*/0)
+   /*compound start*/keys[keycc++] = /*compound end*/'\n';/*end of stmt*/
+ while (!feof(fp)
+        && (cc = fread(keys + keycc, 1, keyalloc - keycc, fp)) > 0)
    {
-     /*assign start*//*binOp start*/keycc += /*assign end*//*binOp end*/cc;
-     if (/*binOp start*/keycc == /*binOp end*/keyalloc)
-       /*binOp start*/keys = xrealloc(keys, /*binOp start*/keyalloc *= /*binOp end*/2/*binOp end*/);
+     /*compound start*/keycc += /*compound end*/cc;/*end of stmt*/
+     if (keycc == keyalloc)
+       /*compound start*/keys = xrealloc(keys, keyalloc *= 2/*compound end*/);/*end of stmt*/
    }
- if (/*binOp start*/fp != /*binOp end*/stdin)
+ if (fp != stdin)
    fclose(fp);
 
- if (/*binOp start*//*binOp start*//*binOp start*/keycc - /*binOp end*/oldcc > /*binOp end*/0 && /*binOp start*/keys[/*binOp start*/keycc - /*binOp end*/1] == /*binOp end*//*binOp end*/'\n')
+ if (keycc - oldcc > 0 && keys[keycc - 1] == '\n')
    --keycc;
- /*compound start*//*binOp start*/keyfound = /*compound end*//*binOp end*/1;
+ /*compound start*/keyfound = /*compound end*/1;/*end of stmt*/
  break;
       case 'h':
- /*case comp start*//*binOp start*/no_filenames = /*case comp end*//*binOp end*/1;
+ /*compound start*/no_filenames = /*compound end*/1;/*end of stmt*/
  break;
       case 'i':
       case 'y':
- /*case comp start*//*binOp start*/match_icase = /*case comp end*//*binOp end*/1;
+ /*compound start*/match_icase = /*compound end*/1;/*end of stmt*/
  break;
       case 'L':
 
 
- /*case comp start*//*binOp start*/out_quiet = /*case comp end*//*binOp end*/1;
- /*compound start*//*binOp start*/list_files = -/*compound end*//*binOp end*/1;
+ /*compound start*/out_quiet = /*compound end*/1;/*end of stmt*/
+ /*compound start*/list_files = -/*compound end*/1;/*end of stmt*/
  break;
       case 'l':
- /*case comp start*//*binOp start*/out_quiet = /*case comp end*//*binOp end*/1;
- /*compound start*//*binOp start*/list_files = /*compound end*//*binOp end*/1;
+ /*compound start*/out_quiet = /*compound end*/1;/*end of stmt*/
+ /*compound start*/list_files = /*compound end*/1;/*end of stmt*/
  break;
       case 'n':
- /*case comp start*//*binOp start*/out_line = /*case comp end*//*binOp end*/1;
+ /*compound start*/out_line = /*compound end*/1;/*end of stmt*/
  break;
       case 'q':
- /*case comp start*//*binOp start*/out_quiet = /*case comp end*//*binOp end*/1;
+ /*compound start*/out_quiet = /*compound end*/1;/*end of stmt*/
  break;
       case 's':
- /*case comp start*//*binOp start*/suppress_errors = /*case comp end*//*binOp end*/1;
+ /*compound start*/suppress_errors = /*compound end*/1;/*end of stmt*/
  break;
       case 'v':
- /*case comp start*//*binOp start*/out_invert = /*case comp end*//*binOp end*/1;
+ /*compound start*/out_invert = /*compound end*/1;/*end of stmt*/
  break;
       case 'w':
- /*case comp start*//*binOp start*/match_words = /*case comp end*//*binOp end*/1;
+ /*compound start*/match_words = /*compound end*/1;/*end of stmt*/
  break;
       case 'x':
- /*case comp start*//*binOp start*/match_lines = /*case comp end*//*binOp end*/1;
+ /*compound start*/match_lines = /*compound end*/1;/*end of stmt*/
  break;
       default:
  usage();
@@ -4195,40 +4195,40 @@ main(argc, argv)
       }
 
   if (!keyfound)
-    if (/*binOp start*/optind < /*binOp end*/argc)
+    if (optind < argc)
       {
- /*compound start*//*binOp start*/keys = argv[optind++/*compound end*//*binOp end*/];
- /*compound start*//*binOp start*/keycc = strlen(keys/*compound end*//*binOp end*/);
+ /*compound start*/keys = argv[optind++/*compound end*/];/*end of stmt*/
+ /*compound start*/keycc = strlen(keys/*compound end*/);/*end of stmt*/
       }
     else
       usage();
 
   if (!matcher)
-    /*binOp start*/matcher = /*binOp end*/prog;
+    /*compound start*/matcher = /*compound end*/prog;/*end of stmt*/
 
-  if (/*binOp start*/!setmatcher(matcher) && !setmatcher("default"/*binOp end*/))
+  if (!setmatcher(matcher) && !setmatcher("default"))
     abort();
 
   (*compile)(keys, keycc);
 
-  if (/*binOp start*//*binOp start*//*binOp start*/argc - /*binOp end*/optind > /*binOp end*/1 && !/*binOp end*/no_filenames)
-    /*binOp start*/out_file = /*binOp end*/1;
+  if (argc - optind > 1 && !no_filenames)
+    /*compound start*/out_file = /*compound end*/1;/*end of stmt*/
 
-  /*compound start*//*binOp start*/status = /*compound end*//*binOp end*/1;
+  /*compound start*/status = /*compound end*/1;/*end of stmt*/
 
-  if (/*binOp start*/optind < /*binOp end*/argc)
-    while (/*binOp start*/optind < /*binOp end*/argc)
+  if (optind < argc)
+    while (optind < argc)
       {
- /*compound start*//*binOp start*/desc = strcmp(argv[optind], "-") ? open(argv[optind], 00) : /*compound end*//*binOp end*/0;
- if (/*binOp start*/desc < /*binOp end*/0)
+ /*compound start*/desc = strcmp(argv[optind], "-") ? open(argv[optind], 00) : /*compound end*/0;/*end of stmt*/
+ if (desc < 0)
    {
      if (!suppress_errors)
        error(argv[optind], (*__errno_location ()));
    }
  else
    {
-     /*compound start*//*binOp start*/filename = /*binOp start*/desc == /*binOp end*/0 ? "(standard input)" : argv[optind/*compound end*//*binOp end*/];
-     /*compound start*//*binOp start*/count = grep(desc/*compound end*//*binOp end*/);
+     /*compound start*/filename = desc == 0 ? "(standard input)" : argv[optind/*compound end*/];/*end of stmt*/
+     /*compound start*/count = grep(desc/*compound end*/);/*end of stmt*/
      if (count_matches)
        {
   if (out_file)
@@ -4237,30 +4237,30 @@ main(argc, argv)
        }
      if (count)
        {
-  /*compound start*//*binOp start*/status = /*compound end*//*binOp end*/0;
-  if (/*binOp start*/list_files == /*binOp end*/1)
+  /*compound start*/status = /*compound end*/0;/*end of stmt*/
+  if (list_files == 1)
     printf("%s\n", filename);
        }
-     else if (/*binOp start*/list_files == -/*binOp end*/1)
+     else if (list_files == -1)
        printf("%s\n", filename);
    }
- if (/*binOp start*/desc != /*binOp end*/0)
+ if (desc != 0)
    close(desc);
  ++optind;
       }
   else
     {
-      /*compound start*//*binOp start*/filename = /*compound end*//*binOp end*/"(standard input)";
-      /*compound start*//*binOp start*/count = grep(0/*compound end*//*binOp end*/);
+      /*compound start*/filename = /*compound end*/"(standard input)";/*end of stmt*/
+      /*compound start*/count = grep(0/*compound end*/);/*end of stmt*/
       if (count_matches)
  printf("%d\n", count);
       if (count)
  {
-   /*compound start*//*binOp start*/status = /*compound end*//*binOp end*/0;
-   if (/*binOp start*/list_files == /*binOp end*/1)
+   /*compound start*/status = /*compound end*/0;/*end of stmt*/
+   if (list_files == 1)
      printf("(standard input)\n");
  }
-      else if (/*binOp start*/list_files == -/*binOp end*/1)
+      else if (list_files == -1)
  printf("(standard input)\n");
     }
 
@@ -4280,18 +4280,18 @@ init_syntax_once ()
 
    memset ((re_syntax_table), 0, (sizeof re_syntax_table));
 
-   for (/*binOp start*/c = /*binOp end*/'a'; /*binOp start*/c <= /*binOp end*/'z'; c++)
-     /*binOp start*/re_syntax_table[c] = /*binOp end*/1;
+   for (c = 'a'; c <= 'z'; c++)
+     /*compound start*/re_syntax_table[c] = /*compound end*/1;/*end of stmt*/
 
-   for (/*binOp start*/c = /*binOp end*/'A'; /*binOp start*/c <= /*binOp end*/'Z'; c++)
-     /*binOp start*/re_syntax_table[c] = /*binOp end*/1;
+   for (c = 'A'; c <= 'Z'; c++)
+     /*compound start*/re_syntax_table[c] = /*compound end*/1;/*end of stmt*/
 
-   for (/*binOp start*/c = /*binOp end*/'0'; /*binOp start*/c <= /*binOp end*/'9'; c++)
-     /*binOp start*/re_syntax_table[c] = /*binOp end*/1;
+   for (c = '0'; c <= '9'; c++)
+     /*compound start*/re_syntax_table[c] = /*compound end*/1;/*end of stmt*/
 
-   /*compound start*//*binOp start*/re_syntax_table['_'] = /*compound end*//*binOp end*/1;
+   /*compound start*/re_syntax_table['_'] = /*compound end*/1;/*end of stmt*/
 
-   /*compound start*//*binOp start*/done = /*compound end*//*binOp end*/1;
+   /*compound start*/done = /*compound end*/1;/*end of stmt*/
 }
 # 1738 "target/grep.c"
 # 1 "target/regex.h" 1
@@ -4490,18 +4490,18 @@ extern void regfree (regex_t *preg);
 # 48 "/usr/include/ctype.h" 3 4
 enum
 {
-  _ISupper = (/*binOp start*/(0) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (0/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (0/*binOp end*/)) >> /*binOp end*/8)),
-  _ISlower = (/*binOp start*/(1) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (1/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (1/*binOp end*/)) >> /*binOp end*/8)),
-  _ISalpha = (/*binOp start*/(2) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (2/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (2/*binOp end*/)) >> /*binOp end*/8)),
-  _ISdigit = (/*binOp start*/(3) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (3/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (3/*binOp end*/)) >> /*binOp end*/8)),
-  _ISxdigit = (/*binOp start*/(4) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (4/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (4/*binOp end*/)) >> /*binOp end*/8)),
-  _ISspace = (/*binOp start*/(5) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (5/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (5/*binOp end*/)) >> /*binOp end*/8)),
-  _ISprint = (/*binOp start*/(6) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (6/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (6/*binOp end*/)) >> /*binOp end*/8)),
-  _ISgraph = (/*binOp start*/(7) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (7/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (7/*binOp end*/)) >> /*binOp end*/8)),
-  _ISblank = (/*binOp start*/(8) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (8/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (8/*binOp end*/)) >> /*binOp end*/8)),
-  _IScntrl = (/*binOp start*/(9) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (9/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (9/*binOp end*/)) >> /*binOp end*/8)),
-  _ISpunct = (/*binOp start*/(10) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (10/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (10/*binOp end*/)) >> /*binOp end*/8)),
-  _ISalnum = (/*binOp start*/(11) < /*binOp end*/8 ? (/*binOp start*/(/*binOp start*/1 << (11/*binOp end*/)) << /*binOp end*/8) : (/*binOp start*/(/*binOp start*/1 << (11/*binOp end*/)) >> /*binOp end*/8))
+  _ISupper = ((0) < 8 ? ((1 << (0)) << 8) : ((1 << (0)) >> 8)),
+  _ISlower = ((1) < 8 ? ((1 << (1)) << 8) : ((1 << (1)) >> 8)),
+  _ISalpha = ((2) < 8 ? ((1 << (2)) << 8) : ((1 << (2)) >> 8)),
+  _ISdigit = ((3) < 8 ? ((1 << (3)) << 8) : ((1 << (3)) >> 8)),
+  _ISxdigit = ((4) < 8 ? ((1 << (4)) << 8) : ((1 << (4)) >> 8)),
+  _ISspace = ((5) < 8 ? ((1 << (5)) << 8) : ((1 << (5)) >> 8)),
+  _ISprint = ((6) < 8 ? ((1 << (6)) << 8) : ((1 << (6)) >> 8)),
+  _ISgraph = ((7) < 8 ? ((1 << (7)) << 8) : ((1 << (7)) >> 8)),
+  _ISblank = ((8) < 8 ? ((1 << (8)) << 8) : ((1 << (8)) >> 8)),
+  _IScntrl = ((9) < 8 ? ((1 << (9)) << 8) : ((1 << (9)) >> 8)),
+  _ISpunct = ((10) < 8 ? ((1 << (10)) << 8) : ((1 << (10)) >> 8)),
+  _ISalnum = ((11) < 8 ? ((1 << (11)) << 8) : ((1 << (11)) >> 8))
 };
 # 81 "/usr/include/ctype.h" 3 4
 extern __const unsigned short int **__ctype_b_loc (void)
@@ -4692,7 +4692,7 @@ re_set_syntax (syntax)
 {
   reg_syntax_t ret = re_syntax_options;
 
-  /*compound start*//*binOp start*/re_syntax_options = /*compound end*//*binOp end*/syntax;
+  /*compound start*/re_syntax_options = /*compound end*/syntax;/*end of stmt*/
   return ret;
 }
 
@@ -4776,7 +4776,7 @@ regex_compile (pattern, size, syntax, bufp)
 
 
   const char *p = pattern;
-  const char *pend = /*binOp start*/pattern + /*binOp end*/size;
+  const char *pend = pattern + size;
 
 
   char *translate = bufp->translate;
@@ -4809,66 +4809,66 @@ regex_compile (pattern, size, syntax, bufp)
 
   regnum_t regnum = 0;
 # 2781 "target/grep.c"
-  /*compound start*//*binOp start*/compile_stack.stack = ((compile_stack_elt_t *) malloc (/*binOp start*/(32) * sizeof (compile_stack_elt_t/*binOp end*/))/*compound end*//*binOp end*/);
-  if (/*binOp start*/compile_stack.stack == ((void *)0/*binOp end*/))
+  /*compound start*/compile_stack.stack = ((compile_stack_elt_t *) malloc ((32) * sizeof (compile_stack_elt_t))/*compound end*/);/*end of stmt*/
+  if (compile_stack.stack == ((void *)0))
     return REG_ESPACE;
 
-  /*compound start*//*binOp start*/compile_stack.size = /*compound end*//*binOp end*/32;
-  /*compound start*//*binOp start*/compile_stack.avail = /*compound end*//*binOp end*/0;
+  /*compound start*/compile_stack.size = /*compound end*/32;/*end of stmt*/
+  /*compound start*/compile_stack.avail = /*compound end*/0;/*end of stmt*/
 
 
-  /*compound start*//*binOp start*/bufp->syntax = /*compound end*//*binOp end*/syntax;
-  /*compound start*//*binOp start*/bufp->fastmap_accurate = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/bufp->not_bol = /*binOp start*/bufp->not_eol = /*compound end*//*binOp end*//*binOp end*/0;
+  /*compound start*/bufp->syntax = /*compound end*/syntax;/*end of stmt*/
+  /*compound start*/bufp->fastmap_accurate = /*compound end*/0;/*end of stmt*/
+  /*compound start*/bufp->not_bol = bufp->not_eol = /*compound end*/0;/*end of stmt*/
 
 
 
 
-  /*compound start*//*binOp start*/bufp->used = /*compound end*//*binOp end*/0;
+  /*compound start*/bufp->used = /*compound end*/0;/*end of stmt*/
 
 
-  /*compound start*//*binOp start*/bufp->re_nsub = /*compound end*//*binOp end*/0;
+  /*compound start*/bufp->re_nsub = /*compound end*/0;/*end of stmt*/
 
 
 
    init_syntax_once ();
 
 
-  if (/*binOp start*/bufp->allocated == /*binOp end*/0)
+  if (bufp->allocated == 0)
     {
       if (bufp->buffer)
  {
 
 
-          (/*binOp start*/(bufp->buffer) = (unsigned char *) realloc (bufp->buffer, /*binOp start*/(32) * sizeof (unsigned char/*binOp end*/)/*binOp end*/));
+          ((bufp->buffer) = (unsigned char *) realloc (bufp->buffer, (32) * sizeof (unsigned char)));
         }
       else
         {
-          /*compound start*//*binOp start*/bufp->buffer = ((unsigned char *) malloc (/*binOp start*/(32) * sizeof (unsigned char/*binOp end*/))/*compound end*//*binOp end*/);
+          /*compound start*/bufp->buffer = ((unsigned char *) malloc ((32) * sizeof (unsigned char))/*compound end*/);/*end of stmt*/
         }
       if (!bufp->buffer) return REG_ESPACE;
 
-      /*compound start*//*binOp start*/bufp->allocated = /*compound end*//*binOp end*/32;
+      /*compound start*/bufp->allocated = /*compound end*/32;/*end of stmt*/
     }
 
-  /*compound start*//*binOp start*/begalt = /*binOp start*/b = bufp->/*compound end*//*binOp end*//*binOp end*/buffer;
+  /*compound start*/begalt = b = bufp->/*compound end*/buffer;/*end of stmt*/
 
 
-  while (/*binOp start*/p != /*binOp end*/pend)
+  while (p != pend)
     {
-      do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0);
+      do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
 
       switch (c)
         {
         case '^':
           {
             if (
-                   /*binOp start*//*binOp start*//*binOp start*/p == /*binOp start*/pattern + /*binOp end*//*binOp end*/1
+                   p == pattern + 1
 
-                || /*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*//*binOp end*/)
+                || syntax & ((((1) << 1) << 1) << 1)
 
-                || at_begline_loc_p (pattern, p, syntax/*binOp end*/))
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (begline/*compound end*//*binOp end*/); } while (0);
+                || at_begline_loc_p (pattern, p, syntax))
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (begline/*compound end*/);/*end of stmt*/ } while (0);
             else
               goto normal_char;
           }
@@ -4878,12 +4878,12 @@ regex_compile (pattern, size, syntax, bufp)
         case '$':
           {
             if (
-                   /*binOp start*//*binOp start*//*binOp start*/p == /*binOp end*/pend
+                   p == pend
 
-                || /*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*//*binOp end*/)
+                || syntax & ((((1) << 1) << 1) << 1)
 
-                || at_endline_loc_p (p, pend, syntax/*binOp end*/))
-               do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (endline/*compound end*//*binOp end*/); } while (0);
+                || at_endline_loc_p (p, pend, syntax))
+               do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (endline/*compound end*/);/*end of stmt*/ } while (0);
              else
                goto normal_char;
            }
@@ -4892,17 +4892,17 @@ regex_compile (pattern, size, syntax, bufp)
 
  case '+':
         case '?':
-          if (/*binOp start*/(/*binOp start*/syntax & (/*binOp start*/(1) << /*binOp end*/1/*binOp end*/))
-              || (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)/*binOp end*/))
+          if ((syntax & ((1) << 1))
+              || (syntax & (((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
             goto normal_char;
         handle_plus:
         case '*':
 
           if (!laststart)
             {
-              if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+              if (syntax & ((((((1) << 1) << 1) << 1) << 1) << 1))
                 return REG_BADRPT;
-              else if (!(/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)))
+              else if (!(syntax & (((((1) << 1) << 1) << 1) << 1)))
                 goto normal_char;
             }
 
@@ -4920,31 +4920,31 @@ regex_compile (pattern, size, syntax, bufp)
 
             for (;;)
               {
-                /*assign start*//*binOp start*/zero_times_ok |= /*binOp start*/c != /*assign end*//*binOp end*//*binOp end*/'+';
-                /*assign start*//*binOp start*/many_times_ok |= /*binOp start*/c != /*assign end*//*binOp end*//*binOp end*/'?';
+                /*compound start*/zero_times_ok |= c != /*compound end*/'+';/*end of stmt*/
+                /*compound start*/many_times_ok |= c != /*compound end*/'?';/*end of stmt*/
 
-                if (/*binOp start*/p == /*binOp end*/pend)
+                if (p == pend)
                   break;
 
-                do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0);
+                do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
 
-                if (/*binOp start*//*binOp start*/c == /*binOp end*/'*'
-                    || (/*binOp start*/!(/*binOp start*/syntax & (/*binOp start*/(1) << /*binOp end*/1/*binOp end*/)) && (/*binOp start*//*binOp start*/c == /*binOp end*/'+' || /*binOp start*/c == /*binOp end*//*binOp end*/'?'/*binOp end*/)/*binOp end*/))
+                if (c == '*'
+                    || (!(syntax & ((1) << 1)) && (c == '+' || c == '?')))
                   ;
 
-                else if (/*binOp start*//*binOp start*/syntax & (/*binOp start*/(1) << /*binOp end*/1/*binOp end*/) && /*binOp start*/c == /*binOp end*//*binOp end*/'\\')
+                else if (syntax & ((1) << 1) && c == '\\')
                   {
-                    if (/*binOp start*/p == /*binOp end*/pend) return REG_EESCAPE;
+                    if (p == pend) return REG_EESCAPE;
 
-                    do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c1 = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c1 = translate[c1/*binOp end*/]; } while (0);
-                    if (!(/*binOp start*//*binOp start*/c1 == /*binOp end*/'+' || /*binOp start*/c1 == /*binOp end*//*binOp end*/'?'))
+                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1/*compound end*/];/*end of stmt*/ } while (0);
+                    if (!(c1 == '+' || c1 == '?'))
                       {
                         p--;
                         p--;
                         break;
                       }
 
-                    /*compound start*//*binOp start*/c = /*compound end*//*binOp end*/c1;
+                    /*compound start*/c = /*compound end*/c1;/*end of stmt*/
                   }
                 else
                   {
@@ -4968,37 +4968,37 @@ regex_compile (pattern, size, syntax, bufp)
                 ;
 
 
-                while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (3/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0);
+                while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
 
 
 
 
 
 
-                if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/(translate ? translate[(unsigned char) (*(/*binOp start*/p - /*binOp end*/2))] : (*(/*binOp start*/p - /*binOp end*/2))) == (translate ? translate[(unsigned char) ('.')] : ('.')/*binOp end*/)
-      && /*binOp end*/zero_times_ok
-                    && /*binOp start*/p < /*binOp end*//*binOp end*/pend && /*binOp start*/(translate ? translate[(unsigned char) (*p)] : (*p)) == (translate ? translate[(unsigned char) ('\n')] : ('\n')/*binOp end*//*binOp end*/)
-                    && !(/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)/*binOp end*/))
+                if ((translate ? translate[(unsigned char) (*(p - 2))] : (*(p - 2))) == (translate ? translate[(unsigned char) ('.')] : ('.'))
+      && zero_times_ok
+                    && p < pend && (translate ? translate[(unsigned char) (*p)] : (*p)) == (translate ? translate[(unsigned char) ('\n')] : ('\n'))
+                    && !(syntax & (((((((1) << 1) << 1) << 1) << 1) << 1) << 1)))
                   {
-                    store_op1 (jump, b, /*binOp start*//*binOp start*/(laststart) - (b/*binOp end*/) - /*binOp end*/3);
-                    /*compound start*//*binOp start*/keep_string_p = /*compound end*//*binOp end*/1;
+                    store_op1 (jump, b, (laststart) - (b) - 3);
+                    /*compound start*/keep_string_p = /*compound end*/1;/*end of stmt*/
                   }
                 else
 
-                  store_op1 (maybe_pop_jump, b, /*binOp start*//*binOp start*/(/*binOp start*/laststart - /*binOp end*/3) - (b/*binOp end*/) - /*binOp end*/3);
+                  store_op1 (maybe_pop_jump, b, (laststart - 3) - (b) - 3);
 
 
-                /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/3;
+                /*compound start*/b += /*compound end*/3;/*end of stmt*/
               }
 
 
 
-            while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (3/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0);
-            insert_op1 (keep_string_p ? on_failure_keep_string_jump : on_failure_jump, laststart, /*binOp start*//*binOp start*/(/*binOp start*/b + /*binOp end*/3) - (laststart/*binOp end*/) - /*binOp end*/3, b);
+            while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+            insert_op1 (keep_string_p ? on_failure_keep_string_jump : on_failure_jump, laststart, (b + 3) - (laststart) - 3, b);
 
 
-            /*compound start*//*binOp start*/pending_exact = /*compound end*//*binOp end*/0;
-            /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/3;
+            /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
+            /*compound start*/b += /*compound end*/3;/*end of stmt*/
 
             if (!zero_times_ok)
               {
@@ -5007,17 +5007,17 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-                while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (3/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0);
-                insert_op1 (dummy_failure_jump, laststart, /*binOp start*//*binOp start*/(/*binOp start*/laststart + /*binOp end*/6) - (laststart/*binOp end*/) - /*binOp end*/3, b);
-                /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/3;
+                while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+                insert_op1 (dummy_failure_jump, laststart, (laststart + 6) - (laststart) - 3, b);
+                /*compound start*/b += /*compound end*/3;/*end of stmt*/
               }
             }
    break;
 
 
  case '.':
-          /*case comp start*//*binOp start*/laststart = /*case comp end*//*binOp end*/b;
-          do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (anychar/*compound end*//*binOp end*/); } while (0);
+          /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
+          do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (anychar/*compound end*/);/*end of stmt*/ } while (0);
           break;
 
 
@@ -5025,280 +5025,280 @@ regex_compile (pattern, size, syntax, bufp)
           {
             boolean had_char_class = 0;
 
-            if (/*binOp start*/p == /*binOp end*/pend) return REG_EBRACK;
+            if (p == pend) return REG_EBRACK;
 
 
 
-     while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (34/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0);
+     while (b - bufp->buffer + (34) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
 
-            /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/b;
+            /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
 
 
 
-            do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (/*binOp start*/*p == /*binOp end*/'^' ? charset_not : charset/*compound end*//*binOp end*/); } while (0);
-            if (/*binOp start*/*p == /*binOp end*/'^')
+            do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (*p == '^' ? charset_not : charset/*compound end*/);/*end of stmt*/ } while (0);
+            if (*p == '^')
               p++;
 
 
-            /*compound start*//*binOp start*/p1 = /*compound end*//*binOp end*/p;
+            /*compound start*/p1 = /*compound end*/p;/*end of stmt*/
 
 
-            do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (/*binOp start*/(/*binOp start*/1 << /*binOp end*/8) / /*binOp end*/8/*compound end*//*binOp end*/); } while (0);
+            do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) ((1 << 8) / 8/*compound end*/);/*end of stmt*/ } while (0);
 
 
-            memset ((b), 0, (/*binOp start*/(/*binOp start*/1 << /*binOp end*/8) / /*binOp end*/8));
+            memset ((b), 0, ((1 << 8) / 8));
 
 
-            if (/*binOp start*//*binOp start*/(re_opcode_t) b[-2] == /*binOp end*/charset_not
-                && (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)/*binOp end*/))
-              (/*binOp start*/b[/*binOp start*/((unsigned char) ('\n')) / /*binOp end*/8] |= /*binOp start*/1 << (/*binOp start*/((unsigned char) '\n') % /*binOp end*/8/*binOp end*//*binOp end*/));
+            if ((re_opcode_t) b[-2] == charset_not
+                && (syntax & (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
+              (b[((unsigned char) ('\n')) / 8] |= 1 << (((unsigned char) '\n') % 8));
 
 
             for (;;)
               {
-                if (/*binOp start*/p == /*binOp end*/pend) return REG_EBRACK;
+                if (p == pend) return REG_EBRACK;
 
-                do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0);
+                do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
 
 
-                if (/*binOp start*/(/*binOp start*/syntax & (1/*binOp end*/)) && /*binOp start*/c == /*binOp end*//*binOp end*/'\\')
+                if ((syntax & (1)) && c == '\\')
                   {
-                    if (/*binOp start*/p == /*binOp end*/pend) return REG_EESCAPE;
+                    if (p == pend) return REG_EESCAPE;
 
-                    do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c1 = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c1 = translate[c1/*binOp end*/]; } while (0);
-                    (/*binOp start*/b[/*binOp start*/((unsigned char) (c1)) / /*binOp end*/8] |= /*binOp start*/1 << (/*binOp start*/((unsigned char) c1) % /*binOp end*/8/*binOp end*//*binOp end*/));
+                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1/*compound end*/];/*end of stmt*/ } while (0);
+                    (b[((unsigned char) (c1)) / 8] |= 1 << (((unsigned char) c1) % 8));
                     continue;
                   }
 
 
 
 
-                if (/*binOp start*//*binOp start*/c == /*binOp end*/']' && /*binOp start*/p != /*binOp start*/p1 + /*binOp end*//*binOp end*//*binOp end*/1)
+                if (c == ']' && p != p1 + 1)
                   break;
 
 
 
-                if (/*binOp start*//*binOp start*/had_char_class && /*binOp start*/c == /*binOp end*//*binOp end*/'-' && /*binOp start*/*p != /*binOp end*//*binOp end*/']')
+                if (had_char_class && c == '-' && *p != ']')
                   return REG_ERANGE;
 
 
 
 
 
-                if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*/c == /*binOp end*/'-'
-                    && !(/*binOp start*//*binOp start*//*binOp start*/p - /*binOp end*/2 >= /*binOp end*/pattern && /*binOp start*/p[-2] == /*binOp end*//*binOp end*/'['/*binOp end*/)
-                    && !(/*binOp start*//*binOp start*//*binOp start*//*binOp start*/p - /*binOp end*/3 >= /*binOp end*/pattern && /*binOp start*/p[-3] == /*binOp end*//*binOp end*/'[' && /*binOp start*/p[-2] == /*binOp end*//*binOp end*/'^'/*binOp end*/)
-                    && /*binOp start*/*p != /*binOp end*//*binOp end*/']')
+                if (c == '-'
+                    && !(p - 2 >= pattern && p[-2] == '[')
+                    && !(p - 3 >= pattern && p[-3] == '[' && p[-2] == '^')
+                    && *p != ']')
                   {
                     reg_errcode_t ret
                       = compile_range (&p, pend, translate, syntax, b);
-                    if (/*binOp start*/ret != /*binOp end*/REG_NOERROR) return ret;
+                    if (ret != REG_NOERROR) return ret;
                   }
 
-                else if (/*binOp start*//*binOp start*/p[0] == /*binOp end*/'-' && /*binOp start*/p[1] != /*binOp end*//*binOp end*/']')
+                else if (p[0] == '-' && p[1] != ']')
                   {
                     reg_errcode_t ret;
 
 
-                    do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c1 = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c1 = translate[c1/*binOp end*/]; } while (0);
+                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1/*compound end*/];/*end of stmt*/ } while (0);
 
-                    /*compound start*//*binOp start*/ret = compile_range (&p, pend, translate, syntax, b/*compound end*//*binOp end*/);
-                    if (/*binOp start*/ret != /*binOp end*/REG_NOERROR) return ret;
+                    /*compound start*/ret = compile_range (&p, pend, translate, syntax, b/*compound end*/);/*end of stmt*/
+                    if (ret != REG_NOERROR) return ret;
                   }
 
 
 
 
-                else if (/*binOp start*//*binOp start*//*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) && /*binOp start*/c == /*binOp end*//*binOp end*/'[' && /*binOp start*/*p == /*binOp end*//*binOp end*/':')
+                else if (syntax & (((1) << 1) << 1) && c == '[' && *p == ':')
                   {
-                    char str[/*binOp start*/6 + /*binOp end*/1];
+                    char str[6 + 1];
 
-                    do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0);
-                    /*compound start*//*binOp start*/c1 = /*compound end*//*binOp end*/0;
+                    do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+                    /*compound start*/c1 = /*compound end*/0;/*end of stmt*/
 
 
-                    if (/*binOp start*/p == /*binOp end*/pend) return REG_EBRACK;
+                    if (p == pend) return REG_EBRACK;
 
                     for (;;)
                       {
-                        do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0);
-                        if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*/c == /*binOp end*/':' || /*binOp start*/c == /*binOp end*//*binOp end*/']' || /*binOp start*/p == /*binOp end*//*binOp end*/pend
-                            || /*binOp start*/c1 == /*binOp end*//*binOp end*/6)
+                        do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+                        if (c == ':' || c == ']' || p == pend
+                            || c1 == 6)
                           break;
-                        /*compound start*//*binOp start*/str[c1++] = /*compound end*//*binOp end*/c;
+                        /*compound start*/str[c1++] = /*compound end*/c;/*end of stmt*/
                       }
-                    /*compound start*//*binOp start*/str[c1] = /*compound end*//*binOp end*/'\0';
+                    /*compound start*/str[c1] = /*compound end*/'\0';/*end of stmt*/
 
 
 
 
-                    if (/*binOp start*//*binOp start*/c == /*binOp end*/':' && /*binOp start*/*p == /*binOp end*//*binOp end*/']')
+                    if (c == ':' && *p == ']')
                       {
                         int ch;
-                        boolean is_alnum = ((/*binOp start*/strcmp (str, "alnum") == /*binOp end*/0));
-                        boolean is_alpha = ((/*binOp start*/strcmp (str, "alpha") == /*binOp end*/0));
-                        boolean is_blank = ((/*binOp start*/strcmp (str, "blank") == /*binOp end*/0));
-                        boolean is_cntrl = ((/*binOp start*/strcmp (str, "cntrl") == /*binOp end*/0));
-                        boolean is_digit = ((/*binOp start*/strcmp (str, "digit") == /*binOp end*/0));
-                        boolean is_graph = ((/*binOp start*/strcmp (str, "graph") == /*binOp end*/0));
-                        boolean is_lower = ((/*binOp start*/strcmp (str, "lower") == /*binOp end*/0));
-                        boolean is_print = ((/*binOp start*/strcmp (str, "print") == /*binOp end*/0));
-                        boolean is_punct = ((/*binOp start*/strcmp (str, "punct") == /*binOp end*/0));
-                        boolean is_space = ((/*binOp start*/strcmp (str, "space") == /*binOp end*/0));
-                        boolean is_upper = ((/*binOp start*/strcmp (str, "upper") == /*binOp end*/0));
-                        boolean is_xdigit = ((/*binOp start*/strcmp (str, "xdigit") == /*binOp end*/0));
+                        boolean is_alnum = ((strcmp (str, "alnum") == 0));
+                        boolean is_alpha = ((strcmp (str, "alpha") == 0));
+                        boolean is_blank = ((strcmp (str, "blank") == 0));
+                        boolean is_cntrl = ((strcmp (str, "cntrl") == 0));
+                        boolean is_digit = ((strcmp (str, "digit") == 0));
+                        boolean is_graph = ((strcmp (str, "graph") == 0));
+                        boolean is_lower = ((strcmp (str, "lower") == 0));
+                        boolean is_print = ((strcmp (str, "print") == 0));
+                        boolean is_punct = ((strcmp (str, "punct") == 0));
+                        boolean is_space = ((strcmp (str, "space") == 0));
+                        boolean is_upper = ((strcmp (str, "upper") == 0));
+                        boolean is_xdigit = ((strcmp (str, "xdigit") == 0));
 
-                        if (!(/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/((/*binOp start*/strcmp (str, "alpha") == /*binOp end*/0)) || ((/*binOp start*/strcmp (str, "upper") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "lower") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "digit") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "alnum") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "xdigit") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "space") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "print") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "punct") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "graph") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "cntrl") == /*binOp end*/0)/*binOp end*/) || ((/*binOp start*/strcmp (str, "blank") == /*binOp end*/0)/*binOp end*/))) return REG_ECTYPE;
+                        if (!(((strcmp (str, "alpha") == 0)) || ((strcmp (str, "upper") == 0)) || ((strcmp (str, "lower") == 0)) || ((strcmp (str, "digit") == 0)) || ((strcmp (str, "alnum") == 0)) || ((strcmp (str, "xdigit") == 0)) || ((strcmp (str, "space") == 0)) || ((strcmp (str, "print") == 0)) || ((strcmp (str, "punct") == 0)) || ((strcmp (str, "graph") == 0)) || ((strcmp (str, "cntrl") == 0)) || ((strcmp (str, "blank") == 0)))) return REG_ECTYPE;
 
 
 
-                        do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0);
+                        do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
 
-                        if (/*binOp start*/p == /*binOp end*/pend) return REG_EBRACK;
+                        if (p == pend) return REG_EBRACK;
 
-                        for (/*binOp start*/ch = /*binOp end*/0; /*binOp start*/ch < /*binOp start*/1 << /*binOp end*//*binOp end*/8; ch++)
+                        for (ch = 0; ch < 1 << 8; ch++)
                           {
-                            if ( /*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/is_alnum && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)/*binOp end*/))
-                                || (/*binOp start*/is_alpha && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISalpha/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_blank && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISblank/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_cntrl && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_IScntrl/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_digit && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISdigit/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_graph && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISgraph/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_lower && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISlower/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_print && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISprint/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_punct && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISpunct/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_space && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISspace/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_upper && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISupper/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                                || (/*binOp start*/is_xdigit && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) /*binOp end*/_ISxdigit/*binOp end*/)/*binOp end*/)/*binOp end*/))
-                            (/*binOp start*/b[/*binOp start*/((unsigned char) (ch)) / /*binOp end*/8] |= /*binOp start*/1 << (/*binOp start*/((unsigned char) ch) % /*binOp end*/8/*binOp end*//*binOp end*/));
+                            if ( (is_alnum && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISalnum)))
+                                || (is_alpha && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISalpha)))
+                                || (is_blank && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISblank)))
+                                || (is_cntrl && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _IScntrl)))
+                                || (is_digit && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISdigit)))
+                                || (is_graph && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISgraph)))
+                                || (is_lower && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISlower)))
+                                || (is_print && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISprint)))
+                                || (is_punct && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISpunct)))
+                                || (is_space && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISspace)))
+                                || (is_upper && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISupper)))
+                                || (is_xdigit && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISxdigit))))
+                            (b[((unsigned char) (ch)) / 8] |= 1 << (((unsigned char) ch) % 8));
                           }
-                        /*compound start*//*binOp start*/had_char_class = /*compound end*//*binOp end*/1;
+                        /*compound start*/had_char_class = /*compound end*/1;/*end of stmt*/
                       }
                     else
                       {
                         c1++;
                         while (c1--)
                           p--;
-                        (/*binOp start*/b[/*binOp start*/((unsigned char) ('[')) / /*binOp end*/8] |= /*binOp start*/1 << (/*binOp start*/((unsigned char) '[') % /*binOp end*/8/*binOp end*//*binOp end*/));
-                        (/*binOp start*/b[/*binOp start*/((unsigned char) (':')) / /*binOp end*/8] |= /*binOp start*/1 << (/*binOp start*/((unsigned char) ':') % /*binOp end*/8/*binOp end*//*binOp end*/));
-                        /*compound start*//*binOp start*/had_char_class = /*compound end*//*binOp end*/0;
+                        (b[((unsigned char) ('[')) / 8] |= 1 << (((unsigned char) '[') % 8));
+                        (b[((unsigned char) (':')) / 8] |= 1 << (((unsigned char) ':') % 8));
+                        /*compound start*/had_char_class = /*compound end*/0;/*end of stmt*/
                       }
                   }
                 else
                   {
-                    /*compound start*//*binOp start*/had_char_class = /*compound end*//*binOp end*/0;
-                    (/*binOp start*/b[/*binOp start*/((unsigned char) (c)) / /*binOp end*/8] |= /*binOp start*/1 << (/*binOp start*/((unsigned char) c) % /*binOp end*/8/*binOp end*//*binOp end*/));
+                    /*compound start*/had_char_class = /*compound end*/0;/*end of stmt*/
+                    (b[((unsigned char) (c)) / 8] |= 1 << (((unsigned char) c) % 8));
                   }
               }
 
 
 
-            while (/*binOp start*//*binOp start*/(int) b[-1] > /*binOp end*/0 && /*binOp start*/b[/*binOp start*/b[-1] - /*binOp end*/1] == /*binOp end*//*binOp end*/0)
+            while ((int) b[-1] > 0 && b[b[-1] - 1] == 0)
               b[-1]--;
-            /*assign start*//*binOp start*/b += b[-1/*assign end*//*binOp end*/];
+            /*compound start*/b += b[-1/*compound end*/];/*end of stmt*/
           }
           break;
 
 
  case '(':
-          if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+          if (syntax & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
             goto handle_open;
           else
             goto normal_char;
 
 
         case ')':
-          if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+          if (syntax & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
             goto handle_close;
           else
             goto normal_char;
 
 
         case '\n':
-          if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+          if (syntax & ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
             goto handle_alt;
           else
             goto normal_char;
 
 
  case '|':
-          if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+          if (syntax & ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
             goto handle_alt;
           else
             goto normal_char;
 
 
         case '{':
-           if (/*binOp start*//*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) && /*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*//*binOp end*/))
+           if (syntax & ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) && syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
              goto handle_interval;
            else
              goto normal_char;
 
 
         case '\\':
-          if (/*binOp start*/p == /*binOp end*/pend) return REG_EESCAPE;
+          if (p == pend) return REG_EESCAPE;
 
 
 
 
-          do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; } while (0);
+          do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ } while (0);
 
           switch (c)
             {
             case '(':
-              if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+              if (syntax & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                 goto normal_backslash;
 
             handle_open:
               bufp->re_nsub++;
               regnum++;
 
-              if ((/*binOp start*/compile_stack.avail == compile_stack./*binOp end*/size))
+              if ((compile_stack.avail == compile_stack.size))
                 {
-                  (/*binOp start*/(compile_stack.stack) = (compile_stack_elt_t *) realloc (compile_stack.stack, /*binOp start*/(/*binOp start*/compile_stack.size << /*binOp end*/1) * sizeof (compile_stack_elt_t/*binOp end*/)/*binOp end*/));
+                  ((compile_stack.stack) = (compile_stack_elt_t *) realloc (compile_stack.stack, (compile_stack.size << 1) * sizeof (compile_stack_elt_t)));
 
-                  if (/*binOp start*/compile_stack.stack == ((void *)0/*binOp end*/)) return REG_ESPACE;
+                  if (compile_stack.stack == ((void *)0)) return REG_ESPACE;
 
-                  /*assign start*//*binOp start*/compile_stack.size <<= /*assign end*//*binOp end*/1;
+                  /*compound start*/compile_stack.size <<= /*compound end*/1;/*end of stmt*/
                 }
 
 
 
 
 
-              /*compound start*//*binOp start*/(compile_stack.stack[compile_stack.avail]).begalt_offset = /*binOp start*/begalt - bufp->/*compound end*//*binOp end*//*binOp end*/buffer;
-              /*compound start*//*binOp start*/(compile_stack.stack[compile_stack.avail]).fixup_alt_jump
-                = fixup_alt_jump ? /*binOp start*//*binOp start*/fixup_alt_jump - bufp->/*binOp end*/buffer + /*binOp end*/1 : /*compound end*//*binOp end*/0;
-              /*compound start*//*binOp start*/(compile_stack.stack[compile_stack.avail]).laststart_offset = /*binOp start*/b - bufp->/*compound end*//*binOp end*//*binOp end*/buffer;
-              /*compound start*//*binOp start*/(compile_stack.stack[compile_stack.avail]).regnum = /*compound end*//*binOp end*/regnum;
+              /*compound start*/(compile_stack.stack[compile_stack.avail]).begalt_offset = begalt - bufp->/*compound end*/buffer;/*end of stmt*/
+              /*compound start*/(compile_stack.stack[compile_stack.avail]).fixup_alt_jump
+                = fixup_alt_jump ? fixup_alt_jump - bufp->buffer + 1 : /*compound end*/0;/*end of stmt*/
+              /*compound start*/(compile_stack.stack[compile_stack.avail]).laststart_offset = b - bufp->/*compound end*/buffer;/*end of stmt*/
+              /*compound start*/(compile_stack.stack[compile_stack.avail]).regnum = /*compound end*/regnum;/*end of stmt*/
 
 
 
 
 
-              if (/*binOp start*/regnum <= /*binOp end*/255)
+              if (regnum <= 255)
                 {
-                  /*compound start*//*binOp start*/(compile_stack.stack[compile_stack.avail]).inner_group_offset = /*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + /*compound end*//*binOp end*//*binOp end*/2;
-                  do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (3/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (start_memory/*compound end*//*binOp end*/); /*compound start*//*binOp start*/*b++ = (unsigned char) (regnum/*compound end*//*binOp end*/); /*compound start*//*binOp start*/*b++ = (unsigned char) (0/*compound end*//*binOp end*/); } while (0);
+                  /*compound start*/(compile_stack.stack[compile_stack.avail]).inner_group_offset = b - bufp->buffer + /*compound end*/2;/*end of stmt*/
+                  do { while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (start_memory/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (regnum/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (0/*compound end*/);/*end of stmt*/ } while (0);
                 }
 
               compile_stack.avail++;
 
-              /*compound start*//*binOp start*/fixup_alt_jump = /*compound end*//*binOp end*/0;
-              /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/0;
-              /*compound start*//*binOp start*/begalt = /*compound end*//*binOp end*/b;
+              /*compound start*/fixup_alt_jump = /*compound end*/0;/*end of stmt*/
+              /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+              /*compound start*/begalt = /*compound end*/b;/*end of stmt*/
 
 
 
-       /*compound start*//*binOp start*/pending_exact = /*compound end*//*binOp end*/0;
+       /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
               break;
 
 
             case ')':
-              if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) goto normal_backslash;
+              if (syntax & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) goto normal_backslash;
 
-              if ((/*binOp start*/compile_stack.avail == /*binOp end*/0))
-                if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+              if ((compile_stack.avail == 0))
+                if (syntax & ((((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                   goto normal_backslash;
                 else
                   return REG_ERPAREN;
@@ -5309,16 +5309,16 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-                  do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (push_dummy_failure/*compound end*//*binOp end*/); } while (0);
+                  do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (push_dummy_failure/*compound end*/);/*end of stmt*/ } while (0);
 
 
 
-                  store_op1 (jump_past_alt, fixup_alt_jump, /*binOp start*//*binOp start*/(/*binOp start*/b - /*binOp end*/1) - (fixup_alt_jump/*binOp end*/) - /*binOp end*/3);
+                  store_op1 (jump_past_alt, fixup_alt_jump, (b - 1) - (fixup_alt_jump) - 3);
                 }
 
 
-              if ((/*binOp start*/compile_stack.avail == /*binOp end*/0))
-                if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+              if ((compile_stack.avail == 0))
+                if (syntax & ((((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                   goto normal_char;
                 else
                   return REG_ERPAREN;
@@ -5333,27 +5333,27 @@ regex_compile (pattern, size, syntax, bufp)
                 regnum_t this_group_regnum;
 
                 compile_stack.avail--;
-                /*compound start*//*binOp start*/begalt = /*binOp start*/bufp->buffer + (compile_stack.stack[compile_stack.avail])./*compound end*//*binOp end*//*binOp end*/begalt_offset;
-                /*compound start*//*binOp start*/fixup_alt_jump
+                /*compound start*/begalt = bufp->buffer + (compile_stack.stack[compile_stack.avail])./*compound end*/begalt_offset;/*end of stmt*/
+                /*compound start*/fixup_alt_jump
                   = (compile_stack.stack[compile_stack.avail]).fixup_alt_jump
-                    ? /*binOp start*//*binOp start*/bufp->buffer + (compile_stack.stack[compile_stack.avail])./*binOp end*/fixup_alt_jump - /*binOp end*/1
-                    : /*compound end*//*binOp end*/0;
-                /*compound start*//*binOp start*/laststart = /*binOp start*/bufp->buffer + (compile_stack.stack[compile_stack.avail])./*compound end*//*binOp end*//*binOp end*/laststart_offset;
-                /*compound start*//*binOp start*/this_group_regnum = (compile_stack.stack[compile_stack.avail])./*compound end*//*binOp end*/regnum;
+                    ? bufp->buffer + (compile_stack.stack[compile_stack.avail]).fixup_alt_jump - 1
+                    : /*compound end*/0;/*end of stmt*/
+                /*compound start*/laststart = bufp->buffer + (compile_stack.stack[compile_stack.avail])./*compound end*/laststart_offset;/*end of stmt*/
+                /*compound start*/this_group_regnum = (compile_stack.stack[compile_stack.avail])./*compound end*/regnum;/*end of stmt*/
 
 
 
-  /*compound start*//*binOp start*/pending_exact = /*compound end*//*binOp end*/0;
+  /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
 
 
 
-                if (/*binOp start*/this_group_regnum <= /*binOp end*/255)
+                if (this_group_regnum <= 255)
                   {
                     unsigned char *inner_group_loc
-                      = /*binOp start*/bufp->buffer + (compile_stack.stack[compile_stack.avail])./*binOp end*/inner_group_offset;
+                      = bufp->buffer + (compile_stack.stack[compile_stack.avail]).inner_group_offset;
 
-                    /*compound start*//*binOp start*/*inner_group_loc = /*binOp start*/regnum - /*compound end*//*binOp end*//*binOp end*/this_group_regnum;
-                    do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (3/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (stop_memory/*compound end*//*binOp end*/); /*compound start*//*binOp start*/*b++ = (unsigned char) (this_group_regnum/*compound end*//*binOp end*/); /*compound start*//*binOp start*/*b++ = (unsigned char) (/*binOp start*/regnum - /*binOp end*/this_group_regnum/*compound end*//*binOp end*/); } while (0);
+                    /*compound start*/*inner_group_loc = regnum - /*compound end*/this_group_regnum;/*end of stmt*/
+                    do { while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (stop_memory/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (this_group_regnum/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (regnum - this_group_regnum/*compound end*/);/*end of stmt*/ } while (0);
 
                   }
               }
@@ -5361,41 +5361,41 @@ regex_compile (pattern, size, syntax, bufp)
 
 
             case '|':
-              if (/*binOp start*//*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) || /*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*//*binOp end*/))
+              if (syntax & (((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) || syntax & ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                 goto normal_backslash;
             handle_alt:
-              if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+              if (syntax & (((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                 goto normal_char;
 
 
 
-              while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (3/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0);
-              insert_op1 (on_failure_jump, begalt, /*binOp start*//*binOp start*/(/*binOp start*/b + /*binOp end*/6) - (begalt/*binOp end*/) - /*binOp end*/3, b);
-              /*compound start*//*binOp start*/pending_exact = /*compound end*//*binOp end*/0;
-              /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/3;
+              while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+              insert_op1 (on_failure_jump, begalt, (b + 6) - (begalt) - 3, b);
+              /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
+              /*compound start*/b += /*compound end*/3;/*end of stmt*/
 # 3370 "target/grep.c"
               if (fixup_alt_jump)
-                store_op1 (jump_past_alt, fixup_alt_jump, /*binOp start*//*binOp start*/(b) - (fixup_alt_jump/*binOp end*/) - /*binOp end*/3);
+                store_op1 (jump_past_alt, fixup_alt_jump, (b) - (fixup_alt_jump) - 3);
 
 
 
 
-              /*compound start*//*binOp start*/fixup_alt_jump = /*compound end*//*binOp end*/b;
-              while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (3/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0);
-              /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/3;
+              /*compound start*/fixup_alt_jump = /*compound end*/b;/*end of stmt*/
+              while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+              /*compound start*/b += /*compound end*/3;/*end of stmt*/
 
-              /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/0;
-              /*compound start*//*binOp start*/begalt = /*compound end*//*binOp end*/b;
+              /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+              /*compound start*/begalt = /*compound end*/b;/*end of stmt*/
               break;
 
 
             case '{':
 
-              if (/*binOp start*//*binOp start*/!(/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+              if (!(syntax & ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
 
 
-                  || (/*binOp start*/(/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) && (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)/*binOp end*/)/*binOp end*/)
-                  || (/*binOp start*//*binOp start*//*binOp start*/p - /*binOp end*/2 == /*binOp end*/pattern && /*binOp start*/p == /*binOp end*//*binOp end*/pend/*binOp end*/))
+                  || ((syntax & ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) && (syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
+                  || (p - 2 == pattern && p == pend))
                 goto normal_backslash;
 
             handle_interval:
@@ -5405,46 +5405,46 @@ regex_compile (pattern, size, syntax, bufp)
 
                 int lower_bound = -1, upper_bound = -1;
 
-                /*compound start*//*binOp start*/beg_interval = /*binOp start*/p - /*compound end*//*binOp end*//*binOp end*/1;
+                /*compound start*/beg_interval = p - /*compound end*/1;/*end of stmt*/
 
-                if (/*binOp start*/p == /*binOp end*/pend)
+                if (p == pend)
                   {
-                    if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+                    if (syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                       goto unfetch_interval;
                     else
                       return REG_EBRACE;
                   }
 
-                { if (/*binOp start*/p != /*binOp end*/pend) { do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0); while ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISdigit/*binOp end*/))) { if (/*binOp start*/lower_bound < /*binOp end*/0) /*binOp start*/lower_bound = /*binOp end*/0; /*compound start*//*binOp start*/lower_bound = /*binOp start*//*binOp start*//*binOp start*/lower_bound * /*binOp end*/10 + /*binOp end*/c - /*compound end*//*binOp end*//*binOp end*/'0'; if (/*binOp start*/p == /*binOp end*/pend) break; do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0); } } };
+                { if (p != pend) { do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0); while ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit))) { if (lower_bound < 0) /*compound start*/lower_bound = /*compound end*/0;/*end of stmt*/ /*compound start*/lower_bound = lower_bound * 10 + c - /*compound end*/'0';/*end of stmt*/ if (p == pend) break; do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0); } } };
 
-                if (/*binOp start*/c == /*binOp end*/',')
+                if (c == ',')
                   {
-                    { if (/*binOp start*/p != /*binOp end*/pend) { do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0); while ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISdigit/*binOp end*/))) { if (/*binOp start*/upper_bound < /*binOp end*/0) /*binOp start*/upper_bound = /*binOp end*/0; /*compound start*//*binOp start*/upper_bound = /*binOp start*//*binOp start*//*binOp start*/upper_bound * /*binOp end*/10 + /*binOp end*/c - /*compound end*//*binOp end*//*binOp end*/'0'; if (/*binOp start*/p == /*binOp end*/pend) break; do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0); } } };
-                    if (/*binOp start*/upper_bound < /*binOp end*/0) /*binOp start*/upper_bound = (/*binOp start*/(/*binOp start*/1 << /*binOp end*/15) - /*binOp end*/1/*binOp end*/);
+                    { if (p != pend) { do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0); while ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit))) { if (upper_bound < 0) /*compound start*/upper_bound = /*compound end*/0;/*end of stmt*/ /*compound start*/upper_bound = upper_bound * 10 + c - /*compound end*/'0';/*end of stmt*/ if (p == pend) break; do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0); } } };
+                    if (upper_bound < 0) /*compound start*/upper_bound = ((1 << 15) - 1/*compound end*/);/*end of stmt*/
                   }
                 else
 
-                  /*binOp start*/upper_bound = /*binOp end*/lower_bound;
+                  upper_bound = lower_bound;
 
-                if (/*binOp start*//*binOp start*//*binOp start*/lower_bound < /*binOp end*/0 || /*binOp start*/upper_bound > (/*binOp start*/(/*binOp start*/1 << /*binOp end*/15) - /*binOp end*/1/*binOp end*//*binOp end*/)
-                    || /*binOp start*/lower_bound > /*binOp end*//*binOp end*/upper_bound)
+                if (lower_bound < 0 || upper_bound > ((1 << 15) - 1)
+                    || lower_bound > upper_bound)
                   {
-                    if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+                    if (syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                       goto unfetch_interval;
                     else
                       return REG_BADBR;
                   }
 
-                if (!(/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)))
+                if (!(syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
                   {
-                    if (/*binOp start*/c != /*binOp end*/'\\') return REG_EBRACE;
+                    if (c != '\\') return REG_EBRACE;
 
-                    do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0);
+                    do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
                   }
 
-                if (/*binOp start*/c != /*binOp end*/'}')
+                if (c != '}')
                   {
-                    if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+                    if (syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                       goto unfetch_interval;
                     else
                       return REG_BADBR;
@@ -5455,10 +5455,10 @@ regex_compile (pattern, size, syntax, bufp)
 
                 if (!laststart)
                   {
-                    if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+                    if (syntax & ((((((1) << 1) << 1) << 1) << 1) << 1))
                       return REG_BADRPT;
-                    else if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
-                      /*binOp start*/laststart = /*binOp end*/b;
+                    else if (syntax & (((((1) << 1) << 1) << 1) << 1))
+                      /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
                     else
                       goto unfetch_interval;
                   }
@@ -5466,38 +5466,38 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-                 if (/*binOp start*/upper_bound == /*binOp end*/0)
+                 if (upper_bound == 0)
                    {
-                     while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (3/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0);
-                     insert_op1 (jump, laststart, /*binOp start*//*binOp start*/(/*binOp start*/b + /*binOp end*/3) - (laststart/*binOp end*/) - /*binOp end*/3, b);
-                     /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/3;
+                     while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+                     insert_op1 (jump, laststart, (b + 3) - (laststart) - 3, b);
+                     /*compound start*/b += /*compound end*/3;/*end of stmt*/
                    }
 # 3478 "target/grep.c"
                  else
                    {
 
-                     unsigned nbytes = /*binOp start*/10 + /*binOp start*/(/*binOp start*/upper_bound > /*binOp end*/1) * /*binOp end*//*binOp end*/10;
+                     unsigned nbytes = 10 + (upper_bound > 1) * 10;
 
-                     while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (nbytes/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0);
-
-
+                     while (b - bufp->buffer + (nbytes) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
 
 
 
 
-                     insert_op2 (succeed_n, laststart, /*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/b + /*binOp end*/5 + /*binOp start*/(/*binOp start*/upper_bound > /*binOp end*/1) * /*binOp end*//*binOp end*/5) - (laststart/*binOp end*/) - /*binOp end*/3, lower_bound, b);
 
 
-                     /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/5;
+                     insert_op2 (succeed_n, laststart, (b + 5 + (upper_bound > 1) * 5) - (laststart) - 3, lower_bound, b);
+
+
+                     /*compound start*/b += /*compound end*/5;/*end of stmt*/
 
 
 
 
 
                      insert_op2 (set_number_at, laststart, 5, lower_bound, b);
-                     /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/5;
+                     /*compound start*/b += /*compound end*/5;/*end of stmt*/
 
-                     if (/*binOp start*/upper_bound > /*binOp end*/1)
+                     if (upper_bound > 1)
                        {
 
 
@@ -5505,94 +5505,94 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-                         store_op2 (jump_n, b, /*binOp start*//*binOp start*/(/*binOp start*/laststart + /*binOp end*/5) - (b/*binOp end*/) - /*binOp end*/3, /*binOp start*/upper_bound - /*binOp end*/1);
+                         store_op2 (jump_n, b, (laststart + 5) - (b) - 3, upper_bound - 1);
 
-                         /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/5;
+                         /*compound start*/b += /*compound end*/5;/*end of stmt*/
 # 3528 "target/grep.c"
-                         insert_op2 (set_number_at, laststart, /*binOp start*/b - /*binOp end*/laststart,
-                                     /*binOp start*/upper_bound - /*binOp end*/1, b);
-                         /*assign start*//*binOp start*/b += /*assign end*//*binOp end*/5;
+                         insert_op2 (set_number_at, laststart, b - laststart,
+                                     upper_bound - 1, b);
+                         /*compound start*/b += /*compound end*/5;/*end of stmt*/
                        }
                    }
-                /*compound start*//*binOp start*/pending_exact = /*compound end*//*binOp end*/0;
-                /*compound start*//*binOp start*/beg_interval = ((void *)0/*compound end*//*binOp end*/);
+                /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
+                /*compound start*/beg_interval = ((void *)0/*compound end*/);/*end of stmt*/
               }
               break;
 
             unfetch_interval:
 
                ;
-               /*compound start*//*binOp start*/p = /*compound end*//*binOp end*/beg_interval;
-               /*compound start*//*binOp start*/beg_interval = ((void *)0/*compound end*//*binOp end*/);
+               /*compound start*/p = /*compound end*/beg_interval;/*end of stmt*/
+               /*compound start*/beg_interval = ((void *)0/*compound end*/);/*end of stmt*/
 
 
-               do {if (/*binOp start*/p == /*binOp end*/pend) return REG_EEND; /*compound start*//*binOp start*/c = (unsigned char) *p/*compound end*//*binOp end*/++; if (translate) /*binOp start*/c = translate[c/*binOp end*/]; } while (0);
+               do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
 
-               if (!(/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)))
+               if (!(syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
                  {
-                   if (/*binOp start*//*binOp start*/p > /*binOp end*/pattern && /*binOp start*/p[-1] == /*binOp end*//*binOp end*/'\\')
+                   if (p > pattern && p[-1] == '\\')
                      goto normal_backslash;
                  }
                goto normal_char;
 # 3575 "target/grep.c"
             case 'w':
-              /*case comp start*//*binOp start*/laststart = /*case comp end*//*binOp end*/b;
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (wordchar/*compound end*//*binOp end*/); } while (0);
+              /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordchar/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
 
             case 'W':
-              /*case comp start*//*binOp start*/laststart = /*case comp end*//*binOp end*/b;
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (notwordchar/*compound end*//*binOp end*/); } while (0);
+              /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (notwordchar/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
 
             case '<':
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (wordbeg/*compound end*//*binOp end*/); } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordbeg/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
             case '>':
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (wordend/*compound end*//*binOp end*/); } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordend/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
             case 'b':
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (wordbound/*compound end*//*binOp end*/); } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordbound/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
             case 'B':
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (notwordbound/*compound end*//*binOp end*/); } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (notwordbound/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
             case '`':
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (begbuf/*compound end*//*binOp end*/); } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (begbuf/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
             case '\'':
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (endbuf/*compound end*//*binOp end*/); } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (endbuf/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
             case '1': case '2': case '3': case '4': case '5':
             case '6': case '7': case '8': case '9':
-              if (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+              if (syntax & (((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                 goto normal_char;
 
-              /*compound start*//*binOp start*/c1 = /*binOp start*/c - /*compound end*//*binOp end*//*binOp end*/'0';
+              /*compound start*/c1 = c - /*compound end*/'0';/*end of stmt*/
 
-              if (/*binOp start*/c1 > /*binOp end*/regnum)
+              if (c1 > regnum)
                 return REG_ESUBREG;
 
 
               if (group_in_compile_stack (compile_stack, c1))
                 goto normal_char;
 
-              /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/b;
-              do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (2/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (duplicate/*compound end*//*binOp end*/); /*compound start*//*binOp start*/*b++ = (unsigned char) (c1/*compound end*//*binOp end*/); } while (0);
+              /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
+              do { while (b - bufp->buffer + (2) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (duplicate/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (c1/*compound end*/);/*end of stmt*/ } while (0);
               break;
 
 
             case '+':
             case '?':
-              if (/*binOp start*/syntax & (/*binOp start*/(1) << /*binOp end*/1/*binOp end*/))
+              if (syntax & ((1) << 1))
                 goto handle_plus;
               else
                 goto normal_backslash;
@@ -5602,7 +5602,7 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-              /*binOp start*/c = (translate ? translate[(unsigned char) (c)] : (c)/*binOp end*/);
+              c = (translate ? translate[(unsigned char) (c)] : (c));
               goto normal_char;
             }
           break;
@@ -5612,33 +5612,33 @@ regex_compile (pattern, size, syntax, bufp)
 
  normal_char:
 
-          if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/!pending_exact
+          if (!pending_exact
 
 
-              || /*binOp start*//*binOp start*//*binOp start*/pending_exact + */*binOp end*/pending_exact + /*binOp end*/1 != /*binOp end*//*binOp end*/b
+              || pending_exact + *pending_exact + 1 != b
 
 
-       || /*binOp start*/*pending_exact == /*binOp start*/(/*binOp start*/1 << /*binOp end*/8) - /*binOp end*//*binOp end*//*binOp end*/1
+       || *pending_exact == (1 << 8) - 1
 
 
-              || /*binOp start*/*p == /*binOp end*//*binOp end*/'*' || /*binOp start*/*p == /*binOp end*//*binOp end*/'^'
-       || ((/*binOp start*/syntax & (/*binOp start*/(1) << /*binOp end*/1/*binOp end*/))
-    ? /*binOp start*//*binOp start*/*p == /*binOp end*/'\\' && (/*binOp start*//*binOp start*/p[1] == /*binOp end*/'+' || /*binOp start*/p[1] == /*binOp end*//*binOp end*/'?'/*binOp end*/)
-    : (/*binOp start*//*binOp start*/*p == /*binOp end*/'+' || /*binOp start*/*p == /*binOp end*//*binOp end*/'?')/*binOp end*/)
-       || (/*binOp start*/(/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
-                  && ((/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
-        ? /*binOp start*/*p == /*binOp end*/'{'
-                      : (/*binOp start*//*binOp start*/p[0] == /*binOp end*/'\\' && /*binOp start*/p[1] == /*binOp end*//*binOp end*/'{')/*binOp end*/)/*binOp end*/))
+              || *p == '*' || *p == '^'
+       || ((syntax & ((1) << 1))
+    ? *p == '\\' && (p[1] == '+' || p[1] == '?')
+    : (*p == '+' || *p == '?'))
+       || ((syntax & ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
+                  && ((syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
+        ? *p == '{'
+                      : (p[0] == '\\' && p[1] == '{'))))
      {
 
 
-              /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/b;
+              /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
 
-       do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (2/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (exactn/*compound end*//*binOp end*/); /*compound start*//*binOp start*/*b++ = (unsigned char) (0/*compound end*//*binOp end*/); } while (0);
-       /*compound start*//*binOp start*/pending_exact = /*binOp start*/b - /*compound end*//*binOp end*//*binOp end*/1;
+       do { while (b - bufp->buffer + (2) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (exactn/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (0/*compound end*/);/*end of stmt*/ } while (0);
+       /*compound start*/pending_exact = b - /*compound end*/1;/*end of stmt*/
             }
 
-   do { while (/*binOp start*//*binOp start*//*binOp start*/b - bufp->/*binOp end*/buffer + (1/*binOp end*/) > bufp->/*binOp end*/allocated) do { unsigned char *old_buffer = bufp->buffer; if (/*binOp start*/bufp->allocated == (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) return REG_ESIZE; /*assign start*//*binOp start*/bufp->allocated <<= /*assign end*//*binOp end*/1; if (/*binOp start*/bufp->allocated > (/*binOp start*/1L << /*binOp end*/16/*binOp end*/)) /*binOp start*/bufp->allocated = (/*binOp start*/1L << /*binOp end*/16/*binOp end*/); /*compound start*//*binOp start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*//*binOp end*/); if (/*binOp start*/bufp->buffer == ((void *)0/*binOp end*/)) return REG_ESPACE; if (/*binOp start*/old_buffer != bufp->/*binOp end*/buffer) { /*compound start*//*binOp start*/b = /*binOp start*/(/*binOp start*/b - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; /*compound start*//*binOp start*/begalt = /*binOp start*/(/*binOp start*/begalt - /*binOp end*/old_buffer) + bufp->/*compound end*//*binOp end*//*binOp end*/buffer; if (fixup_alt_jump) /*binOp start*/fixup_alt_jump = /*binOp start*/(/*binOp start*/fixup_alt_jump - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (laststart) /*binOp start*/laststart = /*binOp start*/(/*binOp start*/laststart - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; if (pending_exact) /*binOp start*/pending_exact = /*binOp start*/(/*binOp start*/pending_exact - /*binOp end*/old_buffer) + bufp->/*binOp end*//*binOp end*/buffer; } } while (0); /*compound start*//*binOp start*/*b++ = (unsigned char) (c/*compound end*//*binOp end*/); } while (0);
+   do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (c/*compound end*/);/*end of stmt*/ } while (0);
           (*pending_exact)++;
    break;
         }
@@ -5648,15 +5648,15 @@ regex_compile (pattern, size, syntax, bufp)
 
 
   if (fixup_alt_jump)
-    store_op1 (jump_past_alt, fixup_alt_jump, /*binOp start*//*binOp start*/(b) - (fixup_alt_jump/*binOp end*/) - /*binOp end*/3);
+    store_op1 (jump_past_alt, fixup_alt_jump, (b) - (fixup_alt_jump) - 3);
 
-  if (!(/*binOp start*/compile_stack.avail == /*binOp end*/0))
+  if (!(compile_stack.avail == 0))
     return REG_EPAREN;
 
   free (compile_stack.stack);
 
 
-  /*compound start*//*binOp start*/bufp->used = /*binOp start*/b - bufp->/*compound end*//*binOp end*//*binOp end*/buffer;
+  /*compound start*/bufp->used = b - bufp->/*compound end*/buffer;/*end of stmt*/
 # 3706 "target/grep.c"
   return REG_NOERROR;
 }
@@ -5671,8 +5671,8 @@ store_op1 (op, loc, arg)
     unsigned char *loc;
     int arg;
 {
-  /*compound start*//*binOp start*/*loc = (unsigned char) /*compound end*//*binOp end*/op;
-  do { /*compound start*//*binOp start*/(/*binOp start*/loc + /*binOp end*/1)[0] = /*binOp start*/(arg) & /*compound end*//*binOp end*//*binOp end*/0377; /*compound start*//*binOp start*/(/*binOp start*/loc + /*binOp end*/1)[1] = /*binOp start*/(arg) >> /*compound end*//*binOp end*//*binOp end*/8; } while (0);
+  /*compound start*/*loc = (unsigned char) /*compound end*/op;/*end of stmt*/
+  do { /*compound start*/(loc + 1)[0] = (arg) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(loc + 1)[1] = (arg) >> /*compound end*/8;/*end of stmt*/ } while (0);
 }
 
 
@@ -5684,9 +5684,9 @@ store_op2 (op, loc, arg1, arg2)
     unsigned char *loc;
     int arg1, arg2;
 {
-  /*compound start*//*binOp start*/*loc = (unsigned char) /*compound end*//*binOp end*/op;
-  do { /*compound start*//*binOp start*/(/*binOp start*/loc + /*binOp end*/1)[0] = /*binOp start*/(arg1) & /*compound end*//*binOp end*//*binOp end*/0377; /*compound start*//*binOp start*/(/*binOp start*/loc + /*binOp end*/1)[1] = /*binOp start*/(arg1) >> /*compound end*//*binOp end*//*binOp end*/8; } while (0);
-  do { /*compound start*//*binOp start*/(/*binOp start*/loc + /*binOp end*/3)[0] = /*binOp start*/(arg2) & /*compound end*//*binOp end*//*binOp end*/0377; /*compound start*//*binOp start*/(/*binOp start*/loc + /*binOp end*/3)[1] = /*binOp start*/(arg2) >> /*compound end*//*binOp end*//*binOp end*/8; } while (0);
+  /*compound start*/*loc = (unsigned char) /*compound end*/op;/*end of stmt*/
+  do { /*compound start*/(loc + 1)[0] = (arg1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(loc + 1)[1] = (arg1) >> /*compound end*/8;/*end of stmt*/ } while (0);
+  do { /*compound start*/(loc + 3)[0] = (arg2) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(loc + 3)[1] = (arg2) >> /*compound end*/8;/*end of stmt*/ } while (0);
 }
 
 
@@ -5701,10 +5701,10 @@ insert_op1 (op, loc, arg, end)
     unsigned char *end;
 {
   register unsigned char *pfrom = end;
-  register unsigned char *pto = /*binOp start*/end + /*binOp end*/3;
+  register unsigned char *pto = end + 3;
 
-  while (/*binOp start*/pfrom != /*binOp end*/loc)
-    /*binOp start*/*--pto = *--/*binOp end*/pfrom;
+  while (pfrom != loc)
+    /*compound start*/*--pto = *--/*compound end*/pfrom;/*end of stmt*/
 
   store_op1 (op, loc, arg);
 }
@@ -5720,10 +5720,10 @@ insert_op2 (op, loc, arg1, arg2, end)
     unsigned char *end;
 {
   register unsigned char *pfrom = end;
-  register unsigned char *pto = /*binOp start*/end + /*binOp end*/5;
+  register unsigned char *pto = end + 5;
 
-  while (/*binOp start*/pfrom != /*binOp end*/loc)
-    /*binOp start*/*--pto = *--/*binOp end*/pfrom;
+  while (pfrom != loc)
+    /*compound start*/*--pto = *--/*compound end*/pfrom;/*end of stmt*/
 
   store_op2 (op, loc, arg1, arg2);
 }
@@ -5738,14 +5738,14 @@ at_begline_loc_p (pattern, p, syntax)
     const char *pattern, *p;
     reg_syntax_t syntax;
 {
-  const char *prev = /*binOp start*/p - /*binOp end*/2;
-  boolean prev_prev_backslash = /*binOp start*//*binOp start*/prev > /*binOp end*/pattern && /*binOp start*/prev[-1] == /*binOp end*//*binOp end*/'\\';
+  const char *prev = p - 2;
+  boolean prev_prev_backslash = prev > pattern && prev[-1] == '\\';
 
   return
 
-       /*binOp start*/(/*binOp start*//*binOp start*/*prev == /*binOp end*/'(' && (/*binOp start*//*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) || /*binOp end*/prev_prev_backslash/*binOp end*/))
+       (*prev == '(' && (syntax & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) || prev_prev_backslash))
 
-    || (/*binOp start*//*binOp start*/*prev == /*binOp end*/'|' && (/*binOp start*//*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) || /*binOp end*/prev_prev_backslash/*binOp end*/)/*binOp end*/);
+    || (*prev == '|' && (syntax & ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) || prev_prev_backslash));
 }
 
 
@@ -5758,16 +5758,16 @@ at_endline_loc_p (p, pend, syntax)
     int syntax;
 {
   const char *next = p;
-  boolean next_backslash = /*binOp start*/*next == /*binOp end*/'\\';
-  const char *next_next = /*binOp start*//*binOp start*/p + /*binOp end*/1 < /*binOp end*/pend ? /*binOp start*/p + /*binOp end*/1 : ((void *)0);
+  boolean next_backslash = *next == '\\';
+  const char *next_next = p + 1 < pend ? p + 1 : ((void *)0);
 
   return
 
-       /*binOp start*/(/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) ? /*binOp start*/*next == /*binOp end*/')'
-        : /*binOp start*//*binOp start*/next_backslash && /*binOp end*/next_next && /*binOp start*/*next_next == /*binOp end*//*binOp end*/')')
+       (syntax & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) ? *next == ')'
+        : next_backslash && next_next && *next_next == ')')
 
-    || (/*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) ? /*binOp start*/*next == /*binOp end*/'|'
-        : /*binOp start*//*binOp start*/next_backslash && /*binOp end*/next_next && /*binOp start*/*next_next == /*binOp end*//*binOp end*/'|'/*binOp end*/);
+    || (syntax & ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) ? *next == '|'
+        : next_backslash && next_next && *next_next == '|');
 }
 
 
@@ -5781,10 +5781,10 @@ group_in_compile_stack (compile_stack, regnum)
 {
   int this_element;
 
-  for (/*binOp start*/this_element = /*binOp start*/compile_stack.avail - /*binOp end*//*binOp end*/1;
-       /*binOp start*/this_element >= /*binOp end*/0;
+  for (this_element = compile_stack.avail - 1;
+       this_element >= 0;
        this_element--)
-    if (/*binOp start*/compile_stack.stack[this_element].regnum == /*binOp end*/regnum)
+    if (compile_stack.stack[this_element].regnum == regnum)
       return 1;
 
   return 0;
@@ -5802,27 +5802,27 @@ compile_range (p_ptr, pend, translate, syntax, b)
   const char *p = *p_ptr;
   int range_start, range_end;
 
-  if (/*binOp start*/p == /*binOp end*/pend)
+  if (p == pend)
     return REG_ERANGE;
 # 3872 "target/grep.c"
-  /*compound start*//*binOp start*/range_start = ((unsigned char *) p)[-2/*compound end*//*binOp end*/];
-  /*compound start*//*binOp start*/range_end = ((unsigned char *) p)[0/*compound end*//*binOp end*/];
+  /*compound start*/range_start = ((unsigned char *) p)[-2/*compound end*/];/*end of stmt*/
+  /*compound start*/range_end = ((unsigned char *) p)[0/*compound end*/];/*end of stmt*/
 
 
 
   (*p_ptr)++;
 
 
-  if (/*binOp start*/range_start > /*binOp end*/range_end)
-    return /*binOp start*/syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) ? REG_ERANGE : REG_NOERROR;
+  if (range_start > range_end)
+    return syntax & (((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) ? REG_ERANGE : REG_NOERROR;
 
 
 
 
 
-  for (/*binOp start*/this_char = /*binOp end*/range_start; /*binOp start*/this_char <= /*binOp end*/range_end; this_char++)
+  for (this_char = range_start; this_char <= range_end; this_char++)
     {
-      (/*binOp start*/b[/*binOp start*/((unsigned char) ((translate ? translate[(unsigned char) (this_char)] : (this_char)))) / /*binOp end*/8] |= /*binOp start*/1 << (/*binOp start*/((unsigned char) (translate ? translate[(unsigned char) (this_char)] : (this_char))) % /*binOp end*/8/*binOp end*//*binOp end*/));
+      (b[((unsigned char) ((translate ? translate[(unsigned char) (this_char)] : (this_char)))) / 8] |= 1 << (((unsigned char) (translate ? translate[(unsigned char) (this_char)] : (this_char))) % 8));
     }
 
   return REG_NOERROR;
@@ -5855,7 +5855,7 @@ re_compile_fastmap (bufp)
   unsigned char *pattern = bufp->buffer;
   unsigned long size = bufp->used;
   const unsigned char *p = pattern;
-  register unsigned char *pend = /*binOp start*/pattern + /*binOp end*/size;
+  register unsigned char *pend = pattern + size;
 
 
 
@@ -5868,21 +5868,21 @@ re_compile_fastmap (bufp)
 
   ;
 
-  do { /*compound start*//*binOp start*/fail_stack.stack = (fail_stack_elt_t *) __builtin_alloca (/*binOp start*/5 * sizeof (fail_stack_elt_t/*binOp end*/)/*compound end*//*binOp end*/); if (/*binOp start*/fail_stack.stack == ((void *)0/*binOp end*/)) return -2; /*compound start*//*binOp start*/fail_stack.size = /*compound end*//*binOp end*/5; /*compound start*//*binOp start*/fail_stack.avail = /*compound end*//*binOp end*/0; } while (0);
-  memset ((fastmap), 0, (/*binOp start*/1 << /*binOp end*/8));
-  /*compound start*//*binOp start*/bufp->fastmap_accurate = /*compound end*//*binOp end*/1;
-  /*compound start*//*binOp start*/bufp->can_be_null = /*compound end*//*binOp end*/0;
+  do { /*compound start*/fail_stack.stack = (fail_stack_elt_t *) __builtin_alloca (5 * sizeof (fail_stack_elt_t)/*compound end*/);/*end of stmt*/ if (fail_stack.stack == ((void *)0)) return -2; /*compound start*/fail_stack.size = /*compound end*/5;/*end of stmt*/ /*compound start*/fail_stack.avail = /*compound end*/0;/*end of stmt*/ } while (0);
+  memset ((fastmap), 0, (1 << 8));
+  /*compound start*/bufp->fastmap_accurate = /*compound end*/1;/*end of stmt*/
+  /*compound start*/bufp->can_be_null = /*compound end*/0;/*end of stmt*/
 
-  while (/*binOp start*//*binOp start*/p != /*binOp end*/pend || !(/*binOp start*/fail_stack.avail == /*binOp end*/0/*binOp end*/))
+  while (p != pend || !(fail_stack.avail == 0))
     {
-      if (/*binOp start*/p == /*binOp end*/pend)
+      if (p == pend)
         {
-          /*assign start*//*binOp start*/bufp->can_be_null |= /*assign end*//*binOp end*/path_can_be_null;
+          /*compound start*/bufp->can_be_null |= /*compound end*/path_can_be_null;/*end of stmt*/
 
 
-          /*compound start*//*binOp start*/path_can_be_null = /*compound end*//*binOp end*/1;
+          /*compound start*/path_can_be_null = /*compound end*/1;/*end of stmt*/
 
-          /*compound start*//*binOp start*/p = fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/];
+          /*compound start*/p = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/
  }
 
 
@@ -5901,7 +5901,7 @@ re_compile_fastmap (bufp)
 
 
  case duplicate:
-   /*case comp start*//*binOp start*/bufp->can_be_null = /*case comp end*//*binOp end*/1;
+   /*compound start*/bufp->can_be_null = /*compound end*/1;/*end of stmt*/
           return 0;
 
 
@@ -5909,50 +5909,50 @@ re_compile_fastmap (bufp)
 
 
  case exactn:
-          /*case comp start*//*binOp start*/fastmap[p[1]] = /*case comp end*//*binOp end*/1;
+          /*compound start*/fastmap[p[1]] = /*compound end*/1;/*end of stmt*/
    break;
 
 
         case charset:
-          for (/*binOp start*/j = /*binOp start*//*binOp start*/*p++ * /*binOp end*/8 - /*binOp end*//*binOp end*/1; /*binOp start*/j >= /*binOp end*/0; j--)
-     if (/*binOp start*/p[/*binOp start*/j / /*binOp end*/8] & (/*binOp start*/1 << (/*binOp start*/j % /*binOp end*/8/*binOp end*/)/*binOp end*/))
-              /*binOp start*/fastmap[j] = /*binOp end*/1;
+          for (j = *p++ * 8 - 1; j >= 0; j--)
+     if (p[j / 8] & (1 << (j % 8)))
+              /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
    break;
 
 
  case charset_not:
 
-   for (/*binOp start*/j = /*binOp start*/*p * /*binOp end*//*binOp end*/8; /*binOp start*/j < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); j++)
-            /*binOp start*/fastmap[j] = /*binOp end*/1;
+   for (j = *p * 8; j < (1 << 8); j++)
+            /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
 
-   for (/*binOp start*/j = /*binOp start*//*binOp start*/*p++ * /*binOp end*/8 - /*binOp end*//*binOp end*/1; /*binOp start*/j >= /*binOp end*/0; j--)
-     if (!(/*binOp start*/p[/*binOp start*/j / /*binOp end*/8] & (/*binOp start*/1 << (/*binOp start*/j % /*binOp end*/8/*binOp end*/)/*binOp end*/)))
-              /*binOp start*/fastmap[j] = /*binOp end*/1;
+   for (j = *p++ * 8 - 1; j >= 0; j--)
+     if (!(p[j / 8] & (1 << (j % 8))))
+              /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
           break;
 
 
  case wordchar:
-   for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); j++)
-     if (/*binOp start*/re_syntax_table[j] == /*binOp end*/1)
-       /*binOp start*/fastmap[j] = /*binOp end*/1;
+   for (j = 0; j < (1 << 8); j++)
+     if (re_syntax_table[j] == 1)
+       /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
    break;
 
 
  case notwordchar:
-   for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); j++)
-     if (/*binOp start*/re_syntax_table[j] != /*binOp end*/1)
-       /*binOp start*/fastmap[j] = /*binOp end*/1;
+   for (j = 0; j < (1 << 8); j++)
+     if (re_syntax_table[j] != 1)
+       /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
    break;
 
 
         case anychar:
 
-   for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); j++)
-            /*binOp start*/fastmap[j] = /*binOp end*/1;
+   for (j = 0; j < (1 << 8); j++)
+            /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
 
 
-          if (!(/*binOp start*/bufp->syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)))
-            /*binOp start*/fastmap['\n'] = /*binOp end*/0;
+          if (!(bufp->syntax & (((((((1) << 1) << 1) << 1) << 1) << 1) << 1)))
+            /*compound start*/fastmap['\n'] = /*compound end*/0;/*end of stmt*/
 
 
 
@@ -5981,9 +5981,9 @@ re_compile_fastmap (bufp)
  case jump:
         case jump_past_alt:
  case dummy_failure_jump:
-          do { do { /*compound start*//*binOp start*/(j) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(j) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
-   /*assign start*//*binOp start*/p += /*assign end*//*binOp end*/j;
-   if (/*binOp start*/j > /*binOp end*/0)
+          do { do { /*compound start*/(j) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+   /*compound start*/p += /*compound end*/j;/*end of stmt*/
+   if (j > 0)
      continue;
 
 
@@ -5991,17 +5991,17 @@ re_compile_fastmap (bufp)
 
 
 
-          if (/*binOp start*//*binOp start*/(re_opcode_t) *p != /*binOp end*/on_failure_jump
-       && /*binOp start*/(re_opcode_t) *p != /*binOp end*//*binOp end*/succeed_n)
+          if ((re_opcode_t) *p != on_failure_jump
+       && (re_opcode_t) *p != succeed_n)
      continue;
 
           p++;
-          do { do { /*compound start*//*binOp start*/(j) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(j) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
-          /*assign start*//*binOp start*/p += /*assign end*//*binOp end*/j;
+          do { do { /*compound start*/(j) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+          /*compound start*/p += /*compound end*/j;/*end of stmt*/
 
 
-          if (/*binOp start*/!(/*binOp start*/fail_stack.avail == /*binOp end*/0)
-       && /*binOp start*/fail_stack.stack[/*binOp start*/fail_stack.avail - /*binOp end*/1] == /*binOp end*//*binOp end*/p)
+          if (!(fail_stack.avail == 0)
+       && fail_stack.stack[fail_stack.avail - 1] == p)
             fail_stack.avail--;
 
           continue;
@@ -6010,20 +6010,20 @@ re_compile_fastmap (bufp)
         case on_failure_jump:
         case on_failure_keep_string_jump:
  handle_on_failure_jump:
-          do { do { /*compound start*//*binOp start*/(j) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(j) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
+          do { do { /*compound start*/(j) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
 # 4391 "target/grep.c"
-          if (/*binOp start*//*binOp start*/p + /*binOp end*/j < /*binOp end*/pend)
+          if (p + j < pend)
             {
-              if (!((/*binOp start*/(/*binOp start*/fail_stack.avail == fail_stack./*binOp end*/size) && !(/*binOp start*/(fail_stack).size > /*binOp start*/re_max_failures * (/*binOp start*//*binOp start*/(/*binOp start*/num_regs - /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*//*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).stack = (fail_stack_elt_t *) (/*binOp start*//*binOp start*//*binOp start*/destination = (char *) __builtin_alloca (/*binOp start*/(/*binOp start*/(fail_stack).size << /*binOp end*/1) * sizeof (fail_stack_elt_t/*binOp end*/)/*binOp end*/), memcpy ((destination), ((fail_stack).stack), (/*binOp start*/(fail_stack).size * sizeof (fail_stack_elt_t/*binOp end*/))/*binOp end*/), /*binOp end*/destination/*binOp end*/), /*binOp start*/(fail_stack).stack == ((void *)0/*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).size <<= /*binOp end*/1, /*binOp end*/1/*binOp end*/))/*binOp end*/)) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).stack[(fail_stack).avail++] = /*binOp start*/p + /*binOp end*//*binOp end*/j, /*binOp end*/1)))
+              if (!(((fail_stack.avail == fail_stack.size) && !((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) ? 0 : ((fail_stack).stack[(fail_stack).avail++] = p + j, 1)))
                 return -2;
             }
           else
-            /*binOp start*/bufp->can_be_null = /*binOp end*/1;
+            bufp->can_be_null = 1;
 
           if (succeed_n_p)
             {
-              do { do { /*compound start*//*binOp start*/(k) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(k) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
-              /*compound start*//*binOp start*/succeed_n_p = /*compound end*//*binOp end*/0;
+              do { do { /*compound start*/(k) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(k) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+              /*compound start*/succeed_n_p = /*compound end*/0;/*end of stmt*/
      }
 
           continue;
@@ -6031,27 +6031,27 @@ re_compile_fastmap (bufp)
 
  case succeed_n:
 
-          /*case assign start*//*binOp start*/p += /*binOp end*/2;
+          /*compound start*/p += /*compound end*/2;/*end of stmt*/
 
 
-          do { do { /*compound start*//*binOp start*/(k) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(k) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
-          if (/*binOp start*/k == /*binOp end*/0)
+          do { do { /*compound start*/(k) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(k) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+          if (k == 0)
      {
-              /*assign start*//*binOp start*/p -= /*assign end*//*binOp end*/4;
-         /*compound start*//*binOp start*/succeed_n_p = /*compound end*//*binOp end*/1;
+              /*compound start*/p -= /*compound end*/4;/*end of stmt*/
+         /*compound start*/succeed_n_p = /*compound end*/1;/*end of stmt*/
               goto handle_on_failure_jump;
             }
           continue;
 
 
  case set_number_at:
-          /*case assign start*//*binOp start*/p += /*binOp end*/4;
+          /*compound start*/p += /*compound end*/4;/*end of stmt*/
           continue;
 
 
  case start_memory:
         case stop_memory:
-   /*case assign start*//*binOp start*/p += /*binOp end*/2;
+   /*compound start*/p += /*compound end*/2;/*end of stmt*/
    continue;
 
 
@@ -6065,13 +6065,13 @@ re_compile_fastmap (bufp)
 
 
 
-      /*compound start*//*binOp start*/path_can_be_null = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/p = /*compound end*//*binOp end*/pend;
+      /*compound start*/path_can_be_null = /*compound end*/0;/*end of stmt*/
+      /*compound start*/p = /*compound end*/pend;/*end of stmt*/
     }
 
 
 
-  /*assign start*//*binOp start*/bufp->can_be_null |= /*assign end*//*binOp end*/path_can_be_null;
+  /*compound start*/bufp->can_be_null |= /*compound end*/path_can_be_null;/*end of stmt*/
   return 0;
 }
 # 4467 "target/grep.c"
@@ -6084,16 +6084,16 @@ re_set_registers (bufp, regs, num_regs, starts, ends)
 {
   if (num_regs)
     {
-      /*compound start*//*binOp start*/bufp->regs_allocated = /*compound end*//*binOp end*/1;
-      /*compound start*//*binOp start*/regs->num_regs = /*compound end*//*binOp end*/num_regs;
-      /*compound start*//*binOp start*/regs->start = /*compound end*//*binOp end*/starts;
-      /*compound start*//*binOp start*/regs->end = /*compound end*//*binOp end*/ends;
+      /*compound start*/bufp->regs_allocated = /*compound end*/1;/*end of stmt*/
+      /*compound start*/regs->num_regs = /*compound end*/num_regs;/*end of stmt*/
+      /*compound start*/regs->start = /*compound end*/starts;/*end of stmt*/
+      /*compound start*/regs->end = /*compound end*/ends;/*end of stmt*/
     }
   else
     {
-      /*compound start*//*binOp start*/bufp->regs_allocated = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/regs->num_regs = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/regs->start = /*binOp start*/regs->end = (regoff_t) /*compound end*//*binOp end*//*binOp end*/0;
+      /*compound start*/bufp->regs_allocated = /*compound end*/0;/*end of stmt*/
+      /*compound start*/regs->num_regs = /*compound end*/0;/*end of stmt*/
+      /*compound start*/regs->start = regs->end = (regoff_t) /*compound end*/0;/*end of stmt*/
     }
 }
 
@@ -6126,33 +6126,33 @@ re_search_2 (bufp, string1, size1, string2, size2, startpos, range, regs, stop)
   int val;
   register char *fastmap = bufp->fastmap;
   register char *translate = bufp->translate;
-  int total_size = /*binOp start*/size1 + /*binOp end*/size2;
-  int endpos = /*binOp start*/startpos + /*binOp end*/range;
+  int total_size = size1 + size2;
+  int endpos = startpos + range;
 
 
-  if (/*binOp start*//*binOp start*/startpos < /*binOp end*/0 || /*binOp start*/startpos > /*binOp end*//*binOp end*/total_size)
+  if (startpos < 0 || startpos > total_size)
     return -1;
 
 
 
-  if (/*binOp start*/endpos < -/*binOp end*/1)
-    /*binOp start*/range = /*binOp start*/-1 - /*binOp end*//*binOp end*/startpos;
-  else if (/*binOp start*/endpos > /*binOp end*/total_size)
-    /*binOp start*/range = /*binOp start*/total_size - /*binOp end*//*binOp end*/startpos;
+  if (endpos < -1)
+    /*compound start*/range = -1 - /*compound end*/startpos;/*end of stmt*/
+  else if (endpos > total_size)
+    /*compound start*/range = total_size - /*compound end*/startpos;/*end of stmt*/
 
 
 
-  if (/*binOp start*//*binOp start*//*binOp start*/bufp->used > /*binOp end*/0 && /*binOp start*/(re_opcode_t) bufp->buffer[0] == /*binOp end*//*binOp end*/begbuf && /*binOp start*/range > /*binOp end*//*binOp end*/0)
+  if (bufp->used > 0 && (re_opcode_t) bufp->buffer[0] == begbuf && range > 0)
     {
-      if (/*binOp start*/startpos > /*binOp end*/0)
+      if (startpos > 0)
  return -1;
       else
- /*binOp start*/range = /*binOp end*/1;
+ range = 1;
     }
 
 
-  if (/*binOp start*/fastmap && !bufp->/*binOp end*/fastmap_accurate)
-    if (/*binOp start*/re_compile_fastmap (bufp) == -/*binOp end*/2)
+  if (fastmap && !bufp->fastmap_accurate)
+    if (re_compile_fastmap (bufp) == -2)
       return -2;
 
 
@@ -6162,36 +6162,36 @@ re_search_2 (bufp, string1, size1, string2, size2, startpos, range, regs, stop)
 
 
 
-      if (/*binOp start*//*binOp start*/fastmap && /*binOp start*/startpos < /*binOp end*//*binOp end*/total_size && !bufp->/*binOp end*/can_be_null)
+      if (fastmap && startpos < total_size && !bufp->can_be_null)
  {
-   if (/*binOp start*/range > /*binOp end*/0)
+   if (range > 0)
      {
        register const char *d;
        register int lim = 0;
        int irange = range;
 
-              if (/*binOp start*//*binOp start*/startpos < /*binOp end*/size1 && /*binOp start*//*binOp start*/startpos + /*binOp end*/range >= /*binOp end*//*binOp end*/size1)
-                /*binOp start*/lim = /*binOp start*/range - (/*binOp start*/size1 - /*binOp end*/startpos/*binOp end*//*binOp end*/);
+              if (startpos < size1 && startpos + range >= size1)
+                /*compound start*/lim = range - (size1 - startpos/*compound end*/);/*end of stmt*/
 
-       /*compound start*//*binOp start*/d = /*binOp start*/(/*binOp start*/startpos >= /*binOp end*/size1 ? /*binOp start*/string2 - /*binOp end*/size1 : string1) + /*compound end*//*binOp end*//*binOp end*/startpos;
+       /*compound start*/d = (startpos >= size1 ? string2 - size1 : string1) + /*compound end*/startpos;/*end of stmt*/
 
 
 
        if (translate)
-                while (/*binOp start*//*binOp start*/range > /*binOp end*/lim
+                while (range > lim
                        && !fastmap[(unsigned char)
-       translate[(unsigned char) *d++]/*binOp end*/])
+       translate[(unsigned char) *d++]])
                   range--;
        else
-                while (/*binOp start*//*binOp start*/range > /*binOp end*/lim && !fastmap[(unsigned char) *d++/*binOp end*/])
+                while (range > lim && !fastmap[(unsigned char) *d++])
                   range--;
 
-       /*assign start*//*binOp start*/startpos += /*binOp start*/irange - /*assign end*//*binOp end*//*binOp end*/range;
+       /*compound start*/startpos += irange - /*compound end*/range;/*end of stmt*/
      }
    else
      {
-       register char c = (/*binOp start*//*binOp start*/size1 == /*binOp end*/0 || /*binOp start*/startpos >= /*binOp end*//*binOp end*/size1
-                                 ? string2[/*binOp start*/startpos - /*binOp end*/size1]
+       register char c = (size1 == 0 || startpos >= size1
+                                 ? string2[startpos - size1]
                                  : string1[startpos]);
 
        if (!fastmap[(unsigned char) (translate ? translate[(unsigned char) (c)] : (c))])
@@ -6200,22 +6200,22 @@ re_search_2 (bufp, string1, size1, string2, size2, startpos, range, regs, stop)
  }
 
 
-      if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*/range >= /*binOp end*/0 && /*binOp start*/startpos == /*binOp end*//*binOp end*/total_size && /*binOp end*/fastmap
-          && !bufp->/*binOp end*/can_be_null)
+      if (range >= 0 && startpos == total_size && fastmap
+          && !bufp->can_be_null)
  return -1;
 
-      /*compound start*//*binOp start*/val = re_match_2 (bufp, string1, size1, string2, size2,
-                 startpos, regs, stop/*compound end*//*binOp end*/);
-      if (/*binOp start*/val >= /*binOp end*/0)
+      /*compound start*/val = re_match_2 (bufp, string1, size1, string2, size2,
+                 startpos, regs, stop/*compound end*/);/*end of stmt*/
+      if (val >= 0)
  return startpos;
 
-      if (/*binOp start*/val == -/*binOp end*/2)
+      if (val == -2)
  return -2;
 
     advance:
       if (!range)
         break;
-      else if (/*binOp start*/range > /*binOp end*/0)
+      else if (range > 0)
         {
           range--;
           startpos++;
@@ -6286,18 +6286,18 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
   unsigned char *p = bufp->buffer;
-  register unsigned char *pend = /*binOp start*/p + bufp->/*binOp end*/used;
+  register unsigned char *pend = p + bufp->used;
 
 
   char *translate = bufp->translate;
 # 4850 "target/grep.c"
   fail_stack_type fail_stack;
 # 4859 "target/grep.c"
-  unsigned num_regs = /*binOp start*/bufp->re_nsub + /*binOp end*/1;
+  unsigned num_regs = bufp->re_nsub + 1;
 
 
-  unsigned lowest_active_reg = (/*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + /*binOp end*/1);
-  unsigned highest_active_reg = (/*binOp start*/1 << /*binOp end*/8);
+  unsigned lowest_active_reg = ((1 << 8) + 1);
+  unsigned highest_active_reg = (1 << 8);
 # 4872 "target/grep.c"
   const char **regstart, **regend;
 
@@ -6336,7 +6336,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
   ;
 
-  do { /*compound start*//*binOp start*/fail_stack.stack = (fail_stack_elt_t *) __builtin_alloca (/*binOp start*/5 * sizeof (fail_stack_elt_t/*binOp end*/)/*compound end*//*binOp end*/); if (/*binOp start*/fail_stack.stack == ((void *)0/*binOp end*/)) return -2; /*compound start*//*binOp start*/fail_stack.size = /*compound end*//*binOp end*/5; /*compound start*//*binOp start*/fail_stack.avail = /*compound end*//*binOp end*/0; } while (0);
+  do { /*compound start*/fail_stack.stack = (fail_stack_elt_t *) __builtin_alloca (5 * sizeof (fail_stack_elt_t)/*compound end*/);/*end of stmt*/ if (fail_stack.stack == ((void *)0)) return -2; /*compound start*/fail_stack.size = /*compound end*/5;/*end of stmt*/ /*compound start*/fail_stack.avail = /*compound end*/0;/*end of stmt*/ } while (0);
 
 
 
@@ -6345,25 +6345,25 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
   if (bufp->re_nsub)
     {
-      /*compound start*//*binOp start*/regstart = ((const char * *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (const char */*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/regend = ((const char * *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (const char */*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/old_regstart = ((const char * *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (const char */*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/old_regend = ((const char * *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (const char */*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/best_regstart = ((const char * *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (const char */*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/best_regend = ((const char * *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (const char */*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/reg_info = ((register_info_type *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (register_info_type/*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/reg_dummy = ((const char * *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (const char */*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/reg_info_dummy = ((register_info_type *) __builtin_alloca (/*binOp start*/(num_regs) * sizeof (register_info_type/*binOp end*/))/*compound end*//*binOp end*/);
+      /*compound start*/regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
+      /*compound start*/regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
+      /*compound start*/old_regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
+      /*compound start*/old_regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
+      /*compound start*/best_regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
+      /*compound start*/best_regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
+      /*compound start*/reg_info = ((register_info_type *) __builtin_alloca ((num_regs) * sizeof (register_info_type))/*compound end*/);/*end of stmt*/
+      /*compound start*/reg_dummy = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
+      /*compound start*/reg_info_dummy = ((register_info_type *) __builtin_alloca ((num_regs) * sizeof (register_info_type))/*compound end*/);/*end of stmt*/
 
-      if (!(/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/regstart && /*binOp end*/regend && /*binOp end*/old_regstart && /*binOp end*/old_regend && /*binOp end*/reg_info
-            && /*binOp end*/best_regstart && /*binOp end*/best_regend && /*binOp end*/reg_dummy && /*binOp end*/reg_info_dummy))
+      if (!(regstart && regend && old_regstart && old_regend && reg_info
+            && best_regstart && best_regend && reg_dummy && reg_info_dummy))
         {
           __builtin_alloca (0);
           return -2;
         }
     }
 # 4955 "target/grep.c"
-  if (/*binOp start*//*binOp start*/pos < /*binOp end*/0 || /*binOp start*/pos > /*binOp start*/size1 + /*binOp end*//*binOp end*//*binOp end*/size2)
+  if (pos < 0 || pos > size1 + size2)
     {
       __builtin_alloca (0);
       return -1;
@@ -6372,56 +6372,56 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
 
-  for (/*binOp start*/mcnt = /*binOp end*/1; /*binOp start*/mcnt < /*binOp end*/num_regs; mcnt++)
+  for (mcnt = 1; mcnt < num_regs; mcnt++)
     {
-      /*compound start*//*binOp start*/regstart[mcnt] = /*binOp start*/regend[mcnt]
-        = /*binOp start*/old_regstart[mcnt] = /*binOp start*/old_regend[mcnt] = ((char *) -1/*compound end*//*binOp end*//*binOp end*//*binOp end*//*binOp end*/);
+      /*compound start*/regstart[mcnt] = regend[mcnt]
+        = old_regstart[mcnt] = old_regend[mcnt] = ((char *) -1/*compound end*/);/*end of stmt*/
 
-      /*compound start*//*binOp start*/((reg_info[mcnt]).bits.match_null_string_p) = /*compound end*//*binOp end*/3;
-      /*compound start*//*binOp start*/((reg_info[mcnt]).bits.is_active) = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/((reg_info[mcnt]).bits.matched_something) = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/((reg_info[mcnt]).bits.ever_matched_something) = /*compound end*//*binOp end*/0;
+      /*compound start*/((reg_info[mcnt]).bits.match_null_string_p) = /*compound end*/3;/*end of stmt*/
+      /*compound start*/((reg_info[mcnt]).bits.is_active) = /*compound end*/0;/*end of stmt*/
+      /*compound start*/((reg_info[mcnt]).bits.matched_something) = /*compound end*/0;/*end of stmt*/
+      /*compound start*/((reg_info[mcnt]).bits.ever_matched_something) = /*compound end*/0;/*end of stmt*/
     }
 
 
 
-  if (/*binOp start*//*binOp start*/size2 == /*binOp end*/0 && /*binOp start*/string1 != ((void *)0/*binOp end*//*binOp end*/))
+  if (size2 == 0 && string1 != ((void *)0))
     {
-      /*compound start*//*binOp start*/string2 = /*compound end*//*binOp end*/string1;
-      /*compound start*//*binOp start*/size2 = /*compound end*//*binOp end*/size1;
-      /*compound start*//*binOp start*/string1 = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/size1 = /*compound end*//*binOp end*/0;
+      /*compound start*/string2 = /*compound end*/string1;/*end of stmt*/
+      /*compound start*/size2 = /*compound end*/size1;/*end of stmt*/
+      /*compound start*/string1 = /*compound end*/0;/*end of stmt*/
+      /*compound start*/size1 = /*compound end*/0;/*end of stmt*/
     }
-  /*compound start*//*binOp start*/end1 = /*binOp start*/string1 + /*compound end*//*binOp end*//*binOp end*/size1;
-  /*compound start*//*binOp start*/end2 = /*binOp start*/string2 + /*compound end*//*binOp end*//*binOp end*/size2;
+  /*compound start*/end1 = string1 + /*compound end*/size1;/*end of stmt*/
+  /*compound start*/end2 = string2 + /*compound end*/size2;/*end of stmt*/
 
 
-  if (/*binOp start*/stop <= /*binOp end*/size1)
+  if (stop <= size1)
     {
-      /*compound start*//*binOp start*/end_match_1 = /*binOp start*/string1 + /*compound end*//*binOp end*//*binOp end*/stop;
-      /*compound start*//*binOp start*/end_match_2 = /*compound end*//*binOp end*/string2;
-    }
-  else
-    {
-      /*compound start*//*binOp start*/end_match_1 = /*compound end*//*binOp end*/end1;
-      /*compound start*//*binOp start*/end_match_2 = /*binOp start*//*binOp start*/string2 + /*binOp end*/stop - /*compound end*//*binOp end*//*binOp end*/size1;
-    }
-
-
-
-
-
-
-
-  if (/*binOp start*//*binOp start*/size1 > /*binOp end*/0 && /*binOp start*/pos <= /*binOp end*//*binOp end*/size1)
-    {
-      /*compound start*//*binOp start*/d = /*binOp start*/string1 + /*compound end*//*binOp end*//*binOp end*/pos;
-      /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_1;
+      /*compound start*/end_match_1 = string1 + /*compound end*/stop;/*end of stmt*/
+      /*compound start*/end_match_2 = /*compound end*/string2;/*end of stmt*/
     }
   else
     {
-      /*compound start*//*binOp start*/d = /*binOp start*//*binOp start*/string2 + /*binOp end*/pos - /*compound end*//*binOp end*//*binOp end*/size1;
-      /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_2;
+      /*compound start*/end_match_1 = /*compound end*/end1;/*end of stmt*/
+      /*compound start*/end_match_2 = string2 + stop - /*compound end*/size1;/*end of stmt*/
+    }
+
+
+
+
+
+
+
+  if (size1 > 0 && pos <= size1)
+    {
+      /*compound start*/d = string1 + /*compound end*/pos;/*end of stmt*/
+      /*compound start*/dend = /*compound end*/end_match_1;/*end of stmt*/
+    }
+  else
+    {
+      /*compound start*/d = string2 + pos - /*compound end*/size1;/*end of stmt*/
+      /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/
     }
 
   ;
@@ -6437,35 +6437,35 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
     {
       ;
 
-      if (/*binOp start*/p == /*binOp end*/pend)
+      if (p == pend)
  {
           ;
 
 
 
-          if (/*binOp start*/d != /*binOp end*/end_match_2)
+          if (d != end_match_2)
      {
               ;
 
-              if (!(/*binOp start*/fail_stack.avail == /*binOp end*/0))
+              if (!(fail_stack.avail == 0))
                 {
-                  boolean same_str_p = (/*binOp start*/(/*binOp start*//*binOp start*/size1 && /*binOp start*/string1 <= (match_end/*binOp end*//*binOp end*/) && /*binOp start*/(match_end) <= /*binOp start*/string1 + /*binOp end*//*binOp end*//*binOp end*/size1)
-                          == (/*binOp start*/dend == /*binOp end*/end_match_1/*binOp end*/));
+                  boolean same_str_p = ((size1 && string1 <= (match_end) && (match_end) <= string1 + size1)
+                          == (dend == end_match_1));
 
 
-                  if (/*binOp start*//*binOp start*/!best_regs_set
-                      || (/*binOp start*/same_str_p && /*binOp start*/d > /*binOp end*//*binOp end*/match_end/*binOp end*/)
-                      || (/*binOp start*/!same_str_p && !(/*binOp start*/dend == /*binOp end*/end_match_1/*binOp end*/)/*binOp end*/))
+                  if (!best_regs_set
+                      || (same_str_p && d > match_end)
+                      || (!same_str_p && !(dend == end_match_1)))
                     {
-                      /*compound start*//*binOp start*/best_regs_set = /*compound end*//*binOp end*/1;
-                      /*compound start*//*binOp start*/match_end = /*compound end*//*binOp end*/d;
+                      /*compound start*/best_regs_set = /*compound end*/1;/*end of stmt*/
+                      /*compound start*/match_end = /*compound end*/d;/*end of stmt*/
 
                       ;
 
-                      for (/*binOp start*/mcnt = /*binOp end*/1; /*binOp start*/mcnt < /*binOp end*/num_regs; mcnt++)
+                      for (mcnt = 1; mcnt < num_regs; mcnt++)
                         {
-                          /*compound start*//*binOp start*/best_regstart[mcnt] = regstart[mcnt/*compound end*//*binOp end*/];
-                          /*compound start*//*binOp start*/best_regend[mcnt] = regend[mcnt/*compound end*//*binOp end*/];
+                          /*compound start*/best_regstart[mcnt] = regstart[mcnt/*compound end*/];/*end of stmt*/
+                          /*compound start*/best_regend[mcnt] = regend[mcnt/*compound end*/];/*end of stmt*/
                         }
                     }
                   goto fail;
@@ -6482,14 +6482,14 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
                   ;
 
-                  /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/match_end;
-                  /*compound start*//*binOp start*/dend = ((/*binOp start*//*binOp start*/d >= /*binOp end*/string1 && /*binOp start*/d <= /*binOp end*//*binOp end*/end1)
-             ? end_match_1 : end_match_2/*compound end*//*binOp end*/);
+                  /*compound start*/d = /*compound end*/match_end;/*end of stmt*/
+                  /*compound start*/dend = ((d >= string1 && d <= end1)
+             ? end_match_1 : end_match_2/*compound end*/);/*end of stmt*/
 
-    for (/*binOp start*/mcnt = /*binOp end*/1; /*binOp start*/mcnt < /*binOp end*/num_regs; mcnt++)
+    for (mcnt = 1; mcnt < num_regs; mcnt++)
       {
-        /*compound start*//*binOp start*/regstart[mcnt] = best_regstart[mcnt/*compound end*//*binOp end*/];
-        /*compound start*//*binOp start*/regend[mcnt] = best_regend[mcnt/*compound end*//*binOp end*/];
+        /*compound start*/regstart[mcnt] = best_regstart[mcnt/*compound end*/];/*end of stmt*/
+        /*compound start*/regend[mcnt] = best_regend[mcnt/*compound end*/];/*end of stmt*/
       }
                 }
             }
@@ -6497,30 +6497,30 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
           ;
 
 
-          if (/*binOp start*/regs && !bufp->/*binOp end*/no_sub)
+          if (regs && !bufp->no_sub)
      {
 
-              if (/*binOp start*/bufp->regs_allocated == /*binOp end*/0)
+              if (bufp->regs_allocated == 0)
                 {
 
 
-                  /*compound start*//*binOp start*/regs->num_regs = (/*binOp start*/(30) > (/*binOp start*/num_regs + /*binOp end*/1/*binOp end*/) ? (30) : (/*binOp start*/num_regs + /*binOp end*/1)/*compound end*//*binOp end*/);
-                  /*compound start*//*binOp start*/regs->start = ((regoff_t *) malloc (/*binOp start*/(regs->num_regs) * sizeof (regoff_t/*binOp end*/))/*compound end*//*binOp end*/);
-                  /*compound start*//*binOp start*/regs->end = ((regoff_t *) malloc (/*binOp start*/(regs->num_regs) * sizeof (regoff_t/*binOp end*/))/*compound end*//*binOp end*/);
-                  if (/*binOp start*//*binOp start*/regs->start == ((void *)0/*binOp end*/) || /*binOp start*/regs->end == ((void *)0/*binOp end*//*binOp end*/))
+                  /*compound start*/regs->num_regs = ((30) > (num_regs + 1) ? (30) : (num_regs + 1)/*compound end*/);/*end of stmt*/
+                  /*compound start*/regs->start = ((regoff_t *) malloc ((regs->num_regs) * sizeof (regoff_t))/*compound end*/);/*end of stmt*/
+                  /*compound start*/regs->end = ((regoff_t *) malloc ((regs->num_regs) * sizeof (regoff_t))/*compound end*/);/*end of stmt*/
+                  if (regs->start == ((void *)0) || regs->end == ((void *)0))
                     return -2;
-                  /*compound start*//*binOp start*/bufp->regs_allocated = /*compound end*//*binOp end*/1;
+                  /*compound start*/bufp->regs_allocated = /*compound end*/1;/*end of stmt*/
                 }
-              else if (/*binOp start*/bufp->regs_allocated == /*binOp end*/1)
+              else if (bufp->regs_allocated == 1)
                 {
 
 
-                  if (/*binOp start*/regs->num_regs < /*binOp start*/num_regs + /*binOp end*//*binOp end*/1)
+                  if (regs->num_regs < num_regs + 1)
                     {
-                      /*compound start*//*binOp start*/regs->num_regs = /*binOp start*/num_regs + /*compound end*//*binOp end*//*binOp end*/1;
-                      (/*binOp start*/(regs->start) = (regoff_t *) realloc (regs->start, /*binOp start*/(regs->num_regs) * sizeof (regoff_t/*binOp end*/)/*binOp end*/));
-                      (/*binOp start*/(regs->end) = (regoff_t *) realloc (regs->end, /*binOp start*/(regs->num_regs) * sizeof (regoff_t/*binOp end*/)/*binOp end*/));
-                      if (/*binOp start*//*binOp start*/regs->start == ((void *)0/*binOp end*/) || /*binOp start*/regs->end == ((void *)0/*binOp end*//*binOp end*/))
+                      /*compound start*/regs->num_regs = num_regs + /*compound end*/1;/*end of stmt*/
+                      ((regs->start) = (regoff_t *) realloc (regs->start, (regs->num_regs) * sizeof (regoff_t)));
+                      ((regs->end) = (regoff_t *) realloc (regs->end, (regs->num_regs) * sizeof (regoff_t)));
+                      if (regs->start == ((void *)0) || regs->end == ((void *)0))
                         return -2;
                     }
                 }
@@ -6534,23 +6534,23 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
 
-              if (/*binOp start*/regs->num_regs > /*binOp end*/0)
+              if (regs->num_regs > 0)
                 {
-                  /*compound start*//*binOp start*/regs->start[0] = /*compound end*//*binOp end*/pos;
-                  /*compound start*//*binOp start*/regs->end[0] = ((/*binOp start*/dend == /*binOp end*/end_match_1) ? /*binOp start*/d - /*binOp end*/string1
-             : /*binOp start*//*binOp start*/d - /*binOp end*/string2 + /*binOp end*/size1/*compound end*//*binOp end*/);
+                  /*compound start*/regs->start[0] = /*compound end*/pos;/*end of stmt*/
+                  /*compound start*/regs->end[0] = ((dend == end_match_1) ? d - string1
+             : d - string2 + size1/*compound end*/);/*end of stmt*/
                 }
 
 
 
-       for (/*binOp start*/mcnt = /*binOp end*/1; /*binOp start*/mcnt < (/*binOp start*/(num_regs) < (regs->num_regs/*binOp end*/) ? (num_regs) : (regs->num_regs)/*binOp end*/); mcnt++)
+       for (mcnt = 1; mcnt < ((num_regs) < (regs->num_regs) ? (num_regs) : (regs->num_regs)); mcnt++)
   {
-                  if (/*binOp start*/(/*binOp start*/(regstart[mcnt]) == ((char *) -1/*binOp end*/)) || (/*binOp start*/(regend[mcnt]) == ((char *) -1/*binOp end*/)/*binOp end*/))
-                    /*binOp start*/regs->start[mcnt] = /*binOp start*/regs->end[mcnt] = -/*binOp end*//*binOp end*/1;
+                  if (((regstart[mcnt]) == ((char *) -1)) || ((regend[mcnt]) == ((char *) -1)))
+                    /*compound start*/regs->start[mcnt] = regs->end[mcnt] = -/*compound end*/1;/*end of stmt*/
                   else
                     {
-        /*compound start*//*binOp start*/regs->start[mcnt] = ((/*binOp start*//*binOp start*/size1 && /*binOp start*/string1 <= (regstart[mcnt]/*binOp end*//*binOp end*/) && /*binOp start*/(regstart[mcnt]) <= /*binOp start*/string1 + /*binOp end*//*binOp end*//*binOp end*/size1) ? /*binOp start*/(regstart[mcnt]) - /*binOp end*/string1 : /*binOp start*//*binOp start*/(regstart[mcnt]) - /*binOp end*/string2 + /*binOp end*/size1/*compound end*//*binOp end*/);
-                      /*compound start*//*binOp start*/regs->end[mcnt] = ((/*binOp start*//*binOp start*/size1 && /*binOp start*/string1 <= (regend[mcnt]/*binOp end*//*binOp end*/) && /*binOp start*/(regend[mcnt]) <= /*binOp start*/string1 + /*binOp end*//*binOp end*//*binOp end*/size1) ? /*binOp start*/(regend[mcnt]) - /*binOp end*/string1 : /*binOp start*//*binOp start*/(regend[mcnt]) - /*binOp end*/string2 + /*binOp end*/size1/*compound end*//*binOp end*/);
+        /*compound start*/regs->start[mcnt] = ((size1 && string1 <= (regstart[mcnt]) && (regstart[mcnt]) <= string1 + size1) ? (regstart[mcnt]) - string1 : (regstart[mcnt]) - string2 + size1/*compound end*/);/*end of stmt*/
+                      /*compound start*/regs->end[mcnt] = ((size1 && string1 <= (regend[mcnt]) && (regend[mcnt]) <= string1 + size1) ? (regend[mcnt]) - string1 : (regend[mcnt]) - string2 + size1/*compound end*/);/*end of stmt*/
                     }
   }
 
@@ -6559,8 +6559,8 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
 
-              for (/*binOp start*/mcnt = /*binOp end*/num_regs; /*binOp start*/mcnt < regs->/*binOp end*/num_regs; mcnt++)
-                /*binOp start*/regs->start[mcnt] = /*binOp start*/regs->end[mcnt] = -/*binOp end*//*binOp end*/1;
+              for (mcnt = num_regs; mcnt < regs->num_regs; mcnt++)
+                /*compound start*/regs->start[mcnt] = regs->end[mcnt] = -/*compound end*/1;/*end of stmt*/
      }
 
           __builtin_alloca (0);
@@ -6569,9 +6569,9 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
           ;
 
-          /*compound start*//*binOp start*/mcnt = /*binOp start*//*binOp start*/d - /*binOp end*/pos - ((/*binOp start*/dend == /*binOp end*/end_match_1)
+          /*compound start*/mcnt = d - pos - ((dend == end_match_1)
        ? string1
-       : /*binOp start*/string2 - /*binOp end*/size1/*compound end*//*binOp end*//*binOp end*/);
+       : string2 - size1/*compound end*/);/*end of stmt*/
 
           ;
 
@@ -6596,7 +6596,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
  case exactn:
-   /*case comp start*//*binOp start*/mcnt = *p/*case comp end*//*binOp end*/++;
+   /*compound start*/mcnt = *p/*compound end*/++;/*end of stmt*/
           ;
 
 
@@ -6605,8 +6605,8 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
      {
        do
   {
-    while (/*binOp start*/d == /*binOp end*/dend) { if (/*binOp start*/dend == /*binOp end*/end_match_2) goto fail; /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/string2; /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_2; };
-    if (/*binOp start*/translate[(unsigned char) *d++] != (char) *p/*binOp end*/++)
+    while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+    if (translate[(unsigned char) *d++] != (char) *p++)
                     goto fail;
   }
        while (--mcnt);
@@ -6615,12 +6615,12 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
      {
        do
   {
-    while (/*binOp start*/d == /*binOp end*/dend) { if (/*binOp start*/dend == /*binOp end*/end_match_2) goto fail; /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/string2; /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_2; };
-    if (/*binOp start*/*d++ != (char) *p/*binOp end*/++) goto fail;
+    while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+    if (*d++ != (char) *p++) goto fail;
   }
        while (--mcnt);
      }
-   do { unsigned r; for (/*binOp start*/r = /*binOp end*/lowest_active_reg; /*binOp start*/r <= /*binOp end*/highest_active_reg; r++) { /*compound start*//*binOp start*/((reg_info[r]).bits.matched_something) = /*binOp start*/((reg_info[r]).bits.ever_matched_something) = /*compound end*//*binOp end*//*binOp end*/1; } } while (0);
+   do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
           break;
 
 
@@ -6628,13 +6628,13 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
  case anychar:
           ;
 
-          while (/*binOp start*/d == /*binOp end*/dend) { if (/*binOp start*/dend == /*binOp end*/end_match_2) goto fail; /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/string2; /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_2; };
+          while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
 
-          if (/*binOp start*/(/*binOp start*/!(/*binOp start*/bufp->syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) && /*binOp start*/(translate ? translate[(unsigned char) (*d)] : (*d)) == /*binOp end*//*binOp end*/'\n')
-              || (/*binOp start*//*binOp start*/bufp->syntax & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) && /*binOp start*/(translate ? translate[(unsigned char) (*d)] : (*d)) == /*binOp end*//*binOp end*/'\000'/*binOp end*/))
+          if ((!(bufp->syntax & (((((((1) << 1) << 1) << 1) << 1) << 1) << 1)) && (translate ? translate[(unsigned char) (*d)] : (*d)) == '\n')
+              || (bufp->syntax & ((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) && (translate ? translate[(unsigned char) (*d)] : (*d)) == '\000'))
      goto fail;
 
-          do { unsigned r; for (/*binOp start*/r = /*binOp end*/lowest_active_reg; /*binOp start*/r <= /*binOp end*/highest_active_reg; r++) { /*compound start*//*binOp start*/((reg_info[r]).bits.matched_something) = /*binOp start*/((reg_info[r]).bits.ever_matched_something) = /*compound end*//*binOp end*//*binOp end*/1; } } while (0);
+          do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
           ;
           d++;
    break;
@@ -6644,24 +6644,24 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
  case charset_not:
    {
      register unsigned char c;
-     boolean not = /*binOp start*/(re_opcode_t) *(/*binOp start*/p - /*binOp end*/1) == /*binOp end*/charset_not;
+     boolean not = (re_opcode_t) *(p - 1) == charset_not;
 
             ;
 
-     while (/*binOp start*/d == /*binOp end*/dend) { if (/*binOp start*/dend == /*binOp end*/end_match_2) goto fail; /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/string2; /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_2; };
-     /*compound start*//*binOp start*/c = (translate ? translate[(unsigned char) (*d)] : (*d)/*compound end*//*binOp end*/);
+     while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+     /*compound start*/c = (translate ? translate[(unsigned char) (*d)] : (*d)/*compound end*/);/*end of stmt*/
 
 
 
-     if (/*binOp start*//*binOp start*/c < (unsigned) (/*binOp start*/*p * /*binOp end*/8/*binOp end*/)
-  && /*binOp start*/p[/*binOp start*/1 + /*binOp start*/c / /*binOp end*//*binOp end*/8] & (/*binOp start*/1 << (/*binOp start*/c % /*binOp end*/8/*binOp end*/)/*binOp end*//*binOp end*/))
-       /*binOp start*/not = !/*binOp end*/not;
+     if (c < (unsigned) (*p * 8)
+  && p[1 + c / 8] & (1 << (c % 8)))
+       /*compound start*/not = !/*compound end*/not;/*end of stmt*/
 
-     /*assign start*//*binOp start*/p += /*binOp start*/1 + */*assign end*//*binOp end*//*binOp end*/p;
+     /*compound start*/p += 1 + */*compound end*/p;/*end of stmt*/
 
      if (!not) goto fail;
 
-     do { unsigned r; for (/*binOp start*/r = /*binOp end*/lowest_active_reg; /*binOp start*/r <= /*binOp end*/highest_active_reg; r++) { /*compound start*//*binOp start*/((reg_info[r]).bits.matched_something) = /*binOp start*/((reg_info[r]).bits.ever_matched_something) = /*compound end*//*binOp end*//*binOp end*/1; } } while (0);
+     do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
             d++;
      break;
    }
@@ -6676,39 +6676,39 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
    ;
 
 
-   /*compound start*//*binOp start*/p1 = /*compound end*//*binOp end*/p;
+   /*compound start*/p1 = /*compound end*/p;/*end of stmt*/
 
-          if (/*binOp start*/((reg_info[*p]).bits.match_null_string_p) == /*binOp end*/3)
-            /*binOp start*/((reg_info[*p]).bits.match_null_string_p)
-              = group_match_null_string_p (&p1, pend, reg_info/*binOp end*/);
-
-
+          if (((reg_info[*p]).bits.match_null_string_p) == 3)
+            /*compound start*/((reg_info[*p]).bits.match_null_string_p)
+              = group_match_null_string_p (&p1, pend, reg_info/*compound end*/);/*end of stmt*/
 
 
 
 
-          /*compound start*//*binOp start*/old_regstart[*p] = ((reg_info[*p]).bits.match_null_string_p)
-                             ? (/*binOp start*/(regstart[*p]) == ((char *) -1/*binOp end*/)) ? d : regstart[*p]
-                             : regstart[*p/*compound end*//*binOp end*/];
+
+
+          /*compound start*/old_regstart[*p] = ((reg_info[*p]).bits.match_null_string_p)
+                             ? ((regstart[*p]) == ((char *) -1)) ? d : regstart[*p]
+                             : regstart[*p/*compound end*/];/*end of stmt*/
    ;
 
 
-          /*compound start*//*binOp start*/regstart[*p] = /*compound end*//*binOp end*/d;
+          /*compound start*/regstart[*p] = /*compound end*/d;/*end of stmt*/
    ;
 
-          /*compound start*//*binOp start*/((reg_info[*p]).bits.is_active) = /*compound end*//*binOp end*/1;
-          /*compound start*//*binOp start*/((reg_info[*p]).bits.matched_something) = /*compound end*//*binOp end*/0;
+          /*compound start*/((reg_info[*p]).bits.is_active) = /*compound end*/1;/*end of stmt*/
+          /*compound start*/((reg_info[*p]).bits.matched_something) = /*compound end*/0;/*end of stmt*/
 
 
-          /*compound start*//*binOp start*/highest_active_reg = */*compound end*//*binOp end*/p;
+          /*compound start*/highest_active_reg = */*compound end*/p;/*end of stmt*/
 
 
 
-          if (/*binOp start*/lowest_active_reg == (/*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + /*binOp end*/1/*binOp end*/))
-            /*binOp start*/lowest_active_reg = */*binOp end*/p;
+          if (lowest_active_reg == ((1 << 8) + 1))
+            /*compound start*/lowest_active_reg = */*compound end*/p;/*end of stmt*/
 
 
-          /*assign start*//*binOp start*/p += /*assign end*//*binOp end*/2;
+          /*compound start*/p += /*compound end*/2;/*end of stmt*/
           break;
 
 
@@ -6723,41 +6723,41 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
 
-          /*compound start*//*binOp start*/old_regend[*p] = ((reg_info[*p]).bits.match_null_string_p)
-                           ? (/*binOp start*/(regend[*p]) == ((char *) -1/*binOp end*/)) ? d : regend[*p]
-      : regend[*p/*compound end*//*binOp end*/];
+          /*compound start*/old_regend[*p] = ((reg_info[*p]).bits.match_null_string_p)
+                           ? ((regend[*p]) == ((char *) -1)) ? d : regend[*p]
+      : regend[*p/*compound end*/];/*end of stmt*/
    ;
 
 
-          /*compound start*//*binOp start*/regend[*p] = /*compound end*//*binOp end*/d;
+          /*compound start*/regend[*p] = /*compound end*/d;/*end of stmt*/
    ;
 
 
-          /*compound start*//*binOp start*/((reg_info[*p]).bits.is_active) = /*compound end*//*binOp end*/0;
+          /*compound start*/((reg_info[*p]).bits.is_active) = /*compound end*/0;/*end of stmt*/
 
 
 
-          if (/*binOp start*/lowest_active_reg == /*binOp end*/highest_active_reg)
+          if (lowest_active_reg == highest_active_reg)
             {
-              /*compound start*//*binOp start*/lowest_active_reg = (/*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + /*binOp end*/1/*compound end*//*binOp end*/);
-              /*compound start*//*binOp start*/highest_active_reg = (/*binOp start*/1 << /*binOp end*/8/*compound end*//*binOp end*/);
+              /*compound start*/lowest_active_reg = ((1 << 8) + 1/*compound end*/);/*end of stmt*/
+              /*compound start*/highest_active_reg = (1 << 8/*compound end*/);/*end of stmt*/
             }
           else
             {
 
 
 
-              unsigned char r = /*binOp start*/*p - /*binOp end*/1;
-              while (/*binOp start*//*binOp start*/r > /*binOp end*/0 && !((reg_info[r]).bits.is_active/*binOp end*/))
+              unsigned char r = *p - 1;
+              while (r > 0 && !((reg_info[r]).bits.is_active))
                 r--;
 # 5350 "target/grep.c"
-       if (/*binOp start*/r == /*binOp end*/0)
+       if (r == 0)
                 {
-                  /*compound start*//*binOp start*/lowest_active_reg = (/*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + /*binOp end*/1/*compound end*//*binOp end*/);
-                  /*compound start*//*binOp start*/highest_active_reg = (/*binOp start*/1 << /*binOp end*/8/*compound end*//*binOp end*/);
+                  /*compound start*/lowest_active_reg = ((1 << 8) + 1/*compound end*/);/*end of stmt*/
+                  /*compound start*/highest_active_reg = (1 << 8/*compound end*/);/*end of stmt*/
                 }
               else
-                /*binOp start*/highest_active_reg = /*binOp end*/r;
+                highest_active_reg = r;
             }
 
 
@@ -6765,67 +6765,67 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
 
-          if (/*binOp start*/(/*binOp start*/!((reg_info[*p]).bits.matched_something)
-               || /*binOp start*/(re_opcode_t) p[-3] == /*binOp end*//*binOp end*/start_memory)
-       && /*binOp start*/(/*binOp start*/p + /*binOp end*/2) < /*binOp end*//*binOp end*/pend)
+          if ((!((reg_info[*p]).bits.matched_something)
+               || (re_opcode_t) p[-3] == start_memory)
+       && (p + 2) < pend)
             {
               boolean is_a_jump_n = 0;
 
-              /*compound start*//*binOp start*/p1 = /*binOp start*/p + /*compound end*//*binOp end*//*binOp end*/2;
-              /*compound start*//*binOp start*/mcnt = /*compound end*//*binOp end*/0;
+              /*compound start*/p1 = p + /*compound end*/2;/*end of stmt*/
+              /*compound start*/mcnt = /*compound end*/0;/*end of stmt*/
               switch ((re_opcode_t) *p1++)
                 {
                   case jump_n:
-      /*case comp start*//*binOp start*/is_a_jump_n = /*case comp end*//*binOp end*/1;
+      /*compound start*/is_a_jump_n = /*compound end*/1;/*end of stmt*/
                   case pop_failure_jump:
     case maybe_pop_jump:
     case jump:
     case dummy_failure_jump:
-                    do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
+                    do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
       if (is_a_jump_n)
-        /*binOp start*/p1 += /*binOp end*/2;
+        p1 += 2;
                     break;
 
                   default:
                                      ;
                 }
-       /*assign start*//*binOp start*/p1 += /*assign end*//*binOp end*/mcnt;
+       /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
 
 
 
 
 
 
-              if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*/mcnt < /*binOp end*/0 && /*binOp start*/(re_opcode_t) *p1 == /*binOp end*//*binOp end*/on_failure_jump
-                  && /*binOp start*/(re_opcode_t) p1[3] == /*binOp end*//*binOp end*/start_memory && /*binOp start*/p1[4] == */*binOp end*//*binOp end*/p)
+              if (mcnt < 0 && (re_opcode_t) *p1 == on_failure_jump
+                  && (re_opcode_t) p1[3] == start_memory && p1[4] == *p)
   {
 # 5408 "target/grep.c"
                   if (((reg_info[*p]).bits.ever_matched_something))
       {
         unsigned r;
 
-                      /*compound start*//*binOp start*/((reg_info[*p]).bits.ever_matched_something) = /*compound end*//*binOp end*/0;
+                      /*compound start*/((reg_info[*p]).bits.ever_matched_something) = /*compound end*/0;/*end of stmt*/
 
 
-                      for (/*binOp start*/r = */*binOp end*/p; /*binOp start*/r < /*binOp start*/*p + *(/*binOp start*/p + /*binOp end*/1/*binOp end*//*binOp end*/); r++)
+                      for (r = *p; r < *p + *(p + 1); r++)
                         {
-                          /*compound start*//*binOp start*/regstart[r] = old_regstart[r/*compound end*//*binOp end*/];
+                          /*compound start*/regstart[r] = old_regstart[r/*compound end*/];/*end of stmt*/
 
 
-                          if (/*binOp start*/(int) old_regend[r] >= (int) regstart[r/*binOp end*/])
-                            /*binOp start*/regend[r] = old_regend[r/*binOp end*/];
+                          if ((int) old_regend[r] >= (int) regstart[r])
+                            /*compound start*/regend[r] = old_regend[r/*compound end*/];/*end of stmt*/
                         }
                     }
     p1++;
-                  do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
-                  do { char *destination; int this_reg; ; ; ; ; ; ; ; while (/*binOp start*/(/*binOp start*/(fail_stack).size - (fail_stack)./*binOp end*/avail) < (/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/highest_active_reg - /*binOp end*/lowest_active_reg + /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*/)) { if (!(/*binOp start*/(fail_stack).size > /*binOp start*/re_max_failures * (/*binOp start*//*binOp start*/(/*binOp start*/num_regs - /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*//*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).stack = (fail_stack_elt_t *) (/*binOp start*//*binOp start*//*binOp start*/destination = (char *) __builtin_alloca (/*binOp start*/(/*binOp start*/(fail_stack).size << /*binOp end*/1) * sizeof (fail_stack_elt_t/*binOp end*/)/*binOp end*/), memcpy ((destination), ((fail_stack).stack), (/*binOp start*/(fail_stack).size * sizeof (fail_stack_elt_t/*binOp end*/))/*binOp end*/), /*binOp end*/destination/*binOp end*/), /*binOp start*/(fail_stack).stack == ((void *)0/*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).size <<= /*binOp end*/1, /*binOp end*/1/*binOp end*/)))) return -2; ; ; } ; for (/*binOp start*/this_reg = /*binOp end*/lowest_active_reg; /*binOp start*/this_reg <= /*binOp end*/highest_active_reg; this_reg++) { ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*//*binOp end*/]; ; ; ; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*//*binOp end*/word; } ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/lowest_active_reg; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/highest_active_reg; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = /*binOp start*/(fail_stack_elt_t) p1 + /*compound end*//*binOp end*//*binOp end*/mcnt; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/d; ; ; } while (0);
+                  do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+                  do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p1 + /*compound end*/mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/d;/*end of stmt*/ ; ; } while (0);
 
                   goto fail;
                 }
             }
 
 
-          /*assign start*//*binOp start*/p += /*assign end*//*binOp end*/2;
+          /*compound start*/p += /*compound end*/2;/*end of stmt*/
           break;
 
 
@@ -6838,46 +6838,46 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
      ;
 
 
-            if (/*binOp start*/(/*binOp start*/(regstart[regno]) == ((char *) -1/*binOp end*/)) || (/*binOp start*/(regend[regno]) == ((char *) -1/*binOp end*/)/*binOp end*/))
+            if (((regstart[regno]) == ((char *) -1)) || ((regend[regno]) == ((char *) -1)))
               goto fail;
 
 
-            /*compound start*//*binOp start*/d2 = regstart[regno/*compound end*//*binOp end*/];
+            /*compound start*/d2 = regstart[regno/*compound end*/];/*end of stmt*/
 
 
 
 
 
 
-            /*compound start*//*binOp start*/dend2 = ((/*binOp start*/(/*binOp start*//*binOp start*/size1 && /*binOp start*/string1 <= (regstart[regno]/*binOp end*//*binOp end*/) && /*binOp start*/(regstart[regno]) <= /*binOp start*/string1 + /*binOp end*//*binOp end*//*binOp end*/size1)
-        == (/*binOp start*//*binOp start*/size1 && /*binOp start*/string1 <= (regend[regno]/*binOp end*//*binOp end*/) && /*binOp start*/(regend[regno]) <= /*binOp start*/string1 + /*binOp end*//*binOp end*//*binOp end*/size1/*binOp end*/))
-       ? regend[regno] : end_match_1/*compound end*//*binOp end*/);
+            /*compound start*/dend2 = (((size1 && string1 <= (regstart[regno]) && (regstart[regno]) <= string1 + size1)
+        == (size1 && string1 <= (regend[regno]) && (regend[regno]) <= string1 + size1))
+       ? regend[regno] : end_match_1/*compound end*/);/*end of stmt*/
      for (;;)
        {
 
 
-  while (/*binOp start*/d2 == /*binOp end*/dend2)
+  while (d2 == dend2)
     {
-      if (/*binOp start*/dend2 == /*binOp end*/end_match_2) break;
-      if (/*binOp start*/dend2 == regend[regno/*binOp end*/]) break;
+      if (dend2 == end_match_2) break;
+      if (dend2 == regend[regno]) break;
 
 
-                    /*compound start*//*binOp start*/d2 = /*compound end*//*binOp end*/string2;
-                    /*compound start*//*binOp start*/dend2 = regend[regno/*compound end*//*binOp end*/];
+                    /*compound start*/d2 = /*compound end*/string2;/*end of stmt*/
+                    /*compound start*/dend2 = regend[regno/*compound end*/];/*end of stmt*/
     }
 
-  if (/*binOp start*/d2 == /*binOp end*/dend2) break;
+  if (d2 == dend2) break;
 
 
-  while (/*binOp start*/d == /*binOp end*/dend) { if (/*binOp start*/dend == /*binOp end*/end_match_2) goto fail; /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/string2; /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_2; };
+  while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
 
 
-  /*compound start*//*binOp start*/mcnt = /*binOp start*/dend - /*compound end*//*binOp end*//*binOp end*/d;
+  /*compound start*/mcnt = dend - /*compound end*/d;/*end of stmt*/
 
 
 
-                if (/*binOp start*/mcnt > /*binOp start*/dend2 - /*binOp end*//*binOp end*/d2)
-    /*binOp start*/mcnt = /*binOp start*/dend2 - /*binOp end*//*binOp end*/d2;
+                if (mcnt > dend2 - d2)
+    /*compound start*/mcnt = dend2 - /*compound end*/d2;/*end of stmt*/
 
 
 
@@ -6885,7 +6885,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
                     ? bcmp_translate (d, d2, mcnt, translate)
                     : memcmp ((d), (d2), (mcnt)))
     goto fail;
-  /*compound start*//*binOp start*//*binOp start*/d += /*binOp end*/mcnt, /*binOp start*/d2 += /*compound end*//*binOp end*//*binOp end*/mcnt;
+  /*compound start*/d += mcnt, d2 += /*compound end*/mcnt;/*end of stmt*/
        }
    }
    break;
@@ -6897,11 +6897,11 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
  case begline:
           ;
 
-          if ((/*binOp start*//*binOp start*/(d) == (size1 ? string1 : string2/*binOp end*/) || !/*binOp end*/size2))
+          if (((d) == (size1 ? string1 : string2) || !size2))
             {
               if (!bufp->not_bol) break;
             }
-          else if (/*binOp start*//*binOp start*/d[-1] == /*binOp end*/'\n' && bufp->/*binOp end*/newline_anchor)
+          else if (d[-1] == '\n' && bufp->newline_anchor)
             {
               break;
             }
@@ -6913,14 +6913,14 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
  case endline:
           ;
 
-          if ((/*binOp start*/(d) == /*binOp end*/end2))
+          if (((d) == end2))
             {
               if (!bufp->not_eol) break;
             }
 
 
-          else if (/*binOp start*//*binOp start*/(/*binOp start*/d == /*binOp end*/end1 ? *string2 : *d) == /*binOp end*/'\n'
-                   && bufp->/*binOp end*/newline_anchor)
+          else if ((d == end1 ? *string2 : *d) == '\n'
+                   && bufp->newline_anchor)
             {
               break;
             }
@@ -6930,7 +6930,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
         case begbuf:
           ;
-          if ((/*binOp start*//*binOp start*/(d) == (size1 ? string1 : string2/*binOp end*/) || !/*binOp end*/size2))
+          if (((d) == (size1 ? string1 : string2) || !size2))
             break;
           goto fail;
 
@@ -6938,115 +6938,115 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
         case endbuf:
           ;
-   if ((/*binOp start*/(d) == /*binOp end*/end2))
+   if (((d) == end2))
      break;
           goto fail;
 # 5567 "target/grep.c"
         case on_failure_keep_string_jump:
           ;
 
-          do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
+          do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
           ;
 
-          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (/*binOp start*/(/*binOp start*/(fail_stack).size - (fail_stack)./*binOp end*/avail) < (/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/highest_active_reg - /*binOp end*/lowest_active_reg + /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*/)) { if (!(/*binOp start*/(fail_stack).size > /*binOp start*/re_max_failures * (/*binOp start*//*binOp start*/(/*binOp start*/num_regs - /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*//*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).stack = (fail_stack_elt_t *) (/*binOp start*//*binOp start*//*binOp start*/destination = (char *) __builtin_alloca (/*binOp start*/(/*binOp start*/(fail_stack).size << /*binOp end*/1) * sizeof (fail_stack_elt_t/*binOp end*/)/*binOp end*/), memcpy ((destination), ((fail_stack).stack), (/*binOp start*/(fail_stack).size * sizeof (fail_stack_elt_t/*binOp end*/))/*binOp end*/), /*binOp end*/destination/*binOp end*/), /*binOp start*/(fail_stack).stack == ((void *)0/*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).size <<= /*binOp end*/1, /*binOp end*/1/*binOp end*/)))) return -2; ; ; } ; for (/*binOp start*/this_reg = /*binOp end*/lowest_active_reg; /*binOp start*/this_reg <= /*binOp end*/highest_active_reg; this_reg++) { ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*//*binOp end*/]; ; ; ; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*//*binOp end*/word; } ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/lowest_active_reg; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/highest_active_reg; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = /*binOp start*/(fail_stack_elt_t) p + /*compound end*//*binOp end*//*binOp end*/mcnt; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) ((void *)0/*compound end*//*binOp end*/); ; ; } while (0);
+          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p + /*compound end*/mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) ((void *)0/*compound end*/);/*end of stmt*/ ; ; } while (0);
           break;
 # 5589 "target/grep.c"
  case on_failure_jump:
         on_failure:
           ;
 
-          do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
+          do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
           ;
 # 5605 "target/grep.c"
-          /*compound start*//*binOp start*/p1 = /*compound end*//*binOp end*/p;
+          /*compound start*/p1 = /*compound end*/p;/*end of stmt*/
 
 
 
 
 
-          while (/*binOp start*//*binOp start*/p1 < /*binOp end*/pend && /*binOp start*/(re_opcode_t) *p1 == /*binOp end*//*binOp end*/no_op)
+          while (p1 < pend && (re_opcode_t) *p1 == no_op)
             p1++;
 
-          if (/*binOp start*//*binOp start*/p1 < /*binOp end*/pend && /*binOp start*/(re_opcode_t) *p1 == /*binOp end*//*binOp end*/start_memory)
+          if (p1 < pend && (re_opcode_t) *p1 == start_memory)
             {
 
 
 
 
-              /*compound start*//*binOp start*/highest_active_reg = /*binOp start*/*(/*binOp start*/p1 + /*binOp end*/1) + *(/*binOp start*/p1 + /*binOp end*/2/*compound end*//*binOp end*//*binOp end*/);
-              if (/*binOp start*/lowest_active_reg == (/*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + /*binOp end*/1/*binOp end*/))
-                /*binOp start*/lowest_active_reg = *(/*binOp start*/p1 + /*binOp end*/1/*binOp end*/);
+              /*compound start*/highest_active_reg = *(p1 + 1) + *(p1 + 2/*compound end*/);/*end of stmt*/
+              if (lowest_active_reg == ((1 << 8) + 1))
+                /*compound start*/lowest_active_reg = *(p1 + 1/*compound end*/);/*end of stmt*/
             }
 
           ;
-          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (/*binOp start*/(/*binOp start*/(fail_stack).size - (fail_stack)./*binOp end*/avail) < (/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/highest_active_reg - /*binOp end*/lowest_active_reg + /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*/)) { if (!(/*binOp start*/(fail_stack).size > /*binOp start*/re_max_failures * (/*binOp start*//*binOp start*/(/*binOp start*/num_regs - /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*//*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).stack = (fail_stack_elt_t *) (/*binOp start*//*binOp start*//*binOp start*/destination = (char *) __builtin_alloca (/*binOp start*/(/*binOp start*/(fail_stack).size << /*binOp end*/1) * sizeof (fail_stack_elt_t/*binOp end*/)/*binOp end*/), memcpy ((destination), ((fail_stack).stack), (/*binOp start*/(fail_stack).size * sizeof (fail_stack_elt_t/*binOp end*/))/*binOp end*/), /*binOp end*/destination/*binOp end*/), /*binOp start*/(fail_stack).stack == ((void *)0/*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).size <<= /*binOp end*/1, /*binOp end*/1/*binOp end*/)))) return -2; ; ; } ; for (/*binOp start*/this_reg = /*binOp end*/lowest_active_reg; /*binOp start*/this_reg <= /*binOp end*/highest_active_reg; this_reg++) { ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*//*binOp end*/]; ; ; ; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*//*binOp end*/word; } ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/lowest_active_reg; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/highest_active_reg; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = /*binOp start*/(fail_stack_elt_t) p + /*compound end*//*binOp end*//*binOp end*/mcnt; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/d; ; ; } while (0);
+          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p + /*compound end*/mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/d;/*end of stmt*/ ; ; } while (0);
           break;
 
 
 
 
         case maybe_pop_jump:
-          do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
+          do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
           ;
           {
      register unsigned char *p2 = p;
 # 5652 "target/grep.c"
-     while (/*binOp start*//*binOp start*//*binOp start*/p2 + /*binOp end*/2 < /*binOp end*/pend
-     && (/*binOp start*//*binOp start*/(re_opcode_t) *p2 == /*binOp end*/stop_memory
-         || /*binOp start*/(re_opcode_t) *p2 == /*binOp end*//*binOp end*/start_memory/*binOp end*/))
-       /*binOp start*/p2 += /*binOp end*/3;
+     while (p2 + 2 < pend
+     && ((re_opcode_t) *p2 == stop_memory
+         || (re_opcode_t) *p2 == start_memory))
+       p2 += 3;
 
 
-            if (/*binOp start*/p2 == /*binOp end*/pend)
+            if (p2 == pend)
        {
 
 
 
-           /*compound start*//*binOp start*/p[-3] = (unsigned char) /*compound end*//*binOp end*/pop_failure_jump;
+           /*compound start*/p[-3] = (unsigned char) /*compound end*/pop_failure_jump;/*end of stmt*/
                 ;
 
               }
 
-            else if (/*binOp start*//*binOp start*/(re_opcode_t) *p2 == /*binOp end*/exactn
-       || (/*binOp start*/bufp->newline_anchor && /*binOp start*/(re_opcode_t) *p2 == /*binOp end*//*binOp end*/endline/*binOp end*/))
+            else if ((re_opcode_t) *p2 == exactn
+       || (bufp->newline_anchor && (re_opcode_t) *p2 == endline))
        {
   register unsigned char c
-                  = /*binOp start*/*p2 == (unsigned char) /*binOp end*/endline ? '\n' : p2[2];
-  /*compound start*//*binOp start*/p1 = /*binOp start*/p + /*compound end*//*binOp end*//*binOp end*/mcnt;
+                  = *p2 == (unsigned char) endline ? '\n' : p2[2];
+  /*compound start*/p1 = p + /*compound end*/mcnt;/*end of stmt*/
 
 
 
 
-                if (/*binOp start*//*binOp start*/(re_opcode_t) p1[3] == /*binOp end*/exactn && /*binOp start*/p1[5] != /*binOp end*//*binOp end*/c)
+                if ((re_opcode_t) p1[3] == exactn && p1[5] != c)
                   {
-        /*compound start*//*binOp start*/p[-3] = (unsigned char) /*compound end*//*binOp end*/pop_failure_jump;
+        /*compound start*/p[-3] = (unsigned char) /*compound end*/pop_failure_jump;/*end of stmt*/
                     ;
 
                   }
 
-  else if (/*binOp start*//*binOp start*/(re_opcode_t) p1[3] == /*binOp end*/charset
-    || /*binOp start*/(re_opcode_t) p1[3] == /*binOp end*//*binOp end*/charset_not)
+  else if ((re_opcode_t) p1[3] == charset
+    || (re_opcode_t) p1[3] == charset_not)
     {
-      int not = /*binOp start*/(re_opcode_t) p1[3] == /*binOp end*/charset_not;
+      int not = (re_opcode_t) p1[3] == charset_not;
 
-      if (/*binOp start*//*binOp start*/c < (unsigned char) (/*binOp start*/p1[4] * /*binOp end*/8/*binOp end*/)
-   && /*binOp start*/p1[/*binOp start*/5 + /*binOp start*/c / /*binOp end*//*binOp end*/8] & (/*binOp start*/1 << (/*binOp start*/c % /*binOp end*/8/*binOp end*/)/*binOp end*//*binOp end*/))
-        /*binOp start*/not = !/*binOp end*/not;
+      if (c < (unsigned char) (p1[4] * 8)
+   && p1[5 + c / 8] & (1 << (c % 8)))
+        /*compound start*/not = !/*compound end*/not;/*end of stmt*/
 
 
 
       if (!not)
                       {
-            /*compound start*//*binOp start*/p[-3] = (unsigned char) /*compound end*//*binOp end*/pop_failure_jump;
+            /*compound start*/p[-3] = (unsigned char) /*compound end*/pop_failure_jump;/*end of stmt*/
                         ;
                       }
     }
        }
    }
-   /*assign start*//*binOp start*/p -= /*assign end*//*binOp end*/2;
-   if (/*binOp start*/(re_opcode_t) p[-1] != /*binOp end*/pop_failure_jump)
+   /*compound start*/p -= /*compound end*/2;/*end of stmt*/
+   if ((re_opcode_t) p[-1] != pop_failure_jump)
      {
-       /*compound start*//*binOp start*/p[-1] = (unsigned char) /*compound end*//*binOp end*/jump;
+       /*compound start*/p[-1] = (unsigned char) /*compound end*/jump;/*end of stmt*/
               ;
        goto unconditional_jump;
      }
@@ -7063,7 +7063,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
             const char *sdummy;
 
             ;
-            { int this_reg; const unsigned char *string_temp; ; ; ; ; ; ; ; /*compound start*//*binOp start*/string_temp = fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; if (/*binOp start*/string_temp != ((void *)0/*binOp end*/)) /*binOp start*/sdummy = (const char *) /*binOp end*/string_temp; ; ; ; /*compound start*//*binOp start*/pdummy = (unsigned char *) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; ; /*compound start*//*binOp start*/dummy_high_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/dummy_low_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; for (/*binOp start*/this_reg = /*binOp end*/dummy_high_reg; /*binOp start*/this_reg >= /*binOp end*/dummy_low_reg; this_reg--) { ; /*compound start*//*binOp start*/reg_info_dummy[this_reg].word = fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/reg_dummy[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/reg_dummy[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; } ; };
+            { int this_reg; const unsigned char *string_temp; ; ; ; ; ; ; ; /*compound start*/string_temp = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ if (string_temp != ((void *)0)) /*compound start*/sdummy = (const char *) /*compound end*/string_temp;/*end of stmt*/ ; ; ; /*compound start*/pdummy = (unsigned char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; ; /*compound start*/dummy_high_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/dummy_low_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; for (this_reg = dummy_high_reg; this_reg >= dummy_low_reg; this_reg--) { ; /*compound start*/reg_info_dummy[this_reg].word = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/reg_dummy[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/reg_dummy[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; } ; };
 
 
           }
@@ -7073,9 +7073,9 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
         case jump:
  unconditional_jump:
-   do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
+   do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
           ;
-   /*assign start*//*binOp start*/p += /*assign end*//*binOp end*/mcnt;
+   /*compound start*/p += /*compound end*/mcnt;/*end of stmt*/
           ;
    break;
 
@@ -7096,7 +7096,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
           ;
 
 
-          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (/*binOp start*/(/*binOp start*/(fail_stack).size - (fail_stack)./*binOp end*/avail) < (/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/highest_active_reg - /*binOp end*/lowest_active_reg + /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*/)) { if (!(/*binOp start*/(fail_stack).size > /*binOp start*/re_max_failures * (/*binOp start*//*binOp start*/(/*binOp start*/num_regs - /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*//*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).stack = (fail_stack_elt_t *) (/*binOp start*//*binOp start*//*binOp start*/destination = (char *) __builtin_alloca (/*binOp start*/(/*binOp start*/(fail_stack).size << /*binOp end*/1) * sizeof (fail_stack_elt_t/*binOp end*/)/*binOp end*/), memcpy ((destination), ((fail_stack).stack), (/*binOp start*/(fail_stack).size * sizeof (fail_stack_elt_t/*binOp end*/))/*binOp end*/), /*binOp end*/destination/*binOp end*/), /*binOp start*/(fail_stack).stack == ((void *)0/*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).size <<= /*binOp end*/1, /*binOp end*/1/*binOp end*/)))) return -2; ; ; } ; for (/*binOp start*/this_reg = /*binOp end*/lowest_active_reg; /*binOp start*/this_reg <= /*binOp end*/highest_active_reg; this_reg++) { ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*//*binOp end*/]; ; ; ; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*//*binOp end*/word; } ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/lowest_active_reg; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/highest_active_reg; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/0; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/0; ; ; } while (0);
+          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/0;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/0;/*end of stmt*/ ; ; } while (0);
           goto unconditional_jump;
 
 
@@ -7109,101 +7109,101 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
           ;
 
 
-          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (/*binOp start*/(/*binOp start*/(fail_stack).size - (fail_stack)./*binOp end*/avail) < (/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/highest_active_reg - /*binOp end*/lowest_active_reg + /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*/)) { if (!(/*binOp start*/(fail_stack).size > /*binOp start*/re_max_failures * (/*binOp start*//*binOp start*/(/*binOp start*/num_regs - /*binOp end*/1) * /*binOp end*/3 + /*binOp end*/4/*binOp end*//*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).stack = (fail_stack_elt_t *) (/*binOp start*//*binOp start*//*binOp start*/destination = (char *) __builtin_alloca (/*binOp start*/(/*binOp start*/(fail_stack).size << /*binOp end*/1) * sizeof (fail_stack_elt_t/*binOp end*/)/*binOp end*/), memcpy ((destination), ((fail_stack).stack), (/*binOp start*/(fail_stack).size * sizeof (fail_stack_elt_t/*binOp end*/))/*binOp end*/), /*binOp end*/destination/*binOp end*/), /*binOp start*/(fail_stack).stack == ((void *)0/*binOp end*/) ? 0 : (/*binOp start*//*binOp start*/(fail_stack).size <<= /*binOp end*/1, /*binOp end*/1/*binOp end*/)))) return -2; ; ; } ; for (/*binOp start*/this_reg = /*binOp end*/lowest_active_reg; /*binOp start*/this_reg <= /*binOp end*/highest_active_reg; this_reg++) { ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*//*binOp end*/]; ; ; ; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*//*binOp end*/word; } ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/lowest_active_reg; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/highest_active_reg; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/0; ; ; ; /*compound start*//*binOp start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*//*binOp end*/0; ; ; } while (0);
+          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/0;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/0;/*end of stmt*/ ; ; } while (0);
           break;
 
 
 
         case succeed_n:
-          do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(/*binOp start*/p + /*binOp end*/2) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(/*binOp start*/p + /*binOp end*/2) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0);
+          do { /*compound start*/(mcnt) = *(p + 2) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p + 2) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0);
           ;
 
           ;
 
-          if (/*binOp start*/mcnt > /*binOp end*/0)
+          if (mcnt > 0)
             {
                mcnt--;
-        /*assign start*//*binOp start*/p += /*assign end*//*binOp end*/2;
-               do { do { /*compound start*//*binOp start*/(p)[0] = /*binOp start*/(mcnt) & /*compound end*//*binOp end*//*binOp end*/0377; /*compound start*//*binOp start*/(p)[1] = /*binOp start*/(mcnt) >> /*compound end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
+        /*compound start*/p += /*compound end*/2;/*end of stmt*/
+               do { do { /*compound start*/(p)[0] = (mcnt) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(p)[1] = (mcnt) >> /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
                ;
             }
-   else if (/*binOp start*/mcnt == /*binOp end*/0)
+   else if (mcnt == 0)
             {
               ;
-       /*compound start*//*binOp start*/p[2] = (unsigned char) /*compound end*//*binOp end*/no_op;
-              /*compound start*//*binOp start*/p[3] = (unsigned char) /*compound end*//*binOp end*/no_op;
+       /*compound start*/p[2] = (unsigned char) /*compound end*/no_op;/*end of stmt*/
+              /*compound start*/p[3] = (unsigned char) /*compound end*/no_op;/*end of stmt*/
               goto on_failure;
             }
           break;
 
         case jump_n:
-          do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(/*binOp start*/p + /*binOp end*/2) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(/*binOp start*/p + /*binOp end*/2) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0);
+          do { /*compound start*/(mcnt) = *(p + 2) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p + 2) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0);
           ;
 
 
           if (mcnt)
             {
                mcnt--;
-               do { /*compound start*//*binOp start*/(/*binOp start*/p + /*binOp end*/2)[0] = /*binOp start*/(mcnt) & /*compound end*//*binOp end*//*binOp end*/0377; /*compound start*//*binOp start*/(/*binOp start*/p + /*binOp end*/2)[1] = /*binOp start*/(mcnt) >> /*compound end*//*binOp end*//*binOp end*/8; } while (0);
+               do { /*compound start*/(p + 2)[0] = (mcnt) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(p + 2)[1] = (mcnt) >> /*compound end*/8;/*end of stmt*/ } while (0);
         goto unconditional_jump;
             }
 
    else
-     /*binOp start*/p += /*binOp end*/4;
+     p += 4;
           break;
 
  case set_number_at:
    {
             ;
 
-            do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
-            /*compound start*//*binOp start*/p1 = /*binOp start*/p + /*compound end*//*binOp end*//*binOp end*/mcnt;
-            do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p) += /*assign end*//*binOp end*/2; } while (0);
+            do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+            /*compound start*/p1 = p + /*compound end*/mcnt;/*end of stmt*/
+            do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
             ;
-     do { /*compound start*//*binOp start*/(p1)[0] = /*binOp start*/(mcnt) & /*compound end*//*binOp end*//*binOp end*/0377; /*compound start*//*binOp start*/(p1)[1] = /*binOp start*/(mcnt) >> /*compound end*//*binOp end*//*binOp end*/8; } while (0);
+     do { /*compound start*/(p1)[0] = (mcnt) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(p1)[1] = (mcnt) >> /*compound end*/8;/*end of stmt*/ } while (0);
             break;
           }
 
         case wordbound:
           ;
-          if ((/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/(d) == (size1 ? string1 : string2/*binOp end*/) || !/*binOp end*/size2) || (/*binOp start*/(d) == /*binOp end*/end2/*binOp end*/) || /*binOp start*/(/*binOp start*/re_syntax_table[/*binOp start*/(/*binOp start*/d - /*binOp end*/1) == /*binOp end*/end1 ? *string2 : /*binOp start*/(/*binOp start*/d - /*binOp end*/1) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(/*binOp start*/d - /*binOp end*/1)] == /*binOp end*/1) != (/*binOp start*/re_syntax_table[/*binOp start*/(d) == /*binOp end*/end1 ? *string2 : /*binOp start*/(d) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(d)] == /*binOp end*/1/*binOp end*//*binOp end*/)))
+          if ((((d) == (size1 ? string1 : string2) || !size2) || ((d) == end2) || (re_syntax_table[(d - 1) == end1 ? *string2 : (d - 1) == string2 - 1 ? *(end1 - 1) : *(d - 1)] == 1) != (re_syntax_table[(d) == end1 ? *string2 : (d) == string2 - 1 ? *(end1 - 1) : *(d)] == 1)))
      break;
           goto fail;
 
  case notwordbound:
           ;
-   if ((/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/(d) == (size1 ? string1 : string2/*binOp end*/) || !/*binOp end*/size2) || (/*binOp start*/(d) == /*binOp end*/end2/*binOp end*/) || /*binOp start*/(/*binOp start*/re_syntax_table[/*binOp start*/(/*binOp start*/d - /*binOp end*/1) == /*binOp end*/end1 ? *string2 : /*binOp start*/(/*binOp start*/d - /*binOp end*/1) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(/*binOp start*/d - /*binOp end*/1)] == /*binOp end*/1) != (/*binOp start*/re_syntax_table[/*binOp start*/(d) == /*binOp end*/end1 ? *string2 : /*binOp start*/(d) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(d)] == /*binOp end*/1/*binOp end*//*binOp end*/)))
+   if ((((d) == (size1 ? string1 : string2) || !size2) || ((d) == end2) || (re_syntax_table[(d - 1) == end1 ? *string2 : (d - 1) == string2 - 1 ? *(end1 - 1) : *(d - 1)] == 1) != (re_syntax_table[(d) == end1 ? *string2 : (d) == string2 - 1 ? *(end1 - 1) : *(d)] == 1)))
      goto fail;
           break;
 
  case wordbeg:
           ;
-   if (/*binOp start*/(/*binOp start*/re_syntax_table[/*binOp start*/(d) == /*binOp end*/end1 ? *string2 : /*binOp start*/(d) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(d)] == /*binOp end*/1) && (/*binOp start*/(/*binOp start*//*binOp start*/(d) == (size1 ? string1 : string2/*binOp end*/) || !/*binOp end*/size2) || !(/*binOp start*/re_syntax_table[/*binOp start*/(/*binOp start*/d - /*binOp end*/1) == /*binOp end*/end1 ? *string2 : /*binOp start*/(/*binOp start*/d - /*binOp end*/1) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(/*binOp start*/d - /*binOp end*/1)] == /*binOp end*/1/*binOp end*/)/*binOp end*/))
+   if ((re_syntax_table[(d) == end1 ? *string2 : (d) == string2 - 1 ? *(end1 - 1) : *(d)] == 1) && (((d) == (size1 ? string1 : string2) || !size2) || !(re_syntax_table[(d - 1) == end1 ? *string2 : (d - 1) == string2 - 1 ? *(end1 - 1) : *(d - 1)] == 1)))
      break;
           goto fail;
 
  case wordend:
           ;
-   if (/*binOp start*//*binOp start*/!(/*binOp start*//*binOp start*/(d) == (size1 ? string1 : string2/*binOp end*/) || !/*binOp end*/size2) && (/*binOp start*/re_syntax_table[/*binOp start*/(/*binOp start*/d - /*binOp end*/1) == /*binOp end*/end1 ? *string2 : /*binOp start*/(/*binOp start*/d - /*binOp end*/1) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(/*binOp start*/d - /*binOp end*/1)] == /*binOp end*/1/*binOp end*/)
-              && (/*binOp start*/!(/*binOp start*/re_syntax_table[/*binOp start*/(d) == /*binOp end*/end1 ? *string2 : /*binOp start*/(d) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(d)] == /*binOp end*/1) || (/*binOp start*/(d) == /*binOp end*/end2/*binOp end*/)/*binOp end*/))
+   if (!((d) == (size1 ? string1 : string2) || !size2) && (re_syntax_table[(d - 1) == end1 ? *string2 : (d - 1) == string2 - 1 ? *(end1 - 1) : *(d - 1)] == 1)
+              && (!(re_syntax_table[(d) == end1 ? *string2 : (d) == string2 - 1 ? *(end1 - 1) : *(d)] == 1) || ((d) == end2)))
      break;
           goto fail;
 # 5916 "target/grep.c"
  case wordchar:
           ;
-   while (/*binOp start*/d == /*binOp end*/dend) { if (/*binOp start*/dend == /*binOp end*/end_match_2) goto fail; /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/string2; /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_2; };
-          if (!(/*binOp start*/re_syntax_table[/*binOp start*/(d) == /*binOp end*/end1 ? *string2 : /*binOp start*/(d) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(d)] == /*binOp end*/1))
+   while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+          if (!(re_syntax_table[(d) == end1 ? *string2 : (d) == string2 - 1 ? *(end1 - 1) : *(d)] == 1))
             goto fail;
-   do { unsigned r; for (/*binOp start*/r = /*binOp end*/lowest_active_reg; /*binOp start*/r <= /*binOp end*/highest_active_reg; r++) { /*compound start*//*binOp start*/((reg_info[r]).bits.matched_something) = /*binOp start*/((reg_info[r]).bits.ever_matched_something) = /*compound end*//*binOp end*//*binOp end*/1; } } while (0);
+   do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
           d++;
    break;
 
  case notwordchar:
           ;
-   while (/*binOp start*/d == /*binOp end*/dend) { if (/*binOp start*/dend == /*binOp end*/end_match_2) goto fail; /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/string2; /*compound start*//*binOp start*/dend = /*compound end*//*binOp end*/end_match_2; };
-   if ((/*binOp start*/re_syntax_table[/*binOp start*/(d) == /*binOp end*/end1 ? *string2 : /*binOp start*/(d) == /*binOp start*/string2 - /*binOp end*//*binOp end*/1 ? *(/*binOp start*/end1 - /*binOp end*/1) : *(d)] == /*binOp end*/1))
+   while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+   if ((re_syntax_table[(d) == end1 ? *string2 : (d) == string2 - 1 ? *(end1 - 1) : *(d)] == 1))
             goto fail;
-          do { unsigned r; for (/*binOp start*/r = /*binOp end*/lowest_active_reg; /*binOp start*/r <= /*binOp end*/highest_active_reg; r++) { /*compound start*//*binOp start*/((reg_info[r]).bits.matched_something) = /*binOp start*/((reg_info[r]).bits.ever_matched_something) = /*compound end*//*binOp end*//*binOp end*/1; } } while (0);
+          do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
           d++;
    break;
 
@@ -7216,10 +7216,10 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
     fail:
-      if (!(/*binOp start*/fail_stack.avail == /*binOp end*/0))
+      if (!(fail_stack.avail == 0))
  {
           ;
-          { int this_reg; const unsigned char *string_temp; ; ; ; ; ; ; ; /*compound start*//*binOp start*/string_temp = fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; if (/*binOp start*/string_temp != ((void *)0/*binOp end*/)) /*binOp start*/d = (const char *) /*binOp end*/string_temp; ; ; ; /*compound start*//*binOp start*/p = (unsigned char *) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; ; /*compound start*//*binOp start*/highest_active_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/lowest_active_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; for (/*binOp start*/this_reg = /*binOp end*/highest_active_reg; /*binOp start*/this_reg >= /*binOp end*/lowest_active_reg; this_reg--) { ; /*compound start*//*binOp start*/reg_info[this_reg].word = fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/regend[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; /*compound start*//*binOp start*/regstart[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*//*binOp end*/]; ; } ; };
+          { int this_reg; const unsigned char *string_temp; ; ; ; ; ; ; ; /*compound start*/string_temp = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ if (string_temp != ((void *)0)) /*compound start*/d = (const char *) /*compound end*/string_temp;/*end of stmt*/ ; ; ; /*compound start*/p = (unsigned char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; ; /*compound start*/highest_active_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/lowest_active_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; for (this_reg = highest_active_reg; this_reg >= lowest_active_reg; this_reg--) { ; /*compound start*/reg_info[this_reg].word = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/regend[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/regstart[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; } ; };
 
 
 
@@ -7229,7 +7229,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
    ;
-          if (/*binOp start*/p < /*binOp end*/pend)
+          if (p < pend)
             {
               boolean is_a_jump_n = 0;
 
@@ -7238,17 +7238,17 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
               switch ((re_opcode_t) *p)
                 {
                 case jump_n:
-                  /*case comp start*//*binOp start*/is_a_jump_n = /*case comp end*//*binOp end*/1;
+                  /*compound start*/is_a_jump_n = /*compound end*/1;/*end of stmt*/
                 case maybe_pop_jump:
                 case pop_failure_jump:
                 case jump:
-                  /*case comp start*//*binOp start*/p1 = /*binOp start*/p + /*case comp end*//*binOp end*//*binOp end*/1;
-                  do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
-                  /*assign start*//*binOp start*/p1 += /*assign end*//*binOp end*/mcnt;
+                  /*compound start*/p1 = p + /*compound end*/1;/*end of stmt*/
+                  do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+                  /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
 
-                  if (/*binOp start*/(/*binOp start*/is_a_jump_n && /*binOp start*/(re_opcode_t) *p1 == /*binOp end*//*binOp end*/succeed_n)
-                      || (/*binOp start*/!is_a_jump_n
-                          && /*binOp start*/(re_opcode_t) *p1 == /*binOp end*//*binOp end*/on_failure_jump/*binOp end*/))
+                  if ((is_a_jump_n && (re_opcode_t) *p1 == succeed_n)
+                      || (!is_a_jump_n
+                          && (re_opcode_t) *p1 == on_failure_jump))
                     goto fail;
                   break;
                 default:
@@ -7256,8 +7256,8 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
                 }
             }
 
-          if (/*binOp start*//*binOp start*/d >= /*binOp end*/string1 && /*binOp start*/d <= /*binOp end*//*binOp end*/end1)
-     /*binOp start*/dend = /*binOp end*/end_match_1;
+          if (d >= string1 && d <= end1)
+     /*compound start*/dend = /*compound end*/end_match_1;/*end of stmt*/
         }
       else
         break;
@@ -7278,9 +7278,9 @@ group_match_null_string_p (p, end, reg_info)
 {
   int mcnt;
 
-  unsigned char *p1 = /*binOp start*/*p + /*binOp end*/2;
+  unsigned char *p1 = *p + 2;
 
-  while (/*binOp start*/p1 < /*binOp end*/end)
+  while (p1 < end)
     {
 
 
@@ -7291,41 +7291,41 @@ group_match_null_string_p (p, end, reg_info)
 
         case on_failure_jump:
           p1++;
-          do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
+          do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
 
 
 
 
-   if (/*binOp start*/mcnt >= /*binOp end*/0)
+   if (mcnt >= 0)
      {
 # 6056 "target/grep.c"
-              while (/*binOp start*/(re_opcode_t) p1[/*binOp start*/mcnt-/*binOp end*/3] == /*binOp end*/jump_past_alt)
+              while ((re_opcode_t) p1[mcnt-3] == jump_past_alt)
                 {
 
 
 
 
-                  if (!alt_match_null_string_p (p1, /*binOp start*//*binOp start*/p1 + /*binOp end*/mcnt - /*binOp end*/3,
+                  if (!alt_match_null_string_p (p1, p1 + mcnt - 3,
                           reg_info))
                     return 0;
 
 
 
-                  /*assign start*//*binOp start*/p1 += /*assign end*//*binOp end*/mcnt;
+                  /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
 
 
 
-                  if (/*binOp start*/(re_opcode_t) *p1 != /*binOp end*/on_failure_jump)
+                  if ((re_opcode_t) *p1 != on_failure_jump)
                     break;
 
 
 
     p1++;
-                  do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
-                  if (/*binOp start*/(re_opcode_t) p1[/*binOp start*/mcnt-/*binOp end*/3] != /*binOp end*/jump_past_alt)
+                  do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+                  if ((re_opcode_t) p1[mcnt-3] != jump_past_alt)
                     {
 
-                      /*assign start*//*binOp start*/p1 -= /*assign end*//*binOp end*/3;
+                      /*compound start*/p1 -= /*compound end*/3;/*end of stmt*/
                       break;
                     }
                 }
@@ -7333,19 +7333,19 @@ group_match_null_string_p (p, end, reg_info)
 
 
 
-              do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(/*binOp start*/p1 - /*binOp end*/2) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(/*binOp start*/p1 - /*binOp end*/2) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0);
+              do { /*compound start*/(mcnt) = *(p1 - 2) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1 - 2) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0);
 
-              if (!alt_match_null_string_p (p1, /*binOp start*/p1 + /*binOp end*/mcnt, reg_info))
+              if (!alt_match_null_string_p (p1, p1 + mcnt, reg_info))
                 return 0;
 
-              /*assign start*//*binOp start*/p1 += /*assign end*//*binOp end*/mcnt;
+              /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
             }
           break;
 
 
         case stop_memory:
    ;
-          /*compound start*//*binOp start*/*p = /*binOp start*/p1 + /*compound end*//*binOp end*//*binOp end*/2;
+          /*compound start*/*p = p1 + /*compound end*/2;/*end of stmt*/
           return 1;
 
 
@@ -7371,7 +7371,7 @@ alt_match_null_string_p (p, end, reg_info)
   int mcnt;
   unsigned char *p1 = p;
 
-  while (/*binOp start*/p1 < /*binOp end*/end)
+  while (p1 < end)
     {
 
 
@@ -7381,8 +7381,8 @@ alt_match_null_string_p (p, end, reg_info)
 
         case on_failure_jump:
           p1++;
-          do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
-          /*assign start*//*binOp start*/p1 += /*assign end*//*binOp end*/mcnt;
+          do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+          /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
           break;
 
  default:
@@ -7429,15 +7429,15 @@ common_op_match_null_string_p (p, end, reg_info)
       break;
 
     case start_memory:
-      /*case comp start*//*binOp start*/reg_no = */*case comp end*//*binOp end*/p1;
+      /*compound start*/reg_no = */*compound end*/p1;/*end of stmt*/
       ;
-      /*compound start*//*binOp start*/ret = group_match_null_string_p (&p1, end, reg_info/*compound end*//*binOp end*/);
+      /*compound start*/ret = group_match_null_string_p (&p1, end, reg_info/*compound end*/);/*end of stmt*/
 
 
 
 
-      if (/*binOp start*/((reg_info[reg_no]).bits.match_null_string_p) == /*binOp end*/3)
-        /*binOp start*/((reg_info[reg_no]).bits.match_null_string_p) = /*binOp end*/ret;
+      if (((reg_info[reg_no]).bits.match_null_string_p) == 3)
+        /*compound start*/((reg_info[reg_no]).bits.match_null_string_p) = /*compound end*/ret;/*end of stmt*/
 
       if (!ret)
         return 0;
@@ -7445,23 +7445,23 @@ common_op_match_null_string_p (p, end, reg_info)
 
 
     case jump:
-      do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
-      if (/*binOp start*/mcnt >= /*binOp end*/0)
-        /*binOp start*/p1 += /*binOp end*/mcnt;
+      do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+      if (mcnt >= 0)
+        p1 += mcnt;
       else
         return 0;
       break;
 
     case succeed_n:
 
-      /*case assign start*//*binOp start*/p1 += /*binOp end*/2;
-      do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
+      /*compound start*/p1 += /*compound end*/2;/*end of stmt*/
+      do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
 
-      if (/*binOp start*/mcnt == /*binOp end*/0)
+      if (mcnt == 0)
         {
-          /*assign start*//*binOp start*/p1 -= /*assign end*//*binOp end*/4;
-          do { do { /*compound start*//*binOp start*/(mcnt) = /*binOp start*/*(p1) & /*compound end*//*binOp end*//*binOp end*/0377; /*assign start*//*binOp start*/(mcnt) += /*binOp start*/((signed char) (*(/*binOp start*/(p1) + /*binOp end*/1))) << /*assign end*//*binOp end*//*binOp end*/8; } while (0); /*assign start*//*binOp start*/(p1) += /*assign end*//*binOp end*/2; } while (0);
-          /*assign start*//*binOp start*/p1 += /*assign end*//*binOp end*/mcnt;
+          /*compound start*/p1 -= /*compound end*/4;/*end of stmt*/
+          do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+          /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
         }
       else
         return 0;
@@ -7473,14 +7473,14 @@ common_op_match_null_string_p (p, end, reg_info)
       break;
 
     case set_number_at:
-      /*case assign start*//*binOp start*/p1 += /*binOp end*/4;
+      /*compound start*/p1 += /*compound end*/4;/*end of stmt*/
 
     default:
 
       return 0;
   }
 
-  /*compound start*//*binOp start*/*p = /*compound end*//*binOp end*/p1;
+  /*compound start*/*p = /*compound end*/p1;/*end of stmt*/
   return 1;
 }
 
@@ -7497,7 +7497,7 @@ bcmp_translate (s1, s2, len, translate)
   register unsigned char *p1 = s1, *p2 = s2;
   while (len)
     {
-      if (/*binOp start*/translate[*p1++] != translate[*p2++/*binOp end*/]) return 1;
+      if (translate[*p1++] != translate[*p2++]) return 1;
       len--;
     }
   return 0;
@@ -7513,17 +7513,17 @@ re_compile_pattern (pattern, length, bufp)
 
 
 
-  /*compound start*//*binOp start*/bufp->regs_allocated = /*compound end*//*binOp end*/0;
+  /*compound start*/bufp->regs_allocated = /*compound end*/0;/*end of stmt*/
 
 
 
 
-  /*compound start*//*binOp start*/bufp->no_sub = /*compound end*//*binOp end*/0;
+  /*compound start*/bufp->no_sub = /*compound end*/0;/*end of stmt*/
 
 
-  /*compound start*//*binOp start*/bufp->newline_anchor = /*compound end*//*binOp end*/1;
+  /*compound start*/bufp->newline_anchor = /*compound end*/1;/*end of stmt*/
 
-  /*compound start*//*binOp start*/ret = regex_compile (pattern, length, re_syntax_options, bufp/*compound end*//*binOp end*/);
+  /*compound start*/ret = regex_compile (pattern, length, re_syntax_options, bufp/*compound end*/);/*end of stmt*/
 
   return re_error_msg[(int) ret];
 }
@@ -7536,55 +7536,55 @@ regcomp (preg, pattern, cflags)
 {
   reg_errcode_t ret;
   unsigned syntax
-    = (/*binOp start*/cflags & /*binOp end*/1) ?
-      (/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) : (/*binOp start*/(/*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) | (/*binOp start*/(1) << /*binOp end*/1/*binOp end*/));
+    = (cflags & 1) ?
+      (((((1) << 1) << 1) | (((((((1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | (((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) | ((((1) << 1) << 1) << 1) | (((((1) << 1) << 1) << 1) << 1) | (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) : (((((1) << 1) << 1) | (((((((1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | (((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) | ((1) << 1));
 
 
-  /*compound start*//*binOp start*/preg->buffer = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/preg->allocated = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/preg->used = /*compound end*//*binOp end*/0;
+  /*compound start*/preg->buffer = /*compound end*/0;/*end of stmt*/
+  /*compound start*/preg->allocated = /*compound end*/0;/*end of stmt*/
+  /*compound start*/preg->used = /*compound end*/0;/*end of stmt*/
 
 
 
 
 
-  /*compound start*//*binOp start*/preg->fastmap = /*compound end*//*binOp end*/0;
+  /*compound start*/preg->fastmap = /*compound end*/0;/*end of stmt*/
 
-  if (/*binOp start*/cflags & (/*binOp start*/1 << /*binOp end*/1/*binOp end*/))
+  if (cflags & (1 << 1))
     {
       unsigned i;
 
-      /*compound start*//*binOp start*/preg->translate = (char *) malloc (256/*compound end*//*binOp end*/);
-      if (/*binOp start*/preg->translate == ((void *)0/*binOp end*/))
+      /*compound start*/preg->translate = (char *) malloc (256/*compound end*/);/*end of stmt*/
+      if (preg->translate == ((void *)0))
         return (int) REG_ESPACE;
 
 
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp end*/256; i++)
-        /*binOp start*/preg->translate[i] = (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) /*binOp end*/_ISupper/*binOp end*/)) ? tolower (i) : /*binOp end*/i;
+      for (i = 0; i < 256; i++)
+        /*compound start*/preg->translate[i] = (1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISupper)) ? tolower (i) : /*compound end*/i;/*end of stmt*/
     }
   else
-    /*binOp start*/preg->translate = ((void *)0/*binOp end*/);
+    preg->translate = ((void *)0);
 
 
-  if (/*binOp start*/cflags & (/*binOp start*/(/*binOp start*/1 << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+  if (cflags & ((1 << 1) << 1))
     {
-      /*assign start*//*binOp start*/syntax &= ~(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*assign end*//*binOp end*/);
-      /*assign start*//*binOp start*/syntax |= (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*assign end*//*binOp end*/);
+      /*compound start*/syntax &= ~(((((((1) << 1) << 1) << 1) << 1) << 1) << 1/*compound end*/);/*end of stmt*/
+      /*compound start*/syntax |= (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1/*compound end*/);/*end of stmt*/
 
-      /*compound start*//*binOp start*/preg->newline_anchor = /*compound end*//*binOp end*/1;
+      /*compound start*/preg->newline_anchor = /*compound end*/1;/*end of stmt*/
     }
   else
-    /*binOp start*/preg->newline_anchor = /*binOp end*/0;
+    preg->newline_anchor = 0;
 
-  /*compound start*//*binOp start*/preg->no_sub = !!(/*binOp start*/cflags & (/*binOp start*/(/*binOp start*/(/*binOp start*/1 << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)/*compound end*//*binOp end*/);
-
-
-
-  /*compound start*//*binOp start*/ret = regex_compile (pattern, strlen (pattern), syntax, preg/*compound end*//*binOp end*/);
+  /*compound start*/preg->no_sub = !!(cflags & (((1 << 1) << 1) << 1)/*compound end*/);/*end of stmt*/
 
 
 
-  if (/*binOp start*/ret == /*binOp end*/REG_ERPAREN) /*binOp start*/ret = /*binOp end*/REG_EPAREN;
+  /*compound start*/ret = regex_compile (pattern, strlen (pattern), syntax, preg/*compound end*/);/*end of stmt*/
+
+
+
+  if (ret == REG_ERPAREN) /*compound start*/ret = /*compound end*/REG_EPAREN;/*end of stmt*/
 
   return (int) ret;
 }
@@ -7601,43 +7601,43 @@ regexec (preg, string, nmatch, pmatch, eflags)
   struct re_registers regs;
   regex_t private_preg;
   int len = strlen (string);
-  boolean want_reg_info = /*binOp start*/!preg->no_sub && /*binOp start*/nmatch > /*binOp end*//*binOp end*/0;
+  boolean want_reg_info = !preg->no_sub && nmatch > 0;
 
-  /*compound start*//*binOp start*/private_preg = */*compound end*//*binOp end*/preg;
+  /*compound start*/private_preg = */*compound end*/preg;/*end of stmt*/
 
-  /*compound start*//*binOp start*/private_preg.not_bol = !!(/*binOp start*/eflags & /*binOp end*/1/*compound end*//*binOp end*/);
-  /*compound start*//*binOp start*/private_preg.not_eol = !!(/*binOp start*/eflags & (/*binOp start*/1 << /*binOp end*/1/*binOp end*/)/*compound end*//*binOp end*/);
-
-
+  /*compound start*/private_preg.not_bol = !!(eflags & 1/*compound end*/);/*end of stmt*/
+  /*compound start*/private_preg.not_eol = !!(eflags & (1 << 1)/*compound end*/);/*end of stmt*/
 
 
-  /*compound start*//*binOp start*/private_preg.regs_allocated = /*compound end*//*binOp end*/2;
+
+
+  /*compound start*/private_preg.regs_allocated = /*compound end*/2;/*end of stmt*/
 
   if (want_reg_info)
     {
-      /*compound start*//*binOp start*/regs.num_regs = /*compound end*//*binOp end*/nmatch;
-      /*compound start*//*binOp start*/regs.start = ((regoff_t *) malloc (/*binOp start*/(nmatch) * sizeof (regoff_t/*binOp end*/))/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/regs.end = ((regoff_t *) malloc (/*binOp start*/(nmatch) * sizeof (regoff_t/*binOp end*/))/*compound end*//*binOp end*/);
-      if (/*binOp start*//*binOp start*/regs.start == ((void *)0/*binOp end*/) || /*binOp start*/regs.end == ((void *)0/*binOp end*//*binOp end*/))
+      /*compound start*/regs.num_regs = /*compound end*/nmatch;/*end of stmt*/
+      /*compound start*/regs.start = ((regoff_t *) malloc ((nmatch) * sizeof (regoff_t))/*compound end*/);/*end of stmt*/
+      /*compound start*/regs.end = ((regoff_t *) malloc ((nmatch) * sizeof (regoff_t))/*compound end*/);/*end of stmt*/
+      if (regs.start == ((void *)0) || regs.end == ((void *)0))
         return (int) REG_NOMATCH;
     }
 
 
-  /*compound start*//*binOp start*/ret = re_search (&private_preg, string, len,
+  /*compound start*/ret = re_search (&private_preg, string, len,
                                 0, len,
-                   want_reg_info ? &regs : (struct re_registers *) 0/*compound end*//*binOp end*/);
+                   want_reg_info ? &regs : (struct re_registers *) 0/*compound end*/);/*end of stmt*/
 
 
   if (want_reg_info)
     {
-      if (/*binOp start*/ret >= /*binOp end*/0)
+      if (ret >= 0)
         {
           unsigned r;
 
-          for (/*binOp start*/r = /*binOp end*/0; /*binOp start*/r < /*binOp end*/nmatch; r++)
+          for (r = 0; r < nmatch; r++)
             {
-              /*compound start*//*binOp start*/pmatch[r].rm_so = regs.start[r/*compound end*//*binOp end*/];
-              /*compound start*//*binOp start*/pmatch[r].rm_eo = regs.end[r/*compound end*//*binOp end*/];
+              /*compound start*/pmatch[r].rm_so = regs.start[r/*compound end*/];/*end of stmt*/
+              /*compound start*/pmatch[r].rm_eo = regs.end[r/*compound end*/];/*end of stmt*/
             }
         }
 
@@ -7647,7 +7647,7 @@ regexec (preg, string, nmatch, pmatch, eflags)
     }
 
 
-  return /*binOp start*/ret >= /*binOp end*/0 ? (int) REG_NOERROR : (int) REG_NOMATCH;
+  return ret >= 0 ? (int) REG_NOERROR : (int) REG_NOMATCH;
 }
 
 
@@ -7664,29 +7664,29 @@ regerror (errcode, preg, errbuf, errbuf_size)
   const char *msg;
   size_t msg_size;
 
-  if (/*binOp start*//*binOp start*/errcode < /*binOp end*/0
-      || /*binOp start*/errcode >= (/*binOp start*/sizeof (re_error_msg) / sizeof (re_error_msg[0]/*binOp end*/)/*binOp end*//*binOp end*/))
+  if (errcode < 0
+      || errcode >= (sizeof (re_error_msg) / sizeof (re_error_msg[0])))
 
 
 
 
     abort ();
 
-  /*compound start*//*binOp start*/msg = re_error_msg[errcode/*compound end*//*binOp end*/];
+  /*compound start*/msg = re_error_msg[errcode/*compound end*/];/*end of stmt*/
 
 
 
   if (! msg)
-    /*binOp start*/msg = /*binOp end*/"Success";
+    /*compound start*/msg = /*compound end*/"Success";/*end of stmt*/
 
-  /*compound start*//*binOp start*/msg_size = /*binOp start*/strlen (msg) + /*compound end*//*binOp end*//*binOp end*/1;
+  /*compound start*/msg_size = strlen (msg) + /*compound end*/1;/*end of stmt*/
 
-  if (/*binOp start*/errbuf_size != /*binOp end*/0)
+  if (errbuf_size != 0)
     {
-      if (/*binOp start*/msg_size > /*binOp end*/errbuf_size)
+      if (msg_size > errbuf_size)
         {
-          strncpy (errbuf, msg, /*binOp start*/errbuf_size - /*binOp end*/1);
-          /*compound start*//*binOp start*/errbuf[/*binOp start*/errbuf_size - /*binOp end*/1] = /*compound end*//*binOp end*/0;
+          strncpy (errbuf, msg, errbuf_size - 1);
+          /*compound start*/errbuf[errbuf_size - 1] = /*compound end*/0;/*end of stmt*/
         }
       else
         strcpy (errbuf, msg);
@@ -7702,26 +7702,26 @@ void
 regfree (preg)
     regex_t *preg;
 {
-  if (/*binOp start*/preg->buffer != ((void *)0/*binOp end*/))
+  if (preg->buffer != ((void *)0))
     free (preg->buffer);
-  /*compound start*//*binOp start*/preg->buffer = ((void *)0/*compound end*//*binOp end*/);
+  /*compound start*/preg->buffer = ((void *)0/*compound end*/);/*end of stmt*/
 
-  /*compound start*//*binOp start*/preg->allocated = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/preg->used = /*compound end*//*binOp end*/0;
+  /*compound start*/preg->allocated = /*compound end*/0;/*end of stmt*/
+  /*compound start*/preg->used = /*compound end*/0;/*end of stmt*/
 
-  if (/*binOp start*/preg->fastmap != ((void *)0/*binOp end*/))
+  if (preg->fastmap != ((void *)0))
     free (preg->fastmap);
-  /*compound start*//*binOp start*/preg->fastmap = ((void *)0/*compound end*//*binOp end*/);
-  /*compound start*//*binOp start*/preg->fastmap_accurate = /*compound end*//*binOp end*/0;
+  /*compound start*/preg->fastmap = ((void *)0/*compound end*/);/*end of stmt*/
+  /*compound start*/preg->fastmap_accurate = /*compound end*/0;/*end of stmt*/
 
-  if (/*binOp start*/preg->translate != ((void *)0/*binOp end*/))
+  if (preg->translate != ((void *)0))
     free (preg->translate);
-  /*compound start*//*binOp start*/preg->translate = ((void *)0/*compound end*//*binOp end*/);
+  /*compound start*/preg->translate = ((void *)0/*compound end*/);/*end of stmt*/
 }
 # 6700 "target/grep.c"
 # 1 "target/dfa.h" 1
 # 38 "target/dfa.h"
-typedef int charclass[(/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/))];
+typedef int charclass[(((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int)))];
 
 
 
@@ -7737,7 +7737,7 @@ typedef enum
 
 
 
-  EMPTY = (/*binOp start*/1 << /*binOp end*/8),
+  EMPTY = (1 << 8),
 
 
   BACKREF,
@@ -7993,7 +7993,7 @@ tstbit(b, c)
      int b;
      charclass c;
 {
-  return /*binOp start*/c[/*binOp start*/b / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)] & /*binOp start*/1 << /*binOp start*/b % (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*//*binOp end*//*binOp end*/);
+  return c[b / (8 * sizeof (int))] & 1 << b % (8 * sizeof (int));
 }
 
 static void
@@ -8001,7 +8001,7 @@ setbit(b, c)
      int b;
      charclass c;
 {
-  /*assign start*//*binOp start*/c[/*binOp start*/b / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)] |= /*binOp start*/1 << /*binOp start*/b % (/*binOp start*/8 * sizeof (int/*binOp end*/)/*assign end*//*binOp end*//*binOp end*//*binOp end*/);
+  /*compound start*/c[b / (8 * sizeof (int))] |= 1 << b % (8 * sizeof (int)/*compound end*/);/*end of stmt*/
 }
 
 static void
@@ -8009,7 +8009,7 @@ clrbit(b, c)
      int b;
      charclass c;
 {
-  /*assign start*//*binOp start*/c[/*binOp start*/b / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)] &= ~(/*binOp start*/1 << /*binOp start*/b % (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*//*binOp end*/)/*assign end*//*binOp end*/);
+  /*compound start*/c[b / (8 * sizeof (int))] &= ~(1 << b % (8 * sizeof (int))/*compound end*/);/*end of stmt*/
 }
 
 static void
@@ -8019,8 +8019,8 @@ copyset(src, dst)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++i)
-    /*binOp start*/dst[i] = src[i/*binOp end*/];
+  for (i = 0; i < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++i)
+    /*compound start*/dst[i] = src[i/*compound end*/];/*end of stmt*/
 }
 
 static void
@@ -8029,8 +8029,8 @@ zeroset(s)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++i)
-    /*binOp start*/s[i] = /*binOp end*/0;
+  for (i = 0; i < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++i)
+    /*compound start*/s[i] = /*compound end*/0;/*end of stmt*/
 }
 
 static void
@@ -8039,8 +8039,8 @@ notset(s)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++i)
-    /*binOp start*/s[i] = ~s[i/*binOp end*/];
+  for (i = 0; i < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++i)
+    /*compound start*/s[i] = ~s[i/*compound end*/];/*end of stmt*/
 }
 
 static int
@@ -8050,8 +8050,8 @@ equal(s1, s2)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++i)
-    if (/*binOp start*/s1[i] != s2[i/*binOp end*/])
+  for (i = 0; i < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++i)
+    if (s1[i] != s2[i])
       return 0;
   return 1;
 }
@@ -8066,10 +8066,10 @@ charclass_index(s)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < dfa->/*binOp end*/cindex; ++i)
+  for (i = 0; i < dfa->cindex; ++i)
     if (equal(s, dfa->charclasses[i]))
       return i;
-  if (/*binOp start*/(dfa->cindex) >= (dfa->calloc/*binOp end*/)) { while (/*binOp start*/(dfa->cindex) >= (dfa->calloc/*binOp end*/)) /*binOp start*/(dfa->calloc) *= /*binOp end*/2; (/*binOp start*/(dfa->charclasses) = (charclass *) xrealloc_1((ptr_t) (dfa->charclasses), /*binOp start*/(dfa->calloc) * sizeof (charclass/*binOp end*/)/*binOp end*/)); };
+  if ((dfa->cindex) >= (dfa->calloc)) { while ((dfa->cindex) >= (dfa->calloc)) (dfa->calloc) *= 2; ((dfa->charclasses) = (charclass *) xrealloc_1((ptr_t) (dfa->charclasses), (dfa->calloc) * sizeof (charclass))); };
   ++dfa->cindex;
   copyset(s, dfa->charclasses[i]);
   return i;
@@ -8087,9 +8087,9 @@ dfasyntax(bits, fold)
      int bits;
      int fold;
 {
-  /*compound start*//*binOp start*/syntax_bits_set = /*compound end*//*binOp end*/1;
-  /*compound start*//*binOp start*/syntax_bits = /*compound end*//*binOp end*/bits;
-  /*compound start*//*binOp start*/case_fold = /*compound end*//*binOp end*/fold;
+  /*compound start*/syntax_bits_set = /*compound end*/1;/*end of stmt*/
+  /*compound start*/syntax_bits = /*compound end*/bits;/*end of stmt*/
+  /*compound start*/case_fold = /*compound end*/fold;/*end of stmt*/
 }
 
 
@@ -8106,17 +8106,17 @@ static int laststart;
 static int parens;
 static int minrep, maxrep;
 # 6934 "target/grep.c"
-static int is_alpha(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISalpha/*binOp end*/)); }
-static int is_upper(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISupper/*binOp end*/)); }
-static int is_lower(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISlower/*binOp end*/)); }
-static int is_digit(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISdigit/*binOp end*/)); }
-static int is_xdigit(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISxdigit/*binOp end*/)); }
-static int is_space(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISspace/*binOp end*/)); }
-static int is_punct(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISpunct/*binOp end*/)); }
-static int is_alnum(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)); }
-static int is_print(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISprint/*binOp end*/)); }
-static int is_graph(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISgraph/*binOp end*/)); }
-static int is_cntrl(c) int c; { return (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_IScntrl/*binOp end*/)); }
+static int is_alpha(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISalpha)); }
+static int is_upper(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISupper)); }
+static int is_lower(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISlower)); }
+static int is_digit(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit)); }
+static int is_xdigit(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISxdigit)); }
+static int is_space(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISspace)); }
+static int is_punct(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISpunct)); }
+static int is_alnum(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISalnum)); }
+static int is_print(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISprint)); }
+static int is_graph(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISgraph)); }
+static int is_cntrl(c) int c; { return (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _IScntrl)); }
 
 
 
@@ -8145,10 +8145,10 @@ looking_at(s)
 {
   int len;
 
-  /*compound start*//*binOp start*/len = strlen(s/*compound end*//*binOp end*/);
-  if (/*binOp start*/lexleft < /*binOp end*/len)
+  /*compound start*/len = strlen(s/*compound end*/);/*end of stmt*/
+  if (lexleft < len)
     return 0;
-  return /*binOp start*/strncmp(s, lexptr, len) == /*binOp end*/0;
+  return strncmp(s, lexptr, len) == 0;
 }
 
 static token
@@ -8165,43 +8165,43 @@ lex()
 
 
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp end*/2; ++i)
+  for (i = 0; i < 2; ++i)
     {
-      { if (! lexleft) if (/*binOp start*/0 != /*binOp end*/0) dfaerror(0); else return END; /*compound start*//*binOp start*/(c) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
+      { if (! lexleft) if (0 != 0) dfaerror(0); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
       switch (c)
  {
  case '\\':
    if (backslash)
      goto normal_char;
-   if (/*binOp start*/lexleft == /*binOp end*/0)
+   if (lexleft == 0)
      dfaerror("Unfinished \\ escape");
-   /*compound start*//*binOp start*/backslash = /*compound end*//*binOp end*/1;
+   /*compound start*/backslash = /*compound end*/1;/*end of stmt*/
    break;
 
  case '^':
    if (backslash)
      goto normal_char;
-   if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)
-       || /*binOp start*/lasttok == /*binOp end*//*binOp end*/END
-       || /*binOp start*/lasttok == /*binOp end*//*binOp end*/LPAREN
-       || /*binOp start*/lasttok == /*binOp end*//*binOp end*/OR)
-     return /*binOp start*/lasttok = /*binOp end*/BEGLINE;
+   if (syntax_bits & ((((1) << 1) << 1) << 1)
+       || lasttok == END
+       || lasttok == LPAREN
+       || lasttok == OR)
+     return lasttok = BEGLINE;
    goto normal_char;
 
  case '$':
    if (backslash)
      goto normal_char;
-   if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)
-       || /*binOp start*/lexleft == /*binOp end*//*binOp end*/0
-       || (/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)
-    ? /*binOp start*//*binOp start*/lexleft > /*binOp end*/0 && /*binOp start*/*lexptr == /*binOp end*//*binOp end*/')'
-    : /*binOp start*//*binOp start*//*binOp start*/lexleft > /*binOp end*/1 && /*binOp start*/lexptr[0] == /*binOp end*//*binOp end*/'\\' && /*binOp start*/lexptr[1] == /*binOp end*//*binOp end*/')'/*binOp end*/)
-       || (/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)
-    ? /*binOp start*//*binOp start*/lexleft > /*binOp end*/0 && /*binOp start*/*lexptr == /*binOp end*//*binOp end*/'|'
-    : /*binOp start*//*binOp start*//*binOp start*/lexleft > /*binOp end*/1 && /*binOp start*/lexptr[0] == /*binOp end*//*binOp end*/'\\' && /*binOp start*/lexptr[1] == /*binOp end*//*binOp end*/'|'/*binOp end*/)
-       || (/*binOp start*//*binOp start*/(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
-           && /*binOp start*/lexleft > /*binOp end*//*binOp end*/0 && /*binOp start*/*lexptr == /*binOp end*//*binOp end*/'\n'/*binOp end*/))
-     return /*binOp start*/lasttok = /*binOp end*/ENDLINE;
+   if (syntax_bits & ((((1) << 1) << 1) << 1)
+       || lexleft == 0
+       || (syntax_bits & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)
+    ? lexleft > 0 && *lexptr == ')'
+    : lexleft > 1 && lexptr[0] == '\\' && lexptr[1] == ')')
+       || (syntax_bits & ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)
+    ? lexleft > 0 && *lexptr == '|'
+    : lexleft > 1 && lexptr[0] == '\\' && lexptr[1] == '|')
+       || ((syntax_bits & ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
+           && lexleft > 0 && *lexptr == '\n'))
+     return lasttok = ENDLINE;
    goto normal_char;
 
  case '1':
@@ -8213,173 +8213,173 @@ lex()
  case '7':
  case '8':
  case '9':
-   if (/*binOp start*/backslash && !(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)/*binOp end*/))
+   if (backslash && !(syntax_bits & (((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
      {
-       /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/0;
-       return /*binOp start*/lasttok = /*binOp end*/BACKREF;
+       /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+       return lasttok = BACKREF;
      }
    goto normal_char;
 
  case '<':
    if (backslash)
-     return /*binOp start*/lasttok = /*binOp end*/BEGWORD;
+     return lasttok = BEGWORD;
    goto normal_char;
 
  case '>':
    if (backslash)
-     return /*binOp start*/lasttok = /*binOp end*/ENDWORD;
+     return lasttok = ENDWORD;
    goto normal_char;
 
  case 'b':
    if (backslash)
-     return /*binOp start*/lasttok = /*binOp end*/LIMWORD;
+     return lasttok = LIMWORD;
    goto normal_char;
 
  case 'B':
    if (backslash)
-     return /*binOp start*/lasttok = /*binOp end*/NOTLIMWORD;
+     return lasttok = NOTLIMWORD;
    goto normal_char;
 
  case '?':
-   if (/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+   if (syntax_bits & (((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
      goto normal_char;
-   if (/*binOp start*/backslash != (/*binOp start*/(/*binOp start*/syntax_bits & (/*binOp start*/(1) << /*binOp end*/1/*binOp end*/)) != /*binOp end*/0/*binOp end*/))
+   if (backslash != ((syntax_bits & ((1) << 1)) != 0))
      goto normal_char;
-   if (/*binOp start*/!(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) && /*binOp end*/laststart)
+   if (!(syntax_bits & (((((1) << 1) << 1) << 1) << 1)) && laststart)
      goto normal_char;
-   return /*binOp start*/lasttok = /*binOp end*/QMARK;
+   return lasttok = QMARK;
 
  case '*':
    if (backslash)
      goto normal_char;
-   if (/*binOp start*/!(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) && /*binOp end*/laststart)
+   if (!(syntax_bits & (((((1) << 1) << 1) << 1) << 1)) && laststart)
      goto normal_char;
-   return /*binOp start*/lasttok = /*binOp end*/STAR;
+   return lasttok = STAR;
 
  case '+':
-   if (/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+   if (syntax_bits & (((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
      goto normal_char;
-   if (/*binOp start*/backslash != (/*binOp start*/(/*binOp start*/syntax_bits & (/*binOp start*/(1) << /*binOp end*/1/*binOp end*/)) != /*binOp end*/0/*binOp end*/))
+   if (backslash != ((syntax_bits & ((1) << 1)) != 0))
      goto normal_char;
-   if (/*binOp start*/!(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) && /*binOp end*/laststart)
+   if (!(syntax_bits & (((((1) << 1) << 1) << 1) << 1)) && laststart)
      goto normal_char;
-   return /*binOp start*/lasttok = /*binOp end*/PLUS;
+   return lasttok = PLUS;
 
  case '{':
-   if (!(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)))
+   if (!(syntax_bits & ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
      goto normal_char;
-   if (/*binOp start*/backslash != (/*binOp start*/(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) == /*binOp end*/0/*binOp end*/))
+   if (backslash != ((syntax_bits & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) == 0))
      goto normal_char;
-   /*compound start*//*binOp start*/minrep = /*binOp start*/maxrep = /*compound end*//*binOp end*//*binOp end*/0;
+   /*compound start*/minrep = maxrep = /*compound end*/0;/*end of stmt*/
 
 
 
 
 
-   { if (! lexleft) if (/*binOp start*/"unfinished repeat count" != /*binOp end*/0) dfaerror("unfinished repeat count"); else return END; /*compound start*//*binOp start*/(c) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-   if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISdigit/*binOp end*/)))
+   { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+   if ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit)))
      {
-       /*compound start*//*binOp start*/minrep = /*binOp start*/c - /*compound end*//*binOp end*//*binOp end*/'0';
+       /*compound start*/minrep = c - /*compound end*/'0';/*end of stmt*/
        for (;;)
   {
-    { if (! lexleft) if (/*binOp start*/"unfinished repeat count" != /*binOp end*/0) dfaerror("unfinished repeat count"); else return END; /*compound start*//*binOp start*/(c) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-    if (!(/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISdigit/*binOp end*/)))
+    { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+    if (!(1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit)))
       break;
-    /*compound start*//*binOp start*/minrep = /*binOp start*//*binOp start*//*binOp start*/10 * /*binOp end*/minrep + /*binOp end*/c - /*compound end*//*binOp end*//*binOp end*/'0';
+    /*compound start*/minrep = 10 * minrep + c - /*compound end*/'0';/*end of stmt*/
   }
      }
-   else if (/*binOp start*/c != /*binOp end*/',')
+   else if (c != ',')
      dfaerror("malformed repeat count");
-   if (/*binOp start*/c == /*binOp end*/',')
+   if (c == ',')
      for (;;)
        {
-  { if (! lexleft) if (/*binOp start*/"unfinished repeat count" != /*binOp end*/0) dfaerror("unfinished repeat count"); else return END; /*compound start*//*binOp start*/(c) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-  if (!(/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISdigit/*binOp end*/)))
+  { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+  if (!(1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit)))
     break;
-  /*compound start*//*binOp start*/maxrep = /*binOp start*//*binOp start*//*binOp start*/10 * /*binOp end*/maxrep + /*binOp end*/c - /*compound end*//*binOp end*//*binOp end*/'0';
+  /*compound start*/maxrep = 10 * maxrep + c - /*compound end*/'0';/*end of stmt*/
        }
    else
-     /*binOp start*/maxrep = /*binOp end*/minrep;
-   if (!(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)))
+     maxrep = minrep;
+   if (!(syntax_bits & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
      {
-       if (/*binOp start*/c != /*binOp end*/'\\')
+       if (c != '\\')
   dfaerror("malformed repeat count");
-       { if (! lexleft) if (/*binOp start*/"unfinished repeat count" != /*binOp end*/0) dfaerror("unfinished repeat count"); else return END; /*compound start*//*binOp start*/(c) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
+       { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
      }
-   if (/*binOp start*/c != /*binOp end*/'}')
+   if (c != '}')
      dfaerror("malformed repeat count");
-   /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/0;
-   return /*binOp start*/lasttok = /*binOp end*/REPMN;
+   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   return lasttok = REPMN;
 
  case '|':
-   if (/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+   if (syntax_bits & (((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
      goto normal_char;
-   if (/*binOp start*/backslash != (/*binOp start*/(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) == /*binOp end*/0/*binOp end*/))
+   if (backslash != ((syntax_bits & ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) == 0))
      goto normal_char;
-   /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/1;
-   return /*binOp start*/lasttok = /*binOp end*/OR;
+   /*compound start*/laststart = /*compound end*/1;/*end of stmt*/
+   return lasttok = OR;
 
  case '\n':
-   if (/*binOp start*//*binOp start*//*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)
-       || /*binOp end*/backslash
-       || !(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)/*binOp end*/))
+   if (syntax_bits & (((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)
+       || backslash
+       || !(syntax_bits & ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
      goto normal_char;
-   /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/1;
-   return /*binOp start*/lasttok = /*binOp end*/OR;
+   /*compound start*/laststart = /*compound end*/1;/*end of stmt*/
+   return lasttok = OR;
 
  case '(':
-   if (/*binOp start*/backslash != (/*binOp start*/(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) == /*binOp end*/0/*binOp end*/))
+   if (backslash != ((syntax_bits & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) == 0))
      goto normal_char;
    ++parens;
-   /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/1;
-   return /*binOp start*/lasttok = /*binOp end*/LPAREN;
+   /*compound start*/laststart = /*compound end*/1;/*end of stmt*/
+   return lasttok = LPAREN;
 
  case ')':
-   if (/*binOp start*/backslash != (/*binOp start*/(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) == /*binOp end*/0/*binOp end*/))
+   if (backslash != ((syntax_bits & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) == 0))
      goto normal_char;
-   if (/*binOp start*//*binOp start*/parens == /*binOp end*/0 && /*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*//*binOp end*/))
+   if (parens == 0 && syntax_bits & ((((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
      goto normal_char;
    --parens;
-   /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/0;
-   return /*binOp start*/lasttok = /*binOp end*/RPAREN;
+   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   return lasttok = RPAREN;
 
  case '.':
    if (backslash)
      goto normal_char;
    zeroset(ccl);
    notset(ccl);
-   if (!(/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)))
+   if (!(syntax_bits & (((((((1) << 1) << 1) << 1) << 1) << 1) << 1)))
      clrbit('\n', ccl);
-   if (/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+   if (syntax_bits & ((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
      clrbit('\0', ccl);
-   /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/0;
-   return /*binOp start*/lasttok = /*binOp start*/CSET + charclass_index(ccl/*binOp end*//*binOp end*/);
+   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   return lasttok = CSET + charclass_index(ccl);
 
  case 'w':
  case 'W':
    if (!backslash)
      goto normal_char;
    zeroset(ccl);
-   for (/*binOp start*/c2 = /*binOp end*/0; /*binOp start*/c2 < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); ++c2)
-     if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c2))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)))
+   for (c2 = 0; c2 < (1 << 8); ++c2)
+     if ((1 && ((*__ctype_b_loc ())[(int) ((c2))] & (unsigned short int) _ISalnum)))
        setbit(c2, ccl);
-   if (/*binOp start*/c == /*binOp end*/'W')
+   if (c == 'W')
      notset(ccl);
-   /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/0;
-   return /*binOp start*/lasttok = /*binOp start*/CSET + charclass_index(ccl/*binOp end*//*binOp end*/);
+   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   return lasttok = CSET + charclass_index(ccl);
 
  case '[':
    if (backslash)
      goto normal_char;
    zeroset(ccl);
-   { if (! lexleft) if (/*binOp start*/"Unbalanced [" != /*binOp end*/0) dfaerror("Unbalanced ["); else return END; /*compound start*//*binOp start*/(c) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-   if (/*binOp start*/c == /*binOp end*/'^')
+   { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+   if (c == '^')
      {
-       { if (! lexleft) if (/*binOp start*/"Unbalanced [" != /*binOp end*/0) dfaerror("Unbalanced ["); else return END; /*compound start*//*binOp start*/(c) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-       /*compound start*//*binOp start*/invert = /*compound end*//*binOp end*/1;
+       { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+       /*compound start*/invert = /*compound end*/1;/*end of stmt*/
      }
    else
-     /*binOp start*/invert = /*binOp end*/0;
+     invert = 0;
    do
      {
 
@@ -8388,77 +8388,77 @@ lex()
 
 
 
-       if (/*binOp start*//*binOp start*/c == /*binOp end*/'[' && (/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)/*binOp end*/))
-  for (/*binOp start*/c1 = /*binOp end*/0; prednames[c1].name; ++c1)
+       if (c == '[' && (syntax_bits & (((1) << 1) << 1)))
+  for (c1 = 0; prednames[c1].name; ++c1)
     if (looking_at(prednames[c1].name))
       {
-        for (/*binOp start*/c2 = /*binOp end*/0; /*binOp start*/c2 < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); ++c2)
+        for (c2 = 0; c2 < (1 << 8); ++c2)
    if ((*prednames[c1].pred)(c2))
      setbit(c2, ccl);
-        /*assign start*//*binOp start*/lexptr += strlen(prednames[c1].name/*assign end*//*binOp end*/);
-        /*assign start*//*binOp start*/lexleft -= strlen(prednames[c1].name/*assign end*//*binOp end*/);
-        { if (! lexleft) if (/*binOp start*/"Unbalanced [" != /*binOp end*/0) dfaerror("Unbalanced ["); else return END; /*compound start*//*binOp start*/(c1) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
+        /*compound start*/lexptr += strlen(prednames[c1].name/*compound end*/);/*end of stmt*/
+        /*compound start*/lexleft -= strlen(prednames[c1].name/*compound end*/);/*end of stmt*/
+        { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
         goto skip;
       }
-       if (/*binOp start*//*binOp start*/c == /*binOp end*/'\\' && (/*binOp start*/syntax_bits & (1/*binOp end*/)/*binOp end*/))
-  { if (! lexleft) if (/*binOp start*/"Unbalanced [" != /*binOp end*/0) dfaerror("Unbalanced ["); else return END; /*compound start*//*binOp start*/(c) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-       { if (! lexleft) if (/*binOp start*/"Unbalanced [" != /*binOp end*/0) dfaerror("Unbalanced ["); else return END; /*compound start*//*binOp start*/(c1) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-       if (/*binOp start*/c1 == /*binOp end*/'-')
+       if (c == '\\' && (syntax_bits & (1)))
+  { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+       { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+       if (c1 == '-')
   {
-    { if (! lexleft) if (/*binOp start*/"Unbalanced [" != /*binOp end*/0) dfaerror("Unbalanced ["); else return END; /*compound start*//*binOp start*/(c2) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-    if (/*binOp start*/c2 == /*binOp end*/']')
+    { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c2) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+    if (c2 == ']')
       {
 
 
         --lexptr;
         ++lexleft;
-        /*compound start*//*binOp start*/c2 = /*compound end*//*binOp end*/c;
+        /*compound start*/c2 = /*compound end*/c;/*end of stmt*/
       }
     else
       {
-        if (/*binOp start*//*binOp start*/c2 == /*binOp end*/'\\'
-     && (/*binOp start*/syntax_bits & (1/*binOp end*/)/*binOp end*/))
-   { if (! lexleft) if (/*binOp start*/"Unbalanced [" != /*binOp end*/0) dfaerror("Unbalanced ["); else return END; /*compound start*//*binOp start*/(c2) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
-        { if (! lexleft) if (/*binOp start*/"Unbalanced [" != /*binOp end*/0) dfaerror("Unbalanced ["); else return END; /*compound start*//*binOp start*/(c1) = (unsigned char) *lexptr/*compound end*//*binOp end*/++; --lexleft; };
+        if (c2 == '\\'
+     && (syntax_bits & (1)))
+   { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c2) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+        { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
       }
   }
        else
-  /*binOp start*/c2 = /*binOp end*/c;
-       while (/*binOp start*/c <= /*binOp end*/c2)
+  c2 = c;
+       while (c <= c2)
   {
     setbit(c, ccl);
     if (case_fold)
-      if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISupper/*binOp end*/)))
+      if ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISupper)))
         setbit(tolower(c), ccl);
-      else if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISlower/*binOp end*/)))
+      else if ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISlower)))
         setbit(toupper(c), ccl);
     ++c;
   }
      skip:
        ;
      }
-   while (/*binOp start*/(/*binOp start*/c = /*binOp end*/c1) != /*binOp end*/']');
+   while ((c = c1) != ']');
    if (invert)
      {
        notset(ccl);
-       if (/*binOp start*/syntax_bits & (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/))
+       if (syntax_bits & (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
   clrbit('\n', ccl);
      }
-   /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/0;
-   return /*binOp start*/lasttok = /*binOp start*/CSET + charclass_index(ccl/*binOp end*//*binOp end*/);
+   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   return lasttok = CSET + charclass_index(ccl);
 
  default:
  normal_char:
-   /*binOp start*/laststart = /*binOp end*/0;
-   if (/*binOp start*/case_fold && (/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISalpha/*binOp end*/)/*binOp end*/))
+   laststart = 0;
+   if (case_fold && (1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISalpha)))
      {
        zeroset(ccl);
        setbit(c, ccl);
-       if ((/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISupper))
+       if (((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISupper))
   setbit(tolower(c), ccl);
        else
   setbit(toupper(c), ccl);
-       return /*binOp start*/lasttok = /*binOp start*/CSET + charclass_index(ccl/*binOp end*//*binOp end*/);
+       return lasttok = CSET + charclass_index(ccl);
      }
    return c;
  }
@@ -8484,8 +8484,8 @@ static void
 addtok(t)
      token t;
 {
-  if (/*binOp start*/(dfa->tindex) >= (dfa->talloc/*binOp end*/)) { while (/*binOp start*/(dfa->tindex) >= (dfa->talloc/*binOp end*/)) /*binOp start*/(dfa->talloc) *= /*binOp end*/2; (/*binOp start*/(dfa->tokens) = (token *) xrealloc_1((ptr_t) (dfa->tokens), /*binOp start*/(dfa->talloc) * sizeof (token/*binOp end*/)/*binOp end*/)); };
-  /*compound start*//*binOp start*/dfa->tokens[dfa->tindex++] = /*compound end*//*binOp end*/t;
+  if ((dfa->tindex) >= (dfa->talloc)) { while ((dfa->tindex) >= (dfa->talloc)) (dfa->talloc) *= 2; ((dfa->tokens) = (token *) xrealloc_1((ptr_t) (dfa->tokens), (dfa->talloc) * sizeof (token))); };
+  /*compound start*/dfa->tokens[dfa->tindex++] = /*compound end*/t;/*end of stmt*/
 
   switch (t)
     {
@@ -8506,8 +8506,8 @@ addtok(t)
       ++depth;
       break;
     }
-  if (/*binOp start*/depth > dfa->/*binOp end*/depth)
-    /*binOp start*/dfa->depth = /*binOp end*/depth;
+  if (depth > dfa->depth)
+    /*compound start*/dfa->depth = /*compound end*/depth;/*end of stmt*/
 }
 # 7369 "target/grep.c"
 static void regexp(int);
@@ -8518,20 +8518,20 @@ static void regexp(int);
 static void
 atom()
 {
-  if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*//*binOp start*/tok >= /*binOp end*/0 && /*binOp start*/tok < (/*binOp start*/1 << /*binOp end*/8/*binOp end*//*binOp end*/)) || /*binOp start*/tok >= /*binOp end*//*binOp end*/CSET || /*binOp start*/tok == /*binOp end*//*binOp end*/BACKREF
-      || /*binOp start*/tok == /*binOp end*//*binOp end*/BEGLINE || /*binOp start*/tok == /*binOp end*//*binOp end*/ENDLINE || /*binOp start*/tok == /*binOp end*//*binOp end*/BEGWORD
-      || /*binOp start*/tok == /*binOp end*//*binOp end*/ENDWORD || /*binOp start*/tok == /*binOp end*//*binOp end*/LIMWORD || /*binOp start*/tok == /*binOp end*//*binOp end*/NOTLIMWORD)
+  if ((tok >= 0 && tok < (1 << 8)) || tok >= CSET || tok == BACKREF
+      || tok == BEGLINE || tok == ENDLINE || tok == BEGWORD
+      || tok == ENDWORD || tok == LIMWORD || tok == NOTLIMWORD)
     {
       addtok(tok);
-      /*compound start*//*binOp start*/tok = lex(/*compound end*//*binOp end*/);
+      /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
     }
-  else if (/*binOp start*/tok == /*binOp end*/LPAREN)
+  else if (tok == LPAREN)
     {
-      /*compound start*//*binOp start*/tok = lex(/*compound end*//*binOp end*/);
+      /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
       regexp(0);
-      if (/*binOp start*/tok != /*binOp end*/RPAREN)
+      if (tok != RPAREN)
  dfaerror("Unbalanced (");
-      /*compound start*//*binOp start*/tok = lex(/*compound end*//*binOp end*/);
+      /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
     }
   else
     addtok(EMPTY);
@@ -8543,19 +8543,19 @@ nsubtoks(tindex)
 {
   int ntoks1;
 
-  switch (dfa->tokens[/*binOp start*/tindex - /*binOp end*/1])
+  switch (dfa->tokens[tindex - 1])
     {
     default:
       return 1;
     case QMARK:
     case STAR:
     case PLUS:
-      return /*binOp start*/1 + nsubtoks(/*binOp start*/tindex - /*binOp end*/1/*binOp end*/);
+      return 1 + nsubtoks(tindex - 1);
     case CAT:
     case OR:
     case ORTOP:
-      /*case comp start*//*binOp start*/ntoks1 = nsubtoks(/*binOp start*/tindex - /*binOp end*/1/*case comp end*//*binOp end*/);
-      return /*binOp start*//*binOp start*/1 + /*binOp end*/ntoks1 + nsubtoks(/*binOp start*//*binOp start*/tindex - /*binOp end*/1 - /*binOp end*/ntoks1/*binOp end*/);
+      /*compound start*/ntoks1 = nsubtoks(tindex - 1/*compound end*/);/*end of stmt*/
+      return 1 + ntoks1 + nsubtoks(tindex - 1 - ntoks1);
     }
 }
 
@@ -8566,8 +8566,8 @@ copytoks(tindex, ntokens)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp end*/ntokens; ++i)
-    addtok(dfa->tokens[/*binOp start*/tindex + /*binOp end*/i]);
+  for (i = 0; i < ntokens; ++i)
+    addtok(dfa->tokens[tindex + i]);
 }
 
 static void
@@ -8576,32 +8576,32 @@ closure()
   int tindex, ntokens, i;
 
   atom();
-  while (/*binOp start*//*binOp start*//*binOp start*//*binOp start*/tok == /*binOp end*/QMARK || /*binOp start*/tok == /*binOp end*//*binOp end*/STAR || /*binOp start*/tok == /*binOp end*//*binOp end*/PLUS || /*binOp start*/tok == /*binOp end*//*binOp end*/REPMN)
-    if (/*binOp start*/tok == /*binOp end*/REPMN)
+  while (tok == QMARK || tok == STAR || tok == PLUS || tok == REPMN)
+    if (tok == REPMN)
       {
- /*compound start*//*binOp start*/ntokens = nsubtoks(dfa->tindex/*compound end*//*binOp end*/);
- /*compound start*//*binOp start*/tindex = /*binOp start*/dfa->tindex - /*compound end*//*binOp end*//*binOp end*/ntokens;
- if (/*binOp start*/maxrep == /*binOp end*/0)
+ /*compound start*/ntokens = nsubtoks(dfa->tindex/*compound end*/);/*end of stmt*/
+ /*compound start*/tindex = dfa->tindex - /*compound end*/ntokens;/*end of stmt*/
+ if (maxrep == 0)
    addtok(PLUS);
- if (/*binOp start*/minrep == /*binOp end*/0)
+ if (minrep == 0)
    addtok(QMARK);
- for (/*binOp start*/i = /*binOp end*/1; /*binOp start*/i < /*binOp end*/minrep; ++i)
+ for (i = 1; i < minrep; ++i)
    {
      copytoks(tindex, ntokens);
      addtok(CAT);
    }
- for (; /*binOp start*/i < /*binOp end*/maxrep; ++i)
+ for (; i < maxrep; ++i)
    {
      copytoks(tindex, ntokens);
      addtok(QMARK);
      addtok(CAT);
    }
- /*compound start*//*binOp start*/tok = lex(/*compound end*//*binOp end*/);
+ /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
       }
     else
       {
  addtok(tok);
- /*compound start*//*binOp start*/tok = lex(/*compound end*//*binOp end*/);
+ /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
       }
 }
 
@@ -8609,7 +8609,7 @@ static void
 branch()
 {
   closure();
-  while (/*binOp start*//*binOp start*//*binOp start*/tok != /*binOp end*/RPAREN && /*binOp start*/tok != /*binOp end*//*binOp end*/OR && /*binOp start*/tok >= /*binOp end*//*binOp end*/0)
+  while (tok != RPAREN && tok != OR && tok >= 0)
     {
       closure();
       addtok(CAT);
@@ -8621,9 +8621,9 @@ regexp(toplevel)
      int toplevel;
 {
   branch();
-  while (/*binOp start*/tok == /*binOp end*/OR)
+  while (tok == OR)
     {
-      /*compound start*//*binOp start*/tok = lex(/*compound end*//*binOp end*/);
+      /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
       branch();
       if (toplevel)
  addtok(ORTOP);
@@ -8642,25 +8642,25 @@ dfaparse(s, len, d)
      struct dfa *d;
 
 {
-  /*compound start*//*binOp start*/dfa = /*compound end*//*binOp end*/d;
-  /*compound start*//*binOp start*/lexstart = /*binOp start*/lexptr = /*compound end*//*binOp end*//*binOp end*/s;
-  /*compound start*//*binOp start*/lexleft = /*compound end*//*binOp end*/len;
-  /*compound start*//*binOp start*/lasttok = /*compound end*//*binOp end*/END;
-  /*compound start*//*binOp start*/laststart = /*compound end*//*binOp end*/1;
-  /*compound start*//*binOp start*/parens = /*compound end*//*binOp end*/0;
+  /*compound start*/dfa = /*compound end*/d;/*end of stmt*/
+  /*compound start*/lexstart = lexptr = /*compound end*/s;/*end of stmt*/
+  /*compound start*/lexleft = /*compound end*/len;/*end of stmt*/
+  /*compound start*/lasttok = /*compound end*/END;/*end of stmt*/
+  /*compound start*/laststart = /*compound end*/1;/*end of stmt*/
+  /*compound start*/parens = /*compound end*/0;/*end of stmt*/
 
   if (! syntax_bits_set)
     dfaerror("No syntax specified");
 
-  /*compound start*//*binOp start*/tok = lex(/*compound end*//*binOp end*/);
-  /*compound start*//*binOp start*/depth = d->/*compound end*//*binOp end*/depth;
+  /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
+  /*compound start*/depth = d->/*compound end*/depth;/*end of stmt*/
 
   regexp(1);
 
-  if (/*binOp start*/tok != /*binOp end*/END)
+  if (tok != END)
     dfaerror("Unbalanced )");
 
-  addtok(/*binOp start*/END - d->/*binOp end*/nregexps);
+  addtok(END - d->nregexps);
   addtok(CAT);
 
   if (d->nregexps)
@@ -8679,9 +8679,9 @@ copy(src, dst)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < src->/*binOp end*/nelem; ++i)
-    /*binOp start*/dst->elems[i] = src->elems[i/*binOp end*/];
-  /*compound start*//*binOp start*/dst->nelem = src->/*compound end*//*binOp end*/nelem;
+  for (i = 0; i < src->nelem; ++i)
+    /*compound start*/dst->elems[i] = src->elems[i/*compound end*/];/*end of stmt*/
+  /*compound start*/dst->nelem = src->/*compound end*/nelem;/*end of stmt*/
 }
 
 
@@ -8696,19 +8696,19 @@ insert(p, s)
   int i;
   position t1, t2;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*//*binOp start*/i < s->/*binOp end*/nelem && /*binOp start*/p.strchr < s->elems[i]./*binOp end*//*binOp end*/strchr; ++i)
+  for (i = 0; i < s->nelem && p.strchr < s->elems[i].strchr; ++i)
     ;
-  if (/*binOp start*//*binOp start*/i < s->/*binOp end*/nelem && /*binOp start*/p.strchr == s->elems[i]./*binOp end*//*binOp end*/strchr)
-    /*binOp start*/s->elems[i].constraint |= p./*binOp end*/constraint;
+  if (i < s->nelem && p.strchr == s->elems[i].strchr)
+    s->elems[i].constraint |= p.constraint;
   else
     {
-      /*compound start*//*binOp start*/t1 = /*compound end*//*binOp end*/p;
+      /*compound start*/t1 = /*compound end*/p;/*end of stmt*/
       ++s->nelem;
-      while (/*binOp start*/i < s->/*binOp end*/nelem)
+      while (i < s->nelem)
  {
-   /*compound start*//*binOp start*/t2 = s->elems[i/*compound end*//*binOp end*/];
-   /*compound start*//*binOp start*/s->elems[i++] = /*compound end*//*binOp end*/t1;
-   /*compound start*//*binOp start*/t1 = /*compound end*//*binOp end*/t2;
+   /*compound start*/t2 = s->elems[i/*compound end*/];/*end of stmt*/
+   /*compound start*/s->elems[i++] = /*compound end*/t1;/*end of stmt*/
+   /*compound start*/t1 = /*compound end*/t2;/*end of stmt*/
  }
     }
 }
@@ -8723,21 +8723,21 @@ merge(s1, s2, m)
 {
   int i = 0, j = 0;
 
-  /*compound start*//*binOp start*/m->nelem = /*compound end*//*binOp end*/0;
-  while (/*binOp start*//*binOp start*/i < s1->/*binOp end*/nelem && /*binOp start*/j < s2->/*binOp end*//*binOp end*/nelem)
-    if (/*binOp start*/s1->elems[i].strchr > s2->elems[j]./*binOp end*/strchr)
-      /*binOp start*/m->elems[m->nelem++] = s1->elems[i++/*binOp end*/];
-    else if (/*binOp start*/s1->elems[i].strchr < s2->elems[j]./*binOp end*/strchr)
-      /*binOp start*/m->elems[m->nelem++] = s2->elems[j++/*binOp end*/];
+  /*compound start*/m->nelem = /*compound end*/0;/*end of stmt*/
+  while (i < s1->nelem && j < s2->nelem)
+    if (s1->elems[i].strchr > s2->elems[j].strchr)
+      /*compound start*/m->elems[m->nelem++] = s1->elems[i++/*compound end*/];/*end of stmt*/
+    else if (s1->elems[i].strchr < s2->elems[j].strchr)
+      /*compound start*/m->elems[m->nelem++] = s2->elems[j++/*compound end*/];/*end of stmt*/
     else
       {
- /*compound start*//*binOp start*/m->elems[m->nelem] = s1->elems[i++/*compound end*//*binOp end*/];
- /*assign start*//*binOp start*/m->elems[m->nelem++].constraint |= s2->elems[j++]./*assign end*//*binOp end*/constraint;
+ /*compound start*/m->elems[m->nelem] = s1->elems[i++/*compound end*/];/*end of stmt*/
+ /*compound start*/m->elems[m->nelem++].constraint |= s2->elems[j++]./*compound end*/constraint;/*end of stmt*/
       }
-  while (/*binOp start*/i < s1->/*binOp end*/nelem)
-    /*binOp start*/m->elems[m->nelem++] = s1->elems[i++/*binOp end*/];
-  while (/*binOp start*/j < s2->/*binOp end*/nelem)
-    /*binOp start*/m->elems[m->nelem++] = s2->elems[j++/*binOp end*/];
+  while (i < s1->nelem)
+    /*compound start*/m->elems[m->nelem++] = s1->elems[i++/*compound end*/];/*end of stmt*/
+  while (j < s2->nelem)
+    /*compound start*/m->elems[m->nelem++] = s2->elems[j++/*compound end*/];/*end of stmt*/
 }
 
 
@@ -8748,12 +8748,12 @@ delete(p, s)
 {
   int i;
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < s->/*binOp end*/nelem; ++i)
-    if (/*binOp start*/p.strchr == s->elems[i]./*binOp end*/strchr)
+  for (i = 0; i < s->nelem; ++i)
+    if (p.strchr == s->elems[i].strchr)
       break;
-  if (/*binOp start*/i < s->/*binOp end*/nelem)
-    for (--s->nelem; /*binOp start*/i < s->/*binOp end*/nelem; ++i)
-      /*binOp start*/s->elems[i] = s->elems[/*binOp start*/i + /*binOp end*/1/*binOp end*/];
+  if (i < s->nelem)
+    for (--s->nelem; i < s->nelem; ++i)
+      /*compound start*/s->elems[i] = s->elems[i + 1/*compound end*/];/*end of stmt*/
 }
 
 
@@ -8771,53 +8771,53 @@ state_index(d, s, newline, letter)
   int constraint;
   int i, j;
 
-  /*compound start*//*binOp start*/newline = newline ? 1 : /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/letter = letter ? 1 : /*compound end*//*binOp end*/0;
+  /*compound start*/newline = newline ? 1 : /*compound end*/0;/*end of stmt*/
+  /*compound start*/letter = letter ? 1 : /*compound end*/0;/*end of stmt*/
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < s->/*binOp end*/nelem; ++i)
-    /*binOp start*/hash ^= /*binOp start*/s->elems[i].strchr + s->elems[i]./*binOp end*//*binOp end*/constraint;
+  for (i = 0; i < s->nelem; ++i)
+    hash ^= s->elems[i].strchr + s->elems[i].constraint;
 
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/sindex; ++i)
+  for (i = 0; i < d->sindex; ++i)
     {
-      if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*/hash != d->states[i]./*binOp end*/hash || /*binOp start*/s->nelem != d->states[i].elems./*binOp end*//*binOp end*/nelem
-   || /*binOp start*/newline != d->states[i]./*binOp end*//*binOp end*/newline || /*binOp start*/letter != d->states[i]./*binOp end*//*binOp end*/letter)
+      if (hash != d->states[i].hash || s->nelem != d->states[i].elems.nelem
+   || newline != d->states[i].newline || letter != d->states[i].letter)
  continue;
-      for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < s->/*binOp end*/nelem; ++j)
- if (/*binOp start*//*binOp start*/s->elems[j].constraint
-     != d->states[i].elems.elems[j]./*binOp end*/constraint
-     || /*binOp start*/s->elems[j].strchr != d->states[i].elems.elems[j]./*binOp end*//*binOp end*/strchr)
+      for (j = 0; j < s->nelem; ++j)
+ if (s->elems[j].constraint
+     != d->states[i].elems.elems[j].constraint
+     || s->elems[j].strchr != d->states[i].elems.elems[j].strchr)
    break;
-      if (/*binOp start*/j == s->/*binOp end*/nelem)
+      if (j == s->nelem)
  return i;
     }
 
 
-  if (/*binOp start*/(d->sindex) >= (d->salloc/*binOp end*/)) { while (/*binOp start*/(d->sindex) >= (d->salloc/*binOp end*/)) /*binOp start*/(d->salloc) *= /*binOp end*/2; (/*binOp start*/(d->states) = (dfa_state *) xrealloc_1((ptr_t) (d->states), /*binOp start*/(d->salloc) * sizeof (dfa_state/*binOp end*/)/*binOp end*/)); };
-  /*compound start*//*binOp start*/d->states[i].hash = /*compound end*//*binOp end*/hash;
-  (/*binOp start*/(d->states[i].elems.elems) = (position *) xmalloc_1(/*binOp start*/(s->nelem) * sizeof (position/*binOp end*/)/*binOp end*/));
+  if ((d->sindex) >= (d->salloc)) { while ((d->sindex) >= (d->salloc)) (d->salloc) *= 2; ((d->states) = (dfa_state *) xrealloc_1((ptr_t) (d->states), (d->salloc) * sizeof (dfa_state))); };
+  /*compound start*/d->states[i].hash = /*compound end*/hash;/*end of stmt*/
+  ((d->states[i].elems.elems) = (position *) xmalloc_1((s->nelem) * sizeof (position)));
   copy(s, &d->states[i].elems);
-  /*compound start*//*binOp start*/d->states[i].newline = /*compound end*//*binOp end*/newline;
-  /*compound start*//*binOp start*/d->states[i].letter = /*compound end*//*binOp end*/letter;
-  /*compound start*//*binOp start*/d->states[i].backref = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/d->states[i].constraint = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/d->states[i].first_end = /*compound end*//*binOp end*/0;
-  for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < s->/*binOp end*/nelem; ++j)
-    if (/*binOp start*/d->tokens[s->elems[j].strchr] < /*binOp end*/0)
+  /*compound start*/d->states[i].newline = /*compound end*/newline;/*end of stmt*/
+  /*compound start*/d->states[i].letter = /*compound end*/letter;/*end of stmt*/
+  /*compound start*/d->states[i].backref = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->states[i].constraint = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->states[i].first_end = /*compound end*/0;/*end of stmt*/
+  for (j = 0; j < s->nelem; ++j)
+    if (d->tokens[s->elems[j].strchr] < 0)
       {
- /*compound start*//*binOp start*/constraint = s->elems[j]./*compound end*//*binOp end*/constraint;
- if (/*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(/*binOp start*/(constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((newline) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)) && (/*binOp start*/(constraint) & /*binOp start*/1 << (/*binOp start*/((letter) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)/*binOp end*/))
-     || (/*binOp start*/(/*binOp start*/(constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((newline) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)) && (/*binOp start*/(constraint) & /*binOp start*/1 << (/*binOp start*/((letter) ? 2 : 0) + ((1) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)/*binOp end*/)/*binOp end*/)
-     || (/*binOp start*/(/*binOp start*/(constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((newline) ? 2 : 0) + ((1) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)) && (/*binOp start*/(constraint) & /*binOp start*/1 << (/*binOp start*/((letter) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)/*binOp end*/)/*binOp end*/)
-     || (/*binOp start*/(/*binOp start*/(constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((newline) ? 2 : 0) + ((1) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)) && (/*binOp start*/(constraint) & /*binOp start*/1 << (/*binOp start*/((letter) ? 2 : 0) + ((1) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)/*binOp end*/)/*binOp end*/))
-   /*binOp start*/d->states[i].constraint |= /*binOp end*/constraint;
+ /*compound start*/constraint = s->elems[j]./*compound end*/constraint;/*end of stmt*/
+ if ((((constraint) & 1 << (((newline) ? 2 : 0) + ((0) ? 1 : 0) + 4)) && ((constraint) & 1 << (((letter) ? 2 : 0) + ((0) ? 1 : 0))))
+     || (((constraint) & 1 << (((newline) ? 2 : 0) + ((0) ? 1 : 0) + 4)) && ((constraint) & 1 << (((letter) ? 2 : 0) + ((1) ? 1 : 0))))
+     || (((constraint) & 1 << (((newline) ? 2 : 0) + ((1) ? 1 : 0) + 4)) && ((constraint) & 1 << (((letter) ? 2 : 0) + ((0) ? 1 : 0))))
+     || (((constraint) & 1 << (((newline) ? 2 : 0) + ((1) ? 1 : 0) + 4)) && ((constraint) & 1 << (((letter) ? 2 : 0) + ((1) ? 1 : 0)))))
+   d->states[i].constraint |= constraint;
  if (! d->states[i].first_end)
-   /*binOp start*/d->states[i].first_end = d->tokens[s->elems[j].strchr/*binOp end*/];
+   /*compound start*/d->states[i].first_end = d->tokens[s->elems[j].strchr/*compound end*/];/*end of stmt*/
       }
-    else if (/*binOp start*/d->tokens[s->elems[j].strchr] == /*binOp end*/BACKREF)
+    else if (d->tokens[s->elems[j].strchr] == BACKREF)
       {
- /*compound start*//*binOp start*/d->states[i].constraint = /*compound end*//*binOp end*/0xff;
- /*compound start*//*binOp start*/d->states[i].backref = /*compound end*//*binOp end*/1;
+ /*compound start*/d->states[i].constraint = /*compound end*/0xff;/*end of stmt*/
+ /*compound start*/d->states[i].backref = /*compound end*/1;/*end of stmt*/
       }
 
   ++d->sindex;
@@ -8839,54 +8839,54 @@ epsclosure(s, d)
   int *visited;
   position p, old;
 
-  (/*binOp start*/(visited) = (int *) xmalloc_1(/*binOp start*/(d->tindex) * sizeof (int/*binOp end*/)/*binOp end*/));
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/tindex; ++i)
-    /*binOp start*/visited[i] = /*binOp end*/0;
+  ((visited) = (int *) xmalloc_1((d->tindex) * sizeof (int)));
+  for (i = 0; i < d->tindex; ++i)
+    /*compound start*/visited[i] = /*compound end*/0;/*end of stmt*/
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < s->/*binOp end*/nelem; ++i)
-    if (/*binOp start*//*binOp start*//*binOp start*/d->tokens[s->elems[i].strchr] >= (/*binOp start*/1 << /*binOp end*/8/*binOp end*/)
- && /*binOp start*/d->tokens[s->elems[i].strchr] != /*binOp end*//*binOp end*/BACKREF
- && /*binOp start*/d->tokens[s->elems[i].strchr] < /*binOp end*//*binOp end*/CSET)
+  for (i = 0; i < s->nelem; ++i)
+    if (d->tokens[s->elems[i].strchr] >= (1 << 8)
+ && d->tokens[s->elems[i].strchr] != BACKREF
+ && d->tokens[s->elems[i].strchr] < CSET)
       {
- /*compound start*//*binOp start*/old = s->elems[i/*compound end*//*binOp end*/];
- /*compound start*//*binOp start*/p.constraint = old./*compound end*//*binOp end*/constraint;
+ /*compound start*/old = s->elems[i/*compound end*/];/*end of stmt*/
+ /*compound start*/p.constraint = old./*compound end*/constraint;/*end of stmt*/
  delete(s->elems[i], s);
  if (visited[old.strchr])
    {
      --i;
      continue;
    }
- /*compound start*//*binOp start*/visited[old.strchr] = /*compound end*//*binOp end*/1;
+ /*compound start*/visited[old.strchr] = /*compound end*/1;/*end of stmt*/
  switch (d->tokens[old.strchr])
    {
    case BEGLINE:
-     /*case assign start*//*binOp start*/p.constraint &= /*binOp end*/0xcf;
+     /*compound start*/p.constraint &= /*compound end*/0xcf;/*end of stmt*/
      break;
    case ENDLINE:
-     /*case assign start*//*binOp start*/p.constraint &= /*binOp end*/0xaf;
+     /*compound start*/p.constraint &= /*compound end*/0xaf;/*end of stmt*/
      break;
    case BEGWORD:
-     /*case assign start*//*binOp start*/p.constraint &= /*binOp end*/0xf2;
+     /*compound start*/p.constraint &= /*compound end*/0xf2;/*end of stmt*/
      break;
    case ENDWORD:
-     /*case assign start*//*binOp start*/p.constraint &= /*binOp end*/0xf4;
+     /*compound start*/p.constraint &= /*compound end*/0xf4;/*end of stmt*/
      break;
    case LIMWORD:
-     /*case assign start*//*binOp start*/p.constraint &= /*binOp end*/0xf6;
+     /*compound start*/p.constraint &= /*compound end*/0xf6;/*end of stmt*/
      break;
    case NOTLIMWORD:
-     /*case assign start*//*binOp start*/p.constraint &= /*binOp end*/0xf9;
+     /*compound start*/p.constraint &= /*compound end*/0xf9;/*end of stmt*/
      break;
    default:
      break;
    }
- for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < d->follows[old.strchr]./*binOp end*/nelem; ++j)
+ for (j = 0; j < d->follows[old.strchr].nelem; ++j)
    {
-     /*compound start*//*binOp start*/p.strchr = d->follows[old.strchr].elems[j]./*compound end*//*binOp end*/strchr;
+     /*compound start*/p.strchr = d->follows[old.strchr].elems[j]./*compound end*/strchr;/*end of stmt*/
      insert(p, s);
    }
 
- /*compound start*//*binOp start*/i = -/*compound end*//*binOp end*/1;
+ /*compound start*/i = -/*compound end*/1;/*end of stmt*/
       }
 
   free(visited);
@@ -8912,26 +8912,26 @@ dfaanalyze(d, searchflag)
   int i, j;
   position *pos;
 # 7833 "target/grep.c"
-  /*compound start*//*binOp start*/d->searchflag = /*compound end*//*binOp end*/searchflag;
+  /*compound start*/d->searchflag = /*compound end*/searchflag;/*end of stmt*/
 
-  (/*binOp start*/(nullable) = (int *) xmalloc_1(/*binOp start*/(d->depth) * sizeof (int/*binOp end*/)/*binOp end*/));
-  /*compound start*//*binOp start*/o_nullable = /*compound end*//*binOp end*/nullable;
-  (/*binOp start*/(nfirstpos) = (int *) xmalloc_1(/*binOp start*/(d->depth) * sizeof (int/*binOp end*/)/*binOp end*/));
-  /*compound start*//*binOp start*/o_nfirst = /*compound end*//*binOp end*/nfirstpos;
-  (/*binOp start*/(firstpos) = (position *) xmalloc_1(/*binOp start*/(d->nleaves) * sizeof (position/*binOp end*/)/*binOp end*/));
-  /*compound start*//*binOp start*//*binOp start*/o_firstpos = /*binOp end*/firstpos, /*binOp start*/firstpos += d->/*compound end*//*binOp end*//*binOp end*/nleaves;
-  (/*binOp start*/(nlastpos) = (int *) xmalloc_1(/*binOp start*/(d->depth) * sizeof (int/*binOp end*/)/*binOp end*/));
-  /*compound start*//*binOp start*/o_nlast = /*compound end*//*binOp end*/nlastpos;
-  (/*binOp start*/(lastpos) = (position *) xmalloc_1(/*binOp start*/(d->nleaves) * sizeof (position/*binOp end*/)/*binOp end*/));
-  /*compound start*//*binOp start*//*binOp start*/o_lastpos = /*binOp end*/lastpos, /*binOp start*/lastpos += d->/*compound end*//*binOp end*//*binOp end*/nleaves;
-  (/*binOp start*/(nalloc) = (int *) xmalloc_1(/*binOp start*/(d->tindex) * sizeof (int/*binOp end*/)/*binOp end*/));
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/tindex; ++i)
-    /*binOp start*/nalloc[i] = /*binOp end*/0;
-  (/*binOp start*/(merged.elems) = (position *) xmalloc_1(/*binOp start*/(d->nleaves) * sizeof (position/*binOp end*/)/*binOp end*/));
+  ((nullable) = (int *) xmalloc_1((d->depth) * sizeof (int)));
+  /*compound start*/o_nullable = /*compound end*/nullable;/*end of stmt*/
+  ((nfirstpos) = (int *) xmalloc_1((d->depth) * sizeof (int)));
+  /*compound start*/o_nfirst = /*compound end*/nfirstpos;/*end of stmt*/
+  ((firstpos) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
+  /*compound start*/o_firstpos = firstpos, firstpos += d->/*compound end*/nleaves;/*end of stmt*/
+  ((nlastpos) = (int *) xmalloc_1((d->depth) * sizeof (int)));
+  /*compound start*/o_nlast = /*compound end*/nlastpos;/*end of stmt*/
+  ((lastpos) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
+  /*compound start*/o_lastpos = lastpos, lastpos += d->/*compound end*/nleaves;/*end of stmt*/
+  ((nalloc) = (int *) xmalloc_1((d->tindex) * sizeof (int)));
+  for (i = 0; i < d->tindex; ++i)
+    /*compound start*/nalloc[i] = /*compound end*/0;/*end of stmt*/
+  ((merged.elems) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
 
-  (/*binOp start*/(d->follows) = (position_set *) xcalloc((d->tindex), sizeof (position_set)/*binOp end*/));
+  ((d->follows) = (position_set *) xcalloc((d->tindex), sizeof (position_set)));
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/tindex; ++i)
+  for (i = 0; i < d->tindex; ++i)
 
 
 
@@ -8939,43 +8939,43 @@ dfaanalyze(d, searchflag)
       {
       case EMPTY:
 
- /*case comp start*//*binOp start*/*nullable++ = /*case comp end*//*binOp end*/1;
+ /*compound start*/*nullable++ = /*compound end*/1;/*end of stmt*/
 
 
- /*compound start*//*binOp start*/*nfirstpos++ = /*binOp start*/*nlastpos++ = /*compound end*//*binOp end*//*binOp end*/0;
+ /*compound start*/*nfirstpos++ = *nlastpos++ = /*compound end*/0;/*end of stmt*/
  break;
 
       case STAR:
       case PLUS:
 
 
- /*case comp start*//*binOp start*/tmp.nelem = nfirstpos[-1/*case comp end*//*binOp end*/];
- /*compound start*//*binOp start*/tmp.elems = /*compound end*//*binOp end*/firstpos;
- /*compound start*//*binOp start*/pos = /*compound end*//*binOp end*/lastpos;
- for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < nlastpos[-1/*binOp end*/]; ++j)
+ /*compound start*/tmp.nelem = nfirstpos[-1/*compound end*/];/*end of stmt*/
+ /*compound start*/tmp.elems = /*compound end*/firstpos;/*end of stmt*/
+ /*compound start*/pos = /*compound end*/lastpos;/*end of stmt*/
+ for (j = 0; j < nlastpos[-1]; ++j)
    {
      merge(&tmp, &d->follows[pos[j].strchr], &merged);
-     if (/*binOp start*/(/*binOp start*/merged.nelem - /*binOp end*/1) >= (nalloc[pos[j].strchr]/*binOp end*/)) { while (/*binOp start*/(/*binOp start*/merged.nelem - /*binOp end*/1) >= (nalloc[pos[j].strchr]/*binOp end*/)) /*binOp start*/(nalloc[pos[j].strchr]) *= /*binOp end*/2; (/*binOp start*/(d->follows[pos[j].strchr].elems) = (position *) xrealloc_1((ptr_t) (d->follows[pos[j].strchr].elems), /*binOp start*/(nalloc[pos[j].strchr]) * sizeof (position/*binOp end*/)/*binOp end*/)); };
+     if ((merged.nelem - 1) >= (nalloc[pos[j].strchr])) { while ((merged.nelem - 1) >= (nalloc[pos[j].strchr])) (nalloc[pos[j].strchr]) *= 2; ((d->follows[pos[j].strchr].elems) = (position *) xrealloc_1((ptr_t) (d->follows[pos[j].strchr].elems), (nalloc[pos[j].strchr]) * sizeof (position))); };
 
      copy(&merged, &d->follows[pos[j].strchr]);
    }
 
       case QMARK:
 
- if (/*binOp start*/d->tokens[i] != /*binOp end*/PLUS)
-   /*binOp start*/nullable[-1] = /*binOp end*/1;
+ if (d->tokens[i] != PLUS)
+   /*compound start*/nullable[-1] = /*compound end*/1;/*end of stmt*/
  break;
 
       case CAT:
 
 
- /*case comp start*//*binOp start*/tmp.nelem = nfirstpos[-1/*case comp end*//*binOp end*/];
- /*compound start*//*binOp start*/tmp.elems = /*compound end*//*binOp end*/firstpos;
- /*compound start*//*binOp start*/pos = /*binOp start*/lastpos + nlastpos[-1/*compound end*//*binOp end*//*binOp end*/];
- for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < nlastpos[-2/*binOp end*/]; ++j)
+ /*compound start*/tmp.nelem = nfirstpos[-1/*compound end*/];/*end of stmt*/
+ /*compound start*/tmp.elems = /*compound end*/firstpos;/*end of stmt*/
+ /*compound start*/pos = lastpos + nlastpos[-1/*compound end*/];/*end of stmt*/
+ for (j = 0; j < nlastpos[-2]; ++j)
    {
      merge(&tmp, &d->follows[pos[j].strchr], &merged);
-     if (/*binOp start*/(/*binOp start*/merged.nelem - /*binOp end*/1) >= (nalloc[pos[j].strchr]/*binOp end*/)) { while (/*binOp start*/(/*binOp start*/merged.nelem - /*binOp end*/1) >= (nalloc[pos[j].strchr]/*binOp end*/)) /*binOp start*/(nalloc[pos[j].strchr]) *= /*binOp end*/2; (/*binOp start*/(d->follows[pos[j].strchr].elems) = (position *) xrealloc_1((ptr_t) (d->follows[pos[j].strchr].elems), /*binOp start*/(nalloc[pos[j].strchr]) * sizeof (position/*binOp end*/)/*binOp end*/)); };
+     if ((merged.nelem - 1) >= (nalloc[pos[j].strchr])) { while ((merged.nelem - 1) >= (nalloc[pos[j].strchr])) (nalloc[pos[j].strchr]) *= 2; ((d->follows[pos[j].strchr].elems) = (position *) xrealloc_1((ptr_t) (d->follows[pos[j].strchr].elems), (nalloc[pos[j].strchr]) * sizeof (position))); };
 
      copy(&merged, &d->follows[pos[j].strchr]);
    }
@@ -8983,42 +8983,42 @@ dfaanalyze(d, searchflag)
 
 
  if (nullable[-2])
-   /*binOp start*/nfirstpos[-2] += nfirstpos[-1/*binOp end*/];
+   nfirstpos[-2] += nfirstpos[-1];
  else
-   /*binOp start*/firstpos += nfirstpos[-1/*binOp end*/];
+   firstpos += nfirstpos[-1];
  --nfirstpos;
 
 
 
  if (nullable[-1])
-   /*binOp start*/nlastpos[-2] += nlastpos[-1/*binOp end*/];
+   nlastpos[-2] += nlastpos[-1];
  else
    {
-     /*compound start*//*binOp start*/pos = /*binOp start*/lastpos + nlastpos[-2/*compound end*//*binOp end*//*binOp end*/];
-     for (/*binOp start*/j = /*binOp start*/nlastpos[-1] - /*binOp end*//*binOp end*/1; /*binOp start*/j >= /*binOp end*/0; --j)
-       /*binOp start*/pos[j] = lastpos[j/*binOp end*/];
-     /*assign start*//*binOp start*/lastpos += nlastpos[-2/*assign end*//*binOp end*/];
-     /*compound start*//*binOp start*/nlastpos[-2] = nlastpos[-1/*compound end*//*binOp end*/];
+     /*compound start*/pos = lastpos + nlastpos[-2/*compound end*/];/*end of stmt*/
+     for (j = nlastpos[-1] - 1; j >= 0; --j)
+       /*compound start*/pos[j] = lastpos[j/*compound end*/];/*end of stmt*/
+     /*compound start*/lastpos += nlastpos[-2/*compound end*/];/*end of stmt*/
+     /*compound start*/nlastpos[-2] = nlastpos[-1/*compound end*/];/*end of stmt*/
    }
  --nlastpos;
 
 
- /*compound start*//*binOp start*/nullable[-2] = /*binOp start*/nullable[-1] && nullable[-2/*compound end*//*binOp end*//*binOp end*/];
+ /*compound start*/nullable[-2] = nullable[-1] && nullable[-2/*compound end*/];/*end of stmt*/
  --nullable;
  break;
 
       case OR:
       case ORTOP:
 
- /*case assign start*//*binOp start*/nfirstpos[-2] += nfirstpos[-1/*binOp end*/];
+ /*compound start*/nfirstpos[-2] += nfirstpos[-1/*compound end*/];/*end of stmt*/
  --nfirstpos;
 
 
- /*assign start*//*binOp start*/nlastpos[-2] += nlastpos[-1/*assign end*//*binOp end*/];
+ /*compound start*/nlastpos[-2] += nlastpos[-1/*compound end*/];/*end of stmt*/
  --nlastpos;
 
 
- /*compound start*//*binOp start*/nullable[-2] = /*binOp start*/nullable[-1] || nullable[-2/*compound end*//*binOp end*//*binOp end*/];
+ /*compound start*/nullable[-2] = nullable[-1] || nullable[-2/*compound end*/];/*end of stmt*/
  --nullable;
  break;
 
@@ -9028,49 +9028,49 @@ dfaanalyze(d, searchflag)
 
 
 
- /*case comp start*//*binOp start*/*nullable++ = /*binOp start*/d->tokens[i] == /*case comp end*//*binOp end*//*binOp end*/BACKREF;
+ /*compound start*/*nullable++ = d->tokens[i] == /*compound end*/BACKREF;/*end of stmt*/
 
 
- /*compound start*//*binOp start*/*nfirstpos++ = /*binOp start*/*nlastpos++ = /*compound end*//*binOp end*//*binOp end*/1;
- /*compound start*//*binOp start*/--firstpos, --/*compound end*//*binOp end*/lastpos;
- /*compound start*//*binOp start*/firstpos->strchr = /*binOp start*/lastpos->strchr = /*compound end*//*binOp end*//*binOp end*/i;
- /*compound start*//*binOp start*/firstpos->constraint = /*binOp start*/lastpos->constraint = /*compound end*//*binOp end*//*binOp end*/0xff;
+ /*compound start*/*nfirstpos++ = *nlastpos++ = /*compound end*/1;/*end of stmt*/
+ /*compound start*/--firstpos, --/*compound end*/lastpos;/*end of stmt*/
+ /*compound start*/firstpos->strchr = lastpos->strchr = /*compound end*/i;/*end of stmt*/
+ /*compound start*/firstpos->constraint = lastpos->constraint = /*compound end*/0xff;/*end of stmt*/
 
 
- /*compound start*//*binOp start*/nalloc[i] = /*compound end*//*binOp end*/1;
- (/*binOp start*/(d->follows[i].elems) = (position *) xmalloc_1(/*binOp start*/(nalloc[i]) * sizeof (position/*binOp end*/)/*binOp end*/));
+ /*compound start*/nalloc[i] = /*compound end*/1;/*end of stmt*/
+ ((d->follows[i].elems) = (position *) xmalloc_1((nalloc[i]) * sizeof (position)));
  break;
       }
 # 7986 "target/grep.c"
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/tindex; ++i)
-    if (/*binOp start*//*binOp start*//*binOp start*/d->tokens[i] < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/) || /*binOp start*/d->tokens[i] == /*binOp end*//*binOp end*/BACKREF
- || /*binOp start*/d->tokens[i] >= /*binOp end*//*binOp end*/CSET)
+  for (i = 0; i < d->tindex; ++i)
+    if (d->tokens[i] < (1 << 8) || d->tokens[i] == BACKREF
+ || d->tokens[i] >= CSET)
       {
 # 8001 "target/grep.c"
  copy(&d->follows[i], &merged);
  epsclosure(&merged, d);
- if (/*binOp start*/d->follows[i].nelem < merged./*binOp end*/nelem)
-   (/*binOp start*/(d->follows[i].elems) = (position *) xrealloc_1((ptr_t) (d->follows[i].elems), /*binOp start*/(merged.nelem) * sizeof (position/*binOp end*/)/*binOp end*/));
+ if (d->follows[i].nelem < merged.nelem)
+   ((d->follows[i].elems) = (position *) xrealloc_1((ptr_t) (d->follows[i].elems), (merged.nelem) * sizeof (position)));
  copy(&merged, &d->follows[i]);
       }
 
 
 
-  /*compound start*//*binOp start*/merged.nelem = /*compound end*//*binOp end*/0;
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < nfirstpos[-1/*binOp end*/]; ++i)
+  /*compound start*/merged.nelem = /*compound end*/0;/*end of stmt*/
+  for (i = 0; i < nfirstpos[-1]; ++i)
     insert(firstpos[i], &merged);
   epsclosure(&merged, d);
 
 
-  /*compound start*//*binOp start*/wants_newline = /*compound end*//*binOp end*/0;
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < merged./*binOp end*/nelem; ++i)
-    if ((/*binOp start*//*binOp start*/(/*binOp start*/(merged.elems[i].constraint) & /*binOp end*/0xc0) >> /*binOp end*/2 != (/*binOp start*/(merged.elems[i].constraint) & /*binOp end*/0x30/*binOp end*/)))
-      /*binOp start*/wants_newline = /*binOp end*/1;
+  /*compound start*/wants_newline = /*compound end*/0;/*end of stmt*/
+  for (i = 0; i < merged.nelem; ++i)
+    if ((((merged.elems[i].constraint) & 0xc0) >> 2 != ((merged.elems[i].constraint) & 0x30)))
+      /*compound start*/wants_newline = /*compound end*/1;/*end of stmt*/
 
 
-  /*compound start*//*binOp start*/d->salloc = /*compound end*//*binOp end*/1;
-  /*compound start*//*binOp start*/d->sindex = /*compound end*//*binOp end*/0;
-  (/*binOp start*/(d->states) = (dfa_state *) xmalloc_1(/*binOp start*/(d->salloc) * sizeof (dfa_state/*binOp end*/)/*binOp end*/));
+  /*compound start*/d->salloc = /*compound end*/1;/*end of stmt*/
+  /*compound start*/d->sindex = /*compound end*/0;/*end of stmt*/
+  ((d->states) = (dfa_state *) xmalloc_1((d->salloc) * sizeof (dfa_state)));
   state_index(d, &merged, wants_newline, 0);
 
   free(o_nullable);
@@ -9088,8 +9088,8 @@ dfastate(s, d, trans)
      struct dfa *d;
      int trans[];
 {
-  position_set grps[(/*binOp start*/1 << /*binOp end*/8)];
-  charclass labels[(/*binOp start*/1 << /*binOp end*/8)];
+  position_set grps[(1 << 8)];
+  charclass labels[(1 << 8)];
   int ngrps = 0;
   position pos;
   charclass matches;
@@ -9113,78 +9113,78 @@ dfastate(s, d, trans)
 
   if (! initialized)
     {
-      /*compound start*//*binOp start*/initialized = /*compound end*//*binOp end*/1;
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); ++i)
- if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)))
+      /*compound start*/initialized = /*compound end*/1;/*end of stmt*/
+      for (i = 0; i < (1 << 8); ++i)
+ if ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISalnum)))
    setbit(i, letters);
       setbit('\n', newline);
     }
 
   zeroset(matches);
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->states[s].elems./*binOp end*/nelem; ++i)
+  for (i = 0; i < d->states[s].elems.nelem; ++i)
     {
-      /*compound start*//*binOp start*/pos = d->states[s].elems.elems[i/*compound end*//*binOp end*/];
-      if (/*binOp start*//*binOp start*/d->tokens[pos.strchr] >= /*binOp end*/0 && /*binOp start*/d->tokens[pos.strchr] < (/*binOp start*/1 << /*binOp end*/8/*binOp end*//*binOp end*/))
+      /*compound start*/pos = d->states[s].elems.elems[i/*compound end*/];/*end of stmt*/
+      if (d->tokens[pos.strchr] >= 0 && d->tokens[pos.strchr] < (1 << 8))
  setbit(d->tokens[pos.strchr], matches);
-      else if (/*binOp start*/d->tokens[pos.strchr] >= /*binOp end*/CSET)
- copyset(d->charclasses[/*binOp start*/d->tokens[pos.strchr] - /*binOp end*/CSET], matches);
+      else if (d->tokens[pos.strchr] >= CSET)
+ copyset(d->charclasses[d->tokens[pos.strchr] - CSET], matches);
       else
  continue;
 
 
 
-      if (/*binOp start*/pos.constraint != /*binOp end*/0xFF)
+      if (pos.constraint != 0xFF)
  {
-   if (! (/*binOp start*/(pos.constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((d->states[s].newline) ? 2 : 0) + ((1) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)))
+   if (! ((pos.constraint) & 1 << (((d->states[s].newline) ? 2 : 0) + ((1) ? 1 : 0) + 4)))
 
      clrbit('\n', matches);
-   if (! (/*binOp start*/(pos.constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((d->states[s].newline) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)))
+   if (! ((pos.constraint) & 1 << (((d->states[s].newline) ? 2 : 0) + ((0) ? 1 : 0) + 4)))
 
-     for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++j)
-       /*binOp start*/matches[j] &= newline[j/*binOp end*/];
-   if (! (/*binOp start*/(pos.constraint) & /*binOp start*/1 << (/*binOp start*/((d->states[s].letter) ? 2 : 0) + ((1) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)))
+     for (j = 0; j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++j)
+       matches[j] &= newline[j];
+   if (! ((pos.constraint) & 1 << (((d->states[s].letter) ? 2 : 0) + ((1) ? 1 : 0))))
 
-     for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++j)
-       /*binOp start*/matches[j] &= ~letters[j/*binOp end*/];
-   if (! (/*binOp start*/(pos.constraint) & /*binOp start*/1 << (/*binOp start*/((d->states[s].letter) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)))
+     for (j = 0; j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++j)
+       matches[j] &= ~letters[j];
+   if (! ((pos.constraint) & 1 << (((d->states[s].letter) ? 2 : 0) + ((0) ? 1 : 0))))
 
-     for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++j)
-       /*binOp start*/matches[j] &= letters[j/*binOp end*/];
+     for (j = 0; j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++j)
+       matches[j] &= letters[j];
 
 
-   for (/*binOp start*/j = /*binOp end*/0; /*binOp start*//*binOp start*/j < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/) && !matches[j/*binOp end*/]; ++j)
+   for (j = 0; j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))) && !matches[j]; ++j)
      ;
-   if (/*binOp start*/j == (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/))
+   if (j == (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))))
      continue;
  }
 
-      for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < /*binOp end*/ngrps; ++j)
+      for (j = 0; j < ngrps; ++j)
  {
 
 
 
-   if (/*binOp start*//*binOp start*//*binOp start*/d->tokens[pos.strchr] >= /*binOp end*/0 && /*binOp start*/d->tokens[pos.strchr] < (/*binOp start*/1 << /*binOp end*/8/*binOp end*//*binOp end*/)
-       && !tstbit(d->tokens[pos.strchr], labels[j]/*binOp end*/))
+   if (d->tokens[pos.strchr] >= 0 && d->tokens[pos.strchr] < (1 << 8)
+       && !tstbit(d->tokens[pos.strchr], labels[j]))
      continue;
 
 
 
-   /*compound start*//*binOp start*/intersectf = /*compound end*//*binOp end*/0;
-   for (/*binOp start*/k = /*binOp end*/0; /*binOp start*/k < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++k)
-     (/*binOp start*/intersect[k] = /*binOp start*/matches[k] & labels[j][k/*binOp end*//*binOp end*/]) ? /*binOp start*/intersectf = /*binOp end*/1 : 0;
+   /*compound start*/intersectf = /*compound end*/0;/*end of stmt*/
+   for (k = 0; k < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++k)
+     (intersect[k] = matches[k] & labels[j][k]) ? intersectf = 1 : 0;
    if (! intersectf)
      continue;
 
 
-   /*compound start*//*binOp start*/leftoversf = /*binOp start*/matchesf = /*compound end*//*binOp end*//*binOp end*/0;
-   for (/*binOp start*/k = /*binOp end*/0; /*binOp start*/k < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++k)
+   /*compound start*/leftoversf = matchesf = /*compound end*/0;/*end of stmt*/
+   for (k = 0; k < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++k)
      {
 
        int match = matches[k], label = labels[j][k];
 
-       (/*binOp start*/leftovers[k] = /*binOp start*/~match & /*binOp end*//*binOp end*/label) ? /*binOp start*/leftoversf = /*binOp end*/1 : 0;
-       (/*binOp start*/matches[k] = /*binOp start*/match & ~/*binOp end*//*binOp end*/label) ? /*binOp start*/matchesf = /*binOp end*/1 : 0;
+       (leftovers[k] = ~match & label) ? leftoversf = 1 : 0;
+       (matches[k] = match & ~label) ? matchesf = 1 : 0;
      }
 
 
@@ -9192,14 +9192,14 @@ dfastate(s, d, trans)
      {
        copyset(leftovers, labels[ngrps]);
        copyset(intersect, labels[j]);
-       (/*binOp start*/(grps[ngrps].elems) = (position *) xmalloc_1(/*binOp start*/(d->nleaves) * sizeof (position/*binOp end*/)/*binOp end*/));
+       ((grps[ngrps].elems) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
        copy(&grps[j], &grps[ngrps]);
        ++ngrps;
      }
 
 
 
-   /*compound start*//*binOp start*/grps[j].elems[grps[j].nelem++] = /*compound end*//*binOp end*/pos;
+   /*compound start*/grps[j].elems[grps[j].nelem++] = /*compound end*/pos;/*end of stmt*/
 
 
 
@@ -9209,116 +9209,116 @@ dfastate(s, d, trans)
 
 
 
-      if (/*binOp start*/j == /*binOp end*/ngrps)
+      if (j == ngrps)
  {
    copyset(matches, labels[ngrps]);
    zeroset(matches);
-   (/*binOp start*/(grps[ngrps].elems) = (position *) xmalloc_1(/*binOp start*/(d->nleaves) * sizeof (position/*binOp end*/)/*binOp end*/));
-   /*compound start*//*binOp start*/grps[ngrps].nelem = /*compound end*//*binOp end*/1;
-   /*compound start*//*binOp start*/grps[ngrps].elems[0] = /*compound end*//*binOp end*/pos;
+   ((grps[ngrps].elems) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
+   /*compound start*/grps[ngrps].nelem = /*compound end*/1;/*end of stmt*/
+   /*compound start*/grps[ngrps].elems[0] = /*compound end*/pos;/*end of stmt*/
    ++ngrps;
  }
     }
 
-  (/*binOp start*/(follows.elems) = (position *) xmalloc_1(/*binOp start*/(d->nleaves) * sizeof (position/*binOp end*/)/*binOp end*/));
-  (/*binOp start*/(tmp.elems) = (position *) xmalloc_1(/*binOp start*/(d->nleaves) * sizeof (position/*binOp end*/)/*binOp end*/));
+  ((follows.elems) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
+  ((tmp.elems) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
 
 
 
 
   if (d->searchflag)
     {
-      /*compound start*//*binOp start*/wants_newline = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/wants_letter = /*compound end*//*binOp end*/0;
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->states[0].elems./*binOp end*/nelem; ++i)
+      /*compound start*/wants_newline = /*compound end*/0;/*end of stmt*/
+      /*compound start*/wants_letter = /*compound end*/0;/*end of stmt*/
+      for (i = 0; i < d->states[0].elems.nelem; ++i)
  {
-   if ((/*binOp start*//*binOp start*/(/*binOp start*/(d->states[0].elems.elems[i].constraint) & /*binOp end*/0xc0) >> /*binOp end*/2 != (/*binOp start*/(d->states[0].elems.elems[i].constraint) & /*binOp end*/0x30/*binOp end*/)))
-     /*binOp start*/wants_newline = /*binOp end*/1;
-   if ((/*binOp start*//*binOp start*/(/*binOp start*/(d->states[0].elems.elems[i].constraint) & /*binOp end*/0x0c) >> /*binOp end*/2 != (/*binOp start*/(d->states[0].elems.elems[i].constraint) & /*binOp end*/0x03/*binOp end*/)))
-     /*binOp start*/wants_letter = /*binOp end*/1;
+   if ((((d->states[0].elems.elems[i].constraint) & 0xc0) >> 2 != ((d->states[0].elems.elems[i].constraint) & 0x30)))
+     /*compound start*/wants_newline = /*compound end*/1;/*end of stmt*/
+   if ((((d->states[0].elems.elems[i].constraint) & 0x0c) >> 2 != ((d->states[0].elems.elems[i].constraint) & 0x03)))
+     /*compound start*/wants_letter = /*compound end*/1;/*end of stmt*/
  }
       copy(&d->states[0].elems, &follows);
-      /*compound start*//*binOp start*/state = state_index(d, &follows, 0, 0/*compound end*//*binOp end*/);
+      /*compound start*/state = state_index(d, &follows, 0, 0/*compound end*/);/*end of stmt*/
       if (wants_newline)
- /*binOp start*/state_newline = state_index(d, &follows, 1, 0/*binOp end*/);
+ /*compound start*/state_newline = state_index(d, &follows, 1, 0/*compound end*/);/*end of stmt*/
       else
- /*binOp start*/state_newline = /*binOp end*/state;
+ state_newline = state;
       if (wants_letter)
- /*binOp start*/state_letter = state_index(d, &follows, 0, 1/*binOp end*/);
+ /*compound start*/state_letter = state_index(d, &follows, 0, 1/*compound end*/);/*end of stmt*/
       else
- /*binOp start*/state_letter = /*binOp end*/state;
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); ++i)
- if (/*binOp start*/i == /*binOp end*/'\n')
-   /*binOp start*/trans[i] = /*binOp end*/state_newline;
- else if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)))
-   /*binOp start*/trans[i] = /*binOp end*/state_letter;
+ state_letter = state;
+      for (i = 0; i < (1 << 8); ++i)
+ if (i == '\n')
+   /*compound start*/trans[i] = /*compound end*/state_newline;/*end of stmt*/
+ else if ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISalnum)))
+   /*compound start*/trans[i] = /*compound end*/state_letter;/*end of stmt*/
  else
-   /*binOp start*/trans[i] = /*binOp end*/state;
+   trans[i] = state;
     }
   else
-    for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); ++i)
-      /*binOp start*/trans[i] = -/*binOp end*/1;
+    for (i = 0; i < (1 << 8); ++i)
+      /*compound start*/trans[i] = -/*compound end*/1;/*end of stmt*/
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp end*/ngrps; ++i)
+  for (i = 0; i < ngrps; ++i)
     {
-      /*compound start*//*binOp start*/follows.nelem = /*compound end*//*binOp end*/0;
+      /*compound start*/follows.nelem = /*compound end*/0;/*end of stmt*/
 
 
 
-      for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < grps[i]./*binOp end*/nelem; ++j)
- for (/*binOp start*/k = /*binOp end*/0; /*binOp start*/k < d->follows[grps[i].elems[j].strchr]./*binOp end*/nelem; ++k)
+      for (j = 0; j < grps[i].nelem; ++j)
+ for (k = 0; k < d->follows[grps[i].elems[j].strchr].nelem; ++k)
    insert(d->follows[grps[i].elems[j].strchr].elems[k], &follows);
 
 
 
       if (d->searchflag)
- for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < d->states[0].elems./*binOp end*/nelem; ++j)
+ for (j = 0; j < d->states[0].elems.nelem; ++j)
    insert(d->states[0].elems.elems[j], &follows);
 
 
-      /*compound start*//*binOp start*/wants_newline = /*compound end*//*binOp end*/0;
+      /*compound start*/wants_newline = /*compound end*/0;/*end of stmt*/
       if (tstbit('\n', labels[i]))
- for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < follows./*binOp end*/nelem; ++j)
-   if ((/*binOp start*//*binOp start*/(/*binOp start*/(follows.elems[j].constraint) & /*binOp end*/0xc0) >> /*binOp end*/2 != (/*binOp start*/(follows.elems[j].constraint) & /*binOp end*/0x30/*binOp end*/)))
-     /*binOp start*/wants_newline = /*binOp end*/1;
+ for (j = 0; j < follows.nelem; ++j)
+   if ((((follows.elems[j].constraint) & 0xc0) >> 2 != ((follows.elems[j].constraint) & 0x30)))
+     /*compound start*/wants_newline = /*compound end*/1;/*end of stmt*/
 
-      /*compound start*//*binOp start*/wants_letter = /*compound end*//*binOp end*/0;
-      for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++j)
- if (/*binOp start*/labels[i][j] & letters[j/*binOp end*/])
+      /*compound start*/wants_letter = /*compound end*/0;/*end of stmt*/
+      for (j = 0; j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++j)
+ if (labels[i][j] & letters[j])
    break;
-      if (/*binOp start*/j < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/))
- for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < follows./*binOp end*/nelem; ++j)
-   if ((/*binOp start*//*binOp start*/(/*binOp start*/(follows.elems[j].constraint) & /*binOp end*/0x0c) >> /*binOp end*/2 != (/*binOp start*/(follows.elems[j].constraint) & /*binOp end*/0x03/*binOp end*/)))
-     /*binOp start*/wants_letter = /*binOp end*/1;
+      if (j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))))
+ for (j = 0; j < follows.nelem; ++j)
+   if ((((follows.elems[j].constraint) & 0x0c) >> 2 != ((follows.elems[j].constraint) & 0x03)))
+     /*compound start*/wants_letter = /*compound end*/1;/*end of stmt*/
 
 
-      /*compound start*//*binOp start*/state = state_index(d, &follows, 0, 0/*compound end*//*binOp end*/);
+      /*compound start*/state = state_index(d, &follows, 0, 0/*compound end*/);/*end of stmt*/
       if (wants_newline)
- /*binOp start*/state_newline = state_index(d, &follows, 1, 0/*binOp end*/);
+ /*compound start*/state_newline = state_index(d, &follows, 1, 0/*compound end*/);/*end of stmt*/
       else
- /*binOp start*/state_newline = /*binOp end*/state;
+ state_newline = state;
       if (wants_letter)
- /*binOp start*/state_letter = state_index(d, &follows, 0, 1/*binOp end*/);
+ /*compound start*/state_letter = state_index(d, &follows, 0, 1/*compound end*/);/*end of stmt*/
       else
- /*binOp start*/state_letter = /*binOp end*/state;
+ state_letter = state;
 
 
-      for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < (/*binOp start*/(/*binOp start*//*binOp start*/(/*binOp start*/1 << /*binOp end*/8) + (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) - /*binOp end*/1) / (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/)/*binOp end*/); ++j)
- for (/*binOp start*/k = /*binOp end*/0; /*binOp start*/k < (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/); ++k)
-   if (/*binOp start*/labels[i][j] & /*binOp start*/1 << /*binOp end*//*binOp end*/k)
+      for (j = 0; j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++j)
+ for (k = 0; k < (8 * sizeof (int)); ++k)
+   if (labels[i][j] & 1 << k)
      {
-       int c = /*binOp start*//*binOp start*/j * (/*binOp start*/8 * sizeof (int/*binOp end*/)/*binOp end*/) + /*binOp end*/k;
+       int c = j * (8 * sizeof (int)) + k;
 
-       if (/*binOp start*/c == /*binOp end*/'\n')
-  /*binOp start*/trans[c] = /*binOp end*/state_newline;
-       else if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)))
-  /*binOp start*/trans[c] = /*binOp end*/state_letter;
-       else if (/*binOp start*/c < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/))
-  /*binOp start*/trans[c] = /*binOp end*/state;
+       if (c == '\n')
+  /*compound start*/trans[c] = /*compound end*/state_newline;/*end of stmt*/
+       else if ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISalnum)))
+  /*compound start*/trans[c] = /*compound end*/state_letter;/*end of stmt*/
+       else if (c < (1 << 8))
+  /*compound start*/trans[c] = /*compound end*/state;/*end of stmt*/
      }
     }
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp end*/ngrps; ++i)
+  for (i = 0; i < ngrps; ++i)
     free(grps[i].elems);
   free(follows.elems);
   free(tmp.elems);
@@ -9336,83 +9336,83 @@ build_state(s, d)
 
 
 
-  if (/*binOp start*/d->trcount >= /*binOp end*/1024)
+  if (d->trcount >= 1024)
     {
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/tralloc; ++i)
+      for (i = 0; i < d->tralloc; ++i)
  if (d->trans[i])
    {
      free((ptr_t) d->trans[i]);
-     /*compound start*//*binOp start*/d->trans[i] = ((void *)0/*compound end*//*binOp end*/);
+     /*compound start*/d->trans[i] = ((void *)0/*compound end*/);/*end of stmt*/
    }
  else if (d->fails[i])
    {
      free((ptr_t) d->fails[i]);
-     /*compound start*//*binOp start*/d->fails[i] = ((void *)0/*compound end*//*binOp end*/);
+     /*compound start*/d->fails[i] = ((void *)0/*compound end*/);/*end of stmt*/
    }
-      /*compound start*//*binOp start*/d->trcount = /*compound end*//*binOp end*/0;
+      /*compound start*/d->trcount = /*compound end*/0;/*end of stmt*/
     }
 
   ++d->trcount;
 
 
-  /*compound start*//*binOp start*/d->success[s] = /*compound end*//*binOp end*/0;
-  if ((/*binOp start*/(/*binOp start*/((*d).states[s].constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((d->states[s].newline) ? 2 : 0) + ((1) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)) && (/*binOp start*/((*d).states[s].constraint) & /*binOp start*/1 << (/*binOp start*/((d->states[s].letter) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)/*binOp end*/)))
+  /*compound start*/d->success[s] = /*compound end*/0;/*end of stmt*/
+  if (((((*d).states[s].constraint) & 1 << (((d->states[s].newline) ? 2 : 0) + ((1) ? 1 : 0) + 4)) && (((*d).states[s].constraint) & 1 << (((d->states[s].letter) ? 2 : 0) + ((0) ? 1 : 0)))))
 
-    /*binOp start*/d->success[s] |= /*binOp end*/4;
-  if ((/*binOp start*/(/*binOp start*/((*d).states[s].constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((d->states[s].newline) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)) && (/*binOp start*/((*d).states[s].constraint) & /*binOp start*/1 << (/*binOp start*/((d->states[s].letter) ? 2 : 0) + ((1) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)/*binOp end*/)))
+    d->success[s] |= 4;
+  if (((((*d).states[s].constraint) & 1 << (((d->states[s].newline) ? 2 : 0) + ((0) ? 1 : 0) + 4)) && (((*d).states[s].constraint) & 1 << (((d->states[s].letter) ? 2 : 0) + ((1) ? 1 : 0)))))
 
-    /*binOp start*/d->success[s] |= /*binOp end*/2;
-  if ((/*binOp start*/(/*binOp start*/((*d).states[s].constraint) & /*binOp start*/1 << (/*binOp start*//*binOp start*/((d->states[s].newline) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/) + /*binOp end*/4/*binOp end*//*binOp end*/)) && (/*binOp start*/((*d).states[s].constraint) & /*binOp start*/1 << (/*binOp start*/((d->states[s].letter) ? 2 : 0) + ((0) ? 1 : 0/*binOp end*/)/*binOp end*//*binOp end*/)/*binOp end*/)))
+    d->success[s] |= 2;
+  if (((((*d).states[s].constraint) & 1 << (((d->states[s].newline) ? 2 : 0) + ((0) ? 1 : 0) + 4)) && (((*d).states[s].constraint) & 1 << (((d->states[s].letter) ? 2 : 0) + ((0) ? 1 : 0)))))
 
-    /*binOp start*/d->success[s] |= /*binOp end*/1;
+    d->success[s] |= 1;
 
-  (/*binOp start*/(trans) = (int *) xmalloc_1(/*binOp start*/((/*binOp start*/1 << /*binOp end*/8)) * sizeof (int/*binOp end*/)/*binOp end*/));
+  ((trans) = (int *) xmalloc_1(((1 << 8)) * sizeof (int)));
   dfastate(s, d, trans);
 
 
 
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); ++i)
-    if (/*binOp start*/trans[i] >= d->/*binOp end*/tralloc)
+  for (i = 0; i < (1 << 8); ++i)
+    if (trans[i] >= d->tralloc)
       {
  int oldalloc = d->tralloc;
 
- while (/*binOp start*/trans[i] >= d->/*binOp end*/tralloc)
-   /*binOp start*/d->tralloc *= /*binOp end*/2;
- (/*binOp start*/(d->realtrans) = (int * *) xrealloc_1((ptr_t) (d->realtrans), /*binOp start*/(/*binOp start*/d->tralloc + /*binOp end*/1) * sizeof (int */*binOp end*/)/*binOp end*/));
- /*compound start*//*binOp start*/d->trans = /*binOp start*/d->realtrans + /*compound end*//*binOp end*//*binOp end*/1;
- (/*binOp start*/(d->fails) = (int * *) xrealloc_1((ptr_t) (d->fails), /*binOp start*/(d->tralloc) * sizeof (int */*binOp end*/)/*binOp end*/));
- (/*binOp start*/(d->success) = (int *) xrealloc_1((ptr_t) (d->success), /*binOp start*/(d->tralloc) * sizeof (int/*binOp end*/)/*binOp end*/));
- (/*binOp start*/(d->newlines) = (int *) xrealloc_1((ptr_t) (d->newlines), /*binOp start*/(d->tralloc) * sizeof (int/*binOp end*/)/*binOp end*/));
- while (/*binOp start*/oldalloc < d->/*binOp end*/tralloc)
+ while (trans[i] >= d->tralloc)
+   d->tralloc *= 2;
+ ((d->realtrans) = (int * *) xrealloc_1((ptr_t) (d->realtrans), (d->tralloc + 1) * sizeof (int *)));
+ /*compound start*/d->trans = d->realtrans + /*compound end*/1;/*end of stmt*/
+ ((d->fails) = (int * *) xrealloc_1((ptr_t) (d->fails), (d->tralloc) * sizeof (int *)));
+ ((d->success) = (int *) xrealloc_1((ptr_t) (d->success), (d->tralloc) * sizeof (int)));
+ ((d->newlines) = (int *) xrealloc_1((ptr_t) (d->newlines), (d->tralloc) * sizeof (int)));
+ while (oldalloc < d->tralloc)
    {
-     /*compound start*//*binOp start*/d->trans[oldalloc] = ((void *)0/*compound end*//*binOp end*/);
-     /*compound start*//*binOp start*/d->fails[oldalloc++] = ((void *)0/*compound end*//*binOp end*/);
+     /*compound start*/d->trans[oldalloc] = ((void *)0/*compound end*/);/*end of stmt*/
+     /*compound start*/d->fails[oldalloc++] = ((void *)0/*compound end*/);/*end of stmt*/
    }
       }
 
 
 
-  /*compound start*//*binOp start*/d->newlines[s] = trans['\n'/*compound end*//*binOp end*/];
-  /*compound start*//*binOp start*/trans['\n'] = -/*compound end*//*binOp end*/1;
+  /*compound start*/d->newlines[s] = trans['\n'/*compound end*/];/*end of stmt*/
+  /*compound start*/trans['\n'] = -/*compound end*/1;/*end of stmt*/
 
   if (((*d).states[s].constraint))
-    /*binOp start*/d->fails[s] = /*binOp end*/trans;
+    /*compound start*/d->fails[s] = /*compound end*/trans;/*end of stmt*/
   else
-    /*binOp start*/d->trans[s] = /*binOp end*/trans;
+    d->trans[s] = trans;
 }
 
 static void
 build_state_zero(d)
      struct dfa *d;
 {
-  /*compound start*//*binOp start*/d->tralloc = /*compound end*//*binOp end*/1;
-  /*compound start*//*binOp start*/d->trcount = /*compound end*//*binOp end*/0;
-  (/*binOp start*/(d->realtrans) = (int * *) xcalloc((/*binOp start*/d->tralloc + /*binOp end*/1), sizeof (int *)/*binOp end*/));
-  /*compound start*//*binOp start*/d->trans = /*binOp start*/d->realtrans + /*compound end*//*binOp end*//*binOp end*/1;
-  (/*binOp start*/(d->fails) = (int * *) xcalloc((d->tralloc), sizeof (int *)/*binOp end*/));
-  (/*binOp start*/(d->success) = (int *) xmalloc_1(/*binOp start*/(d->tralloc) * sizeof (int/*binOp end*/)/*binOp end*/));
-  (/*binOp start*/(d->newlines) = (int *) xmalloc_1(/*binOp start*/(d->tralloc) * sizeof (int/*binOp end*/)/*binOp end*/));
+  /*compound start*/d->tralloc = /*compound end*/1;/*end of stmt*/
+  /*compound start*/d->trcount = /*compound end*/0;/*end of stmt*/
+  ((d->realtrans) = (int * *) xcalloc((d->tralloc + 1), sizeof (int *)));
+  /*compound start*/d->trans = d->realtrans + /*compound end*/1;/*end of stmt*/
+  ((d->fails) = (int * *) xcalloc((d->tralloc), sizeof (int *)));
+  ((d->success) = (int *) xmalloc_1((d->tralloc) * sizeof (int)));
+  ((d->newlines) = (int *) xmalloc_1((d->tralloc) * sizeof (int)));
   build_state(0, d);
 }
 # 8420 "target/grep.c"
@@ -9429,87 +9429,87 @@ dfaexec(d, begin, end, newline, count, backref)
   register unsigned char *p;
   register **trans, *t;
 
-  static sbit[(/*binOp start*/1 << /*binOp end*/8)];
+  static sbit[(1 << 8)];
   static sbit_init;
 
   if (! sbit_init)
     {
       int i;
 
-      /*compound start*//*binOp start*/sbit_init = /*compound end*//*binOp end*/1;
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/1 << /*binOp end*/8/*binOp end*/); ++i)
- if (/*binOp start*/i == /*binOp end*/'\n')
-   /*binOp start*/sbit[i] = /*binOp end*/4;
- else if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)))
-   /*binOp start*/sbit[i] = /*binOp end*/2;
+      /*compound start*/sbit_init = /*compound end*/1;/*end of stmt*/
+      for (i = 0; i < (1 << 8); ++i)
+ if (i == '\n')
+   /*compound start*/sbit[i] = /*compound end*/4;/*end of stmt*/
+ else if ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISalnum)))
+   /*compound start*/sbit[i] = /*compound end*/2;/*end of stmt*/
  else
-   /*binOp start*/sbit[i] = /*binOp end*/1;
+   sbit[i] = 1;
     }
 
   if (! d->tralloc)
     build_state_zero(d);
 
-  /*compound start*//*binOp start*/s = /*binOp start*/s1 = /*compound end*//*binOp end*//*binOp end*/0;
-  /*compound start*//*binOp start*/p = (unsigned char *) /*compound end*//*binOp end*/begin;
-  /*compound start*//*binOp start*/trans = d->/*compound end*//*binOp end*/trans;
-  /*compound start*//*binOp start*/*end = /*compound end*//*binOp end*/'\n';
+  /*compound start*/s = s1 = /*compound end*/0;/*end of stmt*/
+  /*compound start*/p = (unsigned char *) /*compound end*/begin;/*end of stmt*/
+  /*compound start*/trans = d->/*compound end*/trans;/*end of stmt*/
+  /*compound start*/*end = /*compound end*/'\n';/*end of stmt*/
 
   for (;;)
     {
 
-      if (/*binOp start*/(/*binOp start*/t = trans[s/*binOp end*/]) != /*binOp end*/0)
+      if ((t = trans[s]) != 0)
  do
    {
-     /*compound start*//*binOp start*/s1 = t[*p++/*compound end*//*binOp end*/];
-     if (! (/*binOp start*/t = trans[s1/*binOp end*/]))
+     /*compound start*/s1 = t[*p++/*compound end*/];/*end of stmt*/
+     if (! (t = trans[s1]))
        goto last_was_s;
-     /*compound start*//*binOp start*/s = t[*p++/*compound end*//*binOp end*/];
+     /*compound start*/s = t[*p++/*compound end*/];/*end of stmt*/
    }
-        while (/*binOp start*/(/*binOp start*/t = trans[s/*binOp end*/]) != /*binOp end*/0);
+        while ((t = trans[s]) != 0);
       goto last_was_s1;
     last_was_s:
-      /*binOp start*//*binOp start*//*binOp start*/tmp = /*binOp end*/s, /*binOp start*/s = /*binOp end*//*binOp end*/s1, /*binOp start*/s1 = /*binOp end*//*binOp end*/tmp;
+      tmp = s, s = s1, s1 = tmp;
     last_was_s1:
 
-      if (/*binOp start*//*binOp start*//*binOp start*/s >= /*binOp end*/0 && /*binOp start*/p <= (unsigned char *) /*binOp end*//*binOp end*/end && d->fails[s/*binOp end*/])
+      if (s >= 0 && p <= (unsigned char *) end && d->fails[s])
  {
-   if (/*binOp start*/d->success[s] & sbit[*p/*binOp end*/])
+   if (d->success[s] & sbit[*p])
      {
        if (backref)
   if (d->states[s].backref)
-    /*binOp start*/*backref = /*binOp end*/1;
+    /*compound start*/*backref = /*compound end*/1;/*end of stmt*/
   else
-    /*binOp start*/*backref = /*binOp end*/0;
+    *backref = 0;
        return (char *) p;
      }
 
-   /*compound start*//*binOp start*/s1 = /*compound end*//*binOp end*/s;
-   /*compound start*//*binOp start*/s = d->fails[s][*p++/*compound end*//*binOp end*/];
+   /*compound start*/s1 = /*compound end*/s;/*end of stmt*/
+   /*compound start*/s = d->fails[s][*p++/*compound end*/];/*end of stmt*/
    continue;
  }
 
 
-      if (/*binOp start*//*binOp start*/count && /*binOp start*/(char *) p <= /*binOp end*//*binOp end*/end && /*binOp start*/p[-1] == /*binOp end*//*binOp end*/'\n')
+      if (count && (char *) p <= end && p[-1] == '\n')
  ++*count;
 
 
-      if (/*binOp start*/(char *) p > /*binOp end*/end)
+      if ((char *) p > end)
  return ((void *)0);
 
-      if (/*binOp start*/s >= /*binOp end*/0)
+      if (s >= 0)
  {
    build_state(s, d);
-   /*compound start*//*binOp start*/trans = d->/*compound end*//*binOp end*/trans;
+   /*compound start*/trans = d->/*compound end*/trans;/*end of stmt*/
    continue;
  }
 
-      if (/*binOp start*//*binOp start*/p[-1] == /*binOp end*/'\n' && /*binOp end*/newline)
+      if (p[-1] == '\n' && newline)
  {
-   /*compound start*//*binOp start*/s = d->newlines[s1/*compound end*//*binOp end*/];
+   /*compound start*/s = d->newlines[s1/*compound end*/];/*end of stmt*/
    continue;
  }
 
-      /*compound start*//*binOp start*/s = /*compound end*//*binOp end*/0;
+      /*compound start*/s = /*compound end*/0;/*end of stmt*/
     }
 }
 
@@ -9519,18 +9519,18 @@ void
 dfainit(d)
      struct dfa *d;
 {
-  /*compound start*//*binOp start*/d->calloc = /*compound end*//*binOp end*/1;
-  (/*binOp start*/(d->charclasses) = (charclass *) xmalloc_1(/*binOp start*/(d->calloc) * sizeof (charclass/*binOp end*/)/*binOp end*/));
-  /*compound start*//*binOp start*/d->cindex = /*compound end*//*binOp end*/0;
+  /*compound start*/d->calloc = /*compound end*/1;/*end of stmt*/
+  ((d->charclasses) = (charclass *) xmalloc_1((d->calloc) * sizeof (charclass)));
+  /*compound start*/d->cindex = /*compound end*/0;/*end of stmt*/
 
-  /*compound start*//*binOp start*/d->talloc = /*compound end*//*binOp end*/1;
-  (/*binOp start*/(d->tokens) = (token *) xmalloc_1(/*binOp start*/(d->talloc) * sizeof (token/*binOp end*/)/*binOp end*/));
-  /*compound start*//*binOp start*/d->tindex = /*binOp start*/d->depth = /*binOp start*/d->nleaves = /*binOp start*/d->nregexps = /*compound end*//*binOp end*//*binOp end*//*binOp end*//*binOp end*/0;
+  /*compound start*/d->talloc = /*compound end*/1;/*end of stmt*/
+  ((d->tokens) = (token *) xmalloc_1((d->talloc) * sizeof (token)));
+  /*compound start*/d->tindex = d->depth = d->nleaves = d->nregexps = /*compound end*/0;/*end of stmt*/
 
-  /*compound start*//*binOp start*/d->searchflag = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/d->tralloc = /*compound end*//*binOp end*/0;
+  /*compound start*/d->searchflag = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->tralloc = /*compound end*/0;/*end of stmt*/
 
-  /*compound start*//*binOp start*/d->musts = /*compound end*//*binOp end*/0;
+  /*compound start*/d->musts = /*compound end*/0;/*end of stmt*/
 }
 
 
@@ -9546,24 +9546,24 @@ dfacomp(s, len, d, searchflag)
       char *copy;
       int i;
 
-      /*compound start*//*binOp start*/copy = malloc(len/*compound end*//*binOp end*/);
+      /*compound start*/copy = malloc(len/*compound end*/);/*end of stmt*/
       if (!copy)
  dfaerror("out of memory");
 
 
-      /*compound start*//*binOp start*/case_fold = /*compound end*//*binOp end*/0;
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp end*/len; ++i)
- if ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((s[i]))] & (unsigned short int) /*binOp end*/_ISupper/*binOp end*/)))
-   /*binOp start*/copy[i] = tolower(s[i]/*binOp end*/);
+      /*compound start*/case_fold = /*compound end*/0;/*end of stmt*/
+      for (i = 0; i < len; ++i)
+ if ((1 && ((*__ctype_b_loc ())[(int) ((s[i]))] & (unsigned short int) _ISupper)))
+   /*compound start*/copy[i] = tolower(s[i]/*compound end*/);/*end of stmt*/
  else
-   /*binOp start*/copy[i] = s[i/*binOp end*/];
+   copy[i] = s[i];
 
       dfainit(d);
       dfaparse(copy, len, d);
       free(copy);
       dfamust(d);
-      /*compound start*//*binOp start*/d->cindex = /*binOp start*/d->tindex = /*binOp start*/d->depth = /*binOp start*/d->nleaves = /*binOp start*/d->nregexps = /*compound end*//*binOp end*//*binOp end*//*binOp end*//*binOp end*//*binOp end*/0;
-      /*compound start*//*binOp start*/case_fold = /*compound end*//*binOp end*/1;
+      /*compound start*/d->cindex = d->tindex = d->depth = d->nleaves = d->nregexps = /*compound end*/0;/*end of stmt*/
+      /*compound start*/case_fold = /*compound end*/1;/*end of stmt*/
       dfaparse(s, len, d);
       dfaanalyze(d, searchflag);
     }
@@ -9586,14 +9586,14 @@ dfafree(d)
 
   free((ptr_t) d->charclasses);
   free((ptr_t) d->tokens);
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/sindex; ++i)
+  for (i = 0; i < d->sindex; ++i)
     free((ptr_t) d->states[i].elems.elems);
   free((ptr_t) d->states);
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/tindex; ++i)
+  for (i = 0; i < d->tindex; ++i)
     if (d->follows[i].elems)
       free((ptr_t) d->follows[i].elems);
   free((ptr_t) d->follows);
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < d->/*binOp end*/tralloc; ++i)
+  for (i = 0; i < d->tralloc; ++i)
     if (d->trans[i])
       free((ptr_t) d->trans[i]);
     else if (d->fails[i])
@@ -9601,9 +9601,9 @@ dfafree(d)
   free((ptr_t) d->realtrans);
   free((ptr_t) d->fails);
   free((ptr_t) d->newlines);
-  for (/*binOp start*/dm = d->/*binOp end*/musts; dm; /*binOp start*/dm = /*binOp end*/ndm)
+  for (dm = d->musts; dm; dm = ndm)
     {
-      /*compound start*//*binOp start*/ndm = dm->/*compound end*//*binOp end*/next;
+      /*compound start*/ndm = dm->/*compound end*/next;/*end of stmt*/
       free(dm->must);
       free((ptr_t) dm);
     }
@@ -9617,18 +9617,18 @@ icatalloc(old, new)
   char *result;
   int oldsize, newsize;
 
-  /*compound start*//*binOp start*/newsize = (/*binOp start*/new == ((void *)0/*binOp end*/)) ? 0 : strlen(new/*compound end*//*binOp end*/);
-  if (/*binOp start*/old == ((void *)0/*binOp end*/))
-    /*binOp start*/oldsize = /*binOp end*/0;
-  else if (/*binOp start*/newsize == /*binOp end*/0)
+  /*compound start*/newsize = (new == ((void *)0)) ? 0 : strlen(new/*compound end*/);/*end of stmt*/
+  if (old == ((void *)0))
+    /*compound start*/oldsize = /*compound end*/0;/*end of stmt*/
+  else if (newsize == 0)
     return old;
-  else /*binOp start*/oldsize = strlen(old/*binOp end*/);
-  if (/*binOp start*/old == ((void *)0/*binOp end*/))
-    /*binOp start*/result = (char *) malloc(/*binOp start*/newsize + /*binOp end*/1/*binOp end*/);
+  else oldsize = strlen(old);
+  if (old == ((void *)0))
+    /*compound start*/result = (char *) malloc(newsize + 1/*compound end*/);/*end of stmt*/
   else
-    /*binOp start*/result = (char *) realloc((void *) old, /*binOp start*//*binOp start*/oldsize + /*binOp end*/newsize + /*binOp end*/1/*binOp end*/);
-  if (/*binOp start*//*binOp start*/result != ((void *)0/*binOp end*/) && /*binOp start*/new != ((void *)0/*binOp end*//*binOp end*/))
-    (void) strcpy(/*binOp start*/result + /*binOp end*/oldsize, new);
+    result = (char *) realloc((void *) old, oldsize + newsize + 1);
+  if (result != ((void *)0) && new != ((void *)0))
+    (void) strcpy(result + oldsize, new);
   return result;
 }
 
@@ -9647,9 +9647,9 @@ istrstr(lookin, lookfor)
   char *cp;
   int len;
 
-  /*compound start*//*binOp start*/len = strlen(lookfor/*compound end*//*binOp end*/);
-  for (/*binOp start*/cp = /*binOp end*/lookin; /*binOp start*/*cp != /*binOp end*/'\0'; ++cp)
-    if (/*binOp start*/strncmp(cp, lookfor, len) == /*binOp end*/0)
+  /*compound start*/len = strlen(lookfor/*compound end*/);/*end of stmt*/
+  for (cp = lookin; *cp != '\0'; ++cp)
+    if (strncmp(cp, lookfor, len) == 0)
       return cp;
   return ((void *)0);
 }
@@ -9658,7 +9658,7 @@ static void
 ifree(cp)
      char *cp;
 {
-  if (/*binOp start*/cp != ((void *)0/*binOp end*/))
+  if (cp != ((void *)0))
     free(cp);
 }
 
@@ -9668,12 +9668,12 @@ freelist(cpp)
 {
   int i;
 
-  if (/*binOp start*/cpp == ((void *)0/*binOp end*/))
+  if (cpp == ((void *)0))
     return;
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/cpp[i] != ((void *)0/*binOp end*/); ++i)
+  for (i = 0; cpp[i] != ((void *)0); ++i)
     {
       free(cpp[i]);
-      /*compound start*//*binOp start*/cpp[i] = ((void *)0/*compound end*//*binOp end*/);
+      /*compound start*/cpp[i] = ((void *)0/*compound end*/);/*end of stmt*/
     }
 }
 
@@ -9685,40 +9685,40 @@ enlist(cpp, new, len)
 {
   int i, j;
 
-  if (/*binOp start*/cpp == ((void *)0/*binOp end*/))
+  if (cpp == ((void *)0))
     return ((void *)0);
-  if (/*binOp start*/(/*binOp start*/new = icpyalloc(new/*binOp end*/)) == ((void *)0/*binOp end*/))
+  if ((new = icpyalloc(new)) == ((void *)0))
     {
       freelist(cpp);
       return ((void *)0);
     }
-  /*compound start*//*binOp start*/new[len] = /*compound end*//*binOp end*/'\0';
+  /*compound start*/new[len] = /*compound end*/'\0';/*end of stmt*/
 
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/cpp[i] != ((void *)0/*binOp end*/); ++i)
-    if (/*binOp start*/istrstr(cpp[i], new) != ((void *)0/*binOp end*/))
+  for (i = 0; cpp[i] != ((void *)0); ++i)
+    if (istrstr(cpp[i], new) != ((void *)0))
       {
  free(new);
  return cpp;
       }
 
-  /*compound start*//*binOp start*/j = /*compound end*//*binOp end*/0;
-  while (/*binOp start*/cpp[j] != ((void *)0/*binOp end*/))
-    if (/*binOp start*/istrstr(new, cpp[j]) == ((void *)0/*binOp end*/))
+  /*compound start*/j = /*compound end*/0;/*end of stmt*/
+  while (cpp[j] != ((void *)0))
+    if (istrstr(new, cpp[j]) == ((void *)0))
       ++j;
     else
       {
  free(cpp[j]);
- if (/*binOp start*/--i == /*binOp end*/j)
+ if (--i == j)
    break;
- /*compound start*//*binOp start*/cpp[j] = cpp[i/*compound end*//*binOp end*/];
- /*compound start*//*binOp start*/cpp[i] = ((void *)0/*compound end*//*binOp end*/);
+ /*compound start*/cpp[j] = cpp[i/*compound end*/];/*end of stmt*/
+ /*compound start*/cpp[i] = ((void *)0/*compound end*/);/*end of stmt*/
       }
 
-  /*compound start*//*binOp start*/cpp = (char **) realloc((char *) cpp, /*binOp start*/(/*binOp start*/i + /*binOp end*/2) * sizeof */*binOp end*/cpp/*compound end*//*binOp end*/);
-  if (/*binOp start*/cpp == ((void *)0/*binOp end*/))
+  /*compound start*/cpp = (char **) realloc((char *) cpp, (i + 2) * sizeof *cpp/*compound end*/);/*end of stmt*/
+  if (cpp == ((void *)0))
     return ((void *)0);
-  /*compound start*//*binOp start*/cpp[i] = /*compound end*//*binOp end*/new;
-  /*compound start*//*binOp start*/cpp[/*binOp start*/i + /*binOp end*/1] = ((void *)0/*compound end*//*binOp end*/);
+  /*compound start*/cpp[i] = /*compound end*/new;/*end of stmt*/
+  /*compound start*/cpp[i + 1] = ((void *)0/*compound end*/);/*end of stmt*/
   return cpp;
 }
 
@@ -9735,27 +9735,27 @@ comsubs(left, right)
   char *rcp;
   int i, len;
 
-  if (/*binOp start*//*binOp start*/left == ((void *)0/*binOp end*/) || /*binOp start*/right == ((void *)0/*binOp end*//*binOp end*/))
+  if (left == ((void *)0) || right == ((void *)0))
     return ((void *)0);
-  /*compound start*//*binOp start*/cpp = (char **) malloc(sizeof *cpp/*compound end*//*binOp end*/);
-  if (/*binOp start*/cpp == ((void *)0/*binOp end*/))
+  /*compound start*/cpp = (char **) malloc(sizeof *cpp/*compound end*/);/*end of stmt*/
+  if (cpp == ((void *)0))
     return ((void *)0);
-  /*compound start*//*binOp start*/cpp[0] = ((void *)0/*compound end*//*binOp end*/);
-  for (/*binOp start*/lcp = /*binOp end*/left; /*binOp start*/*lcp != /*binOp end*/'\0'; ++lcp)
+  /*compound start*/cpp[0] = ((void *)0/*compound end*/);/*end of stmt*/
+  for (lcp = left; *lcp != '\0'; ++lcp)
     {
-      /*compound start*//*binOp start*/len = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/rcp = strchr(right, *lcp/*compound end*//*binOp end*/);
-      while (/*binOp start*/rcp != ((void *)0/*binOp end*/))
+      /*compound start*/len = /*compound end*/0;/*end of stmt*/
+      /*compound start*/rcp = strchr(right, *lcp/*compound end*/);/*end of stmt*/
+      while (rcp != ((void *)0))
  {
-   for (/*binOp start*/i = /*binOp end*/1; /*binOp start*//*binOp start*/lcp[i] != /*binOp end*/'\0' && /*binOp start*/lcp[i] == rcp[i/*binOp end*//*binOp end*/]; ++i)
+   for (i = 1; lcp[i] != '\0' && lcp[i] == rcp[i]; ++i)
      ;
-   if (/*binOp start*/i > /*binOp end*/len)
-     /*binOp start*/len = /*binOp end*/i;
-   /*compound start*//*binOp start*/rcp = strchr(/*binOp start*/rcp + /*binOp end*/1, *lcp/*compound end*//*binOp end*/);
+   if (i > len)
+     /*compound start*/len = /*compound end*/i;/*end of stmt*/
+   /*compound start*/rcp = strchr(rcp + 1, *lcp/*compound end*/);/*end of stmt*/
  }
-      if (/*binOp start*/len == /*binOp end*/0)
+      if (len == 0)
  continue;
-      if (/*binOp start*/(/*binOp start*/cpp = enlist(cpp, lcp, len/*binOp end*/)) == ((void *)0/*binOp end*/))
+      if ((cpp = enlist(cpp, lcp, len)) == ((void *)0))
  break;
     }
   return cpp;
@@ -9768,12 +9768,12 @@ char **new;
 {
   int i;
 
-  if (/*binOp start*//*binOp start*/old == ((void *)0/*binOp end*/) || /*binOp start*/new == ((void *)0/*binOp end*//*binOp end*/))
+  if (old == ((void *)0) || new == ((void *)0))
     return ((void *)0);
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/new[i] != ((void *)0/*binOp end*/); ++i)
+  for (i = 0; new[i] != ((void *)0); ++i)
     {
-      /*compound start*//*binOp start*/old = enlist(old, new[i], strlen(new[i])/*compound end*//*binOp end*/);
-      if (/*binOp start*/old == ((void *)0/*binOp end*/))
+      /*compound start*/old = enlist(old, new[i], strlen(new[i])/*compound end*/);/*end of stmt*/
+      if (old == ((void *)0))
  break;
     }
   return old;
@@ -9790,25 +9790,25 @@ inboth(left, right)
   char **temp;
   int lnum, rnum;
 
-  if (/*binOp start*//*binOp start*/left == ((void *)0/*binOp end*/) || /*binOp start*/right == ((void *)0/*binOp end*//*binOp end*/))
+  if (left == ((void *)0) || right == ((void *)0))
     return ((void *)0);
-  /*compound start*//*binOp start*/both = (char **) malloc(sizeof *both/*compound end*//*binOp end*/);
-  if (/*binOp start*/both == ((void *)0/*binOp end*/))
+  /*compound start*/both = (char **) malloc(sizeof *both/*compound end*/);/*end of stmt*/
+  if (both == ((void *)0))
     return ((void *)0);
-  /*compound start*//*binOp start*/both[0] = ((void *)0/*compound end*//*binOp end*/);
-  for (/*binOp start*/lnum = /*binOp end*/0; /*binOp start*/left[lnum] != ((void *)0/*binOp end*/); ++lnum)
+  /*compound start*/both[0] = ((void *)0/*compound end*/);/*end of stmt*/
+  for (lnum = 0; left[lnum] != ((void *)0); ++lnum)
     {
-      for (/*binOp start*/rnum = /*binOp end*/0; /*binOp start*/right[rnum] != ((void *)0/*binOp end*/); ++rnum)
+      for (rnum = 0; right[rnum] != ((void *)0); ++rnum)
  {
-   /*compound start*//*binOp start*/temp = comsubs(left[lnum], right[rnum]/*compound end*//*binOp end*/);
-   if (/*binOp start*/temp == ((void *)0/*binOp end*/))
+   /*compound start*/temp = comsubs(left[lnum], right[rnum]/*compound end*/);/*end of stmt*/
+   if (temp == ((void *)0))
      {
        freelist(both);
        return ((void *)0);
      }
-   /*compound start*//*binOp start*/both = addlists(both, temp/*compound end*//*binOp end*/);
+   /*compound start*/both = addlists(both, temp/*compound end*/);/*end of stmt*/
    freelist(temp);
-   if (/*binOp start*/both == ((void *)0/*binOp end*/))
+   if (both == ((void *)0))
      return ((void *)0);
  }
     }
@@ -9827,7 +9827,7 @@ static void
 resetmust(mp)
 must *mp;
 {
-  /*compound start*//*binOp start*/mp->left[0] = /*binOp start*/mp->right[0] = /*binOp start*/mp->is[0] = /*compound end*//*binOp end*//*binOp end*//*binOp end*/'\0';
+  /*compound start*/mp->left[0] = mp->right[0] = mp->is[0] = /*compound end*/'\0';/*end of stmt*/
   freelist(mp->in);
 }
 
@@ -9845,30 +9845,30 @@ struct dfa *dfa;
   static must must0;
   struct dfamust *dm;
 
-  /*compound start*//*binOp start*/result = /*compound end*//*binOp end*/"";
-  /*compound start*//*binOp start*/exact = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/musts = (must *) malloc(/*binOp start*/(/*binOp start*/dfa->tindex + /*binOp end*/1) * sizeof */*binOp end*/musts/*compound end*//*binOp end*/);
-  if (/*binOp start*/musts == ((void *)0/*binOp end*/))
+  /*compound start*/result = /*compound end*/"";/*end of stmt*/
+  /*compound start*/exact = /*compound end*/0;/*end of stmt*/
+  /*compound start*/musts = (must *) malloc((dfa->tindex + 1) * sizeof *musts/*compound end*/);/*end of stmt*/
+  if (musts == ((void *)0))
     return;
-  /*compound start*//*binOp start*/mp = /*compound end*//*binOp end*/musts;
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i <= dfa->/*binOp end*/tindex; ++i)
-    /*binOp start*/mp[i] = /*binOp end*/must0;
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i <= dfa->/*binOp end*/tindex; ++i)
+  /*compound start*/mp = /*compound end*/musts;/*end of stmt*/
+  for (i = 0; i <= dfa->tindex; ++i)
+    /*compound start*/mp[i] = /*compound end*/must0;/*end of stmt*/
+  for (i = 0; i <= dfa->tindex; ++i)
     {
-      /*compound start*//*binOp start*/mp[i].in = (char **) malloc(sizeof *mp[i].in/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/mp[i].left = malloc(2/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/mp[i].right = malloc(2/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/mp[i].is = malloc(2/*compound end*//*binOp end*/);
-      if (/*binOp start*//*binOp start*//*binOp start*//*binOp start*/mp[i].in == ((void *)0/*binOp end*/) || /*binOp start*/mp[i].left == ((void *)0/*binOp end*//*binOp end*/) ||
-   /*binOp start*/mp[i].right == ((void *)0/*binOp end*//*binOp end*/) || /*binOp start*/mp[i].is == ((void *)0/*binOp end*//*binOp end*/))
+      /*compound start*/mp[i].in = (char **) malloc(sizeof *mp[i].in/*compound end*/);/*end of stmt*/
+      /*compound start*/mp[i].left = malloc(2/*compound end*/);/*end of stmt*/
+      /*compound start*/mp[i].right = malloc(2/*compound end*/);/*end of stmt*/
+      /*compound start*/mp[i].is = malloc(2/*compound end*/);/*end of stmt*/
+      if (mp[i].in == ((void *)0) || mp[i].left == ((void *)0) ||
+   mp[i].right == ((void *)0) || mp[i].is == ((void *)0))
  goto done;
-      /*compound start*//*binOp start*/mp[i].left[0] = /*binOp start*/mp[i].right[0] = /*binOp start*/mp[i].is[0] = /*compound end*//*binOp end*//*binOp end*//*binOp end*/'\0';
-      /*compound start*//*binOp start*/mp[i].in[0] = ((void *)0/*compound end*//*binOp end*/);
+      /*compound start*/mp[i].left[0] = mp[i].right[0] = mp[i].is[0] = /*compound end*/'\0';/*end of stmt*/
+      /*compound start*/mp[i].in[0] = ((void *)0/*compound end*/);/*end of stmt*/
     }
 # 8958 "target/grep.c"
-  for (/*binOp start*/ri = /*binOp end*/0; /*binOp start*/ri < dfa->/*binOp end*/tindex; ++ri)
+  for (ri = 0; ri < dfa->tindex; ++ri)
     {
-      switch (/*binOp start*/t = dfa->tokens[ri/*binOp end*/])
+      switch (t = dfa->tokens[ri])
  {
  case LPAREN:
  case RPAREN:
@@ -9885,14 +9885,14 @@ struct dfa *dfa;
    break;
  case STAR:
  case QMARK:
-   if (/*binOp start*/mp <= /*binOp end*/musts)
+   if (mp <= musts)
      goto done;
    --mp;
    resetmust(mp);
    break;
  case OR:
  case ORTOP:
-   if (/*binOp start*/mp < &musts[2/*binOp end*/])
+   if (mp < &musts[2])
      goto done;
    {
      char **new;
@@ -9900,120 +9900,120 @@ struct dfa *dfa;
      must *rmp;
      int j, ln, rn, n;
 
-     /*compound start*//*binOp start*/rmp = --/*compound end*//*binOp end*/mp;
-     /*compound start*//*binOp start*/lmp = --/*compound end*//*binOp end*/mp;
+     /*compound start*/rmp = --/*compound end*/mp;/*end of stmt*/
+     /*compound start*/lmp = --/*compound end*/mp;/*end of stmt*/
 
-     if (/*binOp start*/strcmp(lmp->is, rmp->is) != /*binOp end*/0)
-       /*binOp start*/lmp->is[0] = /*binOp end*/'\0';
+     if (strcmp(lmp->is, rmp->is) != 0)
+       /*compound start*/lmp->is[0] = /*compound end*/'\0';/*end of stmt*/
 
-     /*compound start*//*binOp start*/i = /*compound end*//*binOp end*/0;
-     while (/*binOp start*//*binOp start*/lmp->left[i] != /*binOp end*/'\0' && /*binOp start*/lmp->left[i] == rmp->left[i/*binOp end*//*binOp end*/])
+     /*compound start*/i = /*compound end*/0;/*end of stmt*/
+     while (lmp->left[i] != '\0' && lmp->left[i] == rmp->left[i])
        ++i;
-     /*compound start*//*binOp start*/lmp->left[i] = /*compound end*//*binOp end*/'\0';
+     /*compound start*/lmp->left[i] = /*compound end*/'\0';/*end of stmt*/
 
-     /*compound start*//*binOp start*/ln = strlen(lmp->right/*compound end*//*binOp end*/);
-     /*compound start*//*binOp start*/rn = strlen(rmp->right/*compound end*//*binOp end*/);
-     /*compound start*//*binOp start*/n = /*compound end*//*binOp end*/ln;
-     if (/*binOp start*/n > /*binOp end*/rn)
-       /*binOp start*/n = /*binOp end*/rn;
-     for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp end*/n; ++i)
-       if (/*binOp start*/lmp->right[/*binOp start*//*binOp start*/ln - /*binOp end*/i - /*binOp end*/1] != rmp->right[/*binOp start*//*binOp start*/rn - /*binOp end*/i - /*binOp end*/1/*binOp end*/])
+     /*compound start*/ln = strlen(lmp->right/*compound end*/);/*end of stmt*/
+     /*compound start*/rn = strlen(rmp->right/*compound end*/);/*end of stmt*/
+     /*compound start*/n = /*compound end*/ln;/*end of stmt*/
+     if (n > rn)
+       /*compound start*/n = /*compound end*/rn;/*end of stmt*/
+     for (i = 0; i < n; ++i)
+       if (lmp->right[ln - i - 1] != rmp->right[rn - i - 1])
   break;
-     for (/*binOp start*/j = /*binOp end*/0; /*binOp start*/j < /*binOp end*/i; ++j)
-       /*binOp start*/lmp->right[j] = lmp->right[/*binOp start*/(/*binOp start*/ln - /*binOp end*/i) + /*binOp end*/j/*binOp end*/];
-     /*compound start*//*binOp start*/lmp->right[j] = /*compound end*//*binOp end*/'\0';
-     /*compound start*//*binOp start*/new = inboth(lmp->in, rmp->in/*compound end*//*binOp end*/);
-     if (/*binOp start*/new == ((void *)0/*binOp end*/))
+     for (j = 0; j < i; ++j)
+       /*compound start*/lmp->right[j] = lmp->right[(ln - i) + j/*compound end*/];/*end of stmt*/
+     /*compound start*/lmp->right[j] = /*compound end*/'\0';/*end of stmt*/
+     /*compound start*/new = inboth(lmp->in, rmp->in/*compound end*/);/*end of stmt*/
+     if (new == ((void *)0))
        goto done;
      freelist(lmp->in);
      free((char *) lmp->in);
-     /*compound start*//*binOp start*/lmp->in = /*compound end*//*binOp end*/new;
+     /*compound start*/lmp->in = /*compound end*/new;/*end of stmt*/
    }
    break;
  case PLUS:
-   if (/*binOp start*/mp <= /*binOp end*/musts)
+   if (mp <= musts)
      goto done;
    --mp;
-   /*compound start*//*binOp start*/mp->is[0] = /*compound end*//*binOp end*/'\0';
+   /*compound start*/mp->is[0] = /*compound end*/'\0';/*end of stmt*/
    break;
  case END:
-   if (/*binOp start*/mp != &musts[1/*binOp end*/])
+   if (mp != &musts[1])
      goto done;
-   for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/musts[0].in[i] != ((void *)0/*binOp end*/); ++i)
-     if (/*binOp start*/strlen(musts[0].in[i]) > strlen(result/*binOp end*/))
-       /*binOp start*/result = musts[0].in[i/*binOp end*/];
-   if (/*binOp start*/strcmp(result, musts[0].is) == /*binOp end*/0)
-     /*binOp start*/exact = /*binOp end*/1;
+   for (i = 0; musts[0].in[i] != ((void *)0); ++i)
+     if (strlen(musts[0].in[i]) > strlen(result))
+       /*compound start*/result = musts[0].in[i/*compound end*/];/*end of stmt*/
+   if (strcmp(result, musts[0].is) == 0)
+     /*compound start*/exact = /*compound end*/1;/*end of stmt*/
    goto done;
  case CAT:
-   if (/*binOp start*/mp < &musts[2/*binOp end*/])
+   if (mp < &musts[2])
      goto done;
    {
      must *lmp;
      must *rmp;
 
-     /*compound start*//*binOp start*/rmp = --/*compound end*//*binOp end*/mp;
-     /*compound start*//*binOp start*/lmp = --/*compound end*//*binOp end*/mp;
+     /*compound start*/rmp = --/*compound end*/mp;/*end of stmt*/
+     /*compound start*/lmp = --/*compound end*/mp;/*end of stmt*/
 
 
 
-     /*compound start*//*binOp start*/lmp->in = addlists(lmp->in, rmp->in/*compound end*//*binOp end*/);
-     if (/*binOp start*/lmp->in == ((void *)0/*binOp end*/))
+     /*compound start*/lmp->in = addlists(lmp->in, rmp->in/*compound end*/);/*end of stmt*/
+     if (lmp->in == ((void *)0))
        goto done;
-     if (/*binOp start*//*binOp start*/lmp->right[0] != /*binOp end*/'\0' &&
-  /*binOp start*/rmp->left[0] != /*binOp end*//*binOp end*/'\0')
+     if (lmp->right[0] != '\0' &&
+  rmp->left[0] != '\0')
        {
   char *tp;
 
-  /*compound start*//*binOp start*/tp = icpyalloc(lmp->right/*compound end*//*binOp end*/);
-  if (/*binOp start*/tp == ((void *)0/*binOp end*/))
+  /*compound start*/tp = icpyalloc(lmp->right/*compound end*/);/*end of stmt*/
+  if (tp == ((void *)0))
     goto done;
-  /*compound start*//*binOp start*/tp = icatalloc(tp, rmp->left/*compound end*//*binOp end*/);
-  if (/*binOp start*/tp == ((void *)0/*binOp end*/))
+  /*compound start*/tp = icatalloc(tp, rmp->left/*compound end*/);/*end of stmt*/
+  if (tp == ((void *)0))
     goto done;
-  /*compound start*//*binOp start*/lmp->in = enlist(lmp->in, tp,
-     strlen(tp)/*compound end*//*binOp end*/);
+  /*compound start*/lmp->in = enlist(lmp->in, tp,
+     strlen(tp)/*compound end*/);/*end of stmt*/
   free(tp);
-  if (/*binOp start*/lmp->in == ((void *)0/*binOp end*/))
+  if (lmp->in == ((void *)0))
     goto done;
        }
 
-     if (/*binOp start*/lmp->is[0] != /*binOp end*/'\0')
+     if (lmp->is[0] != '\0')
        {
-  /*compound start*//*binOp start*/lmp->left = icatalloc(lmp->left,
-          rmp->left/*compound end*//*binOp end*/);
-  if (/*binOp start*/lmp->left == ((void *)0/*binOp end*/))
+  /*compound start*/lmp->left = icatalloc(lmp->left,
+          rmp->left/*compound end*/);/*end of stmt*/
+  if (lmp->left == ((void *)0))
     goto done;
        }
 
-     if (/*binOp start*/rmp->is[0] == /*binOp end*/'\0')
-       /*binOp start*/lmp->right[0] = /*binOp end*/'\0';
-     /*compound start*//*binOp start*/lmp->right = icatalloc(lmp->right, rmp->right/*compound end*//*binOp end*/);
-     if (/*binOp start*/lmp->right == ((void *)0/*binOp end*/))
+     if (rmp->is[0] == '\0')
+       /*compound start*/lmp->right[0] = /*compound end*/'\0';/*end of stmt*/
+     /*compound start*/lmp->right = icatalloc(lmp->right, rmp->right/*compound end*/);/*end of stmt*/
+     if (lmp->right == ((void *)0))
        goto done;
 
-     if (/*binOp start*//*binOp start*/lmp->is[0] != /*binOp end*/'\0' && /*binOp start*/rmp->is[0] != /*binOp end*//*binOp end*/'\0')
+     if (lmp->is[0] != '\0' && rmp->is[0] != '\0')
        {
-  /*compound start*//*binOp start*/lmp->is = icatalloc(lmp->is, rmp->is/*compound end*//*binOp end*/);
-  if (/*binOp start*/lmp->is == ((void *)0/*binOp end*/))
+  /*compound start*/lmp->is = icatalloc(lmp->is, rmp->is/*compound end*/);/*end of stmt*/
+  if (lmp->is == ((void *)0))
     goto done;
        }
      else
-       /*binOp start*/lmp->is[0] = /*binOp end*/'\0';
+       lmp->is[0] = '\0';
    }
    break;
  default:
-   if (/*binOp start*/t < /*binOp end*/END)
+   if (t < END)
      {
 
        goto done;
      }
-   else if (/*binOp start*/t == /*binOp end*/'\0')
+   else if (t == '\0')
      {
 
        goto done;
      }
-   else if (/*binOp start*/t >= /*binOp end*/CSET)
+   else if (t >= CSET)
      {
 
        resetmust(mp);
@@ -10022,10 +10022,10 @@ struct dfa *dfa;
      {
 
        resetmust(mp);
-       /*compound start*//*binOp start*/mp->is[0] = /*binOp start*/mp->left[0] = /*binOp start*/mp->right[0] = /*compound end*//*binOp end*//*binOp end*//*binOp end*/t;
-       /*compound start*//*binOp start*/mp->is[1] = /*binOp start*/mp->left[1] = /*binOp start*/mp->right[1] = /*compound end*//*binOp end*//*binOp end*//*binOp end*/'\0';
-       /*compound start*//*binOp start*/mp->in = enlist(mp->in, mp->is, 1/*compound end*//*binOp end*/);
-       if (/*binOp start*/mp->in == ((void *)0/*binOp end*/))
+       /*compound start*/mp->is[0] = mp->left[0] = mp->right[0] = /*compound end*/t;/*end of stmt*/
+       /*compound start*/mp->is[1] = mp->left[1] = mp->right[1] = /*compound end*/'\0';/*end of stmt*/
+       /*compound start*/mp->in = enlist(mp->in, mp->is, 1/*compound end*/);/*end of stmt*/
+       if (mp->in == ((void *)0))
   goto done;
      }
    break;
@@ -10036,15 +10036,15 @@ struct dfa *dfa;
  done:
   if (strlen(result))
     {
-      /*compound start*//*binOp start*/dm = (struct dfamust *) malloc(sizeof (struct dfamust)/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/dm->exact = /*compound end*//*binOp end*/exact;
-      /*compound start*//*binOp start*/dm->must = malloc(/*binOp start*/strlen(result) + /*binOp end*/1/*compound end*//*binOp end*/);
+      /*compound start*/dm = (struct dfamust *) malloc(sizeof (struct dfamust)/*compound end*/);/*end of stmt*/
+      /*compound start*/dm->exact = /*compound end*/exact;/*end of stmt*/
+      /*compound start*/dm->must = malloc(strlen(result) + 1/*compound end*/);/*end of stmt*/
       strcpy(dm->must, result);
-      /*compound start*//*binOp start*/dm->next = dfa->/*compound end*//*binOp end*/musts;
-      /*compound start*//*binOp start*/dfa->musts = /*compound end*//*binOp end*/dm;
+      /*compound start*/dm->next = dfa->/*compound end*/musts;/*end of stmt*/
+      /*compound start*/dfa->musts = /*compound end*/dm;/*end of stmt*/
     }
-  /*compound start*//*binOp start*/mp = /*compound end*//*binOp end*/musts;
-  for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i <= dfa->/*binOp end*/tindex; ++i)
+  /*compound start*/mp = /*compound end*/musts;/*end of stmt*/
+  for (i = 0; i <= dfa->tindex; ++i)
     {
       freelist(mp[i].in);
       ifree((char *) mp[i].in);
@@ -10241,8 +10241,8 @@ struct kwset
   struct trie *trie;
   int mind;
   int maxd;
-  unsigned char delta[(/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1)];
-  struct trie *next[(/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1)];
+  unsigned char delta[((127 * 2 + 1) + 1)];
+  struct trie *next[((127 * 2 + 1) + 1)];
   char *target;
   int mind2;
   char *trans;
@@ -10256,30 +10256,30 @@ kwsalloc(trans)
 {
   struct kwset *kwset;
 
-  /*compound start*//*binOp start*/kwset = (struct kwset *) xmalloc(sizeof (struct kwset)/*compound end*//*binOp end*/);
+  /*compound start*/kwset = (struct kwset *) xmalloc(sizeof (struct kwset)/*compound end*/);/*end of stmt*/
   if (!kwset)
     return 0;
 
   _obstack_begin ((&kwset->obstack), 0, 0, (void *(*) ()) xmalloc, (void (*) ()) free);
-  /*compound start*//*binOp start*/kwset->words = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->trie
-    = (struct trie *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct trie))); ((/*binOp start*//*binOp start*/__o->chunk_limit - __o->/*binOp end*/next_free < /*binOp end*/__len) ? (/*binOp start*/_obstack_newchunk (__o, __len), /*binOp end*/0) : 0); /*assign start*//*binOp start*/__o->next_free += /*assign end*//*binOp end*/__len; (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (/*binOp start*/__o1->next_free == /*binOp end*/value) /*binOp start*/__o1->maybe_empty_object = /*binOp end*/1; /*compound start*//*binOp start*/__o1->next_free = (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(__o1->next_free) - (char *)/*binOp end*/0)+__o1->/*binOp end*/alignment_mask) & ~ (__o1->alignment_mask/*binOp end*/)) + (char *)/*binOp end*/0/*compound end*//*binOp end*/); ((/*binOp start*//*binOp start*/__o1->next_free - (char *)__o1->/*binOp end*/chunk > /*binOp start*/__o1->chunk_limit - (char *)__o1->/*binOp end*//*binOp end*/chunk) ? (/*binOp start*/__o1->next_free = __o1->/*binOp end*/chunk_limit) : 0); /*compound start*//*binOp start*/__o1->object_base = __o1->/*compound end*//*binOp end*/next_free; value; }); }/*compound end*//*binOp end*/);
+  /*compound start*/kwset->words = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->trie
+    = (struct trie *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct trie))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += /*compound end*/__len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = /*compound end*/1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0/*compound end*/);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->/*compound end*/next_free;/*end of stmt*/ value; }); }/*compound end*/);/*end of stmt*/
   if (!kwset->trie)
     {
       kwsfree((kwset_t) kwset);
       return 0;
     }
-  /*compound start*//*binOp start*/kwset->trie->accepting = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->trie->links = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->trie->parent = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->trie->next = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->trie->fail = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->trie->depth = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->trie->shift = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->mind = /*compound end*//*binOp end*/2147483647;
-  /*compound start*//*binOp start*/kwset->maxd = -/*compound end*//*binOp end*/1;
-  /*compound start*//*binOp start*/kwset->target = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/kwset->trans = /*compound end*//*binOp end*/trans;
+  /*compound start*/kwset->trie->accepting = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->trie->links = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->trie->parent = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->trie->next = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->trie->fail = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->trie->depth = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->trie->shift = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->mind = /*compound end*/2147483647;/*end of stmt*/
+  /*compound start*/kwset->maxd = -/*compound end*/1;/*end of stmt*/
+  /*compound start*/kwset->target = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->trans = /*compound end*/trans;/*end of stmt*/
 
   return (kwset_t) kwset;
 }
@@ -10301,31 +10301,31 @@ kwsincr(kws, text, len)
   enum { L, R } dirs[12];
   struct tree *t, *r, *l, *rl, *lr;
 
-  /*compound start*//*binOp start*/kwset = (struct kwset *) /*compound end*//*binOp end*/kws;
-  /*compound start*//*binOp start*/trie = kwset->/*compound end*//*binOp end*/trie;
-  /*assign start*//*binOp start*/text += /*assign end*//*binOp end*/len;
+  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
+  /*compound start*/trie = kwset->/*compound end*/trie;/*end of stmt*/
+  /*compound start*/text += /*compound end*/len;/*end of stmt*/
 
 
 
   while (len--)
     {
-      /*compound start*//*binOp start*/label = kwset->trans ? kwset->trans[(unsigned char) *--text] : *--/*compound end*//*binOp end*/text;
+      /*compound start*/label = kwset->trans ? kwset->trans[(unsigned char) *--text] : *--/*compound end*/text;/*end of stmt*/
 
 
 
 
-      /*compound start*//*binOp start*/link = trie->/*compound end*//*binOp end*/links;
-      /*compound start*//*binOp start*/links[0] = (struct tree *) &trie->/*compound end*//*binOp end*/links;
-      /*compound start*//*binOp start*/dirs[0] = /*compound end*//*binOp end*/L;
-      /*compound start*//*binOp start*/depth = /*compound end*//*binOp end*/1;
+      /*compound start*/link = trie->/*compound end*/links;/*end of stmt*/
+      /*compound start*/links[0] = (struct tree *) &trie->/*compound end*/links;/*end of stmt*/
+      /*compound start*/dirs[0] = /*compound end*/L;/*end of stmt*/
+      /*compound start*/depth = /*compound end*/1;/*end of stmt*/
 
-      while (/*binOp start*/link && /*binOp start*/label != link->/*binOp end*//*binOp end*/label)
+      while (link && label != link->label)
  {
-   /*compound start*//*binOp start*/links[depth] = /*compound end*//*binOp end*/link;
-   if (/*binOp start*/label < link->/*binOp end*/label)
-     /*binOp start*//*binOp start*/dirs[depth++] = /*binOp end*/L, /*binOp start*/link = link->/*binOp end*//*binOp end*/llink;
+   /*compound start*/links[depth] = /*compound end*/link;/*end of stmt*/
+   if (label < link->label)
+     /*compound start*/dirs[depth++] = L, link = link->/*compound end*/llink;/*end of stmt*/
    else
-     /*binOp start*//*binOp start*/dirs[depth++] = /*binOp end*/R, /*binOp start*/link = link->/*binOp end*//*binOp end*/rlink;
+     dirs[depth++] = R, link = link->rlink;
  }
 
 
@@ -10333,36 +10333,36 @@ kwsincr(kws, text, len)
 
       if (!link)
  {
-   /*compound start*//*binOp start*/link = (struct tree *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct tree))); ((/*binOp start*//*binOp start*/__o->chunk_limit - __o->/*binOp end*/next_free < /*binOp end*/__len) ? (/*binOp start*/_obstack_newchunk (__o, __len), /*binOp end*/0) : 0); /*assign start*//*binOp start*/__o->next_free += /*assign end*//*binOp end*/__len; (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (/*binOp start*/__o1->next_free == /*binOp end*/value) /*binOp start*/__o1->maybe_empty_object = /*binOp end*/1; /*compound start*//*binOp start*/__o1->next_free = (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(__o1->next_free) - (char *)/*binOp end*/0)+__o1->/*binOp end*/alignment_mask) & ~ (__o1->alignment_mask/*binOp end*/)) + (char *)/*binOp end*/0/*compound end*//*binOp end*/); ((/*binOp start*//*binOp start*/__o1->next_free - (char *)__o1->/*binOp end*/chunk > /*binOp start*/__o1->chunk_limit - (char *)__o1->/*binOp end*//*binOp end*/chunk) ? (/*binOp start*/__o1->next_free = __o1->/*binOp end*/chunk_limit) : 0); /*compound start*//*binOp start*/__o1->object_base = __o1->/*compound end*//*binOp end*/next_free; value; }); }/*compound end*//*binOp end*/);
+   /*compound start*/link = (struct tree *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct tree))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += /*compound end*/__len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = /*compound end*/1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0/*compound end*/);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->/*compound end*/next_free;/*end of stmt*/ value; }); }/*compound end*/);/*end of stmt*/
 
    if (!link)
      return "memory exhausted";
-   /*compound start*//*binOp start*/link->llink = /*compound end*//*binOp end*/0;
-   /*compound start*//*binOp start*/link->rlink = /*compound end*//*binOp end*/0;
-   /*compound start*//*binOp start*/link->trie = (struct trie *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct trie))); ((/*binOp start*//*binOp start*/__o->chunk_limit - __o->/*binOp end*/next_free < /*binOp end*/__len) ? (/*binOp start*/_obstack_newchunk (__o, __len), /*binOp end*/0) : 0); /*assign start*//*binOp start*/__o->next_free += /*assign end*//*binOp end*/__len; (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (/*binOp start*/__o1->next_free == /*binOp end*/value) /*binOp start*/__o1->maybe_empty_object = /*binOp end*/1; /*compound start*//*binOp start*/__o1->next_free = (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(__o1->next_free) - (char *)/*binOp end*/0)+__o1->/*binOp end*/alignment_mask) & ~ (__o1->alignment_mask/*binOp end*/)) + (char *)/*binOp end*/0/*compound end*//*binOp end*/); ((/*binOp start*//*binOp start*/__o1->next_free - (char *)__o1->/*binOp end*/chunk > /*binOp start*/__o1->chunk_limit - (char *)__o1->/*binOp end*//*binOp end*/chunk) ? (/*binOp start*/__o1->next_free = __o1->/*binOp end*/chunk_limit) : 0); /*compound start*//*binOp start*/__o1->object_base = __o1->/*compound end*//*binOp end*/next_free; value; }); }/*compound end*//*binOp end*/);
+   /*compound start*/link->llink = /*compound end*/0;/*end of stmt*/
+   /*compound start*/link->rlink = /*compound end*/0;/*end of stmt*/
+   /*compound start*/link->trie = (struct trie *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct trie))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += /*compound end*/__len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = /*compound end*/1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0/*compound end*/);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->/*compound end*/next_free;/*end of stmt*/ value; }); }/*compound end*/);/*end of stmt*/
 
    if (!link->trie)
      return "memory exhausted";
-   /*compound start*//*binOp start*/link->trie->accepting = /*compound end*//*binOp end*/0;
-   /*compound start*//*binOp start*/link->trie->links = /*compound end*//*binOp end*/0;
-   /*compound start*//*binOp start*/link->trie->parent = /*compound end*//*binOp end*/trie;
-   /*compound start*//*binOp start*/link->trie->next = /*compound end*//*binOp end*/0;
-   /*compound start*//*binOp start*/link->trie->fail = /*compound end*//*binOp end*/0;
-   /*compound start*//*binOp start*/link->trie->depth = /*binOp start*/trie->depth + /*compound end*//*binOp end*//*binOp end*/1;
-   /*compound start*//*binOp start*/link->trie->shift = /*compound end*//*binOp end*/0;
-   /*compound start*//*binOp start*/link->label = /*compound end*//*binOp end*/label;
-   /*compound start*//*binOp start*/link->balance = /*compound end*//*binOp end*/0;
+   /*compound start*/link->trie->accepting = /*compound end*/0;/*end of stmt*/
+   /*compound start*/link->trie->links = /*compound end*/0;/*end of stmt*/
+   /*compound start*/link->trie->parent = /*compound end*/trie;/*end of stmt*/
+   /*compound start*/link->trie->next = /*compound end*/0;/*end of stmt*/
+   /*compound start*/link->trie->fail = /*compound end*/0;/*end of stmt*/
+   /*compound start*/link->trie->depth = trie->depth + /*compound end*/1;/*end of stmt*/
+   /*compound start*/link->trie->shift = /*compound end*/0;/*end of stmt*/
+   /*compound start*/link->label = /*compound end*/label;/*end of stmt*/
+   /*compound start*/link->balance = /*compound end*/0;/*end of stmt*/
 
 
-   if (/*binOp start*/dirs[--depth] == /*binOp end*/L)
-     /*binOp start*/links[depth]->llink = /*binOp end*/link;
+   if (dirs[--depth] == L)
+     /*compound start*/links[depth]->llink = /*compound end*/link;/*end of stmt*/
    else
-     /*binOp start*/links[depth]->rlink = /*binOp end*/link;
+     links[depth]->rlink = link;
 
 
-   while (/*binOp start*/depth && !links[depth]->/*binOp end*/balance)
+   while (depth && !links[depth]->balance)
      {
-       if (/*binOp start*/dirs[depth] == /*binOp end*/L)
+       if (dirs[depth] == L)
   --links[depth]->balance;
        else
   ++links[depth]->balance;
@@ -10370,70 +10370,70 @@ kwsincr(kws, text, len)
      }
 
 
-   if (/*binOp start*/depth && (/*binOp start*/(/*binOp start*//*binOp start*/dirs[depth] == /*binOp end*/L && --links[depth]->/*binOp end*/balance)
-   || (/*binOp start*//*binOp start*/dirs[depth] == /*binOp end*/R && ++links[depth]->/*binOp end*/balance/*binOp end*/)/*binOp end*/))
+   if (depth && ((dirs[depth] == L && --links[depth]->balance)
+   || (dirs[depth] == R && ++links[depth]->balance)))
      {
        switch (links[depth]->balance)
   {
   case (char) -2:
-    switch (dirs[/*binOp start*/depth + /*binOp end*/1])
+    switch (dirs[depth + 1])
       {
       case L:
-        /*case comp start*//*binOp start*//*binOp start*//*binOp start*/r = links[depth/*binOp end*/], /*binOp start*/t = r->/*binOp end*//*binOp end*/llink, /*binOp start*/rl = t->/*case comp end*//*binOp end*//*binOp end*/rlink;
-        /*compound start*//*binOp start*//*binOp start*/t->rlink = /*binOp end*/r, /*binOp start*/r->llink = /*compound end*//*binOp end*//*binOp end*/rl;
-        /*compound start*//*binOp start*/t->balance = /*binOp start*/r->balance = /*compound end*//*binOp end*//*binOp end*/0;
+        /*compound start*/r = links[depth], t = r->llink, rl = t->/*compound end*/rlink;/*end of stmt*/
+        /*compound start*/t->rlink = r, r->llink = /*compound end*/rl;/*end of stmt*/
+        /*compound start*/t->balance = r->balance = /*compound end*/0;/*end of stmt*/
         break;
       case R:
-        /*case comp start*//*binOp start*//*binOp start*//*binOp start*/r = links[depth/*binOp end*/], /*binOp start*/l = r->/*binOp end*//*binOp end*/llink, /*binOp start*/t = l->/*case comp end*//*binOp end*//*binOp end*/rlink;
-        /*compound start*//*binOp start*//*binOp start*/rl = t->/*binOp end*/rlink, /*binOp start*/lr = t->/*compound end*//*binOp end*//*binOp end*/llink;
-        /*compound start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/t->llink = /*binOp end*/l, /*binOp start*/l->rlink = /*binOp end*//*binOp end*/lr, /*binOp start*/t->rlink = /*binOp end*//*binOp end*/r, /*binOp start*/r->llink = /*compound end*//*binOp end*//*binOp end*/rl;
-        /*compound start*//*binOp start*/l->balance = /*binOp start*/t->balance != /*binOp end*/1 ? 0 : -/*compound end*//*binOp end*/1;
-        /*compound start*//*binOp start*/r->balance = /*binOp start*/t->balance != (char) -/*binOp end*/1 ? 0 : /*compound end*//*binOp end*/1;
-        /*compound start*//*binOp start*/t->balance = /*compound end*//*binOp end*/0;
+        /*compound start*/r = links[depth], l = r->llink, t = l->/*compound end*/rlink;/*end of stmt*/
+        /*compound start*/rl = t->rlink, lr = t->/*compound end*/llink;/*end of stmt*/
+        /*compound start*/t->llink = l, l->rlink = lr, t->rlink = r, r->llink = /*compound end*/rl;/*end of stmt*/
+        /*compound start*/l->balance = t->balance != 1 ? 0 : -/*compound end*/1;/*end of stmt*/
+        /*compound start*/r->balance = t->balance != (char) -1 ? 0 : /*compound end*/1;/*end of stmt*/
+        /*compound start*/t->balance = /*compound end*/0;/*end of stmt*/
         break;
       }
     break;
   case 2:
-    switch (dirs[/*binOp start*/depth + /*binOp end*/1])
+    switch (dirs[depth + 1])
       {
       case R:
-        /*case comp start*//*binOp start*//*binOp start*//*binOp start*/l = links[depth/*binOp end*/], /*binOp start*/t = l->/*binOp end*//*binOp end*/rlink, /*binOp start*/lr = t->/*case comp end*//*binOp end*//*binOp end*/llink;
-        /*compound start*//*binOp start*//*binOp start*/t->llink = /*binOp end*/l, /*binOp start*/l->rlink = /*compound end*//*binOp end*//*binOp end*/lr;
-        /*compound start*//*binOp start*/t->balance = /*binOp start*/l->balance = /*compound end*//*binOp end*//*binOp end*/0;
+        /*compound start*/l = links[depth], t = l->rlink, lr = t->/*compound end*/llink;/*end of stmt*/
+        /*compound start*/t->llink = l, l->rlink = /*compound end*/lr;/*end of stmt*/
+        /*compound start*/t->balance = l->balance = /*compound end*/0;/*end of stmt*/
         break;
       case L:
-        /*case comp start*//*binOp start*//*binOp start*//*binOp start*/l = links[depth/*binOp end*/], /*binOp start*/r = l->/*binOp end*//*binOp end*/rlink, /*binOp start*/t = r->/*case comp end*//*binOp end*//*binOp end*/llink;
-        /*compound start*//*binOp start*//*binOp start*/lr = t->/*binOp end*/llink, /*binOp start*/rl = t->/*compound end*//*binOp end*//*binOp end*/rlink;
-        /*compound start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/t->llink = /*binOp end*/l, /*binOp start*/l->rlink = /*binOp end*//*binOp end*/lr, /*binOp start*/t->rlink = /*binOp end*//*binOp end*/r, /*binOp start*/r->llink = /*compound end*//*binOp end*//*binOp end*/rl;
-        /*compound start*//*binOp start*/l->balance = /*binOp start*/t->balance != /*binOp end*/1 ? 0 : -/*compound end*//*binOp end*/1;
-        /*compound start*//*binOp start*/r->balance = /*binOp start*/t->balance != (char) -/*binOp end*/1 ? 0 : /*compound end*//*binOp end*/1;
-        /*compound start*//*binOp start*/t->balance = /*compound end*//*binOp end*/0;
+        /*compound start*/l = links[depth], r = l->rlink, t = r->/*compound end*/llink;/*end of stmt*/
+        /*compound start*/lr = t->llink, rl = t->/*compound end*/rlink;/*end of stmt*/
+        /*compound start*/t->llink = l, l->rlink = lr, t->rlink = r, r->llink = /*compound end*/rl;/*end of stmt*/
+        /*compound start*/l->balance = t->balance != 1 ? 0 : -/*compound end*/1;/*end of stmt*/
+        /*compound start*/r->balance = t->balance != (char) -1 ? 0 : /*compound end*/1;/*end of stmt*/
+        /*compound start*/t->balance = /*compound end*/0;/*end of stmt*/
         break;
       }
     break;
   }
 
-       if (/*binOp start*/dirs[/*binOp start*/depth - /*binOp end*/1] == /*binOp end*/L)
-  /*binOp start*/links[/*binOp start*/depth - /*binOp end*/1]->llink = /*binOp end*/t;
+       if (dirs[depth - 1] == L)
+  /*compound start*/links[depth - 1]->llink = /*compound end*/t;/*end of stmt*/
        else
-  /*binOp start*/links[/*binOp start*/depth - /*binOp end*/1]->rlink = /*binOp end*/t;
+  links[depth - 1]->rlink = t;
      }
  }
 
-      /*compound start*//*binOp start*/trie = link->/*compound end*//*binOp end*/trie;
+      /*compound start*/trie = link->/*compound end*/trie;/*end of stmt*/
     }
 
 
 
   if (!trie->accepting)
-    /*binOp start*/trie->accepting = /*binOp start*/1 + /*binOp start*/2 * kwset->/*binOp end*//*binOp end*//*binOp end*/words;
+    /*compound start*/trie->accepting = 1 + 2 * kwset->/*compound end*/words;/*end of stmt*/
   ++kwset->words;
 
 
-  if (/*binOp start*/trie->depth < kwset->/*binOp end*/mind)
-    /*binOp start*/kwset->mind = trie->/*binOp end*/depth;
-  if (/*binOp start*/trie->depth > kwset->/*binOp end*/maxd)
-    /*binOp start*/kwset->maxd = trie->/*binOp end*/depth;
+  if (trie->depth < kwset->mind)
+    /*compound start*/kwset->mind = trie->/*compound end*/depth;/*end of stmt*/
+  if (trie->depth > kwset->maxd)
+    /*compound start*/kwset->maxd = trie->/*compound end*/depth;/*end of stmt*/
 
   return 0;
 }
@@ -10449,7 +10449,7 @@ enqueue(tree, last)
     return;
   enqueue(tree->llink, last);
   enqueue(tree->rlink, last);
-  /*compound start*//*binOp start*/(*last) = /*binOp start*/(*last)->next = tree->/*compound end*//*binOp end*//*binOp end*/trie;
+  /*compound start*/(*last) = (*last)->next = tree->/*compound end*/trie;/*end of stmt*/
 }
 
 
@@ -10473,21 +10473,21 @@ treefails(tree, fail, recourse)
 
   while (fail)
     {
-      /*compound start*//*binOp start*/link = fail->/*compound end*//*binOp end*/links;
-      while (/*binOp start*/link && /*binOp start*/tree->label != link->/*binOp end*//*binOp end*/label)
- if (/*binOp start*/tree->label < link->/*binOp end*/label)
-   /*binOp start*/link = link->/*binOp end*/llink;
+      /*compound start*/link = fail->/*compound end*/links;/*end of stmt*/
+      while (link && tree->label != link->label)
+ if (tree->label < link->label)
+   /*compound start*/link = link->/*compound end*/llink;/*end of stmt*/
  else
-   /*binOp start*/link = link->/*binOp end*/rlink;
+   link = link->rlink;
       if (link)
  {
-   /*compound start*//*binOp start*/tree->trie->fail = link->/*compound end*//*binOp end*/trie;
+   /*compound start*/tree->trie->fail = link->/*compound end*/trie;/*end of stmt*/
    return;
  }
-      /*compound start*//*binOp start*/fail = fail->/*compound end*//*binOp end*/fail;
+      /*compound start*/fail = fail->/*compound end*/fail;/*end of stmt*/
     }
 
-  /*compound start*//*binOp start*/tree->trie->fail = /*compound end*//*binOp end*/recourse;
+  /*compound start*/tree->trie->fail = /*compound end*/recourse;/*end of stmt*/
 }
 
 
@@ -10502,8 +10502,8 @@ treedelta(tree, depth, delta)
     return;
   treedelta(tree->llink, depth, delta);
   treedelta(tree->rlink, depth, delta);
-  if (/*binOp start*/depth < delta[tree->label/*binOp end*/])
-    /*binOp start*/delta[tree->label] = /*binOp end*/depth;
+  if (depth < delta[tree->label])
+    /*compound start*/delta[tree->label] = /*compound end*/depth;/*end of stmt*/
 }
 
 
@@ -10518,11 +10518,11 @@ hasevery(a, b)
     return 0;
   if (!hasevery(a, b->rlink))
     return 0;
-  while (/*binOp start*/a && /*binOp start*/b->label != a->/*binOp end*//*binOp end*/label)
-    if (/*binOp start*/b->label < a->/*binOp end*/label)
-      /*binOp start*/a = a->/*binOp end*/llink;
+  while (a && b->label != a->label)
+    if (b->label < a->label)
+      /*compound start*/a = a->/*compound end*/llink;/*end of stmt*/
     else
-      /*binOp start*/a = a->/*binOp end*/rlink;
+      a = a->rlink;
   return !!a;
 }
 
@@ -10537,7 +10537,7 @@ treenext(tree, next)
     return;
   treenext(tree->llink, next);
   treenext(tree->rlink, next);
-  /*compound start*//*binOp start*/next[tree->label] = tree->/*compound end*//*binOp end*/trie;
+  /*compound start*/next[tree->label] = tree->/*compound end*/trie;/*end of stmt*/
 }
 
 
@@ -10550,53 +10550,53 @@ kwsprep(kws)
   register int i;
   register struct trie *curr, *fail;
   register char *trans;
-  unsigned char delta[(/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1)];
-  struct trie *last, *next[(/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1)];
+  unsigned char delta[((127 * 2 + 1) + 1)];
+  struct trie *last, *next[((127 * 2 + 1) + 1)];
 
-  /*compound start*//*binOp start*/kwset = (struct kwset *) /*compound end*//*binOp end*/kws;
-
-
+  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
 
 
-  if (/*binOp start*/kwset->mind < /*binOp end*/256)
-    for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1/*binOp end*/); ++i)
-      /*binOp start*/delta[i] = kwset->/*binOp end*/mind;
+
+
+  if (kwset->mind < 256)
+    for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
+      /*compound start*/delta[i] = kwset->/*compound end*/mind;/*end of stmt*/
   else
-    for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1/*binOp end*/); ++i)
-      /*binOp start*/delta[i] = /*binOp end*/255;
+    for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
+      /*compound start*/delta[i] = /*compound end*/255;/*end of stmt*/
 
 
 
-  if (/*binOp start*//*binOp start*/kwset->words == /*binOp end*/1 && /*binOp start*/kwset->trans == /*binOp end*//*binOp end*/0)
+  if (kwset->words == 1 && kwset->trans == 0)
     {
 
-      /*compound start*//*binOp start*/kwset->target = __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((kwset->mind)); ((/*binOp start*//*binOp start*/__o->chunk_limit - __o->/*binOp end*/next_free < /*binOp end*/__len) ? (/*binOp start*/_obstack_newchunk (__o, __len), /*binOp end*/0) : 0); /*assign start*//*binOp start*/__o->next_free += /*assign end*//*binOp end*/__len; (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (/*binOp start*/__o1->next_free == /*binOp end*/value) /*binOp start*/__o1->maybe_empty_object = /*binOp end*/1; /*compound start*//*binOp start*/__o1->next_free = (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(__o1->next_free) - (char *)/*binOp end*/0)+__o1->/*binOp end*/alignment_mask) & ~ (__o1->alignment_mask/*binOp end*/)) + (char *)/*binOp end*/0/*compound end*//*binOp end*/); ((/*binOp start*//*binOp start*/__o1->next_free - (char *)__o1->/*binOp end*/chunk > /*binOp start*/__o1->chunk_limit - (char *)__o1->/*binOp end*//*binOp end*/chunk) ? (/*binOp start*/__o1->next_free = __o1->/*binOp end*/chunk_limit) : 0); /*compound start*//*binOp start*/__o1->object_base = __o1->/*compound end*//*binOp end*/next_free; value; }); }/*compound end*//*binOp end*/);
-      for (/*binOp start*//*binOp start*/i = /*binOp start*/kwset->mind - /*binOp end*//*binOp end*/1, /*binOp start*/curr = kwset->/*binOp end*//*binOp end*/trie; /*binOp start*/i >= /*binOp end*/0; --i)
+      /*compound start*/kwset->target = __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((kwset->mind)); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += /*compound end*/__len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = /*compound end*/1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0/*compound end*/);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->/*compound end*/next_free;/*end of stmt*/ value; }); }/*compound end*/);/*end of stmt*/
+      for (i = kwset->mind - 1, curr = kwset->trie; i >= 0; --i)
  {
-   /*compound start*//*binOp start*/kwset->target[i] = curr->links->/*compound end*//*binOp end*/label;
-   /*compound start*//*binOp start*/curr = curr->links->/*compound end*//*binOp end*/trie;
+   /*compound start*/kwset->target[i] = curr->links->/*compound end*/label;/*end of stmt*/
+   /*compound start*/curr = curr->links->/*compound end*/trie;/*end of stmt*/
  }
 
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < kwset->/*binOp end*/mind; ++i)
- /*binOp start*/delta[(unsigned char) kwset->target[i]] = /*binOp start*/kwset->mind - (/*binOp start*/i + /*binOp end*/1/*binOp end*//*binOp end*/);
-      /*compound start*//*binOp start*/kwset->mind2 = kwset->/*compound end*//*binOp end*/mind;
+      for (i = 0; i < kwset->mind; ++i)
+ /*compound start*/delta[(unsigned char) kwset->target[i]] = kwset->mind - (i + 1/*compound end*/);/*end of stmt*/
+      /*compound start*/kwset->mind2 = kwset->/*compound end*/mind;/*end of stmt*/
 
 
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < /*binOp start*/kwset->mind - /*binOp end*//*binOp end*/1; ++i)
- if (/*binOp start*/kwset->target[i] == kwset->target[/*binOp start*/kwset->mind - /*binOp end*/1/*binOp end*/])
-   /*binOp start*/kwset->mind2 = /*binOp start*/kwset->mind - (/*binOp start*/i + /*binOp end*/1/*binOp end*//*binOp end*/);
+      for (i = 0; i < kwset->mind - 1; ++i)
+ if (kwset->target[i] == kwset->target[kwset->mind - 1])
+   /*compound start*/kwset->mind2 = kwset->mind - (i + 1/*compound end*/);/*end of stmt*/
     }
   else
     {
 
 
-      for (/*binOp start*/curr = /*binOp start*/last = kwset->/*binOp end*//*binOp end*/trie; curr; /*binOp start*/curr = curr->/*binOp end*/next)
+      for (curr = last = kwset->trie; curr; curr = curr->next)
  {
 
    enqueue(curr->links, &last);
 
-   /*compound start*//*binOp start*/curr->shift = kwset->/*compound end*//*binOp end*/mind;
-   /*compound start*//*binOp start*/curr->maxshift = kwset->/*compound end*//*binOp end*/mind;
+   /*compound start*/curr->shift = kwset->/*compound end*/mind;/*end of stmt*/
+   /*compound start*/curr->maxshift = kwset->/*compound end*/mind;/*end of stmt*/
 
 
    treedelta(curr->links, curr->depth, delta);
@@ -10606,54 +10606,54 @@ kwsprep(kws)
 
 
 
-   for (/*binOp start*/fail = curr->/*binOp end*/fail; fail; /*binOp start*/fail = fail->/*binOp end*/fail)
+   for (fail = curr->fail; fail; fail = fail->fail)
      {
 
 
 
        if (!hasevery(fail->links, curr->links))
-  if (/*binOp start*//*binOp start*/curr->depth - fail->/*binOp end*/depth < fail->/*binOp end*/shift)
-    /*binOp start*/fail->shift = /*binOp start*/curr->depth - fail->/*binOp end*//*binOp end*/depth;
+  if (curr->depth - fail->depth < fail->shift)
+    /*compound start*/fail->shift = curr->depth - fail->/*compound end*/depth;/*end of stmt*/
 
 
 
 
-       if (/*binOp start*/curr->accepting && /*binOp start*/fail->maxshift > /*binOp start*/curr->depth - fail->/*binOp end*//*binOp end*//*binOp end*/depth)
-  /*binOp start*/fail->maxshift = /*binOp start*/curr->depth - fail->/*binOp end*//*binOp end*/depth;
+       if (curr->accepting && fail->maxshift > curr->depth - fail->depth)
+  /*compound start*/fail->maxshift = curr->depth - fail->/*compound end*/depth;/*end of stmt*/
      }
  }
 
 
 
-      for (/*binOp start*/curr = kwset->trie->/*binOp end*/next; curr; /*binOp start*/curr = curr->/*binOp end*/next)
+      for (curr = kwset->trie->next; curr; curr = curr->next)
  {
-   if (/*binOp start*/curr->maxshift > curr->parent->/*binOp end*/maxshift)
-     /*binOp start*/curr->maxshift = curr->parent->/*binOp end*/maxshift;
-   if (/*binOp start*/curr->shift > curr->/*binOp end*/maxshift)
-     /*binOp start*/curr->shift = curr->/*binOp end*/maxshift;
+   if (curr->maxshift > curr->parent->maxshift)
+     /*compound start*/curr->maxshift = curr->parent->/*compound end*/maxshift;/*end of stmt*/
+   if (curr->shift > curr->maxshift)
+     /*compound start*/curr->shift = curr->/*compound end*/maxshift;/*end of stmt*/
  }
 
 
 
-      for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1/*binOp end*/); ++i)
- /*binOp start*/next[i] = /*binOp end*/0;
+      for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
+ /*compound start*/next[i] = /*compound end*/0;/*end of stmt*/
       treenext(kwset->trie->links, next);
 
-      if (/*binOp start*/(/*binOp start*/trans = kwset->/*binOp end*/trans) != /*binOp end*/0)
- for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1/*binOp end*/); ++i)
-   /*binOp start*/kwset->next[i] = next[(unsigned char) trans[i]/*binOp end*/];
+      if ((trans = kwset->trans) != 0)
+ for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
+   /*compound start*/kwset->next[i] = next[(unsigned char) trans[i]/*compound end*/];/*end of stmt*/
       else
- for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1/*binOp end*/); ++i)
-   /*binOp start*/kwset->next[i] = next[i/*binOp end*/];
+ for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
+   /*compound start*/kwset->next[i] = next[i/*compound end*/];/*end of stmt*/
     }
 
 
-  if (/*binOp start*/(/*binOp start*/trans = kwset->/*binOp end*/trans) != /*binOp end*/0)
-    for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1/*binOp end*/); ++i)
-      /*binOp start*/kwset->delta[i] = delta[(unsigned char) trans[i]/*binOp end*/];
+  if ((trans = kwset->trans) != 0)
+    for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
+      /*compound start*/kwset->delta[i] = delta[(unsigned char) trans[i]/*compound end*/];/*end of stmt*/
   else
-    for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1/*binOp end*/); ++i)
-      /*binOp start*/kwset->delta[i] = delta[i/*binOp end*/];
+    for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
+      /*compound start*/kwset->delta[i] = delta[i/*compound end*/];/*end of stmt*/
 
   return 0;
 }
@@ -10672,75 +10672,75 @@ bmexec(kws, text, size)
   register char *ep, *sp, *tp;
   register int d, gc, i, len, md2;
 
-  /*compound start*//*binOp start*/kwset = (struct kwset *) /*compound end*//*binOp end*/kws;
-  /*compound start*//*binOp start*/len = kwset->/*compound end*//*binOp end*/mind;
+  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
+  /*compound start*/len = kwset->/*compound end*/mind;/*end of stmt*/
 
-  if (/*binOp start*/len == /*binOp end*/0)
+  if (len == 0)
     return text;
-  if (/*binOp start*/len > /*binOp end*/size)
+  if (len > size)
     return 0;
-  if (/*binOp start*/len == /*binOp end*/1)
+  if (len == 1)
     return memchr(text, kwset->target[0], size);
 
-  /*compound start*//*binOp start*/d1 = kwset->/*compound end*//*binOp end*/delta;
-  /*compound start*//*binOp start*/sp = /*binOp start*/kwset->target + /*compound end*//*binOp end*//*binOp end*/len;
-  /*compound start*//*binOp start*/gc = ((unsigned char) (sp[-2])/*compound end*//*binOp end*/);
-  /*compound start*//*binOp start*/md2 = kwset->/*compound end*//*binOp end*/mind2;
-  /*compound start*//*binOp start*/tp = /*binOp start*/text + /*compound end*//*binOp end*//*binOp end*/len;
+  /*compound start*/d1 = kwset->/*compound end*/delta;/*end of stmt*/
+  /*compound start*/sp = kwset->target + /*compound end*/len;/*end of stmt*/
+  /*compound start*/gc = ((unsigned char) (sp[-2])/*compound end*/);/*end of stmt*/
+  /*compound start*/md2 = kwset->/*compound end*/mind2;/*end of stmt*/
+  /*compound start*/tp = text + /*compound end*/len;/*end of stmt*/
 
 
-  if (/*binOp start*/size > /*binOp start*/12 * /*binOp end*//*binOp end*/len)
+  if (size > 12 * len)
 
-    for (/*binOp start*/ep = /*binOp start*//*binOp start*/text + /*binOp end*/size - /*binOp start*/11 * /*binOp end*//*binOp end*//*binOp end*/len;;)
+    for (ep = text + size - 11 * len;;)
       {
- while (/*binOp start*/tp <= /*binOp end*/ep)
+ while (tp <= ep)
    {
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     if (/*binOp start*/d == /*binOp end*/0)
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     if (d == 0)
        goto found;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     if (/*binOp start*/d == /*binOp end*/0)
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     if (d == 0)
        goto found;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     if (/*binOp start*/d == /*binOp end*/0)
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     if (d == 0)
        goto found;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
-     /*compound start*//*binOp start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*binOp end*/], /*binOp start*/tp += /*compound end*//*binOp end*//*binOp end*/d;
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
    }
  break;
       found:
- if (/*binOp start*/((unsigned char) (tp[-2])) == /*binOp end*/gc)
+ if (((unsigned char) (tp[-2])) == gc)
    {
-     for (/*binOp start*/i = /*binOp end*/3; /*binOp start*//*binOp start*/i <= /*binOp end*/len && /*binOp start*/((unsigned char) (tp[-i])) == ((unsigned char) (sp[-i])/*binOp end*//*binOp end*/); ++i)
+     for (i = 3; i <= len && ((unsigned char) (tp[-i])) == ((unsigned char) (sp[-i])); ++i)
        ;
-     if (/*binOp start*/i > /*binOp end*/len)
-       return /*binOp start*/tp - /*binOp end*/len;
+     if (i > len)
+       return tp - len;
    }
- /*assign start*//*binOp start*/tp += /*assign end*//*binOp end*/md2;
+ /*compound start*/tp += /*compound end*/md2;/*end of stmt*/
       }
 
 
 
-  /*compound start*//*binOp start*/ep = /*binOp start*/text + /*compound end*//*binOp end*//*binOp end*/size;
-  /*compound start*//*binOp start*/d = d1[((unsigned char) (tp[-1]))/*compound end*//*binOp end*/];
-  while (/*binOp start*/d <= /*binOp start*/ep - /*binOp end*//*binOp end*/tp)
+  /*compound start*/ep = text + /*compound end*/size;/*end of stmt*/
+  /*compound start*/d = d1[((unsigned char) (tp[-1]))/*compound end*/];/*end of stmt*/
+  while (d <= ep - tp)
     {
-      /*compound start*//*binOp start*/d = d1[((unsigned char) ((/*binOp start*/tp += /*binOp end*/d)[-1]))/*compound end*//*binOp end*/];
-      if (/*binOp start*/d != /*binOp end*/0)
+      /*compound start*/d = d1[((unsigned char) ((tp += d)[-1]))/*compound end*/];/*end of stmt*/
+      if (d != 0)
  continue;
-      if (/*binOp start*/tp[-2] == /*binOp end*/gc)
+      if (tp[-2] == gc)
  {
-   for (/*binOp start*/i = /*binOp end*/3; /*binOp start*//*binOp start*/i <= /*binOp end*/len && /*binOp start*/((unsigned char) (tp[-i])) == ((unsigned char) (sp[-i])/*binOp end*//*binOp end*/); ++i)
+   for (i = 3; i <= len && ((unsigned char) (tp[-i])) == ((unsigned char) (sp[-i])); ++i)
      ;
-   if (/*binOp start*/i > /*binOp end*/len)
-     return /*binOp start*/tp - /*binOp end*/len;
+   if (i > len)
+     return tp - len;
  }
-      /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/md2;
+      /*compound start*/d = /*compound end*/md2;/*end of stmt*/
     }
 
   return 0;
@@ -10764,73 +10764,73 @@ cwexec(kws, text, len, kwsmatch)
   register char *trans;
 
 
-  /*compound start*//*binOp start*/kwset = (struct kwset *) /*compound end*//*binOp end*/kws;
-  if (/*binOp start*/len < kwset->/*binOp end*/mind)
+  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
+  if (len < kwset->mind)
     return 0;
-  /*compound start*//*binOp start*/next = kwset->/*compound end*//*binOp end*/next;
-  /*compound start*//*binOp start*/delta = kwset->/*compound end*//*binOp end*/delta;
-  /*compound start*//*binOp start*/trans = kwset->/*compound end*//*binOp end*/trans;
-  /*compound start*//*binOp start*/lim = /*binOp start*/text + /*compound end*//*binOp end*//*binOp end*/len;
-  /*compound start*//*binOp start*/end = /*compound end*//*binOp end*/text;
-  if (/*binOp start*/(/*binOp start*/d = kwset->/*binOp end*/mind) != /*binOp end*/0)
-    /*binOp start*/mch = /*binOp end*/0;
+  /*compound start*/next = kwset->/*compound end*/next;/*end of stmt*/
+  /*compound start*/delta = kwset->/*compound end*/delta;/*end of stmt*/
+  /*compound start*/trans = kwset->/*compound end*/trans;/*end of stmt*/
+  /*compound start*/lim = text + /*compound end*/len;/*end of stmt*/
+  /*compound start*/end = /*compound end*/text;/*end of stmt*/
+  if ((d = kwset->mind) != 0)
+    /*compound start*/mch = /*compound end*/0;/*end of stmt*/
   else
     {
-      /*compound start*//*binOp start*//*binOp start*/mch = /*binOp end*/text, /*binOp start*/accept = kwset->/*compound end*//*binOp end*//*binOp end*/trie;
+      /*compound start*/mch = text, accept = kwset->/*compound end*/trie;/*end of stmt*/
       goto match;
     }
 
-  if (/*binOp start*/len >= /*binOp start*/4 * kwset->/*binOp end*//*binOp end*/mind)
-    /*binOp start*/qlim = /*binOp start*/lim - /*binOp start*/4 * kwset->/*binOp end*//*binOp end*//*binOp end*/mind;
+  if (len >= 4 * kwset->mind)
+    /*compound start*/qlim = lim - 4 * kwset->/*compound end*/mind;/*end of stmt*/
   else
-    /*binOp start*/qlim = /*binOp end*/0;
+    qlim = 0;
 
-  while (/*binOp start*//*binOp start*/lim - /*binOp end*/end >= /*binOp end*/d)
+  while (lim - end >= d)
     {
-      if (/*binOp start*/qlim && /*binOp start*/end <= /*binOp end*//*binOp end*/qlim)
+      if (qlim && end <= qlim)
  {
-   /*assign start*//*binOp start*/end += /*binOp start*/d - /*assign end*//*binOp end*//*binOp end*/1;
-   while (/*binOp start*/(/*binOp start*/d = delta[/*binOp start*/c = */*binOp end*/end/*binOp end*/]) && /*binOp start*/end < /*binOp end*//*binOp end*/qlim)
+   /*compound start*/end += d - /*compound end*/1;/*end of stmt*/
+   while ((d = delta[c = *end]) && end < qlim)
      {
-       /*assign start*//*binOp start*/end += /*assign end*//*binOp end*/d;
-       /*assign start*//*binOp start*/end += delta[(unsigned char) *end/*assign end*//*binOp end*/];
-       /*assign start*//*binOp start*/end += delta[(unsigned char) *end/*assign end*//*binOp end*/];
+       /*compound start*/end += /*compound end*/d;/*end of stmt*/
+       /*compound start*/end += delta[(unsigned char) *end/*compound end*/];/*end of stmt*/
+       /*compound start*/end += delta[(unsigned char) *end/*compound end*/];/*end of stmt*/
      }
    ++end;
  }
       else
- /*binOp start*/d = delta[/*binOp start*/c = (/*binOp start*/end += /*binOp end*/d)[-1/*binOp end*/]/*binOp end*/];
+ d = delta[c = (end += d)[-1]];
       if (d)
  continue;
-      /*compound start*//*binOp start*/beg = /*binOp start*/end - /*compound end*//*binOp end*//*binOp end*/1;
-      /*compound start*//*binOp start*/trie = next[c/*compound end*//*binOp end*/];
+      /*compound start*/beg = end - /*compound end*/1;/*end of stmt*/
+      /*compound start*/trie = next[c/*compound end*/];/*end of stmt*/
       if (trie->accepting)
  {
-   /*compound start*//*binOp start*/mch = /*compound end*//*binOp end*/beg;
-   /*compound start*//*binOp start*/accept = /*compound end*//*binOp end*/trie;
+   /*compound start*/mch = /*compound end*/beg;/*end of stmt*/
+   /*compound start*/accept = /*compound end*/trie;/*end of stmt*/
  }
-      /*compound start*//*binOp start*/d = trie->/*compound end*//*binOp end*/shift;
-      while (/*binOp start*/beg > /*binOp end*/text)
+      /*compound start*/d = trie->/*compound end*/shift;/*end of stmt*/
+      while (beg > text)
  {
-   /*compound start*//*binOp start*/c = trans ? trans[(unsigned char) *--beg] : *--/*compound end*//*binOp end*/beg;
-   /*compound start*//*binOp start*/tree = trie->/*compound end*//*binOp end*/links;
-   while (/*binOp start*/tree && /*binOp start*/c != tree->/*binOp end*//*binOp end*/label)
-     if (/*binOp start*/c < tree->/*binOp end*/label)
-       /*binOp start*/tree = tree->/*binOp end*/llink;
+   /*compound start*/c = trans ? trans[(unsigned char) *--beg] : *--/*compound end*/beg;/*end of stmt*/
+   /*compound start*/tree = trie->/*compound end*/links;/*end of stmt*/
+   while (tree && c != tree->label)
+     if (c < tree->label)
+       /*compound start*/tree = tree->/*compound end*/llink;/*end of stmt*/
      else
-       /*binOp start*/tree = tree->/*binOp end*/rlink;
+       tree = tree->rlink;
    if (tree)
      {
-       /*compound start*//*binOp start*/trie = tree->/*compound end*//*binOp end*/trie;
+       /*compound start*/trie = tree->/*compound end*/trie;/*end of stmt*/
        if (trie->accepting)
   {
-    /*compound start*//*binOp start*/mch = /*compound end*//*binOp end*/beg;
-    /*compound start*//*binOp start*/accept = /*compound end*//*binOp end*/trie;
+    /*compound start*/mch = /*compound end*/beg;/*end of stmt*/
+    /*compound start*/accept = /*compound end*/trie;/*end of stmt*/
   }
      }
    else
      break;
-   /*compound start*//*binOp start*/d = trie->/*compound end*//*binOp end*/shift;
+   /*compound start*/d = trie->/*compound end*/shift;/*end of stmt*/
  }
       if (mch)
  goto match;
@@ -10841,62 +10841,62 @@ cwexec(kws, text, len, kwsmatch)
 
 
 
-  if (/*binOp start*//*binOp start*/lim - /*binOp end*/mch > kwset->/*binOp end*/maxd)
-    /*binOp start*/lim = /*binOp start*/mch + kwset->/*binOp end*//*binOp end*/maxd;
-  /*compound start*//*binOp start*/lmch = /*compound end*//*binOp end*/0;
-  /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/1;
-  while (/*binOp start*//*binOp start*/lim - /*binOp end*/end >= /*binOp end*/d)
+  if (lim - mch > kwset->maxd)
+    /*compound start*/lim = mch + kwset->/*compound end*/maxd;/*end of stmt*/
+  /*compound start*/lmch = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d = /*compound end*/1;/*end of stmt*/
+  while (lim - end >= d)
     {
-      if (/*binOp start*/(/*binOp start*/d = delta[/*binOp start*/c = (/*binOp start*/end += /*binOp end*/d)[-1/*binOp end*/]/*binOp end*/]) != /*binOp end*/0)
+      if ((d = delta[c = (end += d)[-1]]) != 0)
  continue;
-      /*compound start*//*binOp start*/beg = /*binOp start*/end - /*compound end*//*binOp end*//*binOp end*/1;
-      if (!(/*binOp start*/trie = next[c/*binOp end*/]))
+      /*compound start*/beg = end - /*compound end*/1;/*end of stmt*/
+      if (!(trie = next[c]))
  {
-   /*compound start*//*binOp start*/d = /*compound end*//*binOp end*/1;
+   /*compound start*/d = /*compound end*/1;/*end of stmt*/
    continue;
  }
-      if (/*binOp start*/trie->accepting && /*binOp start*/beg <= /*binOp end*//*binOp end*/mch)
+      if (trie->accepting && beg <= mch)
  {
-   /*compound start*//*binOp start*/lmch = /*compound end*//*binOp end*/beg;
-   /*compound start*//*binOp start*/accept = /*compound end*//*binOp end*/trie;
+   /*compound start*/lmch = /*compound end*/beg;/*end of stmt*/
+   /*compound start*/accept = /*compound end*/trie;/*end of stmt*/
  }
-      /*compound start*//*binOp start*/d = trie->/*compound end*//*binOp end*/shift;
-      while (/*binOp start*/beg > /*binOp end*/text)
+      /*compound start*/d = trie->/*compound end*/shift;/*end of stmt*/
+      while (beg > text)
  {
-   /*compound start*//*binOp start*/c = trans ? trans[(unsigned char) *--beg] : *--/*compound end*//*binOp end*/beg;
-   /*compound start*//*binOp start*/tree = trie->/*compound end*//*binOp end*/links;
-   while (/*binOp start*/tree && /*binOp start*/c != tree->/*binOp end*//*binOp end*/label)
-     if (/*binOp start*/c < tree->/*binOp end*/label)
-       /*binOp start*/tree = tree->/*binOp end*/llink;
+   /*compound start*/c = trans ? trans[(unsigned char) *--beg] : *--/*compound end*/beg;/*end of stmt*/
+   /*compound start*/tree = trie->/*compound end*/links;/*end of stmt*/
+   while (tree && c != tree->label)
+     if (c < tree->label)
+       /*compound start*/tree = tree->/*compound end*/llink;/*end of stmt*/
      else
-       /*binOp start*/tree = tree->/*binOp end*/rlink;
+       tree = tree->rlink;
    if (tree)
      {
-       /*compound start*//*binOp start*/trie = tree->/*compound end*//*binOp end*/trie;
-       if (/*binOp start*/trie->accepting && /*binOp start*/beg <= /*binOp end*//*binOp end*/mch)
+       /*compound start*/trie = tree->/*compound end*/trie;/*end of stmt*/
+       if (trie->accepting && beg <= mch)
   {
-    /*compound start*//*binOp start*/lmch = /*compound end*//*binOp end*/beg;
-    /*compound start*//*binOp start*/accept = /*compound end*//*binOp end*/trie;
+    /*compound start*/lmch = /*compound end*/beg;/*end of stmt*/
+    /*compound start*/accept = /*compound end*/trie;/*end of stmt*/
   }
      }
    else
      break;
-   /*compound start*//*binOp start*/d = trie->/*compound end*//*binOp end*/shift;
+   /*compound start*/d = trie->/*compound end*/shift;/*end of stmt*/
  }
       if (lmch)
  {
-   /*compound start*//*binOp start*/mch = /*compound end*//*binOp end*/lmch;
+   /*compound start*/mch = /*compound end*/lmch;/*end of stmt*/
    goto match;
  }
       if (!d)
- /*binOp start*/d = /*binOp end*/1;
+ /*compound start*/d = /*compound end*/1;/*end of stmt*/
     }
 
   if (kwsmatch)
     {
-      /*compound start*//*binOp start*/kwsmatch->strchr = /*binOp start*/accept->accepting / /*compound end*//*binOp end*//*binOp end*/2;
-      /*compound start*//*binOp start*/kwsmatch->beg[0] = /*compound end*//*binOp end*/mch;
-      /*compound start*//*binOp start*/kwsmatch->size[0] = accept->/*compound end*//*binOp end*/depth;
+      /*compound start*/kwsmatch->strchr = accept->accepting / /*compound end*/2;/*end of stmt*/
+      /*compound start*/kwsmatch->beg[0] = /*compound end*/mch;/*end of stmt*/
+      /*compound start*/kwsmatch->size[0] = accept->/*compound end*/depth;/*end of stmt*/
     }
   return mch;
 }
@@ -10911,15 +10911,15 @@ kwsexec(kws, text, size, kwsmatch)
   struct kwset *kwset;
   char *ret;
 
-  /*compound start*//*binOp start*/kwset = (struct kwset *) /*compound end*//*binOp end*/kws;
-  if (/*binOp start*//*binOp start*/kwset->words == /*binOp end*/1 && /*binOp start*/kwset->trans == /*binOp end*//*binOp end*/0)
+  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
+  if (kwset->words == 1 && kwset->trans == 0)
     {
-      /*compound start*//*binOp start*/ret = bmexec(kws, text, size/*compound end*//*binOp end*/);
-      if (/*binOp start*//*binOp start*/kwsmatch != /*binOp end*/0 && /*binOp start*/ret != /*binOp end*//*binOp end*/0)
+      /*compound start*/ret = bmexec(kws, text, size/*compound end*/);/*end of stmt*/
+      if (kwsmatch != 0 && ret != 0)
  {
-   /*compound start*//*binOp start*/kwsmatch->strchr = /*compound end*//*binOp end*/0;
-   /*compound start*//*binOp start*/kwsmatch->beg[0] = /*compound end*//*binOp end*/ret;
-   /*compound start*//*binOp start*/kwsmatch->size[0] = kwset->/*compound end*//*binOp end*/mind;
+   /*compound start*/kwsmatch->strchr = /*compound end*/0;/*end of stmt*/
+   /*compound start*/kwsmatch->beg[0] = /*compound end*/ret;/*end of stmt*/
+   /*compound start*/kwsmatch->size[0] = kwset->/*compound end*/mind;/*end of stmt*/
  }
       return ret;
     }
@@ -10934,8 +10934,8 @@ kwsfree(kws)
 {
   struct kwset *kwset;
 
-  /*compound start*//*binOp start*/kwset = (struct kwset *) /*compound end*//*binOp end*/kws;
-  __extension__ ({ struct obstack *__o = (&kwset->obstack); void *__obj = (0); if (/*binOp start*//*binOp start*/__obj > (void *)__o->/*binOp end*/chunk && /*binOp start*/__obj < (void *)__o->/*binOp end*//*binOp end*/chunk_limit) /*binOp start*/__o->next_free = /*binOp start*/__o->object_base = /*binOp end*//*binOp end*/__obj; else (obstack_free) (__o, __obj); });
+  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
+  __extension__ ({ struct obstack *__o = (&kwset->obstack); void *__obj = (0); if (__obj > (void *)__o->chunk && __obj < (void *)__o->chunk_limit) /*compound start*/__o->next_free = __o->object_base = /*compound end*/__obj;/*end of stmt*/ else (obstack_free) (__o, __obj); });
   free(kws);
 }
 # 10515 "target/grep.c"
@@ -10986,14 +10986,14 @@ dfaerror(mesg)
 static void
 kwsinit()
 {
-  static char trans[(/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1)];
+  static char trans[((127 * 2 + 1) + 1)];
   int i;
 
   if (match_icase)
-    for (/*binOp start*/i = /*binOp end*/0; /*binOp start*/i < (/*binOp start*/(/*binOp start*//*binOp start*/127 * /*binOp end*/2 + /*binOp end*/1) + /*binOp end*/1/*binOp end*/); ++i)
-      /*binOp start*/trans[i] = ((/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) /*binOp end*/_ISupper/*binOp end*/)) ? tolower(i) : (i)/*binOp end*/);
+    for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
+      /*compound start*/trans[i] = ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISupper)) ? tolower(i) : (i)/*compound end*/);/*end of stmt*/
 
-  if (!(/*binOp start*/kwset = kwsalloc(match_icase ? trans : (char *) 0/*binOp end*/)))
+  if (!(kwset = kwsalloc(match_icase ? trans : (char *) 0)))
     fatal("memory exhausted", 0);
 }
 
@@ -11013,24 +11013,24 @@ kwsmusts()
 
 
 
-      for (/*binOp start*/dm = dfa_1./*binOp end*/musts; dm; /*binOp start*/dm = dm->/*binOp end*/next)
+      for (dm = dfa_1.musts; dm; dm = dm->next)
  {
    if (!dm->exact)
      continue;
    ++lastexact;
-   if (/*binOp start*/(/*binOp start*/err = kwsincr(kwset, dm->must, strlen(dm->must)/*binOp end*/)) != /*binOp end*/0)
+   if ((err = kwsincr(kwset, dm->must, strlen(dm->must))) != 0)
      fatal(err, 0);
  }
 
 
-      for (/*binOp start*/dm = dfa_1./*binOp end*/musts; dm; /*binOp start*/dm = dm->/*binOp end*/next)
+      for (dm = dfa_1.musts; dm; dm = dm->next)
  {
    if (dm->exact)
      continue;
-   if (/*binOp start*/(/*binOp start*/err = kwsincr(kwset, dm->must, strlen(dm->must)/*binOp end*/)) != /*binOp end*/0)
+   if ((err = kwsincr(kwset, dm->must, strlen(dm->must))) != 0)
      fatal(err, 0);
  }
-      if (/*binOp start*/(/*binOp start*/err = kwsprep(kwset/*binOp end*/)) != /*binOp end*/0)
+      if ((err = kwsprep(kwset)) != 0)
  fatal(err, 0);
     }
 }
@@ -11045,10 +11045,10 @@ Gcompile(pattern, size)
 
   char *err;
 
-  re_set_syntax(/*binOp start*/(/*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) | (/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/));
-  dfasyntax(/*binOp start*/(/*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) | (/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/), match_icase);
+  re_set_syntax((((1) << 1) | (((1) << 1) << 1) | (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) | (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1));
+  dfasyntax((((1) << 1) | (((1) << 1) << 1) | (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) | (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1), match_icase);
 
-  if (/*binOp start*/(/*binOp start*/err = re_compile_pattern(pattern, size, &regex/*binOp end*/)) != /*binOp end*/0)
+  if ((err = re_compile_pattern(pattern, size, &regex)) != 0)
     fatal(err, 0);
 
   dfainit(&dfa_1);
@@ -11057,7 +11057,7 @@ Gcompile(pattern, size)
 
 
 
-  if (/*binOp start*/match_words || /*binOp end*/match_lines)
+  if (match_words || match_lines)
     {
 
 
@@ -11065,7 +11065,7 @@ Gcompile(pattern, size)
 
 
 
-      char *n = xmalloc(/*binOp start*/size + /*binOp end*/50);
+      char *n = xmalloc(size + 50);
       int i = 0;
 
       strcpy(n, "");
@@ -11075,16 +11075,16 @@ Gcompile(pattern, size)
       if (match_words)
  strcpy(n, "\\(^\\|[^0-9A-Za-z_]\\)\\(");
 
-      /*compound start*//*binOp start*/i = strlen(n/*compound end*//*binOp end*/);
-      memcpy((/*binOp start*/n + /*binOp end*/i), (pattern), (size));
-      /*assign start*//*binOp start*/i += /*assign end*//*binOp end*/size;
+      /*compound start*/i = strlen(n/*compound end*/);/*end of stmt*/
+      memcpy((n + i), (pattern), (size));
+      /*compound start*/i += /*compound end*/size;/*end of stmt*/
 
       if (match_words)
- strcpy(/*binOp start*/n + /*binOp end*/i, "\\)\\([^0-9A-Za-z_]\\|$\\)");
+ strcpy(n + i, "\\)\\([^0-9A-Za-z_]\\|$\\)");
       if (match_lines)
- strcpy(/*binOp start*/n + /*binOp end*/i, "\\)$");
+ strcpy(n + i, "\\)$");
 
-      /*assign start*//*binOp start*/i += strlen(/*binOp start*/n + /*binOp end*/i/*assign end*//*binOp end*/);
+      /*compound start*/i += strlen(n + i/*compound end*/);/*end of stmt*/
       dfacomp(n, i, &dfa_1, 1);
     }
   else
@@ -11103,18 +11103,18 @@ Ecompile(pattern, size)
 
   char *err;
 
-  if (/*binOp start*/strcmp(matcher, "posix-egrep") == /*binOp end*/0)
+  if (strcmp(matcher, "posix-egrep") == 0)
     {
-      re_set_syntax((/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)));
-      dfasyntax((/*binOp start*//*binOp start*/(/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)), match_icase);
+      re_set_syntax((((((1) << 1) << 1) | ((((1) << 1) << 1) << 1) | (((((1) << 1) << 1) << 1) << 1) | (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) | ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)));
+      dfasyntax((((((1) << 1) << 1) | ((((1) << 1) << 1) << 1) | (((((1) << 1) << 1) << 1) << 1) | (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) | ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)), match_icase);
     }
   else
     {
-      re_set_syntax((/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)));
-      dfasyntax((/*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*//*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/) | (/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(/*binOp start*/(1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1) << /*binOp end*/1/*binOp end*/)), match_icase);
+      re_set_syntax(((((1) << 1) << 1) | ((((1) << 1) << 1) << 1) | (((((1) << 1) << 1) << 1) << 1) | (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)));
+      dfasyntax(((((1) << 1) << 1) | ((((1) << 1) << 1) << 1) | (((((1) << 1) << 1) << 1) << 1) | (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)), match_icase);
     }
 
-  if (/*binOp start*/(/*binOp start*/err = re_compile_pattern(pattern, size, &regex/*binOp end*/)) != /*binOp end*/0)
+  if ((err = re_compile_pattern(pattern, size, &regex)) != 0)
     fatal(err, 0);
 
   dfainit(&dfa_1);
@@ -11123,7 +11123,7 @@ Ecompile(pattern, size)
 
 
 
-  if (/*binOp start*/match_words || /*binOp end*/match_lines)
+  if (match_words || match_lines)
     {
 
 
@@ -11131,7 +11131,7 @@ Ecompile(pattern, size)
 
 
 
-      char *n = xmalloc(/*binOp start*/size + /*binOp end*/50);
+      char *n = xmalloc(size + 50);
       int i = 0;
 
       strcpy(n, "");
@@ -11141,16 +11141,16 @@ Ecompile(pattern, size)
       if (match_words)
  strcpy(n, "(^|[^0-9A-Za-z_])(");
 
-      /*compound start*//*binOp start*/i = strlen(n/*compound end*//*binOp end*/);
-      memcpy((/*binOp start*/n + /*binOp end*/i), (pattern), (size));
-      /*assign start*//*binOp start*/i += /*assign end*//*binOp end*/size;
+      /*compound start*/i = strlen(n/*compound end*/);/*end of stmt*/
+      memcpy((n + i), (pattern), (size));
+      /*compound start*/i += /*compound end*/size;/*end of stmt*/
 
       if (match_words)
- strcpy(/*binOp start*/n + /*binOp end*/i, ")([^0-9A-Za-z_]|$)");
+ strcpy(n + i, ")([^0-9A-Za-z_]|$)");
       if (match_lines)
- strcpy(/*binOp start*/n + /*binOp end*/i, ")$");
+ strcpy(n + i, ")$");
 
-      /*assign start*//*binOp start*/i += strlen(/*binOp start*/n + /*binOp end*/i/*assign end*//*binOp end*/);
+      /*compound start*/i += strlen(n + i/*compound end*/);/*end of stmt*/
       dfacomp(n, i, &dfa_1, 1);
     }
   else
@@ -11171,32 +11171,32 @@ EGexecute(buf, size, endp)
   static struct re_registers regs;
 
 
-  /*compound start*//*binOp start*/buflim = /*binOp start*/buf + /*compound end*//*binOp end*//*binOp end*/size;
+  /*compound start*/buflim = buf + /*compound end*/size;/*end of stmt*/
 
-  for (/*binOp start*/beg = /*binOp start*/end = /*binOp end*//*binOp end*/buf; /*binOp start*/end < /*binOp end*/buflim; /*binOp start*/beg = /*binOp start*/end + /*binOp end*//*binOp end*/1)
+  for (beg = end = buf; end < buflim; beg = end + 1)
     {
       if (kwset)
  {
 
-   /*compound start*//*binOp start*/beg = kwsexec(kwset, beg, /*binOp start*/buflim - /*binOp end*/beg, &kwsm/*compound end*//*binOp end*/);
+   /*compound start*/beg = kwsexec(kwset, beg, buflim - beg, &kwsm/*compound end*/);/*end of stmt*/
    if (!beg)
      goto failure;
 
 
-   /*compound start*//*binOp start*/end = memchr(beg, '\n', /*binOp start*/buflim - /*binOp end*/beg/*compound end*//*binOp end*/);
+   /*compound start*/end = memchr(beg, '\n', buflim - beg/*compound end*/);/*end of stmt*/
    if (!end)
-     /*binOp start*/end = /*binOp end*/buflim;
-   while (/*binOp start*//*binOp start*/beg > /*binOp end*/buf && /*binOp start*/beg[-1] != /*binOp end*//*binOp end*/'\n')
+     /*compound start*/end = /*compound end*/buflim;/*end of stmt*/
+   while (beg > buf && beg[-1] != '\n')
      --beg;
-   /*compound start*//*binOp start*/save = */*compound end*//*binOp end*/end;
-   if (/*binOp start*/kwsm.strchr < /*binOp end*/lastexact)
+   /*compound start*/save = */*compound end*/end;/*end of stmt*/
+   if (kwsm.strchr < lastexact)
      goto success;
    if (!dfaexec(&dfa_1, beg, end, 0, (int *) 0, &backref))
      {
-       /*compound start*//*binOp start*/*end = /*compound end*//*binOp end*/save;
+       /*compound start*/*end = /*compound end*/save;/*end of stmt*/
        continue;
      }
-   /*compound start*//*binOp start*/*end = /*compound end*//*binOp end*/save;
+   /*compound start*/*end = /*compound end*/save;/*end of stmt*/
 
    if (!backref)
      goto success;
@@ -11204,16 +11204,16 @@ EGexecute(buf, size, endp)
       else
  {
 
-   /*compound start*//*binOp start*/save = */*compound end*//*binOp end*/buflim;
-   /*compound start*//*binOp start*/beg = dfaexec(&dfa_1, beg, buflim, 0, (int *) 0, &backref/*compound end*//*binOp end*/);
-   /*compound start*//*binOp start*/*buflim = /*compound end*//*binOp end*/save;
+   /*compound start*/save = */*compound end*/buflim;/*end of stmt*/
+   /*compound start*/beg = dfaexec(&dfa_1, beg, buflim, 0, (int *) 0, &backref/*compound end*/);/*end of stmt*/
+   /*compound start*/*buflim = /*compound end*/save;/*end of stmt*/
    if (!beg)
      goto failure;
 
-   /*compound start*//*binOp start*/end = memchr(beg, '\n', /*binOp start*/buflim - /*binOp end*/beg/*compound end*//*binOp end*/);
+   /*compound start*/end = memchr(beg, '\n', buflim - beg/*compound end*/);/*end of stmt*/
    if (!end)
-     /*binOp start*/end = /*binOp end*/buflim;
-   while (/*binOp start*//*binOp start*/beg > /*binOp end*/buf && /*binOp start*/beg[-1] != /*binOp end*//*binOp end*/'\n')
+     /*compound start*/end = /*compound end*/buflim;/*end of stmt*/
+   while (beg > buf && beg[-1] != '\n')
      --beg;
 
    if (!backref)
@@ -11221,11 +11221,11 @@ EGexecute(buf, size, endp)
  }
 
 
-      /*compound start*//*binOp start*/regex.not_eol = /*compound end*//*binOp end*/0;
-      if (/*binOp start*/(/*binOp start*/start = re_search(&regex, beg, /*binOp start*/end - /*binOp end*/beg, 0, /*binOp start*/end - /*binOp end*/beg, &regs/*binOp end*/)) >= /*binOp end*/0)
+      /*compound start*/regex.not_eol = /*compound end*/0;/*end of stmt*/
+      if ((start = re_search(&regex, beg, end - beg, 0, end - beg, &regs)) >= 0)
  {
-   /*compound start*//*binOp start*/len = /*binOp start*/regs.end[0] - /*compound end*//*binOp end*//*binOp end*/start;
-   if (/*binOp start*//*binOp start*/!match_lines && !/*binOp end*/match_words || /*binOp start*/match_lines && /*binOp start*/len == /*binOp start*/end - /*binOp end*//*binOp end*//*binOp end*//*binOp end*/beg)
+   /*compound start*/len = regs.end[0] - /*compound end*/start;/*end of stmt*/
+   if (!match_lines && !match_words || match_lines && len == end - beg)
      goto success;
 
 
@@ -11234,28 +11234,28 @@ EGexecute(buf, size, endp)
 
 
    if (match_words)
-     while (/*binOp start*/start >= /*binOp end*/0)
+     while (start >= 0)
        {
-  if (/*binOp start*/(/*binOp start*//*binOp start*/start == /*binOp end*/0 || !(/*binOp start*/(/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((beg[/*binOp start*/start - /*binOp end*/1]))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)) || /*binOp start*/(beg[/*binOp start*/start - /*binOp end*/1]) == /*binOp end*//*binOp end*/'_'/*binOp end*/))
-      && (/*binOp start*//*binOp start*/len == /*binOp start*/end - /*binOp end*//*binOp end*/beg || !(/*binOp start*/(/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) ((beg[/*binOp start*/start + /*binOp end*/len]))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)) || /*binOp start*/(beg[/*binOp start*/start + /*binOp end*/len]) == /*binOp end*//*binOp end*/'_'/*binOp end*/)/*binOp end*/))
+  if ((start == 0 || !((1 && ((*__ctype_b_loc ())[(int) ((beg[start - 1]))] & (unsigned short int) _ISalnum)) || (beg[start - 1]) == '_'))
+      && (len == end - beg || !((1 && ((*__ctype_b_loc ())[(int) ((beg[start + len]))] & (unsigned short int) _ISalnum)) || (beg[start + len]) == '_')))
     goto success;
-  if (/*binOp start*/len > /*binOp end*/0)
+  if (len > 0)
     {
 
       --len;
-      /*compound start*//*binOp start*/regex.not_eol = /*compound end*//*binOp end*/1;
-      /*compound start*//*binOp start*/len = re_match(&regex, beg, /*binOp start*/start + /*binOp end*/len, start, &regs/*compound end*//*binOp end*/);
+      /*compound start*/regex.not_eol = /*compound end*/1;/*end of stmt*/
+      /*compound start*/len = re_match(&regex, beg, start + len, start, &regs/*compound end*/);/*end of stmt*/
     }
-  if (/*binOp start*/len <= /*binOp end*/0)
+  if (len <= 0)
     {
 
-      if (/*binOp start*/start == /*binOp start*/end - /*binOp end*//*binOp end*/beg)
+      if (start == end - beg)
         break;
       ++start;
-      /*compound start*//*binOp start*/regex.not_eol = /*compound end*//*binOp end*/0;
-      /*compound start*//*binOp start*/start = re_search(&regex, beg, /*binOp start*/end - /*binOp end*/beg,
-          start, /*binOp start*//*binOp start*/end - /*binOp end*/beg - /*binOp end*/start, &regs/*compound end*//*binOp end*/);
-      /*compound start*//*binOp start*/len = /*binOp start*/regs.end[0] - /*compound end*//*binOp end*//*binOp end*/start;
+      /*compound start*/regex.not_eol = /*compound end*/0;/*end of stmt*/
+      /*compound start*/start = re_search(&regex, beg, end - beg,
+          start, end - beg - start, &regs/*compound end*/);/*end of stmt*/
+      /*compound start*/len = regs.end[0] - /*compound end*/start;/*end of stmt*/
     }
        }
  }
@@ -11265,7 +11265,7 @@ EGexecute(buf, size, endp)
   return 0;
 
  success:
-  /*binOp start*/*endp = /*binOp start*/end < /*binOp end*/buflim ? /*binOp start*/end + /*binOp end*/1 : /*binOp end*/end;
+  *endp = end < buflim ? end + 1 : end;
   return beg;
 }
 
@@ -11277,20 +11277,20 @@ Fcompile(pattern, size)
   char *beg, *lim, *err;
 
   kwsinit();
-  /*compound start*//*binOp start*/beg = /*compound end*//*binOp end*/pattern;
+  /*compound start*/beg = /*compound end*/pattern;/*end of stmt*/
   do
     {
-      for (/*binOp start*/lim = /*binOp end*/beg; /*binOp start*//*binOp start*/lim < /*binOp start*/pattern + /*binOp end*//*binOp end*/size && /*binOp start*/*lim != /*binOp end*//*binOp end*/'\n'; ++lim)
+      for (lim = beg; lim < pattern + size && *lim != '\n'; ++lim)
  ;
-      if (/*binOp start*/(/*binOp start*/err = kwsincr(kwset, beg, /*binOp start*/lim - /*binOp end*/beg/*binOp end*/)) != /*binOp end*/0)
+      if ((err = kwsincr(kwset, beg, lim - beg)) != 0)
  fatal(err, 0);
-      if (/*binOp start*/lim < /*binOp start*/pattern + /*binOp end*//*binOp end*/size)
+      if (lim < pattern + size)
  ++lim;
-      /*compound start*//*binOp start*/beg = /*compound end*//*binOp end*/lim;
+      /*compound start*/beg = /*compound end*/lim;/*end of stmt*/
     }
-  while (/*binOp start*/beg < /*binOp start*/pattern + /*binOp end*//*binOp end*/size);
+  while (beg < pattern + size);
 
-  if (/*binOp start*/(/*binOp start*/err = kwsprep(kwset/*binOp end*/)) != /*binOp end*/0)
+  if ((err = kwsprep(kwset)) != 0)
     fatal(err, 0);
 }
 
@@ -11304,28 +11304,28 @@ Fexecute(buf, size, endp)
   register size_t len;
   struct kwsmatch kwsmatch;
 
-  for (/*binOp start*/beg = /*binOp end*/buf; /*binOp start*/beg <= /*binOp start*/buf + /*binOp end*//*binOp end*/size; ++beg)
+  for (beg = buf; beg <= buf + size; ++beg)
     {
-      if (!(/*binOp start*/beg = kwsexec(kwset, beg, /*binOp start*//*binOp start*/buf + /*binOp end*/size - /*binOp end*/beg, &kwsmatch/*binOp end*/)))
+      if (!(beg = kwsexec(kwset, beg, buf + size - beg, &kwsmatch)))
  return 0;
-      /*compound start*//*binOp start*/len = kwsmatch.size[0/*compound end*//*binOp end*/];
+      /*compound start*/len = kwsmatch.size[0/*compound end*/];/*end of stmt*/
       if (match_lines)
  {
-   if (/*binOp start*//*binOp start*/beg > /*binOp end*/buf && /*binOp start*/beg[-1] != /*binOp end*//*binOp end*/'\n')
+   if (beg > buf && beg[-1] != '\n')
      continue;
-   if (/*binOp start*//*binOp start*//*binOp start*/beg + /*binOp end*/len < /*binOp start*/buf + /*binOp end*//*binOp end*/size && /*binOp start*/beg[len] != /*binOp end*//*binOp end*/'\n')
+   if (beg + len < buf + size && beg[len] != '\n')
      continue;
    goto success;
  }
       else if (match_words)
- for (/*binOp start*/try = /*binOp end*/beg; /*binOp start*/len && /*binOp end*/try;)
+ for (try = beg; len && try;)
    {
-     if (/*binOp start*//*binOp start*/try > /*binOp end*/buf && (/*binOp start*/(/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) (((unsigned char) try[-1]))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)) || /*binOp start*/((unsigned char) try[-1]) == /*binOp end*//*binOp end*/'_'/*binOp end*/))
+     if (try > buf && ((1 && ((*__ctype_b_loc ())[(int) (((unsigned char) try[-1]))] & (unsigned short int) _ISalnum)) || ((unsigned char) try[-1]) == '_'))
        break;
-     if (/*binOp start*//*binOp start*//*binOp start*/try + /*binOp end*/len < /*binOp start*/buf + /*binOp end*//*binOp end*/size && (/*binOp start*/(/*binOp start*/1 && (/*binOp start*/(*__ctype_b_loc ())[(int) (((unsigned char) try[len]))] & (unsigned short int) /*binOp end*/_ISalnum/*binOp end*/)) || /*binOp start*/((unsigned char) try[len]) == /*binOp end*//*binOp end*/'_'/*binOp end*/))
+     if (try + len < buf + size && ((1 && ((*__ctype_b_loc ())[(int) (((unsigned char) try[len]))] & (unsigned short int) _ISalnum)) || ((unsigned char) try[len]) == '_'))
        {
-  /*compound start*//*binOp start*/try = kwsexec(kwset, beg, --len, &kwsmatch/*compound end*//*binOp end*/);
-  /*compound start*//*binOp start*/len = kwsmatch.size[0/*compound end*//*binOp end*/];
+  /*compound start*/try = kwsexec(kwset, beg, --len, &kwsmatch/*compound end*/);/*end of stmt*/
+  /*compound start*/len = kwsmatch.size[0/*compound end*/];/*end of stmt*/
        }
      else
        goto success;
@@ -11337,12 +11337,12 @@ Fexecute(buf, size, endp)
   return 0;
 
  success:
-  if (/*binOp start*/(/*binOp start*/end = memchr(/*binOp start*/beg + /*binOp end*/len, '\n', /*binOp start*/(/*binOp start*/buf + /*binOp end*/size) - (/*binOp start*/beg + /*binOp end*/len/*binOp end*/)/*binOp end*/)) != /*binOp end*/0)
+  if ((end = memchr(beg + len, '\n', (buf + size) - (beg + len))) != 0)
     ++end;
   else
-    /*binOp start*/end = /*binOp start*/buf + /*binOp end*//*binOp end*/size;
-  /*compound start*//*binOp start*/*endp = /*compound end*//*binOp end*/end;
-  while (/*binOp start*//*binOp start*/beg > /*binOp end*/buf && /*binOp start*/beg[-1] != /*binOp end*//*binOp end*/'\n')
+    end = buf + size;
+  /*compound start*/*endp = /*compound end*/end;/*end of stmt*/
+  while (beg > buf && beg[-1] != '\n')
     --beg;
   return beg;
 }
