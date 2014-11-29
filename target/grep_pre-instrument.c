@@ -3324,7 +3324,7 @@ error(mesg, errnum)
     fprintf(stdout, "%s: %s: %s\n", prog, mesg, strerror(errnum));
   else
     fprintf(stdout, "%s: %s\n", prog, mesg);
-  /*compound start*/errseen = /*compound end*/1;/*end of stmt*/
+  /*compound start*/errseen = 1;/*end of stmt*/
 }
 
 
@@ -3347,7 +3347,7 @@ xmalloc(size)
 {
   char *result;
 
-  /*compound start*/result = malloc(size/*compound end*/);/*end of stmt*/
+  /*compound start*/result = malloc(size);/*end of stmt*/
   if (size && !result)
     fatal("memory exhausted", 0);
   return result;
@@ -3362,7 +3362,7 @@ xrealloc(ptr, size)
   char *result;
 
   if (ptr)
-    /*compound start*/result = realloc(ptr, size/*compound end*/);/*end of stmt*/
+    /*compound start*/result = realloc(ptr, size);/*end of stmt*/
   else
     result = malloc(size);
   if (size && !result)
@@ -3647,30 +3647,30 @@ reset(fd)
 
   if (!initialized)
     {
-      /*compound start*/initialized = /*compound end*/1;/*end of stmt*/
+      /*compound start*/initialized = 1;/*end of stmt*/
 
-      /*compound start*/bufsalloc = ((8192) > (getpagesize()) ? (8192) : (getpagesize())/*compound end*/);/*end of stmt*/
-
-
-
-      /*compound start*/bufalloc = 5 * /*compound end*/bufsalloc;/*end of stmt*/
+      /*compound start*/bufsalloc = ((8192) > (getpagesize()) ? (8192) : (getpagesize()));/*end of stmt*/
 
 
 
-      /*compound start*/buffer = valloc(bufalloc + 1/*compound end*/);/*end of stmt*/
+      /*compound start*/bufalloc = 5 * bufsalloc;/*end of stmt*/
+
+
+
+      /*compound start*/buffer = valloc(bufalloc + 1);/*end of stmt*/
       if (!buffer)
  fatal("memory exhausted", 0);
-      /*compound start*/bufbeg = /*compound end*/buffer;/*end of stmt*/
-      /*compound start*/buflim = /*compound end*/buffer;/*end of stmt*/
+      /*compound start*/bufbeg = buffer;/*end of stmt*/
+      /*compound start*/buflim = buffer;/*end of stmt*/
     }
-  /*compound start*/bufdesc = /*compound end*/fd;/*end of stmt*/
+  /*compound start*/bufdesc = fd;/*end of stmt*/
 
   if (fstat(fd, &bufstat) < 0 || !((((bufstat.st_mode)) & 0170000) == (0100000)))
-    /*compound start*/bufmapped = /*compound end*/0;/*end of stmt*/
+    /*compound start*/bufmapped = 0;/*end of stmt*/
   else
     {
-      /*compound start*/bufmapped = /*compound end*/1;/*end of stmt*/
-      /*compound start*/bufoffset = lseek(fd, 0, 1/*compound end*/);/*end of stmt*/
+      /*compound start*/bufmapped = 1;/*end of stmt*/
+      /*compound start*/bufoffset = lseek(fd, 0, 1);/*end of stmt*/
     }
 
 }
@@ -3697,32 +3697,32 @@ fillbuf(save)
     {
       while (save > bufsalloc)
  bufsalloc *= 2;
-      /*compound start*/bufalloc = 5 * /*compound end*/bufsalloc;/*end of stmt*/
-      /*compound start*/nbuffer = valloc(bufalloc + 1/*compound end*/);/*end of stmt*/
+      /*compound start*/bufalloc = 5 * bufsalloc;/*end of stmt*/
+      /*compound start*/nbuffer = valloc(bufalloc + 1);/*end of stmt*/
       if (!nbuffer)
  fatal("memory exhausted", 0);
     }
   else
     nbuffer = buffer;
 
-  /*compound start*/sp = buflim - /*compound end*/save;/*end of stmt*/
-  /*compound start*/dp = nbuffer + bufsalloc - /*compound end*/save;/*end of stmt*/
-  /*compound start*/bufbeg = /*compound end*/dp;/*end of stmt*/
+  /*compound start*/sp = buflim - save;/*end of stmt*/
+  /*compound start*/dp = nbuffer + bufsalloc - save;/*end of stmt*/
+  /*compound start*/bufbeg = dp;/*end of stmt*/
   while (save--)
-    /*compound start*/*dp++ = *sp/*compound end*/++;/*end of stmt*/
+    /*compound start*/*dp++ = *sp++;/*end of stmt*/
 
 
 
 
-  /*compound start*/buffer = /*compound end*/nbuffer;/*end of stmt*/
+  /*compound start*/buffer = nbuffer;/*end of stmt*/
 
 
   if (bufmapped && bufoffset % pagesize == 0
       && bufstat.st_size - bufoffset >= bufalloc - bufsalloc)
     {
-      /*compound start*/maddr = buffer + /*compound end*/bufsalloc;/*end of stmt*/
+      /*compound start*/maddr = buffer + bufsalloc;/*end of stmt*/
       /*compound start*/maddr = mmap(maddr, bufalloc - bufsalloc, 0x1 | 0x2,
-     0x02 | 0x10, bufdesc, bufoffset/*compound end*/);/*end of stmt*/
+     0x02 | 0x10, bufdesc, bufoffset);/*end of stmt*/
       if (maddr == (caddr_t) -1)
  {
    fprintf(stdout, "%s: warning: %s: %s\n", filename,
@@ -3735,8 +3735,8 @@ fillbuf(save)
 
 
 
-      /*compound start*/cc = bufalloc - /*compound end*/bufsalloc;/*end of stmt*/
-      /*compound start*/bufoffset += /*compound end*/cc;/*end of stmt*/
+      /*compound start*/cc = bufalloc - bufsalloc;/*end of stmt*/
+      /*compound start*/bufoffset += cc;/*end of stmt*/
     }
   else
     {
@@ -3746,16 +3746,16 @@ fillbuf(save)
 
       if (bufmapped)
  {
-   /*compound start*/bufmapped = /*compound end*/0;/*end of stmt*/
+   /*compound start*/bufmapped = 0;/*end of stmt*/
    lseek(bufdesc, bufoffset, 0);
  }
-      /*compound start*/cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc/*compound end*/);/*end of stmt*/
+      /*compound start*/cc = read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc);/*end of stmt*/
     }
 
 
 
   if (cc > 0)
-    /*compound start*/buflim = buffer + bufsalloc + /*compound end*/cc;/*end of stmt*/
+    /*compound start*/buflim = buffer + bufsalloc + cc;/*end of stmt*/
   else
     buflim = buffer + bufsalloc;
   return cc;
@@ -3788,7 +3788,7 @@ nlscan(lim)
   for (beg = lastnl; beg < lim; ++beg)
     if (*beg == '\n')
       ++totalnl;
-  /*compound start*/lastnl = /*compound end*/beg;/*end of stmt*/
+  /*compound start*/lastnl = beg;/*end of stmt*/
 }
 
 static void
@@ -3803,14 +3803,14 @@ prline(beg, lim, sep)
     {
       nlscan(beg);
       printf("%d%c", ++totalnl, sep);
-      /*compound start*/lastnl = /*compound end*/lim;/*end of stmt*/
+      /*compound start*/lastnl = lim;/*end of stmt*/
     }
   if (out_byte)
     printf("%lu%c", totalcc + (beg - bufbeg), sep);
   fwrite(beg, 1, lim - beg, stdout);
   if (ferror(stdout))
     error("writing output", (*__errno_location ()));
-  /*compound start*/lastout = /*compound end*/lim;/*end of stmt*/
+  /*compound start*/lastout = lim;/*end of stmt*/
 }
 
 
@@ -3821,7 +3821,7 @@ prpending(lim)
   char *nl;
 
   if (!lastout)
-    /*compound start*/lastout = /*compound end*/bufbeg;/*end of stmt*/
+    /*compound start*/lastout = bufbeg;/*end of stmt*/
   while (pending > 0 && lastout < lim)
     {
       --pending;
@@ -3848,13 +3848,13 @@ prtext(beg, lim, nlinesp)
   if (!out_quiet && pending > 0)
     prpending(beg);
 
-  /*compound start*/p = /*compound end*/beg;/*end of stmt*/
+  /*compound start*/p = beg;/*end of stmt*/
 
   if (!out_quiet)
     {
 
 
-      /*compound start*/bp = lastout ? lastout : /*compound end*/bufbeg;/*end of stmt*/
+      /*compound start*/bp = lastout ? lastout : bufbeg;/*end of stmt*/
       for (i = 0; i < out_before; ++i)
  if (p > bp)
    do
@@ -3868,9 +3868,9 @@ prtext(beg, lim, nlinesp)
 
       while (p < beg)
  {
-   /*compound start*/nl = memchr(p, '\n', beg - p/*compound end*/);/*end of stmt*/
+   /*compound start*/nl = memchr(p, '\n', beg - p);/*end of stmt*/
    prline(p, nl + 1, '-');
-   /*compound start*/p = nl + /*compound end*/1;/*end of stmt*/
+   /*compound start*/p = nl + 1;/*end of stmt*/
  }
     }
 
@@ -3885,16 +3885,16 @@ prtext(beg, lim, nlinesp)
      nl = lim;
    if (!out_quiet)
      prline(p, nl, ':');
-   /*compound start*/p = /*compound end*/nl;/*end of stmt*/
+   /*compound start*/p = nl;/*end of stmt*/
  }
-      /*compound start*/*nlinesp = /*compound end*/n;/*end of stmt*/
+      /*compound start*/*nlinesp = n;/*end of stmt*/
     }
   else
     if (!out_quiet)
       prline(beg, lim, ':');
 
-  /*compound start*/pending = /*compound end*/out_after;/*end of stmt*/
-  /*compound start*/used = /*compound end*/1;/*end of stmt*/
+  /*compound start*/pending = out_after;/*end of stmt*/
+  /*compound start*/used = 1;/*end of stmt*/
 }
 
 
@@ -3909,8 +3909,8 @@ grepbuf(beg, lim)
   register char *p, *b;
   char *endp;
 
-  /*compound start*/nlines = /*compound end*/0;/*end of stmt*/
-  /*compound start*/p = /*compound end*/beg;/*end of stmt*/
+  /*compound start*/nlines = 0;/*end of stmt*/
+  /*compound start*/p = beg;/*end of stmt*/
   while ((b = (*execute)(p, lim - p, &endp)) != 0)
     {
 
@@ -3919,19 +3919,19 @@ grepbuf(beg, lim)
       if (!out_invert)
  {
    prtext(b, endp, (int *) 0);
-   /*compound start*/nlines += /*compound end*/1;/*end of stmt*/
+   /*compound start*/nlines += 1;/*end of stmt*/
  }
       else if (p < b)
  {
    prtext(p, b, &n);
-   /*compound start*/nlines += /*compound end*/n;/*end of stmt*/
+   /*compound start*/nlines += n;/*end of stmt*/
  }
-      /*compound start*/p = /*compound end*/endp;/*end of stmt*/
+      /*compound start*/p = endp;/*end of stmt*/
     }
   if (out_invert && p < lim)
     {
       prtext(p, lim, &n);
-      /*compound start*/nlines += /*compound end*/n;/*end of stmt*/
+      /*compound start*/nlines += n;/*end of stmt*/
     }
   return nlines;
 }
@@ -3947,14 +3947,14 @@ grep(fd)
 
   reset(fd);
 
-  /*compound start*/totalcc = /*compound end*/0;/*end of stmt*/
-  /*compound start*/lastout = /*compound end*/0;/*end of stmt*/
-  /*compound start*/totalnl = /*compound end*/0;/*end of stmt*/
-  /*compound start*/pending = /*compound end*/0;/*end of stmt*/
+  /*compound start*/totalcc = 0;/*end of stmt*/
+  /*compound start*/lastout = 0;/*end of stmt*/
+  /*compound start*/totalnl = 0;/*end of stmt*/
+  /*compound start*/pending = 0;/*end of stmt*/
 
-  /*compound start*/nlines = /*compound end*/0;/*end of stmt*/
-  /*compound start*/residue = /*compound end*/0;/*end of stmt*/
-  /*compound start*/save = /*compound end*/0;/*end of stmt*/
+  /*compound start*/nlines = 0;/*end of stmt*/
+  /*compound start*/residue = 0;/*end of stmt*/
+  /*compound start*/save = 0;/*end of stmt*/
 
   for (;;)
     {
@@ -3963,23 +3963,23 @@ grep(fd)
    error(filename, (*__errno_location ()));
    return nlines;
  }
-      /*compound start*/lastnl = /*compound end*/bufbeg;/*end of stmt*/
+      /*compound start*/lastnl = bufbeg;/*end of stmt*/
       if (lastout)
- /*compound start*/lastout = /*compound end*/bufbeg;/*end of stmt*/
+ /*compound start*/lastout = bufbeg;/*end of stmt*/
       if (buflim - bufbeg == save)
  break;
-      /*compound start*/beg = bufbeg + save - /*compound end*/residue;/*end of stmt*/
+      /*compound start*/beg = bufbeg + save - residue;/*end of stmt*/
       for (lim = buflim; lim > beg && lim[-1] != '\n'; --lim)
  ;
-      /*compound start*/residue = buflim - /*compound end*/lim;/*end of stmt*/
+      /*compound start*/residue = buflim - lim;/*end of stmt*/
       if (beg < lim)
  {
-   /*compound start*/nlines += grepbuf(beg, lim/*compound end*/);/*end of stmt*/
+   /*compound start*/nlines += grepbuf(beg, lim);/*end of stmt*/
    if (pending)
      prpending(lim);
  }
-      /*compound start*/i = /*compound end*/0;/*end of stmt*/
-      /*compound start*/beg = /*compound end*/lim;/*end of stmt*/
+      /*compound start*/i = 0;/*end of stmt*/
+      /*compound start*/beg = lim;/*end of stmt*/
       while (i < out_before && beg > bufbeg && beg != lastout)
  {
    ++i;
@@ -3988,15 +3988,15 @@ grep(fd)
    while (beg > bufbeg && beg[-1] != '\n');
  }
       if (beg != lastout)
- /*compound start*/lastout = /*compound end*/0;/*end of stmt*/
-      /*compound start*/save = residue + lim - /*compound end*/beg;/*end of stmt*/
-      /*compound start*/totalcc += buflim - bufbeg - /*compound end*/save;/*end of stmt*/
+ /*compound start*/lastout = 0;/*end of stmt*/
+      /*compound start*/save = residue + lim - beg;/*end of stmt*/
+      /*compound start*/totalcc += buflim - bufbeg - save;/*end of stmt*/
       if (out_line)
  nlscan(beg);
     }
   if (residue)
     {
-      /*compound start*/nlines += grepbuf(bufbeg + save - residue, buflim/*compound end*/);/*end of stmt*/
+      /*compound start*/nlines += grepbuf(bufbeg + save - residue, buflim);/*end of stmt*/
       if (pending)
  prpending(buflim);
     }
@@ -4026,8 +4026,8 @@ setmatcher(name)
   for (i = 0; matchers[i].name; ++i)
     if (strcmp(name, matchers[i].name) == 0)
       {
- /*compound start*/compile = matchers[i]./*compound end*/compile;/*end of stmt*/
- /*compound start*/execute = matchers[i]./*compound end*/execute;/*end of stmt*/
+ /*compound start*/compile = matchers[i].compile;/*end of stmt*/
+ /*compound start*/execute = matchers[i].execute;/*end of stmt*/
  return 1;
       }
   return 0;
@@ -4046,20 +4046,20 @@ main(argc, argv)
   extern char *optarg;
   extern int optind;
 
-  /*compound start*/argv[0] = /*compound end*/"target";/*end of stmt*/
+  /*compound start*/argv[0] = "target";/*end of stmt*/
 
-  /*compound start*/prog = argv[0/*compound end*/];/*end of stmt*/
+  /*compound start*/prog = argv[0];/*end of stmt*/
   if (prog && strrchr(prog, '/'))
-    /*compound start*/prog = strrchr(prog, '/') + /*compound end*/1;/*end of stmt*/
+    /*compound start*/prog = strrchr(prog, '/') + 1;/*end of stmt*/
 
-  /*compound start*/keys = ((void *)0/*compound end*/);/*end of stmt*/
-  /*compound start*/keycc = /*compound end*/0;/*end of stmt*/
-  /*compound start*/keyfound = /*compound end*/0;/*end of stmt*/
-  /*compound start*/count_matches = /*compound end*/0;/*end of stmt*/
-  /*compound start*/no_filenames = /*compound end*/0;/*end of stmt*/
-  /*compound start*/list_files = /*compound end*/0;/*end of stmt*/
-  /*compound start*/suppress_errors = /*compound end*/0;/*end of stmt*/
-  /*compound start*/matcher = ((void *)0/*compound end*/);/*end of stmt*/
+  /*compound start*/keys = ((void *)0);/*end of stmt*/
+  /*compound start*/keycc = 0;/*end of stmt*/
+  /*compound start*/keyfound = 0;/*end of stmt*/
+  /*compound start*/count_matches = 0;/*end of stmt*/
+  /*compound start*/no_filenames = 0;/*end of stmt*/
+  /*compound start*/list_files = 0;/*end of stmt*/
+  /*compound start*/suppress_errors = 0;/*end of stmt*/
+  /*compound start*/matcher = ((void *)0);/*end of stmt*/
 
   while ((opt = getopt(argc, argv, "0123456789A:B:CEFGVX:bce:f:hiLlnqsvwxy"))
   != (-1))
@@ -4075,36 +4075,36 @@ main(argc, argv)
       case '7':
       case '8':
       case '9':
- /*compound start*/out_before = 10 * out_before + opt - /*compound end*/'0';/*end of stmt*/
- /*compound start*/out_after = 10 * out_after + opt - /*compound end*/'0';/*end of stmt*/
+ /*compound start*/out_before = 10 * out_before + opt - '0';/*end of stmt*/
+ /*compound start*/out_after = 10 * out_after + opt - '0';/*end of stmt*/
  break;
       case 'A':
- /*compound start*/out_after = atoi(optarg/*compound end*/);/*end of stmt*/
+ /*compound start*/out_after = atoi(optarg);/*end of stmt*/
  if (out_after < 0)
    usage();
  break;
       case 'B':
- /*compound start*/out_before = atoi(optarg/*compound end*/);/*end of stmt*/
+ /*compound start*/out_before = atoi(optarg);/*end of stmt*/
  if (out_before < 0)
    usage();
  break;
       case 'C':
- /*compound start*/out_before = out_after = /*compound end*/2;/*end of stmt*/
+ /*compound start*/out_before = out_after = 2;/*end of stmt*/
  break;
       case 'E':
  if (matcher && strcmp(matcher, "egrep") != 0)
    fatal("you may specify only one of -E, -F, or -G", 0);
- /*compound start*/matcher = /*compound end*/"posix-egrep";/*end of stmt*/
+ /*compound start*/matcher = "posix-egrep";/*end of stmt*/
  break;
       case 'F':
  if (matcher && strcmp(matcher, "fgrep") != 0)
    fatal("you may specify only one of -E, -F, or -G", 0);;
- /*compound start*/matcher = /*compound end*/"fgrep";/*end of stmt*/
+ /*compound start*/matcher = "fgrep";/*end of stmt*/
  break;
       case 'G':
  if (matcher && strcmp(matcher, "grep") != 0)
    fatal("you may specify only one of -E, -F, or -G", 0);
- /*compound start*/matcher = /*compound end*/"grep";/*end of stmt*/
+ /*compound start*/matcher = "grep";/*end of stmt*/
  break;
       case 'V':
  fprintf(stdout, "%s\n", version);
@@ -4112,82 +4112,82 @@ main(argc, argv)
       case 'X':
  if (matcher)
    fatal("matcher already specified", 0);
- /*compound start*/matcher = /*compound end*/optarg;/*end of stmt*/
+ /*compound start*/matcher = optarg;/*end of stmt*/
  break;
       case 'b':
- /*compound start*/out_byte = /*compound end*/1;/*end of stmt*/
+ /*compound start*/out_byte = 1;/*end of stmt*/
  break;
       case 'c':
- /*compound start*/out_quiet = /*compound end*/1;/*end of stmt*/
- /*compound start*/count_matches = /*compound end*/1;/*end of stmt*/
+ /*compound start*/out_quiet = 1;/*end of stmt*/
+ /*compound start*/count_matches = 1;/*end of stmt*/
  break;
       case 'e':
- /*compound start*/cc = strlen(optarg/*compound end*/);/*end of stmt*/
- /*compound start*/keys = xrealloc(keys, keycc + cc + 1/*compound end*/);/*end of stmt*/
+ /*compound start*/cc = strlen(optarg);/*end of stmt*/
+ /*compound start*/keys = xrealloc(keys, keycc + cc + 1);/*end of stmt*/
  if (keyfound)
-   /*compound start*/keys[keycc++] = /*compound end*/'\n';/*end of stmt*/
+   /*compound start*/keys[keycc++] = '\n';/*end of stmt*/
  strcpy(&keys[keycc], optarg);
- /*compound start*/keycc += /*compound end*/cc;/*end of stmt*/
- /*compound start*/keyfound = /*compound end*/1;/*end of stmt*/
+ /*compound start*/keycc += cc;/*end of stmt*/
+ /*compound start*/keyfound = 1;/*end of stmt*/
  break;
       case 'f':
- /*compound start*/fp = strcmp(optarg, "-") != 0 ? fopen(optarg, "r") : /*compound end*/stdin;/*end of stmt*/
+ /*compound start*/fp = strcmp(optarg, "-") != 0 ? fopen(optarg, "r") : stdin;/*end of stmt*/
  if (!fp)
    fatal(optarg, (*__errno_location ()));
  for (keyalloc = 1; keyalloc <= keycc; keyalloc *= 2)
    ;
- /*compound start*/keys = xrealloc(keys, keyalloc/*compound end*/);/*end of stmt*/
- /*compound start*/oldcc = /*compound end*/keycc;/*end of stmt*/
+ /*compound start*/keys = xrealloc(keys, keyalloc);/*end of stmt*/
+ /*compound start*/oldcc = keycc;/*end of stmt*/
  if (keyfound)
-   /*compound start*/keys[keycc++] = /*compound end*/'\n';/*end of stmt*/
+   /*compound start*/keys[keycc++] = '\n';/*end of stmt*/
  while (!feof(fp)
         && (cc = fread(keys + keycc, 1, keyalloc - keycc, fp)) > 0)
    {
-     /*compound start*/keycc += /*compound end*/cc;/*end of stmt*/
+     /*compound start*/keycc += cc;/*end of stmt*/
      if (keycc == keyalloc)
-       /*compound start*/keys = xrealloc(keys, keyalloc *= 2/*compound end*/);/*end of stmt*/
+       /*compound start*/keys = xrealloc(keys, keyalloc *= 2);/*end of stmt*/
    }
  if (fp != stdin)
    fclose(fp);
 
  if (keycc - oldcc > 0 && keys[keycc - 1] == '\n')
    --keycc;
- /*compound start*/keyfound = /*compound end*/1;/*end of stmt*/
+ /*compound start*/keyfound = 1;/*end of stmt*/
  break;
       case 'h':
- /*compound start*/no_filenames = /*compound end*/1;/*end of stmt*/
+ /*compound start*/no_filenames = 1;/*end of stmt*/
  break;
       case 'i':
       case 'y':
- /*compound start*/match_icase = /*compound end*/1;/*end of stmt*/
+ /*compound start*/match_icase = 1;/*end of stmt*/
  break;
       case 'L':
 
 
- /*compound start*/out_quiet = /*compound end*/1;/*end of stmt*/
- /*compound start*/list_files = -/*compound end*/1;/*end of stmt*/
+ /*compound start*/out_quiet = 1;/*end of stmt*/
+ /*compound start*/list_files = -1;/*end of stmt*/
  break;
       case 'l':
- /*compound start*/out_quiet = /*compound end*/1;/*end of stmt*/
- /*compound start*/list_files = /*compound end*/1;/*end of stmt*/
+ /*compound start*/out_quiet = 1;/*end of stmt*/
+ /*compound start*/list_files = 1;/*end of stmt*/
  break;
       case 'n':
- /*compound start*/out_line = /*compound end*/1;/*end of stmt*/
+ /*compound start*/out_line = 1;/*end of stmt*/
  break;
       case 'q':
- /*compound start*/out_quiet = /*compound end*/1;/*end of stmt*/
+ /*compound start*/out_quiet = 1;/*end of stmt*/
  break;
       case 's':
- /*compound start*/suppress_errors = /*compound end*/1;/*end of stmt*/
+ /*compound start*/suppress_errors = 1;/*end of stmt*/
  break;
       case 'v':
- /*compound start*/out_invert = /*compound end*/1;/*end of stmt*/
+ /*compound start*/out_invert = 1;/*end of stmt*/
  break;
       case 'w':
- /*compound start*/match_words = /*compound end*/1;/*end of stmt*/
+ /*compound start*/match_words = 1;/*end of stmt*/
  break;
       case 'x':
- /*compound start*/match_lines = /*compound end*/1;/*end of stmt*/
+ /*compound start*/match_lines = 1;/*end of stmt*/
  break;
       default:
  usage();
@@ -4197,14 +4197,14 @@ main(argc, argv)
   if (!keyfound)
     if (optind < argc)
       {
- /*compound start*/keys = argv[optind++/*compound end*/];/*end of stmt*/
- /*compound start*/keycc = strlen(keys/*compound end*/);/*end of stmt*/
+ /*compound start*/keys = argv[optind++];/*end of stmt*/
+ /*compound start*/keycc = strlen(keys);/*end of stmt*/
       }
     else
       usage();
 
   if (!matcher)
-    /*compound start*/matcher = /*compound end*/prog;/*end of stmt*/
+    /*compound start*/matcher = prog;/*end of stmt*/
 
   if (!setmatcher(matcher) && !setmatcher("default"))
     abort();
@@ -4212,14 +4212,14 @@ main(argc, argv)
   (*compile)(keys, keycc);
 
   if (argc - optind > 1 && !no_filenames)
-    /*compound start*/out_file = /*compound end*/1;/*end of stmt*/
+    /*compound start*/out_file = 1;/*end of stmt*/
 
-  /*compound start*/status = /*compound end*/1;/*end of stmt*/
+  /*compound start*/status = 1;/*end of stmt*/
 
   if (optind < argc)
     while (optind < argc)
       {
- /*compound start*/desc = strcmp(argv[optind], "-") ? open(argv[optind], 00) : /*compound end*/0;/*end of stmt*/
+ /*compound start*/desc = strcmp(argv[optind], "-") ? open(argv[optind], 00) : 0;/*end of stmt*/
  if (desc < 0)
    {
      if (!suppress_errors)
@@ -4227,8 +4227,8 @@ main(argc, argv)
    }
  else
    {
-     /*compound start*/filename = desc == 0 ? "(standard input)" : argv[optind/*compound end*/];/*end of stmt*/
-     /*compound start*/count = grep(desc/*compound end*/);/*end of stmt*/
+     /*compound start*/filename = desc == 0 ? "(standard input)" : argv[optind];/*end of stmt*/
+     /*compound start*/count = grep(desc);/*end of stmt*/
      if (count_matches)
        {
   if (out_file)
@@ -4237,7 +4237,7 @@ main(argc, argv)
        }
      if (count)
        {
-  /*compound start*/status = /*compound end*/0;/*end of stmt*/
+  /*compound start*/status = 0;/*end of stmt*/
   if (list_files == 1)
     printf("%s\n", filename);
        }
@@ -4250,13 +4250,13 @@ main(argc, argv)
       }
   else
     {
-      /*compound start*/filename = /*compound end*/"(standard input)";/*end of stmt*/
-      /*compound start*/count = grep(0/*compound end*/);/*end of stmt*/
+      /*compound start*/filename = "(standard input)";/*end of stmt*/
+      /*compound start*/count = grep(0);/*end of stmt*/
       if (count_matches)
  printf("%d\n", count);
       if (count)
  {
-   /*compound start*/status = /*compound end*/0;/*end of stmt*/
+   /*compound start*/status = 0;/*end of stmt*/
    if (list_files == 1)
      printf("(standard input)\n");
  }
@@ -4281,17 +4281,17 @@ init_syntax_once ()
    memset ((re_syntax_table), 0, (sizeof re_syntax_table));
 
    for (c = 'a'; c <= 'z'; c++)
-     /*compound start*/re_syntax_table[c] = /*compound end*/1;/*end of stmt*/
+     /*compound start*/re_syntax_table[c] = 1;/*end of stmt*/
 
    for (c = 'A'; c <= 'Z'; c++)
-     /*compound start*/re_syntax_table[c] = /*compound end*/1;/*end of stmt*/
+     /*compound start*/re_syntax_table[c] = 1;/*end of stmt*/
 
    for (c = '0'; c <= '9'; c++)
-     /*compound start*/re_syntax_table[c] = /*compound end*/1;/*end of stmt*/
+     /*compound start*/re_syntax_table[c] = 1;/*end of stmt*/
 
-   /*compound start*/re_syntax_table['_'] = /*compound end*/1;/*end of stmt*/
+   /*compound start*/re_syntax_table['_'] = 1;/*end of stmt*/
 
-   /*compound start*/done = /*compound end*/1;/*end of stmt*/
+   /*compound start*/done = 1;/*end of stmt*/
 }
 # 1738 "target/grep.c"
 # 1 "target/regex.h" 1
@@ -4692,7 +4692,7 @@ re_set_syntax (syntax)
 {
   reg_syntax_t ret = re_syntax_options;
 
-  /*compound start*/re_syntax_options = /*compound end*/syntax;/*end of stmt*/
+  /*compound start*/re_syntax_options = syntax;/*end of stmt*/
   return ret;
 }
 
@@ -4809,25 +4809,25 @@ regex_compile (pattern, size, syntax, bufp)
 
   regnum_t regnum = 0;
 # 2781 "target/grep.c"
-  /*compound start*/compile_stack.stack = ((compile_stack_elt_t *) malloc ((32) * sizeof (compile_stack_elt_t))/*compound end*/);/*end of stmt*/
+  /*compound start*/compile_stack.stack = ((compile_stack_elt_t *) malloc ((32) * sizeof (compile_stack_elt_t)));/*end of stmt*/
   if (compile_stack.stack == ((void *)0))
     return REG_ESPACE;
 
-  /*compound start*/compile_stack.size = /*compound end*/32;/*end of stmt*/
-  /*compound start*/compile_stack.avail = /*compound end*/0;/*end of stmt*/
+  /*compound start*/compile_stack.size = 32;/*end of stmt*/
+  /*compound start*/compile_stack.avail = 0;/*end of stmt*/
 
 
-  /*compound start*/bufp->syntax = /*compound end*/syntax;/*end of stmt*/
-  /*compound start*/bufp->fastmap_accurate = /*compound end*/0;/*end of stmt*/
-  /*compound start*/bufp->not_bol = bufp->not_eol = /*compound end*/0;/*end of stmt*/
+  /*compound start*/bufp->syntax = syntax;/*end of stmt*/
+  /*compound start*/bufp->fastmap_accurate = 0;/*end of stmt*/
+  /*compound start*/bufp->not_bol = bufp->not_eol = 0;/*end of stmt*/
 
 
 
 
-  /*compound start*/bufp->used = /*compound end*/0;/*end of stmt*/
+  /*compound start*/bufp->used = 0;/*end of stmt*/
 
 
-  /*compound start*/bufp->re_nsub = /*compound end*/0;/*end of stmt*/
+  /*compound start*/bufp->re_nsub = 0;/*end of stmt*/
 
 
 
@@ -4844,19 +4844,19 @@ regex_compile (pattern, size, syntax, bufp)
         }
       else
         {
-          /*compound start*/bufp->buffer = ((unsigned char *) malloc ((32) * sizeof (unsigned char))/*compound end*/);/*end of stmt*/
+          /*compound start*/bufp->buffer = ((unsigned char *) malloc ((32) * sizeof (unsigned char)));/*end of stmt*/
         }
       if (!bufp->buffer) return REG_ESPACE;
 
-      /*compound start*/bufp->allocated = /*compound end*/32;/*end of stmt*/
+      /*compound start*/bufp->allocated = 32;/*end of stmt*/
     }
 
-  /*compound start*/begalt = b = bufp->/*compound end*/buffer;/*end of stmt*/
+  /*compound start*/begalt = b = bufp->buffer;/*end of stmt*/
 
 
   while (p != pend)
     {
-      do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+      do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0);
 
       switch (c)
         {
@@ -4868,7 +4868,7 @@ regex_compile (pattern, size, syntax, bufp)
                 || syntax & ((((1) << 1) << 1) << 1)
 
                 || at_begline_loc_p (pattern, p, syntax))
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (begline/*compound end*/);/*end of stmt*/ } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (begline);/*end of stmt*/ } while (0);
             else
               goto normal_char;
           }
@@ -4883,7 +4883,7 @@ regex_compile (pattern, size, syntax, bufp)
                 || syntax & ((((1) << 1) << 1) << 1)
 
                 || at_endline_loc_p (p, pend, syntax))
-               do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (endline/*compound end*/);/*end of stmt*/ } while (0);
+               do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (endline);/*end of stmt*/ } while (0);
              else
                goto normal_char;
            }
@@ -4920,13 +4920,13 @@ regex_compile (pattern, size, syntax, bufp)
 
             for (;;)
               {
-                /*compound start*/zero_times_ok |= c != /*compound end*/'+';/*end of stmt*/
-                /*compound start*/many_times_ok |= c != /*compound end*/'?';/*end of stmt*/
+                /*compound start*/zero_times_ok |= c != '+';/*end of stmt*/
+                /*compound start*/many_times_ok |= c != '?';/*end of stmt*/
 
                 if (p == pend)
                   break;
 
-                do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+                do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0);
 
                 if (c == '*'
                     || (!(syntax & ((1) << 1)) && (c == '+' || c == '?')))
@@ -4936,7 +4936,7 @@ regex_compile (pattern, size, syntax, bufp)
                   {
                     if (p == pend) return REG_EESCAPE;
 
-                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1/*compound end*/];/*end of stmt*/ } while (0);
+                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1];/*end of stmt*/ } while (0);
                     if (!(c1 == '+' || c1 == '?'))
                       {
                         p--;
@@ -4944,7 +4944,7 @@ regex_compile (pattern, size, syntax, bufp)
                         break;
                       }
 
-                    /*compound start*/c = /*compound end*/c1;/*end of stmt*/
+                    /*compound start*/c = c1;/*end of stmt*/
                   }
                 else
                   {
@@ -4968,7 +4968,7 @@ regex_compile (pattern, size, syntax, bufp)
                 ;
 
 
-                while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+                while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0);
 
 
 
@@ -4981,24 +4981,24 @@ regex_compile (pattern, size, syntax, bufp)
                     && !(syntax & (((((((1) << 1) << 1) << 1) << 1) << 1) << 1)))
                   {
                     store_op1 (jump, b, (laststart) - (b) - 3);
-                    /*compound start*/keep_string_p = /*compound end*/1;/*end of stmt*/
+                    /*compound start*/keep_string_p = 1;/*end of stmt*/
                   }
                 else
 
                   store_op1 (maybe_pop_jump, b, (laststart - 3) - (b) - 3);
 
 
-                /*compound start*/b += /*compound end*/3;/*end of stmt*/
+                /*compound start*/b += 3;/*end of stmt*/
               }
 
 
 
-            while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+            while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0);
             insert_op1 (keep_string_p ? on_failure_keep_string_jump : on_failure_jump, laststart, (b + 3) - (laststart) - 3, b);
 
 
-            /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
-            /*compound start*/b += /*compound end*/3;/*end of stmt*/
+            /*compound start*/pending_exact = 0;/*end of stmt*/
+            /*compound start*/b += 3;/*end of stmt*/
 
             if (!zero_times_ok)
               {
@@ -5007,17 +5007,17 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-                while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+                while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0);
                 insert_op1 (dummy_failure_jump, laststart, (laststart + 6) - (laststart) - 3, b);
-                /*compound start*/b += /*compound end*/3;/*end of stmt*/
+                /*compound start*/b += 3;/*end of stmt*/
               }
             }
    break;
 
 
  case '.':
-          /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
-          do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (anychar/*compound end*/);/*end of stmt*/ } while (0);
+          /*compound start*/laststart = b;/*end of stmt*/
+          do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (anychar);/*end of stmt*/ } while (0);
           break;
 
 
@@ -5029,21 +5029,21 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-     while (b - bufp->buffer + (34) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+     while (b - bufp->buffer + (34) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0);
 
-            /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
+            /*compound start*/laststart = b;/*end of stmt*/
 
 
 
-            do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (*p == '^' ? charset_not : charset/*compound end*/);/*end of stmt*/ } while (0);
+            do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (*p == '^' ? charset_not : charset);/*end of stmt*/ } while (0);
             if (*p == '^')
               p++;
 
 
-            /*compound start*/p1 = /*compound end*/p;/*end of stmt*/
+            /*compound start*/p1 = p;/*end of stmt*/
 
 
-            do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) ((1 << 8) / 8/*compound end*/);/*end of stmt*/ } while (0);
+            do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) ((1 << 8) / 8);/*end of stmt*/ } while (0);
 
 
             memset ((b), 0, ((1 << 8) / 8));
@@ -5058,14 +5058,14 @@ regex_compile (pattern, size, syntax, bufp)
               {
                 if (p == pend) return REG_EBRACK;
 
-                do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+                do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0);
 
 
                 if ((syntax & (1)) && c == '\\')
                   {
                     if (p == pend) return REG_EESCAPE;
 
-                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1/*compound end*/];/*end of stmt*/ } while (0);
+                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1];/*end of stmt*/ } while (0);
                     (b[((unsigned char) (c1)) / 8] |= 1 << (((unsigned char) c1) % 8));
                     continue;
                   }
@@ -5100,9 +5100,9 @@ regex_compile (pattern, size, syntax, bufp)
                     reg_errcode_t ret;
 
 
-                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1/*compound end*/];/*end of stmt*/ } while (0);
+                    do {if (p == pend) return REG_EEND; /*compound start*/c1 = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c1 = translate[c1];/*end of stmt*/ } while (0);
 
-                    /*compound start*/ret = compile_range (&p, pend, translate, syntax, b/*compound end*/);/*end of stmt*/
+                    /*compound start*/ret = compile_range (&p, pend, translate, syntax, b);/*end of stmt*/
                     if (ret != REG_NOERROR) return ret;
                   }
 
@@ -5113,21 +5113,21 @@ regex_compile (pattern, size, syntax, bufp)
                   {
                     char str[6 + 1];
 
-                    do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
-                    /*compound start*/c1 = /*compound end*/0;/*end of stmt*/
+                    do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0);
+                    /*compound start*/c1 = 0;/*end of stmt*/
 
 
                     if (p == pend) return REG_EBRACK;
 
                     for (;;)
                       {
-                        do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+                        do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0);
                         if (c == ':' || c == ']' || p == pend
                             || c1 == 6)
                           break;
-                        /*compound start*/str[c1++] = /*compound end*/c;/*end of stmt*/
+                        /*compound start*/str[c1++] = c;/*end of stmt*/
                       }
-                    /*compound start*/str[c1] = /*compound end*/'\0';/*end of stmt*/
+                    /*compound start*/str[c1] = '\0';/*end of stmt*/
 
 
 
@@ -5152,7 +5152,7 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-                        do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+                        do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0);
 
                         if (p == pend) return REG_EBRACK;
 
@@ -5172,7 +5172,7 @@ regex_compile (pattern, size, syntax, bufp)
                                 || (is_xdigit && (1 && ((*__ctype_b_loc ())[(int) ((ch))] & (unsigned short int) _ISxdigit))))
                             (b[((unsigned char) (ch)) / 8] |= 1 << (((unsigned char) ch) % 8));
                           }
-                        /*compound start*/had_char_class = /*compound end*/1;/*end of stmt*/
+                        /*compound start*/had_char_class = 1;/*end of stmt*/
                       }
                     else
                       {
@@ -5181,12 +5181,12 @@ regex_compile (pattern, size, syntax, bufp)
                           p--;
                         (b[((unsigned char) ('[')) / 8] |= 1 << (((unsigned char) '[') % 8));
                         (b[((unsigned char) (':')) / 8] |= 1 << (((unsigned char) ':') % 8));
-                        /*compound start*/had_char_class = /*compound end*/0;/*end of stmt*/
+                        /*compound start*/had_char_class = 0;/*end of stmt*/
                       }
                   }
                 else
                   {
-                    /*compound start*/had_char_class = /*compound end*/0;/*end of stmt*/
+                    /*compound start*/had_char_class = 0;/*end of stmt*/
                     (b[((unsigned char) (c)) / 8] |= 1 << (((unsigned char) c) % 8));
                   }
               }
@@ -5195,7 +5195,7 @@ regex_compile (pattern, size, syntax, bufp)
 
             while ((int) b[-1] > 0 && b[b[-1] - 1] == 0)
               b[-1]--;
-            /*compound start*/b += b[-1/*compound end*/];/*end of stmt*/
+            /*compound start*/b += b[-1];/*end of stmt*/
           }
           break;
 
@@ -5241,7 +5241,7 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-          do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ } while (0);
+          do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ } while (0);
 
           switch (c)
             {
@@ -5259,18 +5259,18 @@ regex_compile (pattern, size, syntax, bufp)
 
                   if (compile_stack.stack == ((void *)0)) return REG_ESPACE;
 
-                  /*compound start*/compile_stack.size <<= /*compound end*/1;/*end of stmt*/
+                  /*compound start*/compile_stack.size <<= 1;/*end of stmt*/
                 }
 
 
 
 
 
-              /*compound start*/(compile_stack.stack[compile_stack.avail]).begalt_offset = begalt - bufp->/*compound end*/buffer;/*end of stmt*/
+              /*compound start*/(compile_stack.stack[compile_stack.avail]).begalt_offset = begalt - bufp->buffer;/*end of stmt*/
               /*compound start*/(compile_stack.stack[compile_stack.avail]).fixup_alt_jump
-                = fixup_alt_jump ? fixup_alt_jump - bufp->buffer + 1 : /*compound end*/0;/*end of stmt*/
-              /*compound start*/(compile_stack.stack[compile_stack.avail]).laststart_offset = b - bufp->/*compound end*/buffer;/*end of stmt*/
-              /*compound start*/(compile_stack.stack[compile_stack.avail]).regnum = /*compound end*/regnum;/*end of stmt*/
+                = fixup_alt_jump ? fixup_alt_jump - bufp->buffer + 1 : 0;/*end of stmt*/
+              /*compound start*/(compile_stack.stack[compile_stack.avail]).laststart_offset = b - bufp->buffer;/*end of stmt*/
+              /*compound start*/(compile_stack.stack[compile_stack.avail]).regnum = regnum;/*end of stmt*/
 
 
 
@@ -5278,19 +5278,19 @@ regex_compile (pattern, size, syntax, bufp)
 
               if (regnum <= 255)
                 {
-                  /*compound start*/(compile_stack.stack[compile_stack.avail]).inner_group_offset = b - bufp->buffer + /*compound end*/2;/*end of stmt*/
-                  do { while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (start_memory/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (regnum/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (0/*compound end*/);/*end of stmt*/ } while (0);
+                  /*compound start*/(compile_stack.stack[compile_stack.avail]).inner_group_offset = b - bufp->buffer + 2;/*end of stmt*/
+                  do { while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (start_memory);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (regnum);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (0);/*end of stmt*/ } while (0);
                 }
 
               compile_stack.avail++;
 
-              /*compound start*/fixup_alt_jump = /*compound end*/0;/*end of stmt*/
-              /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
-              /*compound start*/begalt = /*compound end*/b;/*end of stmt*/
+              /*compound start*/fixup_alt_jump = 0;/*end of stmt*/
+              /*compound start*/laststart = 0;/*end of stmt*/
+              /*compound start*/begalt = b;/*end of stmt*/
 
 
 
-       /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
+       /*compound start*/pending_exact = 0;/*end of stmt*/
               break;
 
 
@@ -5309,7 +5309,7 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-                  do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (push_dummy_failure/*compound end*/);/*end of stmt*/ } while (0);
+                  do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (push_dummy_failure);/*end of stmt*/ } while (0);
 
 
 
@@ -5333,17 +5333,17 @@ regex_compile (pattern, size, syntax, bufp)
                 regnum_t this_group_regnum;
 
                 compile_stack.avail--;
-                /*compound start*/begalt = bufp->buffer + (compile_stack.stack[compile_stack.avail])./*compound end*/begalt_offset;/*end of stmt*/
+                /*compound start*/begalt = bufp->buffer + (compile_stack.stack[compile_stack.avail]).begalt_offset;/*end of stmt*/
                 /*compound start*/fixup_alt_jump
                   = (compile_stack.stack[compile_stack.avail]).fixup_alt_jump
                     ? bufp->buffer + (compile_stack.stack[compile_stack.avail]).fixup_alt_jump - 1
-                    : /*compound end*/0;/*end of stmt*/
-                /*compound start*/laststart = bufp->buffer + (compile_stack.stack[compile_stack.avail])./*compound end*/laststart_offset;/*end of stmt*/
-                /*compound start*/this_group_regnum = (compile_stack.stack[compile_stack.avail])./*compound end*/regnum;/*end of stmt*/
+                    : 0;/*end of stmt*/
+                /*compound start*/laststart = bufp->buffer + (compile_stack.stack[compile_stack.avail]).laststart_offset;/*end of stmt*/
+                /*compound start*/this_group_regnum = (compile_stack.stack[compile_stack.avail]).regnum;/*end of stmt*/
 
 
 
-  /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
+  /*compound start*/pending_exact = 0;/*end of stmt*/
 
 
 
@@ -5352,8 +5352,8 @@ regex_compile (pattern, size, syntax, bufp)
                     unsigned char *inner_group_loc
                       = bufp->buffer + (compile_stack.stack[compile_stack.avail]).inner_group_offset;
 
-                    /*compound start*/*inner_group_loc = regnum - /*compound end*/this_group_regnum;/*end of stmt*/
-                    do { while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (stop_memory/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (this_group_regnum/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (regnum - this_group_regnum/*compound end*/);/*end of stmt*/ } while (0);
+                    /*compound start*/*inner_group_loc = regnum - this_group_regnum;/*end of stmt*/
+                    do { while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (stop_memory);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (this_group_regnum);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (regnum - this_group_regnum);/*end of stmt*/ } while (0);
 
                   }
               }
@@ -5369,10 +5369,10 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-              while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+              while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0);
               insert_op1 (on_failure_jump, begalt, (b + 6) - (begalt) - 3, b);
-              /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
-              /*compound start*/b += /*compound end*/3;/*end of stmt*/
+              /*compound start*/pending_exact = 0;/*end of stmt*/
+              /*compound start*/b += 3;/*end of stmt*/
 # 3370 "target/grep.c"
               if (fixup_alt_jump)
                 store_op1 (jump_past_alt, fixup_alt_jump, (b) - (fixup_alt_jump) - 3);
@@ -5380,12 +5380,12 @@ regex_compile (pattern, size, syntax, bufp)
 
 
 
-              /*compound start*/fixup_alt_jump = /*compound end*/b;/*end of stmt*/
-              while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
-              /*compound start*/b += /*compound end*/3;/*end of stmt*/
+              /*compound start*/fixup_alt_jump = b;/*end of stmt*/
+              while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0);
+              /*compound start*/b += 3;/*end of stmt*/
 
-              /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
-              /*compound start*/begalt = /*compound end*/b;/*end of stmt*/
+              /*compound start*/laststart = 0;/*end of stmt*/
+              /*compound start*/begalt = b;/*end of stmt*/
               break;
 
 
@@ -5405,7 +5405,7 @@ regex_compile (pattern, size, syntax, bufp)
 
                 int lower_bound = -1, upper_bound = -1;
 
-                /*compound start*/beg_interval = p - /*compound end*/1;/*end of stmt*/
+                /*compound start*/beg_interval = p - 1;/*end of stmt*/
 
                 if (p == pend)
                   {
@@ -5415,12 +5415,12 @@ regex_compile (pattern, size, syntax, bufp)
                       return REG_EBRACE;
                   }
 
-                { if (p != pend) { do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0); while ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit))) { if (lower_bound < 0) /*compound start*/lower_bound = /*compound end*/0;/*end of stmt*/ /*compound start*/lower_bound = lower_bound * 10 + c - /*compound end*/'0';/*end of stmt*/ if (p == pend) break; do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0); } } };
+                { if (p != pend) { do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0); while ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit))) { if (lower_bound < 0) /*compound start*/lower_bound = 0;/*end of stmt*/ /*compound start*/lower_bound = lower_bound * 10 + c - '0';/*end of stmt*/ if (p == pend) break; do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0); } } };
 
                 if (c == ',')
                   {
-                    { if (p != pend) { do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0); while ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit))) { if (upper_bound < 0) /*compound start*/upper_bound = /*compound end*/0;/*end of stmt*/ /*compound start*/upper_bound = upper_bound * 10 + c - /*compound end*/'0';/*end of stmt*/ if (p == pend) break; do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0); } } };
-                    if (upper_bound < 0) /*compound start*/upper_bound = ((1 << 15) - 1/*compound end*/);/*end of stmt*/
+                    { if (p != pend) { do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0); while ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit))) { if (upper_bound < 0) /*compound start*/upper_bound = 0;/*end of stmt*/ /*compound start*/upper_bound = upper_bound * 10 + c - '0';/*end of stmt*/ if (p == pend) break; do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0); } } };
+                    if (upper_bound < 0) /*compound start*/upper_bound = ((1 << 15) - 1);/*end of stmt*/
                   }
                 else
 
@@ -5439,7 +5439,7 @@ regex_compile (pattern, size, syntax, bufp)
                   {
                     if (c != '\\') return REG_EBRACE;
 
-                    do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+                    do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0);
                   }
 
                 if (c != '}')
@@ -5458,7 +5458,7 @@ regex_compile (pattern, size, syntax, bufp)
                     if (syntax & ((((((1) << 1) << 1) << 1) << 1) << 1))
                       return REG_BADRPT;
                     else if (syntax & (((((1) << 1) << 1) << 1) << 1))
-                      /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
+                      /*compound start*/laststart = b;/*end of stmt*/
                     else
                       goto unfetch_interval;
                   }
@@ -5468,9 +5468,9 @@ regex_compile (pattern, size, syntax, bufp)
 
                  if (upper_bound == 0)
                    {
-                     while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+                     while (b - bufp->buffer + (3) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0);
                      insert_op1 (jump, laststart, (b + 3) - (laststart) - 3, b);
-                     /*compound start*/b += /*compound end*/3;/*end of stmt*/
+                     /*compound start*/b += 3;/*end of stmt*/
                    }
 # 3478 "target/grep.c"
                  else
@@ -5478,7 +5478,7 @@ regex_compile (pattern, size, syntax, bufp)
 
                      unsigned nbytes = 10 + (upper_bound > 1) * 10;
 
-                     while (b - bufp->buffer + (nbytes) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0);
+                     while (b - bufp->buffer + (nbytes) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0);
 
 
 
@@ -5488,14 +5488,14 @@ regex_compile (pattern, size, syntax, bufp)
                      insert_op2 (succeed_n, laststart, (b + 5 + (upper_bound > 1) * 5) - (laststart) - 3, lower_bound, b);
 
 
-                     /*compound start*/b += /*compound end*/5;/*end of stmt*/
+                     /*compound start*/b += 5;/*end of stmt*/
 
 
 
 
 
                      insert_op2 (set_number_at, laststart, 5, lower_bound, b);
-                     /*compound start*/b += /*compound end*/5;/*end of stmt*/
+                     /*compound start*/b += 5;/*end of stmt*/
 
                      if (upper_bound > 1)
                        {
@@ -5507,26 +5507,26 @@ regex_compile (pattern, size, syntax, bufp)
 
                          store_op2 (jump_n, b, (laststart + 5) - (b) - 3, upper_bound - 1);
 
-                         /*compound start*/b += /*compound end*/5;/*end of stmt*/
+                         /*compound start*/b += 5;/*end of stmt*/
 # 3528 "target/grep.c"
                          insert_op2 (set_number_at, laststart, b - laststart,
                                      upper_bound - 1, b);
-                         /*compound start*/b += /*compound end*/5;/*end of stmt*/
+                         /*compound start*/b += 5;/*end of stmt*/
                        }
                    }
-                /*compound start*/pending_exact = /*compound end*/0;/*end of stmt*/
-                /*compound start*/beg_interval = ((void *)0/*compound end*/);/*end of stmt*/
+                /*compound start*/pending_exact = 0;/*end of stmt*/
+                /*compound start*/beg_interval = ((void *)0);/*end of stmt*/
               }
               break;
 
             unfetch_interval:
 
                ;
-               /*compound start*/p = /*compound end*/beg_interval;/*end of stmt*/
-               /*compound start*/beg_interval = ((void *)0/*compound end*/);/*end of stmt*/
+               /*compound start*/p = beg_interval;/*end of stmt*/
+               /*compound start*/beg_interval = ((void *)0);/*end of stmt*/
 
 
-               do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p/*compound end*/++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c/*compound end*/];/*end of stmt*/ } while (0);
+               do {if (p == pend) return REG_EEND; /*compound start*/c = (unsigned char) *p++;/*end of stmt*/ if (translate) /*compound start*/c = translate[c];/*end of stmt*/ } while (0);
 
                if (!(syntax & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
                  {
@@ -5536,39 +5536,39 @@ regex_compile (pattern, size, syntax, bufp)
                goto normal_char;
 # 3575 "target/grep.c"
             case 'w':
-              /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordchar/*compound end*/);/*end of stmt*/ } while (0);
+              /*compound start*/laststart = b;/*end of stmt*/
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordchar);/*end of stmt*/ } while (0);
               break;
 
 
             case 'W':
-              /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (notwordchar/*compound end*/);/*end of stmt*/ } while (0);
+              /*compound start*/laststart = b;/*end of stmt*/
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (notwordchar);/*end of stmt*/ } while (0);
               break;
 
 
             case '<':
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordbeg/*compound end*/);/*end of stmt*/ } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordbeg);/*end of stmt*/ } while (0);
               break;
 
             case '>':
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordend/*compound end*/);/*end of stmt*/ } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordend);/*end of stmt*/ } while (0);
               break;
 
             case 'b':
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordbound/*compound end*/);/*end of stmt*/ } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (wordbound);/*end of stmt*/ } while (0);
               break;
 
             case 'B':
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (notwordbound/*compound end*/);/*end of stmt*/ } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (notwordbound);/*end of stmt*/ } while (0);
               break;
 
             case '`':
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (begbuf/*compound end*/);/*end of stmt*/ } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (begbuf);/*end of stmt*/ } while (0);
               break;
 
             case '\'':
-              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (endbuf/*compound end*/);/*end of stmt*/ } while (0);
+              do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (endbuf);/*end of stmt*/ } while (0);
               break;
 
             case '1': case '2': case '3': case '4': case '5':
@@ -5576,7 +5576,7 @@ regex_compile (pattern, size, syntax, bufp)
               if (syntax & (((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
                 goto normal_char;
 
-              /*compound start*/c1 = c - /*compound end*/'0';/*end of stmt*/
+              /*compound start*/c1 = c - '0';/*end of stmt*/
 
               if (c1 > regnum)
                 return REG_ESUBREG;
@@ -5585,8 +5585,8 @@ regex_compile (pattern, size, syntax, bufp)
               if (group_in_compile_stack (compile_stack, c1))
                 goto normal_char;
 
-              /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
-              do { while (b - bufp->buffer + (2) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (duplicate/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (c1/*compound end*/);/*end of stmt*/ } while (0);
+              /*compound start*/laststart = b;/*end of stmt*/
+              do { while (b - bufp->buffer + (2) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (duplicate);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (c1);/*end of stmt*/ } while (0);
               break;
 
 
@@ -5632,13 +5632,13 @@ regex_compile (pattern, size, syntax, bufp)
      {
 
 
-              /*compound start*/laststart = /*compound end*/b;/*end of stmt*/
+              /*compound start*/laststart = b;/*end of stmt*/
 
-       do { while (b - bufp->buffer + (2) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (exactn/*compound end*/);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (0/*compound end*/);/*end of stmt*/ } while (0);
-       /*compound start*/pending_exact = b - /*compound end*/1;/*end of stmt*/
+       do { while (b - bufp->buffer + (2) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (exactn);/*end of stmt*/ /*compound start*/*b++ = (unsigned char) (0);/*end of stmt*/ } while (0);
+       /*compound start*/pending_exact = b - 1;/*end of stmt*/
             }
 
-   do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= /*compound end*/1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16/*compound end*/);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated/*compound end*/);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->/*compound end*/buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (c/*compound end*/);/*end of stmt*/ } while (0);
+   do { while (b - bufp->buffer + (1) > bufp->allocated) do { unsigned char *old_buffer = bufp->buffer; if (bufp->allocated == (1L << 16)) return REG_ESIZE; /*compound start*/bufp->allocated <<= 1;/*end of stmt*/ if (bufp->allocated > (1L << 16)) /*compound start*/bufp->allocated = (1L << 16);/*end of stmt*/ /*compound start*/bufp->buffer = (unsigned char *) realloc (bufp->buffer, bufp->allocated);/*end of stmt*/ if (bufp->buffer == ((void *)0)) return REG_ESPACE; if (old_buffer != bufp->buffer) { /*compound start*/b = (b - old_buffer) + bufp->buffer;/*end of stmt*/ /*compound start*/begalt = (begalt - old_buffer) + bufp->buffer;/*end of stmt*/ if (fixup_alt_jump) /*compound start*/fixup_alt_jump = (fixup_alt_jump - old_buffer) + bufp->buffer;/*end of stmt*/ if (laststart) /*compound start*/laststart = (laststart - old_buffer) + bufp->buffer;/*end of stmt*/ if (pending_exact) /*compound start*/pending_exact = (pending_exact - old_buffer) + bufp->buffer;/*end of stmt*/ } } while (0); /*compound start*/*b++ = (unsigned char) (c);/*end of stmt*/ } while (0);
           (*pending_exact)++;
    break;
         }
@@ -5656,7 +5656,7 @@ regex_compile (pattern, size, syntax, bufp)
   free (compile_stack.stack);
 
 
-  /*compound start*/bufp->used = b - bufp->/*compound end*/buffer;/*end of stmt*/
+  /*compound start*/bufp->used = b - bufp->buffer;/*end of stmt*/
 # 3706 "target/grep.c"
   return REG_NOERROR;
 }
@@ -5671,8 +5671,8 @@ store_op1 (op, loc, arg)
     unsigned char *loc;
     int arg;
 {
-  /*compound start*/*loc = (unsigned char) /*compound end*/op;/*end of stmt*/
-  do { /*compound start*/(loc + 1)[0] = (arg) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(loc + 1)[1] = (arg) >> /*compound end*/8;/*end of stmt*/ } while (0);
+  /*compound start*/*loc = (unsigned char) op;/*end of stmt*/
+  do { /*compound start*/(loc + 1)[0] = (arg) & 0377;/*end of stmt*/ /*compound start*/(loc + 1)[1] = (arg) >> 8;/*end of stmt*/ } while (0);
 }
 
 
@@ -5684,9 +5684,9 @@ store_op2 (op, loc, arg1, arg2)
     unsigned char *loc;
     int arg1, arg2;
 {
-  /*compound start*/*loc = (unsigned char) /*compound end*/op;/*end of stmt*/
-  do { /*compound start*/(loc + 1)[0] = (arg1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(loc + 1)[1] = (arg1) >> /*compound end*/8;/*end of stmt*/ } while (0);
-  do { /*compound start*/(loc + 3)[0] = (arg2) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(loc + 3)[1] = (arg2) >> /*compound end*/8;/*end of stmt*/ } while (0);
+  /*compound start*/*loc = (unsigned char) op;/*end of stmt*/
+  do { /*compound start*/(loc + 1)[0] = (arg1) & 0377;/*end of stmt*/ /*compound start*/(loc + 1)[1] = (arg1) >> 8;/*end of stmt*/ } while (0);
+  do { /*compound start*/(loc + 3)[0] = (arg2) & 0377;/*end of stmt*/ /*compound start*/(loc + 3)[1] = (arg2) >> 8;/*end of stmt*/ } while (0);
 }
 
 
@@ -5704,7 +5704,7 @@ insert_op1 (op, loc, arg, end)
   register unsigned char *pto = end + 3;
 
   while (pfrom != loc)
-    /*compound start*/*--pto = *--/*compound end*/pfrom;/*end of stmt*/
+    /*compound start*/*--pto = *--pfrom;/*end of stmt*/
 
   store_op1 (op, loc, arg);
 }
@@ -5723,7 +5723,7 @@ insert_op2 (op, loc, arg1, arg2, end)
   register unsigned char *pto = end + 5;
 
   while (pfrom != loc)
-    /*compound start*/*--pto = *--/*compound end*/pfrom;/*end of stmt*/
+    /*compound start*/*--pto = *--pfrom;/*end of stmt*/
 
   store_op2 (op, loc, arg1, arg2);
 }
@@ -5805,8 +5805,8 @@ compile_range (p_ptr, pend, translate, syntax, b)
   if (p == pend)
     return REG_ERANGE;
 # 3872 "target/grep.c"
-  /*compound start*/range_start = ((unsigned char *) p)[-2/*compound end*/];/*end of stmt*/
-  /*compound start*/range_end = ((unsigned char *) p)[0/*compound end*/];/*end of stmt*/
+  /*compound start*/range_start = ((unsigned char *) p)[-2];/*end of stmt*/
+  /*compound start*/range_end = ((unsigned char *) p)[0];/*end of stmt*/
 
 
 
@@ -5868,21 +5868,21 @@ re_compile_fastmap (bufp)
 
   ;
 
-  do { /*compound start*/fail_stack.stack = (fail_stack_elt_t *) __builtin_alloca (5 * sizeof (fail_stack_elt_t)/*compound end*/);/*end of stmt*/ if (fail_stack.stack == ((void *)0)) return -2; /*compound start*/fail_stack.size = /*compound end*/5;/*end of stmt*/ /*compound start*/fail_stack.avail = /*compound end*/0;/*end of stmt*/ } while (0);
+  do { /*compound start*/fail_stack.stack = (fail_stack_elt_t *) __builtin_alloca (5 * sizeof (fail_stack_elt_t));/*end of stmt*/ if (fail_stack.stack == ((void *)0)) return -2; /*compound start*/fail_stack.size = 5;/*end of stmt*/ /*compound start*/fail_stack.avail = 0;/*end of stmt*/ } while (0);
   memset ((fastmap), 0, (1 << 8));
-  /*compound start*/bufp->fastmap_accurate = /*compound end*/1;/*end of stmt*/
-  /*compound start*/bufp->can_be_null = /*compound end*/0;/*end of stmt*/
+  /*compound start*/bufp->fastmap_accurate = 1;/*end of stmt*/
+  /*compound start*/bufp->can_be_null = 0;/*end of stmt*/
 
   while (p != pend || !(fail_stack.avail == 0))
     {
       if (p == pend)
         {
-          /*compound start*/bufp->can_be_null |= /*compound end*/path_can_be_null;/*end of stmt*/
+          /*compound start*/bufp->can_be_null |= path_can_be_null;/*end of stmt*/
 
 
-          /*compound start*/path_can_be_null = /*compound end*/1;/*end of stmt*/
+          /*compound start*/path_can_be_null = 1;/*end of stmt*/
 
-          /*compound start*/p = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/
+          /*compound start*/p = fail_stack.stack[--fail_stack.avail];/*end of stmt*/
  }
 
 
@@ -5901,7 +5901,7 @@ re_compile_fastmap (bufp)
 
 
  case duplicate:
-   /*compound start*/bufp->can_be_null = /*compound end*/1;/*end of stmt*/
+   /*compound start*/bufp->can_be_null = 1;/*end of stmt*/
           return 0;
 
 
@@ -5909,50 +5909,50 @@ re_compile_fastmap (bufp)
 
 
  case exactn:
-          /*compound start*/fastmap[p[1]] = /*compound end*/1;/*end of stmt*/
+          /*compound start*/fastmap[p[1]] = 1;/*end of stmt*/
    break;
 
 
         case charset:
           for (j = *p++ * 8 - 1; j >= 0; j--)
      if (p[j / 8] & (1 << (j % 8)))
-              /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
+              /*compound start*/fastmap[j] = 1;/*end of stmt*/
    break;
 
 
  case charset_not:
 
    for (j = *p * 8; j < (1 << 8); j++)
-            /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
+            /*compound start*/fastmap[j] = 1;/*end of stmt*/
 
    for (j = *p++ * 8 - 1; j >= 0; j--)
      if (!(p[j / 8] & (1 << (j % 8))))
-              /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
+              /*compound start*/fastmap[j] = 1;/*end of stmt*/
           break;
 
 
  case wordchar:
    for (j = 0; j < (1 << 8); j++)
      if (re_syntax_table[j] == 1)
-       /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
+       /*compound start*/fastmap[j] = 1;/*end of stmt*/
    break;
 
 
  case notwordchar:
    for (j = 0; j < (1 << 8); j++)
      if (re_syntax_table[j] != 1)
-       /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
+       /*compound start*/fastmap[j] = 1;/*end of stmt*/
    break;
 
 
         case anychar:
 
    for (j = 0; j < (1 << 8); j++)
-            /*compound start*/fastmap[j] = /*compound end*/1;/*end of stmt*/
+            /*compound start*/fastmap[j] = 1;/*end of stmt*/
 
 
           if (!(bufp->syntax & (((((((1) << 1) << 1) << 1) << 1) << 1) << 1)))
-            /*compound start*/fastmap['\n'] = /*compound end*/0;/*end of stmt*/
+            /*compound start*/fastmap['\n'] = 0;/*end of stmt*/
 
 
 
@@ -5981,8 +5981,8 @@ re_compile_fastmap (bufp)
  case jump:
         case jump_past_alt:
  case dummy_failure_jump:
-          do { do { /*compound start*/(j) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
-   /*compound start*/p += /*compound end*/j;/*end of stmt*/
+          do { do { /*compound start*/(j) = *(p) & 0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
+   /*compound start*/p += j;/*end of stmt*/
    if (j > 0)
      continue;
 
@@ -5996,8 +5996,8 @@ re_compile_fastmap (bufp)
      continue;
 
           p++;
-          do { do { /*compound start*/(j) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
-          /*compound start*/p += /*compound end*/j;/*end of stmt*/
+          do { do { /*compound start*/(j) = *(p) & 0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
+          /*compound start*/p += j;/*end of stmt*/
 
 
           if (!(fail_stack.avail == 0)
@@ -6010,7 +6010,7 @@ re_compile_fastmap (bufp)
         case on_failure_jump:
         case on_failure_keep_string_jump:
  handle_on_failure_jump:
-          do { do { /*compound start*/(j) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+          do { do { /*compound start*/(j) = *(p) & 0377;/*end of stmt*/ /*compound start*/(j) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
 # 4391 "target/grep.c"
           if (p + j < pend)
             {
@@ -6022,8 +6022,8 @@ re_compile_fastmap (bufp)
 
           if (succeed_n_p)
             {
-              do { do { /*compound start*/(k) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(k) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
-              /*compound start*/succeed_n_p = /*compound end*/0;/*end of stmt*/
+              do { do { /*compound start*/(k) = *(p) & 0377;/*end of stmt*/ /*compound start*/(k) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
+              /*compound start*/succeed_n_p = 0;/*end of stmt*/
      }
 
           continue;
@@ -6031,27 +6031,27 @@ re_compile_fastmap (bufp)
 
  case succeed_n:
 
-          /*compound start*/p += /*compound end*/2;/*end of stmt*/
+          /*compound start*/p += 2;/*end of stmt*/
 
 
-          do { do { /*compound start*/(k) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(k) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+          do { do { /*compound start*/(k) = *(p) & 0377;/*end of stmt*/ /*compound start*/(k) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
           if (k == 0)
      {
-              /*compound start*/p -= /*compound end*/4;/*end of stmt*/
-         /*compound start*/succeed_n_p = /*compound end*/1;/*end of stmt*/
+              /*compound start*/p -= 4;/*end of stmt*/
+         /*compound start*/succeed_n_p = 1;/*end of stmt*/
               goto handle_on_failure_jump;
             }
           continue;
 
 
  case set_number_at:
-          /*compound start*/p += /*compound end*/4;/*end of stmt*/
+          /*compound start*/p += 4;/*end of stmt*/
           continue;
 
 
  case start_memory:
         case stop_memory:
-   /*compound start*/p += /*compound end*/2;/*end of stmt*/
+   /*compound start*/p += 2;/*end of stmt*/
    continue;
 
 
@@ -6065,13 +6065,13 @@ re_compile_fastmap (bufp)
 
 
 
-      /*compound start*/path_can_be_null = /*compound end*/0;/*end of stmt*/
-      /*compound start*/p = /*compound end*/pend;/*end of stmt*/
+      /*compound start*/path_can_be_null = 0;/*end of stmt*/
+      /*compound start*/p = pend;/*end of stmt*/
     }
 
 
 
-  /*compound start*/bufp->can_be_null |= /*compound end*/path_can_be_null;/*end of stmt*/
+  /*compound start*/bufp->can_be_null |= path_can_be_null;/*end of stmt*/
   return 0;
 }
 # 4467 "target/grep.c"
@@ -6084,16 +6084,16 @@ re_set_registers (bufp, regs, num_regs, starts, ends)
 {
   if (num_regs)
     {
-      /*compound start*/bufp->regs_allocated = /*compound end*/1;/*end of stmt*/
-      /*compound start*/regs->num_regs = /*compound end*/num_regs;/*end of stmt*/
-      /*compound start*/regs->start = /*compound end*/starts;/*end of stmt*/
-      /*compound start*/regs->end = /*compound end*/ends;/*end of stmt*/
+      /*compound start*/bufp->regs_allocated = 1;/*end of stmt*/
+      /*compound start*/regs->num_regs = num_regs;/*end of stmt*/
+      /*compound start*/regs->start = starts;/*end of stmt*/
+      /*compound start*/regs->end = ends;/*end of stmt*/
     }
   else
     {
-      /*compound start*/bufp->regs_allocated = /*compound end*/0;/*end of stmt*/
-      /*compound start*/regs->num_regs = /*compound end*/0;/*end of stmt*/
-      /*compound start*/regs->start = regs->end = (regoff_t) /*compound end*/0;/*end of stmt*/
+      /*compound start*/bufp->regs_allocated = 0;/*end of stmt*/
+      /*compound start*/regs->num_regs = 0;/*end of stmt*/
+      /*compound start*/regs->start = regs->end = (regoff_t) 0;/*end of stmt*/
     }
 }
 
@@ -6136,9 +6136,9 @@ re_search_2 (bufp, string1, size1, string2, size2, startpos, range, regs, stop)
 
 
   if (endpos < -1)
-    /*compound start*/range = -1 - /*compound end*/startpos;/*end of stmt*/
+    /*compound start*/range = -1 - startpos;/*end of stmt*/
   else if (endpos > total_size)
-    /*compound start*/range = total_size - /*compound end*/startpos;/*end of stmt*/
+    /*compound start*/range = total_size - startpos;/*end of stmt*/
 
 
 
@@ -6171,9 +6171,9 @@ re_search_2 (bufp, string1, size1, string2, size2, startpos, range, regs, stop)
        int irange = range;
 
               if (startpos < size1 && startpos + range >= size1)
-                /*compound start*/lim = range - (size1 - startpos/*compound end*/);/*end of stmt*/
+                /*compound start*/lim = range - (size1 - startpos);/*end of stmt*/
 
-       /*compound start*/d = (startpos >= size1 ? string2 - size1 : string1) + /*compound end*/startpos;/*end of stmt*/
+       /*compound start*/d = (startpos >= size1 ? string2 - size1 : string1) + startpos;/*end of stmt*/
 
 
 
@@ -6186,7 +6186,7 @@ re_search_2 (bufp, string1, size1, string2, size2, startpos, range, regs, stop)
                 while (range > lim && !fastmap[(unsigned char) *d++])
                   range--;
 
-       /*compound start*/startpos += irange - /*compound end*/range;/*end of stmt*/
+       /*compound start*/startpos += irange - range;/*end of stmt*/
      }
    else
      {
@@ -6205,7 +6205,7 @@ re_search_2 (bufp, string1, size1, string2, size2, startpos, range, regs, stop)
  return -1;
 
       /*compound start*/val = re_match_2 (bufp, string1, size1, string2, size2,
-                 startpos, regs, stop/*compound end*/);/*end of stmt*/
+                 startpos, regs, stop);/*end of stmt*/
       if (val >= 0)
  return startpos;
 
@@ -6336,7 +6336,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
   ;
 
-  do { /*compound start*/fail_stack.stack = (fail_stack_elt_t *) __builtin_alloca (5 * sizeof (fail_stack_elt_t)/*compound end*/);/*end of stmt*/ if (fail_stack.stack == ((void *)0)) return -2; /*compound start*/fail_stack.size = /*compound end*/5;/*end of stmt*/ /*compound start*/fail_stack.avail = /*compound end*/0;/*end of stmt*/ } while (0);
+  do { /*compound start*/fail_stack.stack = (fail_stack_elt_t *) __builtin_alloca (5 * sizeof (fail_stack_elt_t));/*end of stmt*/ if (fail_stack.stack == ((void *)0)) return -2; /*compound start*/fail_stack.size = 5;/*end of stmt*/ /*compound start*/fail_stack.avail = 0;/*end of stmt*/ } while (0);
 
 
 
@@ -6345,15 +6345,15 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
   if (bufp->re_nsub)
     {
-      /*compound start*/regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
-      /*compound start*/regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
-      /*compound start*/old_regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
-      /*compound start*/old_regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
-      /*compound start*/best_regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
-      /*compound start*/best_regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
-      /*compound start*/reg_info = ((register_info_type *) __builtin_alloca ((num_regs) * sizeof (register_info_type))/*compound end*/);/*end of stmt*/
-      /*compound start*/reg_dummy = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *))/*compound end*/);/*end of stmt*/
-      /*compound start*/reg_info_dummy = ((register_info_type *) __builtin_alloca ((num_regs) * sizeof (register_info_type))/*compound end*/);/*end of stmt*/
+      /*compound start*/regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *)));/*end of stmt*/
+      /*compound start*/regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *)));/*end of stmt*/
+      /*compound start*/old_regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *)));/*end of stmt*/
+      /*compound start*/old_regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *)));/*end of stmt*/
+      /*compound start*/best_regstart = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *)));/*end of stmt*/
+      /*compound start*/best_regend = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *)));/*end of stmt*/
+      /*compound start*/reg_info = ((register_info_type *) __builtin_alloca ((num_regs) * sizeof (register_info_type)));/*end of stmt*/
+      /*compound start*/reg_dummy = ((const char * *) __builtin_alloca ((num_regs) * sizeof (const char *)));/*end of stmt*/
+      /*compound start*/reg_info_dummy = ((register_info_type *) __builtin_alloca ((num_regs) * sizeof (register_info_type)));/*end of stmt*/
 
       if (!(regstart && regend && old_regstart && old_regend && reg_info
             && best_regstart && best_regend && reg_dummy && reg_info_dummy))
@@ -6375,36 +6375,36 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
   for (mcnt = 1; mcnt < num_regs; mcnt++)
     {
       /*compound start*/regstart[mcnt] = regend[mcnt]
-        = old_regstart[mcnt] = old_regend[mcnt] = ((char *) -1/*compound end*/);/*end of stmt*/
+        = old_regstart[mcnt] = old_regend[mcnt] = ((char *) -1);/*end of stmt*/
 
-      /*compound start*/((reg_info[mcnt]).bits.match_null_string_p) = /*compound end*/3;/*end of stmt*/
-      /*compound start*/((reg_info[mcnt]).bits.is_active) = /*compound end*/0;/*end of stmt*/
-      /*compound start*/((reg_info[mcnt]).bits.matched_something) = /*compound end*/0;/*end of stmt*/
-      /*compound start*/((reg_info[mcnt]).bits.ever_matched_something) = /*compound end*/0;/*end of stmt*/
+      /*compound start*/((reg_info[mcnt]).bits.match_null_string_p) = 3;/*end of stmt*/
+      /*compound start*/((reg_info[mcnt]).bits.is_active) = 0;/*end of stmt*/
+      /*compound start*/((reg_info[mcnt]).bits.matched_something) = 0;/*end of stmt*/
+      /*compound start*/((reg_info[mcnt]).bits.ever_matched_something) = 0;/*end of stmt*/
     }
 
 
 
   if (size2 == 0 && string1 != ((void *)0))
     {
-      /*compound start*/string2 = /*compound end*/string1;/*end of stmt*/
-      /*compound start*/size2 = /*compound end*/size1;/*end of stmt*/
-      /*compound start*/string1 = /*compound end*/0;/*end of stmt*/
-      /*compound start*/size1 = /*compound end*/0;/*end of stmt*/
+      /*compound start*/string2 = string1;/*end of stmt*/
+      /*compound start*/size2 = size1;/*end of stmt*/
+      /*compound start*/string1 = 0;/*end of stmt*/
+      /*compound start*/size1 = 0;/*end of stmt*/
     }
-  /*compound start*/end1 = string1 + /*compound end*/size1;/*end of stmt*/
-  /*compound start*/end2 = string2 + /*compound end*/size2;/*end of stmt*/
+  /*compound start*/end1 = string1 + size1;/*end of stmt*/
+  /*compound start*/end2 = string2 + size2;/*end of stmt*/
 
 
   if (stop <= size1)
     {
-      /*compound start*/end_match_1 = string1 + /*compound end*/stop;/*end of stmt*/
-      /*compound start*/end_match_2 = /*compound end*/string2;/*end of stmt*/
+      /*compound start*/end_match_1 = string1 + stop;/*end of stmt*/
+      /*compound start*/end_match_2 = string2;/*end of stmt*/
     }
   else
     {
-      /*compound start*/end_match_1 = /*compound end*/end1;/*end of stmt*/
-      /*compound start*/end_match_2 = string2 + stop - /*compound end*/size1;/*end of stmt*/
+      /*compound start*/end_match_1 = end1;/*end of stmt*/
+      /*compound start*/end_match_2 = string2 + stop - size1;/*end of stmt*/
     }
 
 
@@ -6415,13 +6415,13 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
   if (size1 > 0 && pos <= size1)
     {
-      /*compound start*/d = string1 + /*compound end*/pos;/*end of stmt*/
-      /*compound start*/dend = /*compound end*/end_match_1;/*end of stmt*/
+      /*compound start*/d = string1 + pos;/*end of stmt*/
+      /*compound start*/dend = end_match_1;/*end of stmt*/
     }
   else
     {
-      /*compound start*/d = string2 + pos - /*compound end*/size1;/*end of stmt*/
-      /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/
+      /*compound start*/d = string2 + pos - size1;/*end of stmt*/
+      /*compound start*/dend = end_match_2;/*end of stmt*/
     }
 
   ;
@@ -6457,15 +6457,15 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
                       || (same_str_p && d > match_end)
                       || (!same_str_p && !(dend == end_match_1)))
                     {
-                      /*compound start*/best_regs_set = /*compound end*/1;/*end of stmt*/
-                      /*compound start*/match_end = /*compound end*/d;/*end of stmt*/
+                      /*compound start*/best_regs_set = 1;/*end of stmt*/
+                      /*compound start*/match_end = d;/*end of stmt*/
 
                       ;
 
                       for (mcnt = 1; mcnt < num_regs; mcnt++)
                         {
-                          /*compound start*/best_regstart[mcnt] = regstart[mcnt/*compound end*/];/*end of stmt*/
-                          /*compound start*/best_regend[mcnt] = regend[mcnt/*compound end*/];/*end of stmt*/
+                          /*compound start*/best_regstart[mcnt] = regstart[mcnt];/*end of stmt*/
+                          /*compound start*/best_regend[mcnt] = regend[mcnt];/*end of stmt*/
                         }
                     }
                   goto fail;
@@ -6482,14 +6482,14 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
                   ;
 
-                  /*compound start*/d = /*compound end*/match_end;/*end of stmt*/
+                  /*compound start*/d = match_end;/*end of stmt*/
                   /*compound start*/dend = ((d >= string1 && d <= end1)
-             ? end_match_1 : end_match_2/*compound end*/);/*end of stmt*/
+             ? end_match_1 : end_match_2);/*end of stmt*/
 
     for (mcnt = 1; mcnt < num_regs; mcnt++)
       {
-        /*compound start*/regstart[mcnt] = best_regstart[mcnt/*compound end*/];/*end of stmt*/
-        /*compound start*/regend[mcnt] = best_regend[mcnt/*compound end*/];/*end of stmt*/
+        /*compound start*/regstart[mcnt] = best_regstart[mcnt];/*end of stmt*/
+        /*compound start*/regend[mcnt] = best_regend[mcnt];/*end of stmt*/
       }
                 }
             }
@@ -6504,12 +6504,12 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
                 {
 
 
-                  /*compound start*/regs->num_regs = ((30) > (num_regs + 1) ? (30) : (num_regs + 1)/*compound end*/);/*end of stmt*/
-                  /*compound start*/regs->start = ((regoff_t *) malloc ((regs->num_regs) * sizeof (regoff_t))/*compound end*/);/*end of stmt*/
-                  /*compound start*/regs->end = ((regoff_t *) malloc ((regs->num_regs) * sizeof (regoff_t))/*compound end*/);/*end of stmt*/
+                  /*compound start*/regs->num_regs = ((30) > (num_regs + 1) ? (30) : (num_regs + 1));/*end of stmt*/
+                  /*compound start*/regs->start = ((regoff_t *) malloc ((regs->num_regs) * sizeof (regoff_t)));/*end of stmt*/
+                  /*compound start*/regs->end = ((regoff_t *) malloc ((regs->num_regs) * sizeof (regoff_t)));/*end of stmt*/
                   if (regs->start == ((void *)0) || regs->end == ((void *)0))
                     return -2;
-                  /*compound start*/bufp->regs_allocated = /*compound end*/1;/*end of stmt*/
+                  /*compound start*/bufp->regs_allocated = 1;/*end of stmt*/
                 }
               else if (bufp->regs_allocated == 1)
                 {
@@ -6517,7 +6517,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
                   if (regs->num_regs < num_regs + 1)
                     {
-                      /*compound start*/regs->num_regs = num_regs + /*compound end*/1;/*end of stmt*/
+                      /*compound start*/regs->num_regs = num_regs + 1;/*end of stmt*/
                       ((regs->start) = (regoff_t *) realloc (regs->start, (regs->num_regs) * sizeof (regoff_t)));
                       ((regs->end) = (regoff_t *) realloc (regs->end, (regs->num_regs) * sizeof (regoff_t)));
                       if (regs->start == ((void *)0) || regs->end == ((void *)0))
@@ -6536,9 +6536,9 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
               if (regs->num_regs > 0)
                 {
-                  /*compound start*/regs->start[0] = /*compound end*/pos;/*end of stmt*/
+                  /*compound start*/regs->start[0] = pos;/*end of stmt*/
                   /*compound start*/regs->end[0] = ((dend == end_match_1) ? d - string1
-             : d - string2 + size1/*compound end*/);/*end of stmt*/
+             : d - string2 + size1);/*end of stmt*/
                 }
 
 
@@ -6546,11 +6546,11 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
        for (mcnt = 1; mcnt < ((num_regs) < (regs->num_regs) ? (num_regs) : (regs->num_regs)); mcnt++)
   {
                   if (((regstart[mcnt]) == ((char *) -1)) || ((regend[mcnt]) == ((char *) -1)))
-                    /*compound start*/regs->start[mcnt] = regs->end[mcnt] = -/*compound end*/1;/*end of stmt*/
+                    /*compound start*/regs->start[mcnt] = regs->end[mcnt] = -1;/*end of stmt*/
                   else
                     {
-        /*compound start*/regs->start[mcnt] = ((size1 && string1 <= (regstart[mcnt]) && (regstart[mcnt]) <= string1 + size1) ? (regstart[mcnt]) - string1 : (regstart[mcnt]) - string2 + size1/*compound end*/);/*end of stmt*/
-                      /*compound start*/regs->end[mcnt] = ((size1 && string1 <= (regend[mcnt]) && (regend[mcnt]) <= string1 + size1) ? (regend[mcnt]) - string1 : (regend[mcnt]) - string2 + size1/*compound end*/);/*end of stmt*/
+        /*compound start*/regs->start[mcnt] = ((size1 && string1 <= (regstart[mcnt]) && (regstart[mcnt]) <= string1 + size1) ? (regstart[mcnt]) - string1 : (regstart[mcnt]) - string2 + size1);/*end of stmt*/
+                      /*compound start*/regs->end[mcnt] = ((size1 && string1 <= (regend[mcnt]) && (regend[mcnt]) <= string1 + size1) ? (regend[mcnt]) - string1 : (regend[mcnt]) - string2 + size1);/*end of stmt*/
                     }
   }
 
@@ -6560,7 +6560,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
               for (mcnt = num_regs; mcnt < regs->num_regs; mcnt++)
-                /*compound start*/regs->start[mcnt] = regs->end[mcnt] = -/*compound end*/1;/*end of stmt*/
+                /*compound start*/regs->start[mcnt] = regs->end[mcnt] = -1;/*end of stmt*/
      }
 
           __builtin_alloca (0);
@@ -6571,7 +6571,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
           /*compound start*/mcnt = d - pos - ((dend == end_match_1)
        ? string1
-       : string2 - size1/*compound end*/);/*end of stmt*/
+       : string2 - size1);/*end of stmt*/
 
           ;
 
@@ -6596,7 +6596,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
  case exactn:
-   /*compound start*/mcnt = *p/*compound end*/++;/*end of stmt*/
+   /*compound start*/mcnt = *p++;/*end of stmt*/
           ;
 
 
@@ -6605,7 +6605,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
      {
        do
   {
-    while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+    while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = string2;/*end of stmt*/ /*compound start*/dend = end_match_2;/*end of stmt*/ };
     if (translate[(unsigned char) *d++] != (char) *p++)
                     goto fail;
   }
@@ -6615,12 +6615,12 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
      {
        do
   {
-    while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+    while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = string2;/*end of stmt*/ /*compound start*/dend = end_match_2;/*end of stmt*/ };
     if (*d++ != (char) *p++) goto fail;
   }
        while (--mcnt);
      }
-   do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
+   do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = 1;/*end of stmt*/ } } while (0);
           break;
 
 
@@ -6628,13 +6628,13 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
  case anychar:
           ;
 
-          while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+          while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = string2;/*end of stmt*/ /*compound start*/dend = end_match_2;/*end of stmt*/ };
 
           if ((!(bufp->syntax & (((((((1) << 1) << 1) << 1) << 1) << 1) << 1)) && (translate ? translate[(unsigned char) (*d)] : (*d)) == '\n')
               || (bufp->syntax & ((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) && (translate ? translate[(unsigned char) (*d)] : (*d)) == '\000'))
      goto fail;
 
-          do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
+          do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = 1;/*end of stmt*/ } } while (0);
           ;
           d++;
    break;
@@ -6648,20 +6648,20 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
             ;
 
-     while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
-     /*compound start*/c = (translate ? translate[(unsigned char) (*d)] : (*d)/*compound end*/);/*end of stmt*/
+     while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = string2;/*end of stmt*/ /*compound start*/dend = end_match_2;/*end of stmt*/ };
+     /*compound start*/c = (translate ? translate[(unsigned char) (*d)] : (*d));/*end of stmt*/
 
 
 
      if (c < (unsigned) (*p * 8)
   && p[1 + c / 8] & (1 << (c % 8)))
-       /*compound start*/not = !/*compound end*/not;/*end of stmt*/
+       /*compound start*/not = !not;/*end of stmt*/
 
-     /*compound start*/p += 1 + */*compound end*/p;/*end of stmt*/
+     /*compound start*/p += 1 + *p;/*end of stmt*/
 
      if (!not) goto fail;
 
-     do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
+     do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = 1;/*end of stmt*/ } } while (0);
             d++;
      break;
    }
@@ -6676,11 +6676,11 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
    ;
 
 
-   /*compound start*/p1 = /*compound end*/p;/*end of stmt*/
+   /*compound start*/p1 = p;/*end of stmt*/
 
           if (((reg_info[*p]).bits.match_null_string_p) == 3)
             /*compound start*/((reg_info[*p]).bits.match_null_string_p)
-              = group_match_null_string_p (&p1, pend, reg_info/*compound end*/);/*end of stmt*/
+              = group_match_null_string_p (&p1, pend, reg_info);/*end of stmt*/
 
 
 
@@ -6689,26 +6689,26 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
           /*compound start*/old_regstart[*p] = ((reg_info[*p]).bits.match_null_string_p)
                              ? ((regstart[*p]) == ((char *) -1)) ? d : regstart[*p]
-                             : regstart[*p/*compound end*/];/*end of stmt*/
+                             : regstart[*p];/*end of stmt*/
    ;
 
 
-          /*compound start*/regstart[*p] = /*compound end*/d;/*end of stmt*/
+          /*compound start*/regstart[*p] = d;/*end of stmt*/
    ;
 
-          /*compound start*/((reg_info[*p]).bits.is_active) = /*compound end*/1;/*end of stmt*/
-          /*compound start*/((reg_info[*p]).bits.matched_something) = /*compound end*/0;/*end of stmt*/
+          /*compound start*/((reg_info[*p]).bits.is_active) = 1;/*end of stmt*/
+          /*compound start*/((reg_info[*p]).bits.matched_something) = 0;/*end of stmt*/
 
 
-          /*compound start*/highest_active_reg = */*compound end*/p;/*end of stmt*/
+          /*compound start*/highest_active_reg = *p;/*end of stmt*/
 
 
 
           if (lowest_active_reg == ((1 << 8) + 1))
-            /*compound start*/lowest_active_reg = */*compound end*/p;/*end of stmt*/
+            /*compound start*/lowest_active_reg = *p;/*end of stmt*/
 
 
-          /*compound start*/p += /*compound end*/2;/*end of stmt*/
+          /*compound start*/p += 2;/*end of stmt*/
           break;
 
 
@@ -6725,22 +6725,22 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
           /*compound start*/old_regend[*p] = ((reg_info[*p]).bits.match_null_string_p)
                            ? ((regend[*p]) == ((char *) -1)) ? d : regend[*p]
-      : regend[*p/*compound end*/];/*end of stmt*/
+      : regend[*p];/*end of stmt*/
    ;
 
 
-          /*compound start*/regend[*p] = /*compound end*/d;/*end of stmt*/
+          /*compound start*/regend[*p] = d;/*end of stmt*/
    ;
 
 
-          /*compound start*/((reg_info[*p]).bits.is_active) = /*compound end*/0;/*end of stmt*/
+          /*compound start*/((reg_info[*p]).bits.is_active) = 0;/*end of stmt*/
 
 
 
           if (lowest_active_reg == highest_active_reg)
             {
-              /*compound start*/lowest_active_reg = ((1 << 8) + 1/*compound end*/);/*end of stmt*/
-              /*compound start*/highest_active_reg = (1 << 8/*compound end*/);/*end of stmt*/
+              /*compound start*/lowest_active_reg = ((1 << 8) + 1);/*end of stmt*/
+              /*compound start*/highest_active_reg = (1 << 8);/*end of stmt*/
             }
           else
             {
@@ -6753,8 +6753,8 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 # 5350 "target/grep.c"
        if (r == 0)
                 {
-                  /*compound start*/lowest_active_reg = ((1 << 8) + 1/*compound end*/);/*end of stmt*/
-                  /*compound start*/highest_active_reg = (1 << 8/*compound end*/);/*end of stmt*/
+                  /*compound start*/lowest_active_reg = ((1 << 8) + 1);/*end of stmt*/
+                  /*compound start*/highest_active_reg = (1 << 8);/*end of stmt*/
                 }
               else
                 highest_active_reg = r;
@@ -6771,17 +6771,17 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
             {
               boolean is_a_jump_n = 0;
 
-              /*compound start*/p1 = p + /*compound end*/2;/*end of stmt*/
-              /*compound start*/mcnt = /*compound end*/0;/*end of stmt*/
+              /*compound start*/p1 = p + 2;/*end of stmt*/
+              /*compound start*/mcnt = 0;/*end of stmt*/
               switch ((re_opcode_t) *p1++)
                 {
                   case jump_n:
-      /*compound start*/is_a_jump_n = /*compound end*/1;/*end of stmt*/
+      /*compound start*/is_a_jump_n = 1;/*end of stmt*/
                   case pop_failure_jump:
     case maybe_pop_jump:
     case jump:
     case dummy_failure_jump:
-                    do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+                    do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
       if (is_a_jump_n)
         p1 += 2;
                     break;
@@ -6789,7 +6789,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
                   default:
                                      ;
                 }
-       /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
+       /*compound start*/p1 += mcnt;/*end of stmt*/
 
 
 
@@ -6804,28 +6804,28 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
       {
         unsigned r;
 
-                      /*compound start*/((reg_info[*p]).bits.ever_matched_something) = /*compound end*/0;/*end of stmt*/
+                      /*compound start*/((reg_info[*p]).bits.ever_matched_something) = 0;/*end of stmt*/
 
 
                       for (r = *p; r < *p + *(p + 1); r++)
                         {
-                          /*compound start*/regstart[r] = old_regstart[r/*compound end*/];/*end of stmt*/
+                          /*compound start*/regstart[r] = old_regstart[r];/*end of stmt*/
 
 
                           if ((int) old_regend[r] >= (int) regstart[r])
-                            /*compound start*/regend[r] = old_regend[r/*compound end*/];/*end of stmt*/
+                            /*compound start*/regend[r] = old_regend[r];/*end of stmt*/
                         }
                     }
     p1++;
-                  do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
-                  do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p1 + /*compound end*/mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/d;/*end of stmt*/ ; ; } while (0);
+                  do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
+                  do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg].word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p1 + mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) d;/*end of stmt*/ ; ; } while (0);
 
                   goto fail;
                 }
             }
 
 
-          /*compound start*/p += /*compound end*/2;/*end of stmt*/
+          /*compound start*/p += 2;/*end of stmt*/
           break;
 
 
@@ -6842,7 +6842,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
               goto fail;
 
 
-            /*compound start*/d2 = regstart[regno/*compound end*/];/*end of stmt*/
+            /*compound start*/d2 = regstart[regno];/*end of stmt*/
 
 
 
@@ -6851,7 +6851,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
             /*compound start*/dend2 = (((size1 && string1 <= (regstart[regno]) && (regstart[regno]) <= string1 + size1)
         == (size1 && string1 <= (regend[regno]) && (regend[regno]) <= string1 + size1))
-       ? regend[regno] : end_match_1/*compound end*/);/*end of stmt*/
+       ? regend[regno] : end_match_1);/*end of stmt*/
      for (;;)
        {
 
@@ -6862,22 +6862,22 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
       if (dend2 == regend[regno]) break;
 
 
-                    /*compound start*/d2 = /*compound end*/string2;/*end of stmt*/
-                    /*compound start*/dend2 = regend[regno/*compound end*/];/*end of stmt*/
+                    /*compound start*/d2 = string2;/*end of stmt*/
+                    /*compound start*/dend2 = regend[regno];/*end of stmt*/
     }
 
   if (d2 == dend2) break;
 
 
-  while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+  while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = string2;/*end of stmt*/ /*compound start*/dend = end_match_2;/*end of stmt*/ };
 
 
-  /*compound start*/mcnt = dend - /*compound end*/d;/*end of stmt*/
+  /*compound start*/mcnt = dend - d;/*end of stmt*/
 
 
 
                 if (mcnt > dend2 - d2)
-    /*compound start*/mcnt = dend2 - /*compound end*/d2;/*end of stmt*/
+    /*compound start*/mcnt = dend2 - d2;/*end of stmt*/
 
 
 
@@ -6885,7 +6885,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
                     ? bcmp_translate (d, d2, mcnt, translate)
                     : memcmp ((d), (d2), (mcnt)))
     goto fail;
-  /*compound start*/d += mcnt, d2 += /*compound end*/mcnt;/*end of stmt*/
+  /*compound start*/d += mcnt, d2 += mcnt;/*end of stmt*/
        }
    }
    break;
@@ -6945,20 +6945,20 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
         case on_failure_keep_string_jump:
           ;
 
-          do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+          do { do { /*compound start*/(mcnt) = *(p) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
           ;
 
-          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p + /*compound end*/mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) ((void *)0/*compound end*/);/*end of stmt*/ ; ; } while (0);
+          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg].word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p + mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) ((void *)0);/*end of stmt*/ ; ; } while (0);
           break;
 # 5589 "target/grep.c"
  case on_failure_jump:
         on_failure:
           ;
 
-          do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+          do { do { /*compound start*/(mcnt) = *(p) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
           ;
 # 5605 "target/grep.c"
-          /*compound start*/p1 = /*compound end*/p;/*end of stmt*/
+          /*compound start*/p1 = p;/*end of stmt*/
 
 
 
@@ -6973,20 +6973,20 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
 
-              /*compound start*/highest_active_reg = *(p1 + 1) + *(p1 + 2/*compound end*/);/*end of stmt*/
+              /*compound start*/highest_active_reg = *(p1 + 1) + *(p1 + 2);/*end of stmt*/
               if (lowest_active_reg == ((1 << 8) + 1))
-                /*compound start*/lowest_active_reg = *(p1 + 1/*compound end*/);/*end of stmt*/
+                /*compound start*/lowest_active_reg = *(p1 + 1);/*end of stmt*/
             }
 
           ;
-          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p + /*compound end*/mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/d;/*end of stmt*/ ; ; } while (0);
+          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg].word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) p + mcnt;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) d;/*end of stmt*/ ; ; } while (0);
           break;
 
 
 
 
         case maybe_pop_jump:
-          do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+          do { do { /*compound start*/(mcnt) = *(p) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
           ;
           {
      register unsigned char *p2 = p;
@@ -7002,7 +7002,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
 
 
-           /*compound start*/p[-3] = (unsigned char) /*compound end*/pop_failure_jump;/*end of stmt*/
+           /*compound start*/p[-3] = (unsigned char) pop_failure_jump;/*end of stmt*/
                 ;
 
               }
@@ -7012,14 +7012,14 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
        {
   register unsigned char c
                   = *p2 == (unsigned char) endline ? '\n' : p2[2];
-  /*compound start*/p1 = p + /*compound end*/mcnt;/*end of stmt*/
+  /*compound start*/p1 = p + mcnt;/*end of stmt*/
 
 
 
 
                 if ((re_opcode_t) p1[3] == exactn && p1[5] != c)
                   {
-        /*compound start*/p[-3] = (unsigned char) /*compound end*/pop_failure_jump;/*end of stmt*/
+        /*compound start*/p[-3] = (unsigned char) pop_failure_jump;/*end of stmt*/
                     ;
 
                   }
@@ -7031,22 +7031,22 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
       if (c < (unsigned char) (p1[4] * 8)
    && p1[5 + c / 8] & (1 << (c % 8)))
-        /*compound start*/not = !/*compound end*/not;/*end of stmt*/
+        /*compound start*/not = !not;/*end of stmt*/
 
 
 
       if (!not)
                       {
-            /*compound start*/p[-3] = (unsigned char) /*compound end*/pop_failure_jump;/*end of stmt*/
+            /*compound start*/p[-3] = (unsigned char) pop_failure_jump;/*end of stmt*/
                         ;
                       }
     }
        }
    }
-   /*compound start*/p -= /*compound end*/2;/*end of stmt*/
+   /*compound start*/p -= 2;/*end of stmt*/
    if ((re_opcode_t) p[-1] != pop_failure_jump)
      {
-       /*compound start*/p[-1] = (unsigned char) /*compound end*/jump;/*end of stmt*/
+       /*compound start*/p[-1] = (unsigned char) jump;/*end of stmt*/
               ;
        goto unconditional_jump;
      }
@@ -7063,7 +7063,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
             const char *sdummy;
 
             ;
-            { int this_reg; const unsigned char *string_temp; ; ; ; ; ; ; ; /*compound start*/string_temp = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ if (string_temp != ((void *)0)) /*compound start*/sdummy = (const char *) /*compound end*/string_temp;/*end of stmt*/ ; ; ; /*compound start*/pdummy = (unsigned char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; ; /*compound start*/dummy_high_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/dummy_low_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; for (this_reg = dummy_high_reg; this_reg >= dummy_low_reg; this_reg--) { ; /*compound start*/reg_info_dummy[this_reg].word = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/reg_dummy[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/reg_dummy[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; } ; };
+            { int this_reg; const unsigned char *string_temp; ; ; ; ; ; ; ; /*compound start*/string_temp = fail_stack.stack[--fail_stack.avail];/*end of stmt*/ if (string_temp != ((void *)0)) /*compound start*/sdummy = (const char *) string_temp;/*end of stmt*/ ; ; ; /*compound start*/pdummy = (unsigned char *) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; ; /*compound start*/dummy_high_reg = (unsigned) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; /*compound start*/dummy_low_reg = (unsigned) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; for (this_reg = dummy_high_reg; this_reg >= dummy_low_reg; this_reg--) { ; /*compound start*/reg_info_dummy[this_reg].word = fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; /*compound start*/reg_dummy[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; /*compound start*/reg_dummy[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; } ; };
 
 
           }
@@ -7073,9 +7073,9 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 
         case jump:
  unconditional_jump:
-   do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+   do { do { /*compound start*/(mcnt) = *(p) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
           ;
-   /*compound start*/p += /*compound end*/mcnt;/*end of stmt*/
+   /*compound start*/p += mcnt;/*end of stmt*/
           ;
    break;
 
@@ -7096,7 +7096,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
           ;
 
 
-          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/0;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/0;/*end of stmt*/ ; ; } while (0);
+          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg].word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) 0;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) 0;/*end of stmt*/ ; ; } while (0);
           goto unconditional_jump;
 
 
@@ -7109,13 +7109,13 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
           ;
 
 
-          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg/*compound end*/];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg/*compound end*/];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg]./*compound end*/word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/0;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) /*compound end*/0;/*end of stmt*/ ; ; } while (0);
+          do { char *destination; int this_reg; ; ; ; ; ; ; ; while (((fail_stack).size - (fail_stack).avail) < ((highest_active_reg - lowest_active_reg + 1) * 3 + 4)) { if (!((fail_stack).size > re_max_failures * ((num_regs - 1) * 3 + 4) ? 0 : ((fail_stack).stack = (fail_stack_elt_t *) (destination = (char *) __builtin_alloca (((fail_stack).size << 1) * sizeof (fail_stack_elt_t)), memcpy ((destination), ((fail_stack).stack), ((fail_stack).size * sizeof (fail_stack_elt_t))), destination), (fail_stack).stack == ((void *)0) ? 0 : ((fail_stack).size <<= 1, 1)))) return -2; ; ; } ; for (this_reg = lowest_active_reg; this_reg <= highest_active_reg; this_reg++) { ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regstart[this_reg];/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) regend[this_reg];/*end of stmt*/ ; ; ; ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) reg_info[this_reg].word;/*end of stmt*/ } ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) lowest_active_reg;/*end of stmt*/ ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) highest_active_reg;/*end of stmt*/ ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) 0;/*end of stmt*/ ; ; ; /*compound start*/fail_stack.stack[fail_stack.avail++] = (fail_stack_elt_t) 0;/*end of stmt*/ ; ; } while (0);
           break;
 
 
 
         case succeed_n:
-          do { /*compound start*/(mcnt) = *(p + 2) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p + 2) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0);
+          do { /*compound start*/(mcnt) = *(p + 2) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p + 2) + 1))) << 8;/*end of stmt*/ } while (0);
           ;
 
           ;
@@ -7123,28 +7123,28 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
           if (mcnt > 0)
             {
                mcnt--;
-        /*compound start*/p += /*compound end*/2;/*end of stmt*/
-               do { do { /*compound start*/(p)[0] = (mcnt) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(p)[1] = (mcnt) >> /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+        /*compound start*/p += 2;/*end of stmt*/
+               do { do { /*compound start*/(p)[0] = (mcnt) & 0377;/*end of stmt*/ /*compound start*/(p)[1] = (mcnt) >> 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
                ;
             }
    else if (mcnt == 0)
             {
               ;
-       /*compound start*/p[2] = (unsigned char) /*compound end*/no_op;/*end of stmt*/
-              /*compound start*/p[3] = (unsigned char) /*compound end*/no_op;/*end of stmt*/
+       /*compound start*/p[2] = (unsigned char) no_op;/*end of stmt*/
+              /*compound start*/p[3] = (unsigned char) no_op;/*end of stmt*/
               goto on_failure;
             }
           break;
 
         case jump_n:
-          do { /*compound start*/(mcnt) = *(p + 2) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p + 2) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0);
+          do { /*compound start*/(mcnt) = *(p + 2) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p + 2) + 1))) << 8;/*end of stmt*/ } while (0);
           ;
 
 
           if (mcnt)
             {
                mcnt--;
-               do { /*compound start*/(p + 2)[0] = (mcnt) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(p + 2)[1] = (mcnt) >> /*compound end*/8;/*end of stmt*/ } while (0);
+               do { /*compound start*/(p + 2)[0] = (mcnt) & 0377;/*end of stmt*/ /*compound start*/(p + 2)[1] = (mcnt) >> 8;/*end of stmt*/ } while (0);
         goto unconditional_jump;
             }
 
@@ -7156,11 +7156,11 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
    {
             ;
 
-            do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
-            /*compound start*/p1 = p + /*compound end*/mcnt;/*end of stmt*/
-            do { do { /*compound start*/(mcnt) = *(p) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p) += /*compound end*/2;/*end of stmt*/ } while (0);
+            do { do { /*compound start*/(mcnt) = *(p) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
+            /*compound start*/p1 = p + mcnt;/*end of stmt*/
+            do { do { /*compound start*/(mcnt) = *(p) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p) += 2;/*end of stmt*/ } while (0);
             ;
-     do { /*compound start*/(p1)[0] = (mcnt) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(p1)[1] = (mcnt) >> /*compound end*/8;/*end of stmt*/ } while (0);
+     do { /*compound start*/(p1)[0] = (mcnt) & 0377;/*end of stmt*/ /*compound start*/(p1)[1] = (mcnt) >> 8;/*end of stmt*/ } while (0);
             break;
           }
 
@@ -7191,19 +7191,19 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
 # 5916 "target/grep.c"
  case wordchar:
           ;
-   while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+   while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = string2;/*end of stmt*/ /*compound start*/dend = end_match_2;/*end of stmt*/ };
           if (!(re_syntax_table[(d) == end1 ? *string2 : (d) == string2 - 1 ? *(end1 - 1) : *(d)] == 1))
             goto fail;
-   do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
+   do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = 1;/*end of stmt*/ } } while (0);
           d++;
    break;
 
  case notwordchar:
           ;
-   while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = /*compound end*/string2;/*end of stmt*/ /*compound start*/dend = /*compound end*/end_match_2;/*end of stmt*/ };
+   while (d == dend) { if (dend == end_match_2) goto fail; /*compound start*/d = string2;/*end of stmt*/ /*compound start*/dend = end_match_2;/*end of stmt*/ };
    if ((re_syntax_table[(d) == end1 ? *string2 : (d) == string2 - 1 ? *(end1 - 1) : *(d)] == 1))
             goto fail;
-          do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = /*compound end*/1;/*end of stmt*/ } } while (0);
+          do { unsigned r; for (r = lowest_active_reg; r <= highest_active_reg; r++) { /*compound start*/((reg_info[r]).bits.matched_something) = ((reg_info[r]).bits.ever_matched_something) = 1;/*end of stmt*/ } } while (0);
           d++;
    break;
 
@@ -7219,7 +7219,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
       if (!(fail_stack.avail == 0))
  {
           ;
-          { int this_reg; const unsigned char *string_temp; ; ; ; ; ; ; ; /*compound start*/string_temp = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ if (string_temp != ((void *)0)) /*compound start*/d = (const char *) /*compound end*/string_temp;/*end of stmt*/ ; ; ; /*compound start*/p = (unsigned char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; ; /*compound start*/highest_active_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/lowest_active_reg = (unsigned) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; for (this_reg = highest_active_reg; this_reg >= lowest_active_reg; this_reg--) { ; /*compound start*/reg_info[this_reg].word = fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/regend[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; /*compound start*/regstart[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail/*compound end*/];/*end of stmt*/ ; } ; };
+          { int this_reg; const unsigned char *string_temp; ; ; ; ; ; ; ; /*compound start*/string_temp = fail_stack.stack[--fail_stack.avail];/*end of stmt*/ if (string_temp != ((void *)0)) /*compound start*/d = (const char *) string_temp;/*end of stmt*/ ; ; ; /*compound start*/p = (unsigned char *) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; ; /*compound start*/highest_active_reg = (unsigned) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; /*compound start*/lowest_active_reg = (unsigned) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; for (this_reg = highest_active_reg; this_reg >= lowest_active_reg; this_reg--) { ; /*compound start*/reg_info[this_reg].word = fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; /*compound start*/regend[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; /*compound start*/regstart[this_reg] = (const char *) fail_stack.stack[--fail_stack.avail];/*end of stmt*/ ; } ; };
 
 
 
@@ -7238,13 +7238,13 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
               switch ((re_opcode_t) *p)
                 {
                 case jump_n:
-                  /*compound start*/is_a_jump_n = /*compound end*/1;/*end of stmt*/
+                  /*compound start*/is_a_jump_n = 1;/*end of stmt*/
                 case maybe_pop_jump:
                 case pop_failure_jump:
                 case jump:
-                  /*compound start*/p1 = p + /*compound end*/1;/*end of stmt*/
-                  do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
-                  /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
+                  /*compound start*/p1 = p + 1;/*end of stmt*/
+                  do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
+                  /*compound start*/p1 += mcnt;/*end of stmt*/
 
                   if ((is_a_jump_n && (re_opcode_t) *p1 == succeed_n)
                       || (!is_a_jump_n
@@ -7257,7 +7257,7 @@ re_match_2 (bufp, string1, size1, string2, size2, pos, regs, stop)
             }
 
           if (d >= string1 && d <= end1)
-     /*compound start*/dend = /*compound end*/end_match_1;/*end of stmt*/
+     /*compound start*/dend = end_match_1;/*end of stmt*/
         }
       else
         break;
@@ -7291,7 +7291,7 @@ group_match_null_string_p (p, end, reg_info)
 
         case on_failure_jump:
           p1++;
-          do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+          do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
 
 
 
@@ -7311,7 +7311,7 @@ group_match_null_string_p (p, end, reg_info)
 
 
 
-                  /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
+                  /*compound start*/p1 += mcnt;/*end of stmt*/
 
 
 
@@ -7321,11 +7321,11 @@ group_match_null_string_p (p, end, reg_info)
 
 
     p1++;
-                  do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+                  do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
                   if ((re_opcode_t) p1[mcnt-3] != jump_past_alt)
                     {
 
-                      /*compound start*/p1 -= /*compound end*/3;/*end of stmt*/
+                      /*compound start*/p1 -= 3;/*end of stmt*/
                       break;
                     }
                 }
@@ -7333,19 +7333,19 @@ group_match_null_string_p (p, end, reg_info)
 
 
 
-              do { /*compound start*/(mcnt) = *(p1 - 2) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1 - 2) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0);
+              do { /*compound start*/(mcnt) = *(p1 - 2) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1 - 2) + 1))) << 8;/*end of stmt*/ } while (0);
 
               if (!alt_match_null_string_p (p1, p1 + mcnt, reg_info))
                 return 0;
 
-              /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
+              /*compound start*/p1 += mcnt;/*end of stmt*/
             }
           break;
 
 
         case stop_memory:
    ;
-          /*compound start*/*p = p1 + /*compound end*/2;/*end of stmt*/
+          /*compound start*/*p = p1 + 2;/*end of stmt*/
           return 1;
 
 
@@ -7381,8 +7381,8 @@ alt_match_null_string_p (p, end, reg_info)
 
         case on_failure_jump:
           p1++;
-          do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
-          /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
+          do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
+          /*compound start*/p1 += mcnt;/*end of stmt*/
           break;
 
  default:
@@ -7429,15 +7429,15 @@ common_op_match_null_string_p (p, end, reg_info)
       break;
 
     case start_memory:
-      /*compound start*/reg_no = */*compound end*/p1;/*end of stmt*/
+      /*compound start*/reg_no = *p1;/*end of stmt*/
       ;
-      /*compound start*/ret = group_match_null_string_p (&p1, end, reg_info/*compound end*/);/*end of stmt*/
+      /*compound start*/ret = group_match_null_string_p (&p1, end, reg_info);/*end of stmt*/
 
 
 
 
       if (((reg_info[reg_no]).bits.match_null_string_p) == 3)
-        /*compound start*/((reg_info[reg_no]).bits.match_null_string_p) = /*compound end*/ret;/*end of stmt*/
+        /*compound start*/((reg_info[reg_no]).bits.match_null_string_p) = ret;/*end of stmt*/
 
       if (!ret)
         return 0;
@@ -7445,7 +7445,7 @@ common_op_match_null_string_p (p, end, reg_info)
 
 
     case jump:
-      do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+      do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
       if (mcnt >= 0)
         p1 += mcnt;
       else
@@ -7454,14 +7454,14 @@ common_op_match_null_string_p (p, end, reg_info)
 
     case succeed_n:
 
-      /*compound start*/p1 += /*compound end*/2;/*end of stmt*/
-      do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
+      /*compound start*/p1 += 2;/*end of stmt*/
+      do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
 
       if (mcnt == 0)
         {
-          /*compound start*/p1 -= /*compound end*/4;/*end of stmt*/
-          do { do { /*compound start*/(mcnt) = *(p1) & /*compound end*/0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << /*compound end*/8;/*end of stmt*/ } while (0); /*compound start*/(p1) += /*compound end*/2;/*end of stmt*/ } while (0);
-          /*compound start*/p1 += /*compound end*/mcnt;/*end of stmt*/
+          /*compound start*/p1 -= 4;/*end of stmt*/
+          do { do { /*compound start*/(mcnt) = *(p1) & 0377;/*end of stmt*/ /*compound start*/(mcnt) += ((signed char) (*((p1) + 1))) << 8;/*end of stmt*/ } while (0); /*compound start*/(p1) += 2;/*end of stmt*/ } while (0);
+          /*compound start*/p1 += mcnt;/*end of stmt*/
         }
       else
         return 0;
@@ -7473,14 +7473,14 @@ common_op_match_null_string_p (p, end, reg_info)
       break;
 
     case set_number_at:
-      /*compound start*/p1 += /*compound end*/4;/*end of stmt*/
+      /*compound start*/p1 += 4;/*end of stmt*/
 
     default:
 
       return 0;
   }
 
-  /*compound start*/*p = /*compound end*/p1;/*end of stmt*/
+  /*compound start*/*p = p1;/*end of stmt*/
   return 1;
 }
 
@@ -7513,17 +7513,17 @@ re_compile_pattern (pattern, length, bufp)
 
 
 
-  /*compound start*/bufp->regs_allocated = /*compound end*/0;/*end of stmt*/
+  /*compound start*/bufp->regs_allocated = 0;/*end of stmt*/
 
 
 
 
-  /*compound start*/bufp->no_sub = /*compound end*/0;/*end of stmt*/
+  /*compound start*/bufp->no_sub = 0;/*end of stmt*/
 
 
-  /*compound start*/bufp->newline_anchor = /*compound end*/1;/*end of stmt*/
+  /*compound start*/bufp->newline_anchor = 1;/*end of stmt*/
 
-  /*compound start*/ret = regex_compile (pattern, length, re_syntax_options, bufp/*compound end*/);/*end of stmt*/
+  /*compound start*/ret = regex_compile (pattern, length, re_syntax_options, bufp);/*end of stmt*/
 
   return re_error_msg[(int) ret];
 }
@@ -7540,27 +7540,27 @@ regcomp (preg, pattern, cflags)
       (((((1) << 1) << 1) | (((((((1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | (((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) | ((((1) << 1) << 1) << 1) | (((((1) << 1) << 1) << 1) << 1) | (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) : (((((1) << 1) << 1) | (((((((1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | ((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) | (((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) | ((1) << 1));
 
 
-  /*compound start*/preg->buffer = /*compound end*/0;/*end of stmt*/
-  /*compound start*/preg->allocated = /*compound end*/0;/*end of stmt*/
-  /*compound start*/preg->used = /*compound end*/0;/*end of stmt*/
+  /*compound start*/preg->buffer = 0;/*end of stmt*/
+  /*compound start*/preg->allocated = 0;/*end of stmt*/
+  /*compound start*/preg->used = 0;/*end of stmt*/
 
 
 
 
 
-  /*compound start*/preg->fastmap = /*compound end*/0;/*end of stmt*/
+  /*compound start*/preg->fastmap = 0;/*end of stmt*/
 
   if (cflags & (1 << 1))
     {
       unsigned i;
 
-      /*compound start*/preg->translate = (char *) malloc (256/*compound end*/);/*end of stmt*/
+      /*compound start*/preg->translate = (char *) malloc (256);/*end of stmt*/
       if (preg->translate == ((void *)0))
         return (int) REG_ESPACE;
 
 
       for (i = 0; i < 256; i++)
-        /*compound start*/preg->translate[i] = (1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISupper)) ? tolower (i) : /*compound end*/i;/*end of stmt*/
+        /*compound start*/preg->translate[i] = (1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISupper)) ? tolower (i) : i;/*end of stmt*/
     }
   else
     preg->translate = ((void *)0);
@@ -7568,23 +7568,23 @@ regcomp (preg, pattern, cflags)
 
   if (cflags & ((1 << 1) << 1))
     {
-      /*compound start*/syntax &= ~(((((((1) << 1) << 1) << 1) << 1) << 1) << 1/*compound end*/);/*end of stmt*/
-      /*compound start*/syntax |= (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1/*compound end*/);/*end of stmt*/
+      /*compound start*/syntax &= ~(((((((1) << 1) << 1) << 1) << 1) << 1) << 1);/*end of stmt*/
+      /*compound start*/syntax |= (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1);/*end of stmt*/
 
-      /*compound start*/preg->newline_anchor = /*compound end*/1;/*end of stmt*/
+      /*compound start*/preg->newline_anchor = 1;/*end of stmt*/
     }
   else
     preg->newline_anchor = 0;
 
-  /*compound start*/preg->no_sub = !!(cflags & (((1 << 1) << 1) << 1)/*compound end*/);/*end of stmt*/
+  /*compound start*/preg->no_sub = !!(cflags & (((1 << 1) << 1) << 1));/*end of stmt*/
 
 
 
-  /*compound start*/ret = regex_compile (pattern, strlen (pattern), syntax, preg/*compound end*/);/*end of stmt*/
+  /*compound start*/ret = regex_compile (pattern, strlen (pattern), syntax, preg);/*end of stmt*/
 
 
 
-  if (ret == REG_ERPAREN) /*compound start*/ret = /*compound end*/REG_EPAREN;/*end of stmt*/
+  if (ret == REG_ERPAREN) /*compound start*/ret = REG_EPAREN;/*end of stmt*/
 
   return (int) ret;
 }
@@ -7603,21 +7603,21 @@ regexec (preg, string, nmatch, pmatch, eflags)
   int len = strlen (string);
   boolean want_reg_info = !preg->no_sub && nmatch > 0;
 
-  /*compound start*/private_preg = */*compound end*/preg;/*end of stmt*/
+  /*compound start*/private_preg = *preg;/*end of stmt*/
 
-  /*compound start*/private_preg.not_bol = !!(eflags & 1/*compound end*/);/*end of stmt*/
-  /*compound start*/private_preg.not_eol = !!(eflags & (1 << 1)/*compound end*/);/*end of stmt*/
-
-
+  /*compound start*/private_preg.not_bol = !!(eflags & 1);/*end of stmt*/
+  /*compound start*/private_preg.not_eol = !!(eflags & (1 << 1));/*end of stmt*/
 
 
-  /*compound start*/private_preg.regs_allocated = /*compound end*/2;/*end of stmt*/
+
+
+  /*compound start*/private_preg.regs_allocated = 2;/*end of stmt*/
 
   if (want_reg_info)
     {
-      /*compound start*/regs.num_regs = /*compound end*/nmatch;/*end of stmt*/
-      /*compound start*/regs.start = ((regoff_t *) malloc ((nmatch) * sizeof (regoff_t))/*compound end*/);/*end of stmt*/
-      /*compound start*/regs.end = ((regoff_t *) malloc ((nmatch) * sizeof (regoff_t))/*compound end*/);/*end of stmt*/
+      /*compound start*/regs.num_regs = nmatch;/*end of stmt*/
+      /*compound start*/regs.start = ((regoff_t *) malloc ((nmatch) * sizeof (regoff_t)));/*end of stmt*/
+      /*compound start*/regs.end = ((regoff_t *) malloc ((nmatch) * sizeof (regoff_t)));/*end of stmt*/
       if (regs.start == ((void *)0) || regs.end == ((void *)0))
         return (int) REG_NOMATCH;
     }
@@ -7625,7 +7625,7 @@ regexec (preg, string, nmatch, pmatch, eflags)
 
   /*compound start*/ret = re_search (&private_preg, string, len,
                                 0, len,
-                   want_reg_info ? &regs : (struct re_registers *) 0/*compound end*/);/*end of stmt*/
+                   want_reg_info ? &regs : (struct re_registers *) 0);/*end of stmt*/
 
 
   if (want_reg_info)
@@ -7636,8 +7636,8 @@ regexec (preg, string, nmatch, pmatch, eflags)
 
           for (r = 0; r < nmatch; r++)
             {
-              /*compound start*/pmatch[r].rm_so = regs.start[r/*compound end*/];/*end of stmt*/
-              /*compound start*/pmatch[r].rm_eo = regs.end[r/*compound end*/];/*end of stmt*/
+              /*compound start*/pmatch[r].rm_so = regs.start[r];/*end of stmt*/
+              /*compound start*/pmatch[r].rm_eo = regs.end[r];/*end of stmt*/
             }
         }
 
@@ -7672,21 +7672,21 @@ regerror (errcode, preg, errbuf, errbuf_size)
 
     abort ();
 
-  /*compound start*/msg = re_error_msg[errcode/*compound end*/];/*end of stmt*/
+  /*compound start*/msg = re_error_msg[errcode];/*end of stmt*/
 
 
 
   if (! msg)
-    /*compound start*/msg = /*compound end*/"Success";/*end of stmt*/
+    /*compound start*/msg = "Success";/*end of stmt*/
 
-  /*compound start*/msg_size = strlen (msg) + /*compound end*/1;/*end of stmt*/
+  /*compound start*/msg_size = strlen (msg) + 1;/*end of stmt*/
 
   if (errbuf_size != 0)
     {
       if (msg_size > errbuf_size)
         {
           strncpy (errbuf, msg, errbuf_size - 1);
-          /*compound start*/errbuf[errbuf_size - 1] = /*compound end*/0;/*end of stmt*/
+          /*compound start*/errbuf[errbuf_size - 1] = 0;/*end of stmt*/
         }
       else
         strcpy (errbuf, msg);
@@ -7704,19 +7704,19 @@ regfree (preg)
 {
   if (preg->buffer != ((void *)0))
     free (preg->buffer);
-  /*compound start*/preg->buffer = ((void *)0/*compound end*/);/*end of stmt*/
+  /*compound start*/preg->buffer = ((void *)0);/*end of stmt*/
 
-  /*compound start*/preg->allocated = /*compound end*/0;/*end of stmt*/
-  /*compound start*/preg->used = /*compound end*/0;/*end of stmt*/
+  /*compound start*/preg->allocated = 0;/*end of stmt*/
+  /*compound start*/preg->used = 0;/*end of stmt*/
 
   if (preg->fastmap != ((void *)0))
     free (preg->fastmap);
-  /*compound start*/preg->fastmap = ((void *)0/*compound end*/);/*end of stmt*/
-  /*compound start*/preg->fastmap_accurate = /*compound end*/0;/*end of stmt*/
+  /*compound start*/preg->fastmap = ((void *)0);/*end of stmt*/
+  /*compound start*/preg->fastmap_accurate = 0;/*end of stmt*/
 
   if (preg->translate != ((void *)0))
     free (preg->translate);
-  /*compound start*/preg->translate = ((void *)0/*compound end*/);/*end of stmt*/
+  /*compound start*/preg->translate = ((void *)0);/*end of stmt*/
 }
 # 6700 "target/grep.c"
 # 1 "target/dfa.h" 1
@@ -8001,7 +8001,7 @@ setbit(b, c)
      int b;
      charclass c;
 {
-  /*compound start*/c[b / (8 * sizeof (int))] |= 1 << b % (8 * sizeof (int)/*compound end*/);/*end of stmt*/
+  /*compound start*/c[b / (8 * sizeof (int))] |= 1 << b % (8 * sizeof (int));/*end of stmt*/
 }
 
 static void
@@ -8009,7 +8009,7 @@ clrbit(b, c)
      int b;
      charclass c;
 {
-  /*compound start*/c[b / (8 * sizeof (int))] &= ~(1 << b % (8 * sizeof (int))/*compound end*/);/*end of stmt*/
+  /*compound start*/c[b / (8 * sizeof (int))] &= ~(1 << b % (8 * sizeof (int)));/*end of stmt*/
 }
 
 static void
@@ -8020,7 +8020,7 @@ copyset(src, dst)
   int i;
 
   for (i = 0; i < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++i)
-    /*compound start*/dst[i] = src[i/*compound end*/];/*end of stmt*/
+    /*compound start*/dst[i] = src[i];/*end of stmt*/
 }
 
 static void
@@ -8030,7 +8030,7 @@ zeroset(s)
   int i;
 
   for (i = 0; i < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++i)
-    /*compound start*/s[i] = /*compound end*/0;/*end of stmt*/
+    /*compound start*/s[i] = 0;/*end of stmt*/
 }
 
 static void
@@ -8040,7 +8040,7 @@ notset(s)
   int i;
 
   for (i = 0; i < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++i)
-    /*compound start*/s[i] = ~s[i/*compound end*/];/*end of stmt*/
+    /*compound start*/s[i] = ~s[i];/*end of stmt*/
 }
 
 static int
@@ -8087,9 +8087,9 @@ dfasyntax(bits, fold)
      int bits;
      int fold;
 {
-  /*compound start*/syntax_bits_set = /*compound end*/1;/*end of stmt*/
-  /*compound start*/syntax_bits = /*compound end*/bits;/*end of stmt*/
-  /*compound start*/case_fold = /*compound end*/fold;/*end of stmt*/
+  /*compound start*/syntax_bits_set = 1;/*end of stmt*/
+  /*compound start*/syntax_bits = bits;/*end of stmt*/
+  /*compound start*/case_fold = fold;/*end of stmt*/
 }
 
 
@@ -8145,7 +8145,7 @@ looking_at(s)
 {
   int len;
 
-  /*compound start*/len = strlen(s/*compound end*/);/*end of stmt*/
+  /*compound start*/len = strlen(s);/*end of stmt*/
   if (lexleft < len)
     return 0;
   return strncmp(s, lexptr, len) == 0;
@@ -8167,7 +8167,7 @@ lex()
 
   for (i = 0; i < 2; ++i)
     {
-      { if (! lexleft) if (0 != 0) dfaerror(0); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+      { if (! lexleft) if (0 != 0) dfaerror(0); else return END; /*compound start*/(c) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
       switch (c)
  {
  case '\\':
@@ -8175,7 +8175,7 @@ lex()
      goto normal_char;
    if (lexleft == 0)
      dfaerror("Unfinished \\ escape");
-   /*compound start*/backslash = /*compound end*/1;/*end of stmt*/
+   /*compound start*/backslash = 1;/*end of stmt*/
    break;
 
  case '^':
@@ -8215,7 +8215,7 @@ lex()
  case '9':
    if (backslash && !(syntax_bits & (((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
      {
-       /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+       /*compound start*/laststart = 0;/*end of stmt*/
        return lasttok = BACKREF;
      }
    goto normal_char;
@@ -8270,22 +8270,22 @@ lex()
      goto normal_char;
    if (backslash != ((syntax_bits & (((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) == 0))
      goto normal_char;
-   /*compound start*/minrep = maxrep = /*compound end*/0;/*end of stmt*/
+   /*compound start*/minrep = maxrep = 0;/*end of stmt*/
 
 
 
 
 
-   { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+   { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
    if ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit)))
      {
-       /*compound start*/minrep = c - /*compound end*/'0';/*end of stmt*/
+       /*compound start*/minrep = c - '0';/*end of stmt*/
        for (;;)
   {
-    { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+    { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
     if (!(1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit)))
       break;
-    /*compound start*/minrep = 10 * minrep + c - /*compound end*/'0';/*end of stmt*/
+    /*compound start*/minrep = 10 * minrep + c - '0';/*end of stmt*/
   }
      }
    else if (c != ',')
@@ -8293,10 +8293,10 @@ lex()
    if (c == ',')
      for (;;)
        {
-  { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+  { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
   if (!(1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISdigit)))
     break;
-  /*compound start*/maxrep = 10 * maxrep + c - /*compound end*/'0';/*end of stmt*/
+  /*compound start*/maxrep = 10 * maxrep + c - '0';/*end of stmt*/
        }
    else
      maxrep = minrep;
@@ -8304,11 +8304,11 @@ lex()
      {
        if (c != '\\')
   dfaerror("malformed repeat count");
-       { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+       { if (! lexleft) if ("unfinished repeat count" != 0) dfaerror("unfinished repeat count"); else return END; /*compound start*/(c) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
      }
    if (c != '}')
      dfaerror("malformed repeat count");
-   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   /*compound start*/laststart = 0;/*end of stmt*/
    return lasttok = REPMN;
 
  case '|':
@@ -8316,7 +8316,7 @@ lex()
      goto normal_char;
    if (backslash != ((syntax_bits & ((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) == 0))
      goto normal_char;
-   /*compound start*/laststart = /*compound end*/1;/*end of stmt*/
+   /*compound start*/laststart = 1;/*end of stmt*/
    return lasttok = OR;
 
  case '\n':
@@ -8324,14 +8324,14 @@ lex()
        || backslash
        || !(syntax_bits & ((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)))
      goto normal_char;
-   /*compound start*/laststart = /*compound end*/1;/*end of stmt*/
+   /*compound start*/laststart = 1;/*end of stmt*/
    return lasttok = OR;
 
  case '(':
    if (backslash != ((syntax_bits & ((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)) == 0))
      goto normal_char;
    ++parens;
-   /*compound start*/laststart = /*compound end*/1;/*end of stmt*/
+   /*compound start*/laststart = 1;/*end of stmt*/
    return lasttok = LPAREN;
 
  case ')':
@@ -8340,7 +8340,7 @@ lex()
    if (parens == 0 && syntax_bits & ((((((((((((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
      goto normal_char;
    --parens;
-   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   /*compound start*/laststart = 0;/*end of stmt*/
    return lasttok = RPAREN;
 
  case '.':
@@ -8352,7 +8352,7 @@ lex()
      clrbit('\n', ccl);
    if (syntax_bits & ((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
      clrbit('\0', ccl);
-   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   /*compound start*/laststart = 0;/*end of stmt*/
    return lasttok = CSET + charclass_index(ccl);
 
  case 'w':
@@ -8365,18 +8365,18 @@ lex()
        setbit(c2, ccl);
    if (c == 'W')
      notset(ccl);
-   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   /*compound start*/laststart = 0;/*end of stmt*/
    return lasttok = CSET + charclass_index(ccl);
 
  case '[':
    if (backslash)
      goto normal_char;
    zeroset(ccl);
-   { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+   { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
    if (c == '^')
      {
-       { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
-       /*compound start*/invert = /*compound end*/1;/*end of stmt*/
+       { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
+       /*compound start*/invert = 1;/*end of stmt*/
      }
    else
      invert = 0;
@@ -8395,31 +8395,31 @@ lex()
         for (c2 = 0; c2 < (1 << 8); ++c2)
    if ((*prednames[c1].pred)(c2))
      setbit(c2, ccl);
-        /*compound start*/lexptr += strlen(prednames[c1].name/*compound end*/);/*end of stmt*/
-        /*compound start*/lexleft -= strlen(prednames[c1].name/*compound end*/);/*end of stmt*/
-        { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+        /*compound start*/lexptr += strlen(prednames[c1].name);/*end of stmt*/
+        /*compound start*/lexleft -= strlen(prednames[c1].name);/*end of stmt*/
+        { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
         goto skip;
       }
        if (c == '\\' && (syntax_bits & (1)))
-  { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
-       { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+  { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
+       { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
        if (c1 == '-')
   {
-    { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c2) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+    { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c2) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
     if (c2 == ']')
       {
 
 
         --lexptr;
         ++lexleft;
-        /*compound start*/c2 = /*compound end*/c;/*end of stmt*/
+        /*compound start*/c2 = c;/*end of stmt*/
       }
     else
       {
         if (c2 == '\\'
      && (syntax_bits & (1)))
-   { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c2) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
-        { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr/*compound end*/++;/*end of stmt*/ --lexleft; };
+   { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c2) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
+        { if (! lexleft) if ("Unbalanced [" != 0) dfaerror("Unbalanced ["); else return END; /*compound start*/(c1) = (unsigned char) *lexptr++;/*end of stmt*/ --lexleft; };
       }
   }
        else
@@ -8444,7 +8444,7 @@ lex()
        if (syntax_bits & (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1))
   clrbit('\n', ccl);
      }
-   /*compound start*/laststart = /*compound end*/0;/*end of stmt*/
+   /*compound start*/laststart = 0;/*end of stmt*/
    return lasttok = CSET + charclass_index(ccl);
 
  default:
@@ -8485,7 +8485,7 @@ addtok(t)
      token t;
 {
   if ((dfa->tindex) >= (dfa->talloc)) { while ((dfa->tindex) >= (dfa->talloc)) (dfa->talloc) *= 2; ((dfa->tokens) = (token *) xrealloc_1((ptr_t) (dfa->tokens), (dfa->talloc) * sizeof (token))); };
-  /*compound start*/dfa->tokens[dfa->tindex++] = /*compound end*/t;/*end of stmt*/
+  /*compound start*/dfa->tokens[dfa->tindex++] = t;/*end of stmt*/
 
   switch (t)
     {
@@ -8507,7 +8507,7 @@ addtok(t)
       break;
     }
   if (depth > dfa->depth)
-    /*compound start*/dfa->depth = /*compound end*/depth;/*end of stmt*/
+    /*compound start*/dfa->depth = depth;/*end of stmt*/
 }
 # 7369 "target/grep.c"
 static void regexp(int);
@@ -8523,15 +8523,15 @@ atom()
       || tok == ENDWORD || tok == LIMWORD || tok == NOTLIMWORD)
     {
       addtok(tok);
-      /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
+      /*compound start*/tok = lex();/*end of stmt*/
     }
   else if (tok == LPAREN)
     {
-      /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
+      /*compound start*/tok = lex();/*end of stmt*/
       regexp(0);
       if (tok != RPAREN)
  dfaerror("Unbalanced (");
-      /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
+      /*compound start*/tok = lex();/*end of stmt*/
     }
   else
     addtok(EMPTY);
@@ -8554,7 +8554,7 @@ nsubtoks(tindex)
     case CAT:
     case OR:
     case ORTOP:
-      /*compound start*/ntoks1 = nsubtoks(tindex - 1/*compound end*/);/*end of stmt*/
+      /*compound start*/ntoks1 = nsubtoks(tindex - 1);/*end of stmt*/
       return 1 + ntoks1 + nsubtoks(tindex - 1 - ntoks1);
     }
 }
@@ -8579,8 +8579,8 @@ closure()
   while (tok == QMARK || tok == STAR || tok == PLUS || tok == REPMN)
     if (tok == REPMN)
       {
- /*compound start*/ntokens = nsubtoks(dfa->tindex/*compound end*/);/*end of stmt*/
- /*compound start*/tindex = dfa->tindex - /*compound end*/ntokens;/*end of stmt*/
+ /*compound start*/ntokens = nsubtoks(dfa->tindex);/*end of stmt*/
+ /*compound start*/tindex = dfa->tindex - ntokens;/*end of stmt*/
  if (maxrep == 0)
    addtok(PLUS);
  if (minrep == 0)
@@ -8596,12 +8596,12 @@ closure()
      addtok(QMARK);
      addtok(CAT);
    }
- /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
+ /*compound start*/tok = lex();/*end of stmt*/
       }
     else
       {
  addtok(tok);
- /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
+ /*compound start*/tok = lex();/*end of stmt*/
       }
 }
 
@@ -8623,7 +8623,7 @@ regexp(toplevel)
   branch();
   while (tok == OR)
     {
-      /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
+      /*compound start*/tok = lex();/*end of stmt*/
       branch();
       if (toplevel)
  addtok(ORTOP);
@@ -8642,18 +8642,18 @@ dfaparse(s, len, d)
      struct dfa *d;
 
 {
-  /*compound start*/dfa = /*compound end*/d;/*end of stmt*/
-  /*compound start*/lexstart = lexptr = /*compound end*/s;/*end of stmt*/
-  /*compound start*/lexleft = /*compound end*/len;/*end of stmt*/
-  /*compound start*/lasttok = /*compound end*/END;/*end of stmt*/
-  /*compound start*/laststart = /*compound end*/1;/*end of stmt*/
-  /*compound start*/parens = /*compound end*/0;/*end of stmt*/
+  /*compound start*/dfa = d;/*end of stmt*/
+  /*compound start*/lexstart = lexptr = s;/*end of stmt*/
+  /*compound start*/lexleft = len;/*end of stmt*/
+  /*compound start*/lasttok = END;/*end of stmt*/
+  /*compound start*/laststart = 1;/*end of stmt*/
+  /*compound start*/parens = 0;/*end of stmt*/
 
   if (! syntax_bits_set)
     dfaerror("No syntax specified");
 
-  /*compound start*/tok = lex(/*compound end*/);/*end of stmt*/
-  /*compound start*/depth = d->/*compound end*/depth;/*end of stmt*/
+  /*compound start*/tok = lex();/*end of stmt*/
+  /*compound start*/depth = d->depth;/*end of stmt*/
 
   regexp(1);
 
@@ -8680,8 +8680,8 @@ copy(src, dst)
   int i;
 
   for (i = 0; i < src->nelem; ++i)
-    /*compound start*/dst->elems[i] = src->elems[i/*compound end*/];/*end of stmt*/
-  /*compound start*/dst->nelem = src->/*compound end*/nelem;/*end of stmt*/
+    /*compound start*/dst->elems[i] = src->elems[i];/*end of stmt*/
+  /*compound start*/dst->nelem = src->nelem;/*end of stmt*/
 }
 
 
@@ -8702,13 +8702,13 @@ insert(p, s)
     s->elems[i].constraint |= p.constraint;
   else
     {
-      /*compound start*/t1 = /*compound end*/p;/*end of stmt*/
+      /*compound start*/t1 = p;/*end of stmt*/
       ++s->nelem;
       while (i < s->nelem)
  {
-   /*compound start*/t2 = s->elems[i/*compound end*/];/*end of stmt*/
-   /*compound start*/s->elems[i++] = /*compound end*/t1;/*end of stmt*/
-   /*compound start*/t1 = /*compound end*/t2;/*end of stmt*/
+   /*compound start*/t2 = s->elems[i];/*end of stmt*/
+   /*compound start*/s->elems[i++] = t1;/*end of stmt*/
+   /*compound start*/t1 = t2;/*end of stmt*/
  }
     }
 }
@@ -8723,21 +8723,21 @@ merge(s1, s2, m)
 {
   int i = 0, j = 0;
 
-  /*compound start*/m->nelem = /*compound end*/0;/*end of stmt*/
+  /*compound start*/m->nelem = 0;/*end of stmt*/
   while (i < s1->nelem && j < s2->nelem)
     if (s1->elems[i].strchr > s2->elems[j].strchr)
-      /*compound start*/m->elems[m->nelem++] = s1->elems[i++/*compound end*/];/*end of stmt*/
+      /*compound start*/m->elems[m->nelem++] = s1->elems[i++];/*end of stmt*/
     else if (s1->elems[i].strchr < s2->elems[j].strchr)
-      /*compound start*/m->elems[m->nelem++] = s2->elems[j++/*compound end*/];/*end of stmt*/
+      /*compound start*/m->elems[m->nelem++] = s2->elems[j++];/*end of stmt*/
     else
       {
- /*compound start*/m->elems[m->nelem] = s1->elems[i++/*compound end*/];/*end of stmt*/
- /*compound start*/m->elems[m->nelem++].constraint |= s2->elems[j++]./*compound end*/constraint;/*end of stmt*/
+ /*compound start*/m->elems[m->nelem] = s1->elems[i++];/*end of stmt*/
+ /*compound start*/m->elems[m->nelem++].constraint |= s2->elems[j++].constraint;/*end of stmt*/
       }
   while (i < s1->nelem)
-    /*compound start*/m->elems[m->nelem++] = s1->elems[i++/*compound end*/];/*end of stmt*/
+    /*compound start*/m->elems[m->nelem++] = s1->elems[i++];/*end of stmt*/
   while (j < s2->nelem)
-    /*compound start*/m->elems[m->nelem++] = s2->elems[j++/*compound end*/];/*end of stmt*/
+    /*compound start*/m->elems[m->nelem++] = s2->elems[j++];/*end of stmt*/
 }
 
 
@@ -8753,7 +8753,7 @@ delete(p, s)
       break;
   if (i < s->nelem)
     for (--s->nelem; i < s->nelem; ++i)
-      /*compound start*/s->elems[i] = s->elems[i + 1/*compound end*/];/*end of stmt*/
+      /*compound start*/s->elems[i] = s->elems[i + 1];/*end of stmt*/
 }
 
 
@@ -8771,8 +8771,8 @@ state_index(d, s, newline, letter)
   int constraint;
   int i, j;
 
-  /*compound start*/newline = newline ? 1 : /*compound end*/0;/*end of stmt*/
-  /*compound start*/letter = letter ? 1 : /*compound end*/0;/*end of stmt*/
+  /*compound start*/newline = newline ? 1 : 0;/*end of stmt*/
+  /*compound start*/letter = letter ? 1 : 0;/*end of stmt*/
 
   for (i = 0; i < s->nelem; ++i)
     hash ^= s->elems[i].strchr + s->elems[i].constraint;
@@ -8794,30 +8794,30 @@ state_index(d, s, newline, letter)
 
 
   if ((d->sindex) >= (d->salloc)) { while ((d->sindex) >= (d->salloc)) (d->salloc) *= 2; ((d->states) = (dfa_state *) xrealloc_1((ptr_t) (d->states), (d->salloc) * sizeof (dfa_state))); };
-  /*compound start*/d->states[i].hash = /*compound end*/hash;/*end of stmt*/
+  /*compound start*/d->states[i].hash = hash;/*end of stmt*/
   ((d->states[i].elems.elems) = (position *) xmalloc_1((s->nelem) * sizeof (position)));
   copy(s, &d->states[i].elems);
-  /*compound start*/d->states[i].newline = /*compound end*/newline;/*end of stmt*/
-  /*compound start*/d->states[i].letter = /*compound end*/letter;/*end of stmt*/
-  /*compound start*/d->states[i].backref = /*compound end*/0;/*end of stmt*/
-  /*compound start*/d->states[i].constraint = /*compound end*/0;/*end of stmt*/
-  /*compound start*/d->states[i].first_end = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->states[i].newline = newline;/*end of stmt*/
+  /*compound start*/d->states[i].letter = letter;/*end of stmt*/
+  /*compound start*/d->states[i].backref = 0;/*end of stmt*/
+  /*compound start*/d->states[i].constraint = 0;/*end of stmt*/
+  /*compound start*/d->states[i].first_end = 0;/*end of stmt*/
   for (j = 0; j < s->nelem; ++j)
     if (d->tokens[s->elems[j].strchr] < 0)
       {
- /*compound start*/constraint = s->elems[j]./*compound end*/constraint;/*end of stmt*/
+ /*compound start*/constraint = s->elems[j].constraint;/*end of stmt*/
  if ((((constraint) & 1 << (((newline) ? 2 : 0) + ((0) ? 1 : 0) + 4)) && ((constraint) & 1 << (((letter) ? 2 : 0) + ((0) ? 1 : 0))))
      || (((constraint) & 1 << (((newline) ? 2 : 0) + ((0) ? 1 : 0) + 4)) && ((constraint) & 1 << (((letter) ? 2 : 0) + ((1) ? 1 : 0))))
      || (((constraint) & 1 << (((newline) ? 2 : 0) + ((1) ? 1 : 0) + 4)) && ((constraint) & 1 << (((letter) ? 2 : 0) + ((0) ? 1 : 0))))
      || (((constraint) & 1 << (((newline) ? 2 : 0) + ((1) ? 1 : 0) + 4)) && ((constraint) & 1 << (((letter) ? 2 : 0) + ((1) ? 1 : 0)))))
    d->states[i].constraint |= constraint;
  if (! d->states[i].first_end)
-   /*compound start*/d->states[i].first_end = d->tokens[s->elems[j].strchr/*compound end*/];/*end of stmt*/
+   /*compound start*/d->states[i].first_end = d->tokens[s->elems[j].strchr];/*end of stmt*/
       }
     else if (d->tokens[s->elems[j].strchr] == BACKREF)
       {
- /*compound start*/d->states[i].constraint = /*compound end*/0xff;/*end of stmt*/
- /*compound start*/d->states[i].backref = /*compound end*/1;/*end of stmt*/
+ /*compound start*/d->states[i].constraint = 0xff;/*end of stmt*/
+ /*compound start*/d->states[i].backref = 1;/*end of stmt*/
       }
 
   ++d->sindex;
@@ -8841,52 +8841,52 @@ epsclosure(s, d)
 
   ((visited) = (int *) xmalloc_1((d->tindex) * sizeof (int)));
   for (i = 0; i < d->tindex; ++i)
-    /*compound start*/visited[i] = /*compound end*/0;/*end of stmt*/
+    /*compound start*/visited[i] = 0;/*end of stmt*/
 
   for (i = 0; i < s->nelem; ++i)
     if (d->tokens[s->elems[i].strchr] >= (1 << 8)
  && d->tokens[s->elems[i].strchr] != BACKREF
  && d->tokens[s->elems[i].strchr] < CSET)
       {
- /*compound start*/old = s->elems[i/*compound end*/];/*end of stmt*/
- /*compound start*/p.constraint = old./*compound end*/constraint;/*end of stmt*/
+ /*compound start*/old = s->elems[i];/*end of stmt*/
+ /*compound start*/p.constraint = old.constraint;/*end of stmt*/
  delete(s->elems[i], s);
  if (visited[old.strchr])
    {
      --i;
      continue;
    }
- /*compound start*/visited[old.strchr] = /*compound end*/1;/*end of stmt*/
+ /*compound start*/visited[old.strchr] = 1;/*end of stmt*/
  switch (d->tokens[old.strchr])
    {
    case BEGLINE:
-     /*compound start*/p.constraint &= /*compound end*/0xcf;/*end of stmt*/
+     /*compound start*/p.constraint &= 0xcf;/*end of stmt*/
      break;
    case ENDLINE:
-     /*compound start*/p.constraint &= /*compound end*/0xaf;/*end of stmt*/
+     /*compound start*/p.constraint &= 0xaf;/*end of stmt*/
      break;
    case BEGWORD:
-     /*compound start*/p.constraint &= /*compound end*/0xf2;/*end of stmt*/
+     /*compound start*/p.constraint &= 0xf2;/*end of stmt*/
      break;
    case ENDWORD:
-     /*compound start*/p.constraint &= /*compound end*/0xf4;/*end of stmt*/
+     /*compound start*/p.constraint &= 0xf4;/*end of stmt*/
      break;
    case LIMWORD:
-     /*compound start*/p.constraint &= /*compound end*/0xf6;/*end of stmt*/
+     /*compound start*/p.constraint &= 0xf6;/*end of stmt*/
      break;
    case NOTLIMWORD:
-     /*compound start*/p.constraint &= /*compound end*/0xf9;/*end of stmt*/
+     /*compound start*/p.constraint &= 0xf9;/*end of stmt*/
      break;
    default:
      break;
    }
  for (j = 0; j < d->follows[old.strchr].nelem; ++j)
    {
-     /*compound start*/p.strchr = d->follows[old.strchr].elems[j]./*compound end*/strchr;/*end of stmt*/
+     /*compound start*/p.strchr = d->follows[old.strchr].elems[j].strchr;/*end of stmt*/
      insert(p, s);
    }
 
- /*compound start*/i = -/*compound end*/1;/*end of stmt*/
+ /*compound start*/i = -1;/*end of stmt*/
       }
 
   free(visited);
@@ -8912,21 +8912,21 @@ dfaanalyze(d, searchflag)
   int i, j;
   position *pos;
 # 7833 "target/grep.c"
-  /*compound start*/d->searchflag = /*compound end*/searchflag;/*end of stmt*/
+  /*compound start*/d->searchflag = searchflag;/*end of stmt*/
 
   ((nullable) = (int *) xmalloc_1((d->depth) * sizeof (int)));
-  /*compound start*/o_nullable = /*compound end*/nullable;/*end of stmt*/
+  /*compound start*/o_nullable = nullable;/*end of stmt*/
   ((nfirstpos) = (int *) xmalloc_1((d->depth) * sizeof (int)));
-  /*compound start*/o_nfirst = /*compound end*/nfirstpos;/*end of stmt*/
+  /*compound start*/o_nfirst = nfirstpos;/*end of stmt*/
   ((firstpos) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
-  /*compound start*/o_firstpos = firstpos, firstpos += d->/*compound end*/nleaves;/*end of stmt*/
+  /*compound start*/o_firstpos = firstpos, firstpos += d->nleaves;/*end of stmt*/
   ((nlastpos) = (int *) xmalloc_1((d->depth) * sizeof (int)));
-  /*compound start*/o_nlast = /*compound end*/nlastpos;/*end of stmt*/
+  /*compound start*/o_nlast = nlastpos;/*end of stmt*/
   ((lastpos) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
-  /*compound start*/o_lastpos = lastpos, lastpos += d->/*compound end*/nleaves;/*end of stmt*/
+  /*compound start*/o_lastpos = lastpos, lastpos += d->nleaves;/*end of stmt*/
   ((nalloc) = (int *) xmalloc_1((d->tindex) * sizeof (int)));
   for (i = 0; i < d->tindex; ++i)
-    /*compound start*/nalloc[i] = /*compound end*/0;/*end of stmt*/
+    /*compound start*/nalloc[i] = 0;/*end of stmt*/
   ((merged.elems) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
 
   ((d->follows) = (position_set *) xcalloc((d->tindex), sizeof (position_set)));
@@ -8939,19 +8939,19 @@ dfaanalyze(d, searchflag)
       {
       case EMPTY:
 
- /*compound start*/*nullable++ = /*compound end*/1;/*end of stmt*/
+ /*compound start*/*nullable++ = 1;/*end of stmt*/
 
 
- /*compound start*/*nfirstpos++ = *nlastpos++ = /*compound end*/0;/*end of stmt*/
+ /*compound start*/*nfirstpos++ = *nlastpos++ = 0;/*end of stmt*/
  break;
 
       case STAR:
       case PLUS:
 
 
- /*compound start*/tmp.nelem = nfirstpos[-1/*compound end*/];/*end of stmt*/
- /*compound start*/tmp.elems = /*compound end*/firstpos;/*end of stmt*/
- /*compound start*/pos = /*compound end*/lastpos;/*end of stmt*/
+ /*compound start*/tmp.nelem = nfirstpos[-1];/*end of stmt*/
+ /*compound start*/tmp.elems = firstpos;/*end of stmt*/
+ /*compound start*/pos = lastpos;/*end of stmt*/
  for (j = 0; j < nlastpos[-1]; ++j)
    {
      merge(&tmp, &d->follows[pos[j].strchr], &merged);
@@ -8963,15 +8963,15 @@ dfaanalyze(d, searchflag)
       case QMARK:
 
  if (d->tokens[i] != PLUS)
-   /*compound start*/nullable[-1] = /*compound end*/1;/*end of stmt*/
+   /*compound start*/nullable[-1] = 1;/*end of stmt*/
  break;
 
       case CAT:
 
 
- /*compound start*/tmp.nelem = nfirstpos[-1/*compound end*/];/*end of stmt*/
- /*compound start*/tmp.elems = /*compound end*/firstpos;/*end of stmt*/
- /*compound start*/pos = lastpos + nlastpos[-1/*compound end*/];/*end of stmt*/
+ /*compound start*/tmp.nelem = nfirstpos[-1];/*end of stmt*/
+ /*compound start*/tmp.elems = firstpos;/*end of stmt*/
+ /*compound start*/pos = lastpos + nlastpos[-1];/*end of stmt*/
  for (j = 0; j < nlastpos[-2]; ++j)
    {
      merge(&tmp, &d->follows[pos[j].strchr], &merged);
@@ -8994,31 +8994,31 @@ dfaanalyze(d, searchflag)
    nlastpos[-2] += nlastpos[-1];
  else
    {
-     /*compound start*/pos = lastpos + nlastpos[-2/*compound end*/];/*end of stmt*/
+     /*compound start*/pos = lastpos + nlastpos[-2];/*end of stmt*/
      for (j = nlastpos[-1] - 1; j >= 0; --j)
-       /*compound start*/pos[j] = lastpos[j/*compound end*/];/*end of stmt*/
-     /*compound start*/lastpos += nlastpos[-2/*compound end*/];/*end of stmt*/
-     /*compound start*/nlastpos[-2] = nlastpos[-1/*compound end*/];/*end of stmt*/
+       /*compound start*/pos[j] = lastpos[j];/*end of stmt*/
+     /*compound start*/lastpos += nlastpos[-2];/*end of stmt*/
+     /*compound start*/nlastpos[-2] = nlastpos[-1];/*end of stmt*/
    }
  --nlastpos;
 
 
- /*compound start*/nullable[-2] = nullable[-1] && nullable[-2/*compound end*/];/*end of stmt*/
+ /*compound start*/nullable[-2] = nullable[-1] && nullable[-2];/*end of stmt*/
  --nullable;
  break;
 
       case OR:
       case ORTOP:
 
- /*compound start*/nfirstpos[-2] += nfirstpos[-1/*compound end*/];/*end of stmt*/
+ /*compound start*/nfirstpos[-2] += nfirstpos[-1];/*end of stmt*/
  --nfirstpos;
 
 
- /*compound start*/nlastpos[-2] += nlastpos[-1/*compound end*/];/*end of stmt*/
+ /*compound start*/nlastpos[-2] += nlastpos[-1];/*end of stmt*/
  --nlastpos;
 
 
- /*compound start*/nullable[-2] = nullable[-1] || nullable[-2/*compound end*/];/*end of stmt*/
+ /*compound start*/nullable[-2] = nullable[-1] || nullable[-2];/*end of stmt*/
  --nullable;
  break;
 
@@ -9028,16 +9028,16 @@ dfaanalyze(d, searchflag)
 
 
 
- /*compound start*/*nullable++ = d->tokens[i] == /*compound end*/BACKREF;/*end of stmt*/
+ /*compound start*/*nullable++ = d->tokens[i] == BACKREF;/*end of stmt*/
 
 
- /*compound start*/*nfirstpos++ = *nlastpos++ = /*compound end*/1;/*end of stmt*/
- /*compound start*/--firstpos, --/*compound end*/lastpos;/*end of stmt*/
- /*compound start*/firstpos->strchr = lastpos->strchr = /*compound end*/i;/*end of stmt*/
- /*compound start*/firstpos->constraint = lastpos->constraint = /*compound end*/0xff;/*end of stmt*/
+ /*compound start*/*nfirstpos++ = *nlastpos++ = 1;/*end of stmt*/
+ /*compound start*/--firstpos, --lastpos;/*end of stmt*/
+ /*compound start*/firstpos->strchr = lastpos->strchr = i;/*end of stmt*/
+ /*compound start*/firstpos->constraint = lastpos->constraint = 0xff;/*end of stmt*/
 
 
- /*compound start*/nalloc[i] = /*compound end*/1;/*end of stmt*/
+ /*compound start*/nalloc[i] = 1;/*end of stmt*/
  ((d->follows[i].elems) = (position *) xmalloc_1((nalloc[i]) * sizeof (position)));
  break;
       }
@@ -9056,20 +9056,20 @@ dfaanalyze(d, searchflag)
 
 
 
-  /*compound start*/merged.nelem = /*compound end*/0;/*end of stmt*/
+  /*compound start*/merged.nelem = 0;/*end of stmt*/
   for (i = 0; i < nfirstpos[-1]; ++i)
     insert(firstpos[i], &merged);
   epsclosure(&merged, d);
 
 
-  /*compound start*/wants_newline = /*compound end*/0;/*end of stmt*/
+  /*compound start*/wants_newline = 0;/*end of stmt*/
   for (i = 0; i < merged.nelem; ++i)
     if ((((merged.elems[i].constraint) & 0xc0) >> 2 != ((merged.elems[i].constraint) & 0x30)))
-      /*compound start*/wants_newline = /*compound end*/1;/*end of stmt*/
+      /*compound start*/wants_newline = 1;/*end of stmt*/
 
 
-  /*compound start*/d->salloc = /*compound end*/1;/*end of stmt*/
-  /*compound start*/d->sindex = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->salloc = 1;/*end of stmt*/
+  /*compound start*/d->sindex = 0;/*end of stmt*/
   ((d->states) = (dfa_state *) xmalloc_1((d->salloc) * sizeof (dfa_state)));
   state_index(d, &merged, wants_newline, 0);
 
@@ -9113,7 +9113,7 @@ dfastate(s, d, trans)
 
   if (! initialized)
     {
-      /*compound start*/initialized = /*compound end*/1;/*end of stmt*/
+      /*compound start*/initialized = 1;/*end of stmt*/
       for (i = 0; i < (1 << 8); ++i)
  if ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISalnum)))
    setbit(i, letters);
@@ -9124,7 +9124,7 @@ dfastate(s, d, trans)
 
   for (i = 0; i < d->states[s].elems.nelem; ++i)
     {
-      /*compound start*/pos = d->states[s].elems.elems[i/*compound end*/];/*end of stmt*/
+      /*compound start*/pos = d->states[s].elems.elems[i];/*end of stmt*/
       if (d->tokens[pos.strchr] >= 0 && d->tokens[pos.strchr] < (1 << 8))
  setbit(d->tokens[pos.strchr], matches);
       else if (d->tokens[pos.strchr] >= CSET)
@@ -9170,14 +9170,14 @@ dfastate(s, d, trans)
 
 
 
-   /*compound start*/intersectf = /*compound end*/0;/*end of stmt*/
+   /*compound start*/intersectf = 0;/*end of stmt*/
    for (k = 0; k < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++k)
      (intersect[k] = matches[k] & labels[j][k]) ? intersectf = 1 : 0;
    if (! intersectf)
      continue;
 
 
-   /*compound start*/leftoversf = matchesf = /*compound end*/0;/*end of stmt*/
+   /*compound start*/leftoversf = matchesf = 0;/*end of stmt*/
    for (k = 0; k < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++k)
      {
 
@@ -9199,7 +9199,7 @@ dfastate(s, d, trans)
 
 
 
-   /*compound start*/grps[j].elems[grps[j].nelem++] = /*compound end*/pos;/*end of stmt*/
+   /*compound start*/grps[j].elems[grps[j].nelem++] = pos;/*end of stmt*/
 
 
 
@@ -9214,8 +9214,8 @@ dfastate(s, d, trans)
    copyset(matches, labels[ngrps]);
    zeroset(matches);
    ((grps[ngrps].elems) = (position *) xmalloc_1((d->nleaves) * sizeof (position)));
-   /*compound start*/grps[ngrps].nelem = /*compound end*/1;/*end of stmt*/
-   /*compound start*/grps[ngrps].elems[0] = /*compound end*/pos;/*end of stmt*/
+   /*compound start*/grps[ngrps].nelem = 1;/*end of stmt*/
+   /*compound start*/grps[ngrps].elems[0] = pos;/*end of stmt*/
    ++ngrps;
  }
     }
@@ -9228,40 +9228,40 @@ dfastate(s, d, trans)
 
   if (d->searchflag)
     {
-      /*compound start*/wants_newline = /*compound end*/0;/*end of stmt*/
-      /*compound start*/wants_letter = /*compound end*/0;/*end of stmt*/
+      /*compound start*/wants_newline = 0;/*end of stmt*/
+      /*compound start*/wants_letter = 0;/*end of stmt*/
       for (i = 0; i < d->states[0].elems.nelem; ++i)
  {
    if ((((d->states[0].elems.elems[i].constraint) & 0xc0) >> 2 != ((d->states[0].elems.elems[i].constraint) & 0x30)))
-     /*compound start*/wants_newline = /*compound end*/1;/*end of stmt*/
+     /*compound start*/wants_newline = 1;/*end of stmt*/
    if ((((d->states[0].elems.elems[i].constraint) & 0x0c) >> 2 != ((d->states[0].elems.elems[i].constraint) & 0x03)))
-     /*compound start*/wants_letter = /*compound end*/1;/*end of stmt*/
+     /*compound start*/wants_letter = 1;/*end of stmt*/
  }
       copy(&d->states[0].elems, &follows);
-      /*compound start*/state = state_index(d, &follows, 0, 0/*compound end*/);/*end of stmt*/
+      /*compound start*/state = state_index(d, &follows, 0, 0);/*end of stmt*/
       if (wants_newline)
- /*compound start*/state_newline = state_index(d, &follows, 1, 0/*compound end*/);/*end of stmt*/
+ /*compound start*/state_newline = state_index(d, &follows, 1, 0);/*end of stmt*/
       else
  state_newline = state;
       if (wants_letter)
- /*compound start*/state_letter = state_index(d, &follows, 0, 1/*compound end*/);/*end of stmt*/
+ /*compound start*/state_letter = state_index(d, &follows, 0, 1);/*end of stmt*/
       else
  state_letter = state;
       for (i = 0; i < (1 << 8); ++i)
  if (i == '\n')
-   /*compound start*/trans[i] = /*compound end*/state_newline;/*end of stmt*/
+   /*compound start*/trans[i] = state_newline;/*end of stmt*/
  else if ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISalnum)))
-   /*compound start*/trans[i] = /*compound end*/state_letter;/*end of stmt*/
+   /*compound start*/trans[i] = state_letter;/*end of stmt*/
  else
    trans[i] = state;
     }
   else
     for (i = 0; i < (1 << 8); ++i)
-      /*compound start*/trans[i] = -/*compound end*/1;/*end of stmt*/
+      /*compound start*/trans[i] = -1;/*end of stmt*/
 
   for (i = 0; i < ngrps; ++i)
     {
-      /*compound start*/follows.nelem = /*compound end*/0;/*end of stmt*/
+      /*compound start*/follows.nelem = 0;/*end of stmt*/
 
 
 
@@ -9276,29 +9276,29 @@ dfastate(s, d, trans)
    insert(d->states[0].elems.elems[j], &follows);
 
 
-      /*compound start*/wants_newline = /*compound end*/0;/*end of stmt*/
+      /*compound start*/wants_newline = 0;/*end of stmt*/
       if (tstbit('\n', labels[i]))
  for (j = 0; j < follows.nelem; ++j)
    if ((((follows.elems[j].constraint) & 0xc0) >> 2 != ((follows.elems[j].constraint) & 0x30)))
-     /*compound start*/wants_newline = /*compound end*/1;/*end of stmt*/
+     /*compound start*/wants_newline = 1;/*end of stmt*/
 
-      /*compound start*/wants_letter = /*compound end*/0;/*end of stmt*/
+      /*compound start*/wants_letter = 0;/*end of stmt*/
       for (j = 0; j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))); ++j)
  if (labels[i][j] & letters[j])
    break;
       if (j < (((1 << 8) + (8 * sizeof (int)) - 1) / (8 * sizeof (int))))
  for (j = 0; j < follows.nelem; ++j)
    if ((((follows.elems[j].constraint) & 0x0c) >> 2 != ((follows.elems[j].constraint) & 0x03)))
-     /*compound start*/wants_letter = /*compound end*/1;/*end of stmt*/
+     /*compound start*/wants_letter = 1;/*end of stmt*/
 
 
-      /*compound start*/state = state_index(d, &follows, 0, 0/*compound end*/);/*end of stmt*/
+      /*compound start*/state = state_index(d, &follows, 0, 0);/*end of stmt*/
       if (wants_newline)
- /*compound start*/state_newline = state_index(d, &follows, 1, 0/*compound end*/);/*end of stmt*/
+ /*compound start*/state_newline = state_index(d, &follows, 1, 0);/*end of stmt*/
       else
  state_newline = state;
       if (wants_letter)
- /*compound start*/state_letter = state_index(d, &follows, 0, 1/*compound end*/);/*end of stmt*/
+ /*compound start*/state_letter = state_index(d, &follows, 0, 1);/*end of stmt*/
       else
  state_letter = state;
 
@@ -9310,11 +9310,11 @@ dfastate(s, d, trans)
        int c = j * (8 * sizeof (int)) + k;
 
        if (c == '\n')
-  /*compound start*/trans[c] = /*compound end*/state_newline;/*end of stmt*/
+  /*compound start*/trans[c] = state_newline;/*end of stmt*/
        else if ((1 && ((*__ctype_b_loc ())[(int) ((c))] & (unsigned short int) _ISalnum)))
-  /*compound start*/trans[c] = /*compound end*/state_letter;/*end of stmt*/
+  /*compound start*/trans[c] = state_letter;/*end of stmt*/
        else if (c < (1 << 8))
-  /*compound start*/trans[c] = /*compound end*/state;/*end of stmt*/
+  /*compound start*/trans[c] = state;/*end of stmt*/
      }
     }
 
@@ -9342,20 +9342,20 @@ build_state(s, d)
  if (d->trans[i])
    {
      free((ptr_t) d->trans[i]);
-     /*compound start*/d->trans[i] = ((void *)0/*compound end*/);/*end of stmt*/
+     /*compound start*/d->trans[i] = ((void *)0);/*end of stmt*/
    }
  else if (d->fails[i])
    {
      free((ptr_t) d->fails[i]);
-     /*compound start*/d->fails[i] = ((void *)0/*compound end*/);/*end of stmt*/
+     /*compound start*/d->fails[i] = ((void *)0);/*end of stmt*/
    }
-      /*compound start*/d->trcount = /*compound end*/0;/*end of stmt*/
+      /*compound start*/d->trcount = 0;/*end of stmt*/
     }
 
   ++d->trcount;
 
 
-  /*compound start*/d->success[s] = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->success[s] = 0;/*end of stmt*/
   if (((((*d).states[s].constraint) & 1 << (((d->states[s].newline) ? 2 : 0) + ((1) ? 1 : 0) + 4)) && (((*d).states[s].constraint) & 1 << (((d->states[s].letter) ? 2 : 0) + ((0) ? 1 : 0)))))
 
     d->success[s] |= 4;
@@ -9380,24 +9380,24 @@ build_state(s, d)
  while (trans[i] >= d->tralloc)
    d->tralloc *= 2;
  ((d->realtrans) = (int * *) xrealloc_1((ptr_t) (d->realtrans), (d->tralloc + 1) * sizeof (int *)));
- /*compound start*/d->trans = d->realtrans + /*compound end*/1;/*end of stmt*/
+ /*compound start*/d->trans = d->realtrans + 1;/*end of stmt*/
  ((d->fails) = (int * *) xrealloc_1((ptr_t) (d->fails), (d->tralloc) * sizeof (int *)));
  ((d->success) = (int *) xrealloc_1((ptr_t) (d->success), (d->tralloc) * sizeof (int)));
  ((d->newlines) = (int *) xrealloc_1((ptr_t) (d->newlines), (d->tralloc) * sizeof (int)));
  while (oldalloc < d->tralloc)
    {
-     /*compound start*/d->trans[oldalloc] = ((void *)0/*compound end*/);/*end of stmt*/
-     /*compound start*/d->fails[oldalloc++] = ((void *)0/*compound end*/);/*end of stmt*/
+     /*compound start*/d->trans[oldalloc] = ((void *)0);/*end of stmt*/
+     /*compound start*/d->fails[oldalloc++] = ((void *)0);/*end of stmt*/
    }
       }
 
 
 
-  /*compound start*/d->newlines[s] = trans['\n'/*compound end*/];/*end of stmt*/
-  /*compound start*/trans['\n'] = -/*compound end*/1;/*end of stmt*/
+  /*compound start*/d->newlines[s] = trans['\n'];/*end of stmt*/
+  /*compound start*/trans['\n'] = -1;/*end of stmt*/
 
   if (((*d).states[s].constraint))
-    /*compound start*/d->fails[s] = /*compound end*/trans;/*end of stmt*/
+    /*compound start*/d->fails[s] = trans;/*end of stmt*/
   else
     d->trans[s] = trans;
 }
@@ -9406,10 +9406,10 @@ static void
 build_state_zero(d)
      struct dfa *d;
 {
-  /*compound start*/d->tralloc = /*compound end*/1;/*end of stmt*/
-  /*compound start*/d->trcount = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->tralloc = 1;/*end of stmt*/
+  /*compound start*/d->trcount = 0;/*end of stmt*/
   ((d->realtrans) = (int * *) xcalloc((d->tralloc + 1), sizeof (int *)));
-  /*compound start*/d->trans = d->realtrans + /*compound end*/1;/*end of stmt*/
+  /*compound start*/d->trans = d->realtrans + 1;/*end of stmt*/
   ((d->fails) = (int * *) xcalloc((d->tralloc), sizeof (int *)));
   ((d->success) = (int *) xmalloc_1((d->tralloc) * sizeof (int)));
   ((d->newlines) = (int *) xmalloc_1((d->tralloc) * sizeof (int)));
@@ -9436,12 +9436,12 @@ dfaexec(d, begin, end, newline, count, backref)
     {
       int i;
 
-      /*compound start*/sbit_init = /*compound end*/1;/*end of stmt*/
+      /*compound start*/sbit_init = 1;/*end of stmt*/
       for (i = 0; i < (1 << 8); ++i)
  if (i == '\n')
-   /*compound start*/sbit[i] = /*compound end*/4;/*end of stmt*/
+   /*compound start*/sbit[i] = 4;/*end of stmt*/
  else if ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISalnum)))
-   /*compound start*/sbit[i] = /*compound end*/2;/*end of stmt*/
+   /*compound start*/sbit[i] = 2;/*end of stmt*/
  else
    sbit[i] = 1;
     }
@@ -9449,10 +9449,10 @@ dfaexec(d, begin, end, newline, count, backref)
   if (! d->tralloc)
     build_state_zero(d);
 
-  /*compound start*/s = s1 = /*compound end*/0;/*end of stmt*/
-  /*compound start*/p = (unsigned char *) /*compound end*/begin;/*end of stmt*/
-  /*compound start*/trans = d->/*compound end*/trans;/*end of stmt*/
-  /*compound start*/*end = /*compound end*/'\n';/*end of stmt*/
+  /*compound start*/s = s1 = 0;/*end of stmt*/
+  /*compound start*/p = (unsigned char *) begin;/*end of stmt*/
+  /*compound start*/trans = d->trans;/*end of stmt*/
+  /*compound start*/*end = '\n';/*end of stmt*/
 
   for (;;)
     {
@@ -9460,10 +9460,10 @@ dfaexec(d, begin, end, newline, count, backref)
       if ((t = trans[s]) != 0)
  do
    {
-     /*compound start*/s1 = t[*p++/*compound end*/];/*end of stmt*/
+     /*compound start*/s1 = t[*p++];/*end of stmt*/
      if (! (t = trans[s1]))
        goto last_was_s;
-     /*compound start*/s = t[*p++/*compound end*/];/*end of stmt*/
+     /*compound start*/s = t[*p++];/*end of stmt*/
    }
         while ((t = trans[s]) != 0);
       goto last_was_s1;
@@ -9477,14 +9477,14 @@ dfaexec(d, begin, end, newline, count, backref)
      {
        if (backref)
   if (d->states[s].backref)
-    /*compound start*/*backref = /*compound end*/1;/*end of stmt*/
+    /*compound start*/*backref = 1;/*end of stmt*/
   else
     *backref = 0;
        return (char *) p;
      }
 
-   /*compound start*/s1 = /*compound end*/s;/*end of stmt*/
-   /*compound start*/s = d->fails[s][*p++/*compound end*/];/*end of stmt*/
+   /*compound start*/s1 = s;/*end of stmt*/
+   /*compound start*/s = d->fails[s][*p++];/*end of stmt*/
    continue;
  }
 
@@ -9499,17 +9499,17 @@ dfaexec(d, begin, end, newline, count, backref)
       if (s >= 0)
  {
    build_state(s, d);
-   /*compound start*/trans = d->/*compound end*/trans;/*end of stmt*/
+   /*compound start*/trans = d->trans;/*end of stmt*/
    continue;
  }
 
       if (p[-1] == '\n' && newline)
  {
-   /*compound start*/s = d->newlines[s1/*compound end*/];/*end of stmt*/
+   /*compound start*/s = d->newlines[s1];/*end of stmt*/
    continue;
  }
 
-      /*compound start*/s = /*compound end*/0;/*end of stmt*/
+      /*compound start*/s = 0;/*end of stmt*/
     }
 }
 
@@ -9519,18 +9519,18 @@ void
 dfainit(d)
      struct dfa *d;
 {
-  /*compound start*/d->calloc = /*compound end*/1;/*end of stmt*/
+  /*compound start*/d->calloc = 1;/*end of stmt*/
   ((d->charclasses) = (charclass *) xmalloc_1((d->calloc) * sizeof (charclass)));
-  /*compound start*/d->cindex = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->cindex = 0;/*end of stmt*/
 
-  /*compound start*/d->talloc = /*compound end*/1;/*end of stmt*/
+  /*compound start*/d->talloc = 1;/*end of stmt*/
   ((d->tokens) = (token *) xmalloc_1((d->talloc) * sizeof (token)));
-  /*compound start*/d->tindex = d->depth = d->nleaves = d->nregexps = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->tindex = d->depth = d->nleaves = d->nregexps = 0;/*end of stmt*/
 
-  /*compound start*/d->searchflag = /*compound end*/0;/*end of stmt*/
-  /*compound start*/d->tralloc = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->searchflag = 0;/*end of stmt*/
+  /*compound start*/d->tralloc = 0;/*end of stmt*/
 
-  /*compound start*/d->musts = /*compound end*/0;/*end of stmt*/
+  /*compound start*/d->musts = 0;/*end of stmt*/
 }
 
 
@@ -9546,15 +9546,15 @@ dfacomp(s, len, d, searchflag)
       char *copy;
       int i;
 
-      /*compound start*/copy = malloc(len/*compound end*/);/*end of stmt*/
+      /*compound start*/copy = malloc(len);/*end of stmt*/
       if (!copy)
  dfaerror("out of memory");
 
 
-      /*compound start*/case_fold = /*compound end*/0;/*end of stmt*/
+      /*compound start*/case_fold = 0;/*end of stmt*/
       for (i = 0; i < len; ++i)
  if ((1 && ((*__ctype_b_loc ())[(int) ((s[i]))] & (unsigned short int) _ISupper)))
-   /*compound start*/copy[i] = tolower(s[i]/*compound end*/);/*end of stmt*/
+   /*compound start*/copy[i] = tolower(s[i]);/*end of stmt*/
  else
    copy[i] = s[i];
 
@@ -9562,8 +9562,8 @@ dfacomp(s, len, d, searchflag)
       dfaparse(copy, len, d);
       free(copy);
       dfamust(d);
-      /*compound start*/d->cindex = d->tindex = d->depth = d->nleaves = d->nregexps = /*compound end*/0;/*end of stmt*/
-      /*compound start*/case_fold = /*compound end*/1;/*end of stmt*/
+      /*compound start*/d->cindex = d->tindex = d->depth = d->nleaves = d->nregexps = 0;/*end of stmt*/
+      /*compound start*/case_fold = 1;/*end of stmt*/
       dfaparse(s, len, d);
       dfaanalyze(d, searchflag);
     }
@@ -9603,7 +9603,7 @@ dfafree(d)
   free((ptr_t) d->newlines);
   for (dm = d->musts; dm; dm = ndm)
     {
-      /*compound start*/ndm = dm->/*compound end*/next;/*end of stmt*/
+      /*compound start*/ndm = dm->next;/*end of stmt*/
       free(dm->must);
       free((ptr_t) dm);
     }
@@ -9617,14 +9617,14 @@ icatalloc(old, new)
   char *result;
   int oldsize, newsize;
 
-  /*compound start*/newsize = (new == ((void *)0)) ? 0 : strlen(new/*compound end*/);/*end of stmt*/
+  /*compound start*/newsize = (new == ((void *)0)) ? 0 : strlen(new);/*end of stmt*/
   if (old == ((void *)0))
-    /*compound start*/oldsize = /*compound end*/0;/*end of stmt*/
+    /*compound start*/oldsize = 0;/*end of stmt*/
   else if (newsize == 0)
     return old;
   else oldsize = strlen(old);
   if (old == ((void *)0))
-    /*compound start*/result = (char *) malloc(newsize + 1/*compound end*/);/*end of stmt*/
+    /*compound start*/result = (char *) malloc(newsize + 1);/*end of stmt*/
   else
     result = (char *) realloc((void *) old, oldsize + newsize + 1);
   if (result != ((void *)0) && new != ((void *)0))
@@ -9647,7 +9647,7 @@ istrstr(lookin, lookfor)
   char *cp;
   int len;
 
-  /*compound start*/len = strlen(lookfor/*compound end*/);/*end of stmt*/
+  /*compound start*/len = strlen(lookfor);/*end of stmt*/
   for (cp = lookin; *cp != '\0'; ++cp)
     if (strncmp(cp, lookfor, len) == 0)
       return cp;
@@ -9673,7 +9673,7 @@ freelist(cpp)
   for (i = 0; cpp[i] != ((void *)0); ++i)
     {
       free(cpp[i]);
-      /*compound start*/cpp[i] = ((void *)0/*compound end*/);/*end of stmt*/
+      /*compound start*/cpp[i] = ((void *)0);/*end of stmt*/
     }
 }
 
@@ -9692,7 +9692,7 @@ enlist(cpp, new, len)
       freelist(cpp);
       return ((void *)0);
     }
-  /*compound start*/new[len] = /*compound end*/'\0';/*end of stmt*/
+  /*compound start*/new[len] = '\0';/*end of stmt*/
 
   for (i = 0; cpp[i] != ((void *)0); ++i)
     if (istrstr(cpp[i], new) != ((void *)0))
@@ -9701,7 +9701,7 @@ enlist(cpp, new, len)
  return cpp;
       }
 
-  /*compound start*/j = /*compound end*/0;/*end of stmt*/
+  /*compound start*/j = 0;/*end of stmt*/
   while (cpp[j] != ((void *)0))
     if (istrstr(new, cpp[j]) == ((void *)0))
       ++j;
@@ -9710,15 +9710,15 @@ enlist(cpp, new, len)
  free(cpp[j]);
  if (--i == j)
    break;
- /*compound start*/cpp[j] = cpp[i/*compound end*/];/*end of stmt*/
- /*compound start*/cpp[i] = ((void *)0/*compound end*/);/*end of stmt*/
+ /*compound start*/cpp[j] = cpp[i];/*end of stmt*/
+ /*compound start*/cpp[i] = ((void *)0);/*end of stmt*/
       }
 
-  /*compound start*/cpp = (char **) realloc((char *) cpp, (i + 2) * sizeof *cpp/*compound end*/);/*end of stmt*/
+  /*compound start*/cpp = (char **) realloc((char *) cpp, (i + 2) * sizeof *cpp);/*end of stmt*/
   if (cpp == ((void *)0))
     return ((void *)0);
-  /*compound start*/cpp[i] = /*compound end*/new;/*end of stmt*/
-  /*compound start*/cpp[i + 1] = ((void *)0/*compound end*/);/*end of stmt*/
+  /*compound start*/cpp[i] = new;/*end of stmt*/
+  /*compound start*/cpp[i + 1] = ((void *)0);/*end of stmt*/
   return cpp;
 }
 
@@ -9737,21 +9737,21 @@ comsubs(left, right)
 
   if (left == ((void *)0) || right == ((void *)0))
     return ((void *)0);
-  /*compound start*/cpp = (char **) malloc(sizeof *cpp/*compound end*/);/*end of stmt*/
+  /*compound start*/cpp = (char **) malloc(sizeof *cpp);/*end of stmt*/
   if (cpp == ((void *)0))
     return ((void *)0);
-  /*compound start*/cpp[0] = ((void *)0/*compound end*/);/*end of stmt*/
+  /*compound start*/cpp[0] = ((void *)0);/*end of stmt*/
   for (lcp = left; *lcp != '\0'; ++lcp)
     {
-      /*compound start*/len = /*compound end*/0;/*end of stmt*/
-      /*compound start*/rcp = strchr(right, *lcp/*compound end*/);/*end of stmt*/
+      /*compound start*/len = 0;/*end of stmt*/
+      /*compound start*/rcp = strchr(right, *lcp);/*end of stmt*/
       while (rcp != ((void *)0))
  {
    for (i = 1; lcp[i] != '\0' && lcp[i] == rcp[i]; ++i)
      ;
    if (i > len)
-     /*compound start*/len = /*compound end*/i;/*end of stmt*/
-   /*compound start*/rcp = strchr(rcp + 1, *lcp/*compound end*/);/*end of stmt*/
+     /*compound start*/len = i;/*end of stmt*/
+   /*compound start*/rcp = strchr(rcp + 1, *lcp);/*end of stmt*/
  }
       if (len == 0)
  continue;
@@ -9772,7 +9772,7 @@ char **new;
     return ((void *)0);
   for (i = 0; new[i] != ((void *)0); ++i)
     {
-      /*compound start*/old = enlist(old, new[i], strlen(new[i])/*compound end*/);/*end of stmt*/
+      /*compound start*/old = enlist(old, new[i], strlen(new[i]));/*end of stmt*/
       if (old == ((void *)0))
  break;
     }
@@ -9792,21 +9792,21 @@ inboth(left, right)
 
   if (left == ((void *)0) || right == ((void *)0))
     return ((void *)0);
-  /*compound start*/both = (char **) malloc(sizeof *both/*compound end*/);/*end of stmt*/
+  /*compound start*/both = (char **) malloc(sizeof *both);/*end of stmt*/
   if (both == ((void *)0))
     return ((void *)0);
-  /*compound start*/both[0] = ((void *)0/*compound end*/);/*end of stmt*/
+  /*compound start*/both[0] = ((void *)0);/*end of stmt*/
   for (lnum = 0; left[lnum] != ((void *)0); ++lnum)
     {
       for (rnum = 0; right[rnum] != ((void *)0); ++rnum)
  {
-   /*compound start*/temp = comsubs(left[lnum], right[rnum]/*compound end*/);/*end of stmt*/
+   /*compound start*/temp = comsubs(left[lnum], right[rnum]);/*end of stmt*/
    if (temp == ((void *)0))
      {
        freelist(both);
        return ((void *)0);
      }
-   /*compound start*/both = addlists(both, temp/*compound end*/);/*end of stmt*/
+   /*compound start*/both = addlists(both, temp);/*end of stmt*/
    freelist(temp);
    if (both == ((void *)0))
      return ((void *)0);
@@ -9827,7 +9827,7 @@ static void
 resetmust(mp)
 must *mp;
 {
-  /*compound start*/mp->left[0] = mp->right[0] = mp->is[0] = /*compound end*/'\0';/*end of stmt*/
+  /*compound start*/mp->left[0] = mp->right[0] = mp->is[0] = '\0';/*end of stmt*/
   freelist(mp->in);
 }
 
@@ -9845,25 +9845,25 @@ struct dfa *dfa;
   static must must0;
   struct dfamust *dm;
 
-  /*compound start*/result = /*compound end*/"";/*end of stmt*/
-  /*compound start*/exact = /*compound end*/0;/*end of stmt*/
-  /*compound start*/musts = (must *) malloc((dfa->tindex + 1) * sizeof *musts/*compound end*/);/*end of stmt*/
+  /*compound start*/result = "";/*end of stmt*/
+  /*compound start*/exact = 0;/*end of stmt*/
+  /*compound start*/musts = (must *) malloc((dfa->tindex + 1) * sizeof *musts);/*end of stmt*/
   if (musts == ((void *)0))
     return;
-  /*compound start*/mp = /*compound end*/musts;/*end of stmt*/
+  /*compound start*/mp = musts;/*end of stmt*/
   for (i = 0; i <= dfa->tindex; ++i)
-    /*compound start*/mp[i] = /*compound end*/must0;/*end of stmt*/
+    /*compound start*/mp[i] = must0;/*end of stmt*/
   for (i = 0; i <= dfa->tindex; ++i)
     {
-      /*compound start*/mp[i].in = (char **) malloc(sizeof *mp[i].in/*compound end*/);/*end of stmt*/
-      /*compound start*/mp[i].left = malloc(2/*compound end*/);/*end of stmt*/
-      /*compound start*/mp[i].right = malloc(2/*compound end*/);/*end of stmt*/
-      /*compound start*/mp[i].is = malloc(2/*compound end*/);/*end of stmt*/
+      /*compound start*/mp[i].in = (char **) malloc(sizeof *mp[i].in);/*end of stmt*/
+      /*compound start*/mp[i].left = malloc(2);/*end of stmt*/
+      /*compound start*/mp[i].right = malloc(2);/*end of stmt*/
+      /*compound start*/mp[i].is = malloc(2);/*end of stmt*/
       if (mp[i].in == ((void *)0) || mp[i].left == ((void *)0) ||
    mp[i].right == ((void *)0) || mp[i].is == ((void *)0))
  goto done;
-      /*compound start*/mp[i].left[0] = mp[i].right[0] = mp[i].is[0] = /*compound end*/'\0';/*end of stmt*/
-      /*compound start*/mp[i].in[0] = ((void *)0/*compound end*/);/*end of stmt*/
+      /*compound start*/mp[i].left[0] = mp[i].right[0] = mp[i].is[0] = '\0';/*end of stmt*/
+      /*compound start*/mp[i].in[0] = ((void *)0);/*end of stmt*/
     }
 # 8958 "target/grep.c"
   for (ri = 0; ri < dfa->tindex; ++ri)
@@ -9900,50 +9900,50 @@ struct dfa *dfa;
      must *rmp;
      int j, ln, rn, n;
 
-     /*compound start*/rmp = --/*compound end*/mp;/*end of stmt*/
-     /*compound start*/lmp = --/*compound end*/mp;/*end of stmt*/
+     /*compound start*/rmp = --mp;/*end of stmt*/
+     /*compound start*/lmp = --mp;/*end of stmt*/
 
      if (strcmp(lmp->is, rmp->is) != 0)
-       /*compound start*/lmp->is[0] = /*compound end*/'\0';/*end of stmt*/
+       /*compound start*/lmp->is[0] = '\0';/*end of stmt*/
 
-     /*compound start*/i = /*compound end*/0;/*end of stmt*/
+     /*compound start*/i = 0;/*end of stmt*/
      while (lmp->left[i] != '\0' && lmp->left[i] == rmp->left[i])
        ++i;
-     /*compound start*/lmp->left[i] = /*compound end*/'\0';/*end of stmt*/
+     /*compound start*/lmp->left[i] = '\0';/*end of stmt*/
 
-     /*compound start*/ln = strlen(lmp->right/*compound end*/);/*end of stmt*/
-     /*compound start*/rn = strlen(rmp->right/*compound end*/);/*end of stmt*/
-     /*compound start*/n = /*compound end*/ln;/*end of stmt*/
+     /*compound start*/ln = strlen(lmp->right);/*end of stmt*/
+     /*compound start*/rn = strlen(rmp->right);/*end of stmt*/
+     /*compound start*/n = ln;/*end of stmt*/
      if (n > rn)
-       /*compound start*/n = /*compound end*/rn;/*end of stmt*/
+       /*compound start*/n = rn;/*end of stmt*/
      for (i = 0; i < n; ++i)
        if (lmp->right[ln - i - 1] != rmp->right[rn - i - 1])
   break;
      for (j = 0; j < i; ++j)
-       /*compound start*/lmp->right[j] = lmp->right[(ln - i) + j/*compound end*/];/*end of stmt*/
-     /*compound start*/lmp->right[j] = /*compound end*/'\0';/*end of stmt*/
-     /*compound start*/new = inboth(lmp->in, rmp->in/*compound end*/);/*end of stmt*/
+       /*compound start*/lmp->right[j] = lmp->right[(ln - i) + j];/*end of stmt*/
+     /*compound start*/lmp->right[j] = '\0';/*end of stmt*/
+     /*compound start*/new = inboth(lmp->in, rmp->in);/*end of stmt*/
      if (new == ((void *)0))
        goto done;
      freelist(lmp->in);
      free((char *) lmp->in);
-     /*compound start*/lmp->in = /*compound end*/new;/*end of stmt*/
+     /*compound start*/lmp->in = new;/*end of stmt*/
    }
    break;
  case PLUS:
    if (mp <= musts)
      goto done;
    --mp;
-   /*compound start*/mp->is[0] = /*compound end*/'\0';/*end of stmt*/
+   /*compound start*/mp->is[0] = '\0';/*end of stmt*/
    break;
  case END:
    if (mp != &musts[1])
      goto done;
    for (i = 0; musts[0].in[i] != ((void *)0); ++i)
      if (strlen(musts[0].in[i]) > strlen(result))
-       /*compound start*/result = musts[0].in[i/*compound end*/];/*end of stmt*/
+       /*compound start*/result = musts[0].in[i];/*end of stmt*/
    if (strcmp(result, musts[0].is) == 0)
-     /*compound start*/exact = /*compound end*/1;/*end of stmt*/
+     /*compound start*/exact = 1;/*end of stmt*/
    goto done;
  case CAT:
    if (mp < &musts[2])
@@ -9952,12 +9952,12 @@ struct dfa *dfa;
      must *lmp;
      must *rmp;
 
-     /*compound start*/rmp = --/*compound end*/mp;/*end of stmt*/
-     /*compound start*/lmp = --/*compound end*/mp;/*end of stmt*/
+     /*compound start*/rmp = --mp;/*end of stmt*/
+     /*compound start*/lmp = --mp;/*end of stmt*/
 
 
 
-     /*compound start*/lmp->in = addlists(lmp->in, rmp->in/*compound end*/);/*end of stmt*/
+     /*compound start*/lmp->in = addlists(lmp->in, rmp->in);/*end of stmt*/
      if (lmp->in == ((void *)0))
        goto done;
      if (lmp->right[0] != '\0' &&
@@ -9965,14 +9965,14 @@ struct dfa *dfa;
        {
   char *tp;
 
-  /*compound start*/tp = icpyalloc(lmp->right/*compound end*/);/*end of stmt*/
+  /*compound start*/tp = icpyalloc(lmp->right);/*end of stmt*/
   if (tp == ((void *)0))
     goto done;
-  /*compound start*/tp = icatalloc(tp, rmp->left/*compound end*/);/*end of stmt*/
+  /*compound start*/tp = icatalloc(tp, rmp->left);/*end of stmt*/
   if (tp == ((void *)0))
     goto done;
   /*compound start*/lmp->in = enlist(lmp->in, tp,
-     strlen(tp)/*compound end*/);/*end of stmt*/
+     strlen(tp));/*end of stmt*/
   free(tp);
   if (lmp->in == ((void *)0))
     goto done;
@@ -9981,20 +9981,20 @@ struct dfa *dfa;
      if (lmp->is[0] != '\0')
        {
   /*compound start*/lmp->left = icatalloc(lmp->left,
-          rmp->left/*compound end*/);/*end of stmt*/
+          rmp->left);/*end of stmt*/
   if (lmp->left == ((void *)0))
     goto done;
        }
 
      if (rmp->is[0] == '\0')
-       /*compound start*/lmp->right[0] = /*compound end*/'\0';/*end of stmt*/
-     /*compound start*/lmp->right = icatalloc(lmp->right, rmp->right/*compound end*/);/*end of stmt*/
+       /*compound start*/lmp->right[0] = '\0';/*end of stmt*/
+     /*compound start*/lmp->right = icatalloc(lmp->right, rmp->right);/*end of stmt*/
      if (lmp->right == ((void *)0))
        goto done;
 
      if (lmp->is[0] != '\0' && rmp->is[0] != '\0')
        {
-  /*compound start*/lmp->is = icatalloc(lmp->is, rmp->is/*compound end*/);/*end of stmt*/
+  /*compound start*/lmp->is = icatalloc(lmp->is, rmp->is);/*end of stmt*/
   if (lmp->is == ((void *)0))
     goto done;
        }
@@ -10022,9 +10022,9 @@ struct dfa *dfa;
      {
 
        resetmust(mp);
-       /*compound start*/mp->is[0] = mp->left[0] = mp->right[0] = /*compound end*/t;/*end of stmt*/
-       /*compound start*/mp->is[1] = mp->left[1] = mp->right[1] = /*compound end*/'\0';/*end of stmt*/
-       /*compound start*/mp->in = enlist(mp->in, mp->is, 1/*compound end*/);/*end of stmt*/
+       /*compound start*/mp->is[0] = mp->left[0] = mp->right[0] = t;/*end of stmt*/
+       /*compound start*/mp->is[1] = mp->left[1] = mp->right[1] = '\0';/*end of stmt*/
+       /*compound start*/mp->in = enlist(mp->in, mp->is, 1);/*end of stmt*/
        if (mp->in == ((void *)0))
   goto done;
      }
@@ -10036,14 +10036,14 @@ struct dfa *dfa;
  done:
   if (strlen(result))
     {
-      /*compound start*/dm = (struct dfamust *) malloc(sizeof (struct dfamust)/*compound end*/);/*end of stmt*/
-      /*compound start*/dm->exact = /*compound end*/exact;/*end of stmt*/
-      /*compound start*/dm->must = malloc(strlen(result) + 1/*compound end*/);/*end of stmt*/
+      /*compound start*/dm = (struct dfamust *) malloc(sizeof (struct dfamust));/*end of stmt*/
+      /*compound start*/dm->exact = exact;/*end of stmt*/
+      /*compound start*/dm->must = malloc(strlen(result) + 1);/*end of stmt*/
       strcpy(dm->must, result);
-      /*compound start*/dm->next = dfa->/*compound end*/musts;/*end of stmt*/
-      /*compound start*/dfa->musts = /*compound end*/dm;/*end of stmt*/
+      /*compound start*/dm->next = dfa->musts;/*end of stmt*/
+      /*compound start*/dfa->musts = dm;/*end of stmt*/
     }
-  /*compound start*/mp = /*compound end*/musts;/*end of stmt*/
+  /*compound start*/mp = musts;/*end of stmt*/
   for (i = 0; i <= dfa->tindex; ++i)
     {
       freelist(mp[i].in);
@@ -10256,30 +10256,30 @@ kwsalloc(trans)
 {
   struct kwset *kwset;
 
-  /*compound start*/kwset = (struct kwset *) xmalloc(sizeof (struct kwset)/*compound end*/);/*end of stmt*/
+  /*compound start*/kwset = (struct kwset *) xmalloc(sizeof (struct kwset));/*end of stmt*/
   if (!kwset)
     return 0;
 
   _obstack_begin ((&kwset->obstack), 0, 0, (void *(*) ()) xmalloc, (void (*) ()) free);
-  /*compound start*/kwset->words = /*compound end*/0;/*end of stmt*/
+  /*compound start*/kwset->words = 0;/*end of stmt*/
   /*compound start*/kwset->trie
-    = (struct trie *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct trie))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += /*compound end*/__len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = /*compound end*/1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0/*compound end*/);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->/*compound end*/next_free;/*end of stmt*/ value; }); }/*compound end*/);/*end of stmt*/
+    = (struct trie *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct trie))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += __len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = 1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->next_free;/*end of stmt*/ value; }); });/*end of stmt*/
   if (!kwset->trie)
     {
       kwsfree((kwset_t) kwset);
       return 0;
     }
-  /*compound start*/kwset->trie->accepting = /*compound end*/0;/*end of stmt*/
-  /*compound start*/kwset->trie->links = /*compound end*/0;/*end of stmt*/
-  /*compound start*/kwset->trie->parent = /*compound end*/0;/*end of stmt*/
-  /*compound start*/kwset->trie->next = /*compound end*/0;/*end of stmt*/
-  /*compound start*/kwset->trie->fail = /*compound end*/0;/*end of stmt*/
-  /*compound start*/kwset->trie->depth = /*compound end*/0;/*end of stmt*/
-  /*compound start*/kwset->trie->shift = /*compound end*/0;/*end of stmt*/
-  /*compound start*/kwset->mind = /*compound end*/2147483647;/*end of stmt*/
-  /*compound start*/kwset->maxd = -/*compound end*/1;/*end of stmt*/
-  /*compound start*/kwset->target = /*compound end*/0;/*end of stmt*/
-  /*compound start*/kwset->trans = /*compound end*/trans;/*end of stmt*/
+  /*compound start*/kwset->trie->accepting = 0;/*end of stmt*/
+  /*compound start*/kwset->trie->links = 0;/*end of stmt*/
+  /*compound start*/kwset->trie->parent = 0;/*end of stmt*/
+  /*compound start*/kwset->trie->next = 0;/*end of stmt*/
+  /*compound start*/kwset->trie->fail = 0;/*end of stmt*/
+  /*compound start*/kwset->trie->depth = 0;/*end of stmt*/
+  /*compound start*/kwset->trie->shift = 0;/*end of stmt*/
+  /*compound start*/kwset->mind = 2147483647;/*end of stmt*/
+  /*compound start*/kwset->maxd = -1;/*end of stmt*/
+  /*compound start*/kwset->target = 0;/*end of stmt*/
+  /*compound start*/kwset->trans = trans;/*end of stmt*/
 
   return (kwset_t) kwset;
 }
@@ -10301,29 +10301,29 @@ kwsincr(kws, text, len)
   enum { L, R } dirs[12];
   struct tree *t, *r, *l, *rl, *lr;
 
-  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
-  /*compound start*/trie = kwset->/*compound end*/trie;/*end of stmt*/
-  /*compound start*/text += /*compound end*/len;/*end of stmt*/
+  /*compound start*/kwset = (struct kwset *) kws;/*end of stmt*/
+  /*compound start*/trie = kwset->trie;/*end of stmt*/
+  /*compound start*/text += len;/*end of stmt*/
 
 
 
   while (len--)
     {
-      /*compound start*/label = kwset->trans ? kwset->trans[(unsigned char) *--text] : *--/*compound end*/text;/*end of stmt*/
+      /*compound start*/label = kwset->trans ? kwset->trans[(unsigned char) *--text] : *--text;/*end of stmt*/
 
 
 
 
-      /*compound start*/link = trie->/*compound end*/links;/*end of stmt*/
-      /*compound start*/links[0] = (struct tree *) &trie->/*compound end*/links;/*end of stmt*/
-      /*compound start*/dirs[0] = /*compound end*/L;/*end of stmt*/
-      /*compound start*/depth = /*compound end*/1;/*end of stmt*/
+      /*compound start*/link = trie->links;/*end of stmt*/
+      /*compound start*/links[0] = (struct tree *) &trie->links;/*end of stmt*/
+      /*compound start*/dirs[0] = L;/*end of stmt*/
+      /*compound start*/depth = 1;/*end of stmt*/
 
       while (link && label != link->label)
  {
-   /*compound start*/links[depth] = /*compound end*/link;/*end of stmt*/
+   /*compound start*/links[depth] = link;/*end of stmt*/
    if (label < link->label)
-     /*compound start*/dirs[depth++] = L, link = link->/*compound end*/llink;/*end of stmt*/
+     /*compound start*/dirs[depth++] = L, link = link->llink;/*end of stmt*/
    else
      dirs[depth++] = R, link = link->rlink;
  }
@@ -10333,29 +10333,29 @@ kwsincr(kws, text, len)
 
       if (!link)
  {
-   /*compound start*/link = (struct tree *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct tree))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += /*compound end*/__len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = /*compound end*/1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0/*compound end*/);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->/*compound end*/next_free;/*end of stmt*/ value; }); }/*compound end*/);/*end of stmt*/
+   /*compound start*/link = (struct tree *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct tree))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += __len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = 1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->next_free;/*end of stmt*/ value; }); });/*end of stmt*/
 
    if (!link)
      return "memory exhausted";
-   /*compound start*/link->llink = /*compound end*/0;/*end of stmt*/
-   /*compound start*/link->rlink = /*compound end*/0;/*end of stmt*/
-   /*compound start*/link->trie = (struct trie *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct trie))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += /*compound end*/__len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = /*compound end*/1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0/*compound end*/);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->/*compound end*/next_free;/*end of stmt*/ value; }); }/*compound end*/);/*end of stmt*/
+   /*compound start*/link->llink = 0;/*end of stmt*/
+   /*compound start*/link->rlink = 0;/*end of stmt*/
+   /*compound start*/link->trie = (struct trie *) __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((sizeof (struct trie))); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += __len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = 1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->next_free;/*end of stmt*/ value; }); });/*end of stmt*/
 
    if (!link->trie)
      return "memory exhausted";
-   /*compound start*/link->trie->accepting = /*compound end*/0;/*end of stmt*/
-   /*compound start*/link->trie->links = /*compound end*/0;/*end of stmt*/
-   /*compound start*/link->trie->parent = /*compound end*/trie;/*end of stmt*/
-   /*compound start*/link->trie->next = /*compound end*/0;/*end of stmt*/
-   /*compound start*/link->trie->fail = /*compound end*/0;/*end of stmt*/
-   /*compound start*/link->trie->depth = trie->depth + /*compound end*/1;/*end of stmt*/
-   /*compound start*/link->trie->shift = /*compound end*/0;/*end of stmt*/
-   /*compound start*/link->label = /*compound end*/label;/*end of stmt*/
-   /*compound start*/link->balance = /*compound end*/0;/*end of stmt*/
+   /*compound start*/link->trie->accepting = 0;/*end of stmt*/
+   /*compound start*/link->trie->links = 0;/*end of stmt*/
+   /*compound start*/link->trie->parent = trie;/*end of stmt*/
+   /*compound start*/link->trie->next = 0;/*end of stmt*/
+   /*compound start*/link->trie->fail = 0;/*end of stmt*/
+   /*compound start*/link->trie->depth = trie->depth + 1;/*end of stmt*/
+   /*compound start*/link->trie->shift = 0;/*end of stmt*/
+   /*compound start*/link->label = label;/*end of stmt*/
+   /*compound start*/link->balance = 0;/*end of stmt*/
 
 
    if (dirs[--depth] == L)
-     /*compound start*/links[depth]->llink = /*compound end*/link;/*end of stmt*/
+     /*compound start*/links[depth]->llink = link;/*end of stmt*/
    else
      links[depth]->rlink = link;
 
@@ -10379,17 +10379,17 @@ kwsincr(kws, text, len)
     switch (dirs[depth + 1])
       {
       case L:
-        /*compound start*/r = links[depth], t = r->llink, rl = t->/*compound end*/rlink;/*end of stmt*/
-        /*compound start*/t->rlink = r, r->llink = /*compound end*/rl;/*end of stmt*/
-        /*compound start*/t->balance = r->balance = /*compound end*/0;/*end of stmt*/
+        /*compound start*/r = links[depth], t = r->llink, rl = t->rlink;/*end of stmt*/
+        /*compound start*/t->rlink = r, r->llink = rl;/*end of stmt*/
+        /*compound start*/t->balance = r->balance = 0;/*end of stmt*/
         break;
       case R:
-        /*compound start*/r = links[depth], l = r->llink, t = l->/*compound end*/rlink;/*end of stmt*/
-        /*compound start*/rl = t->rlink, lr = t->/*compound end*/llink;/*end of stmt*/
-        /*compound start*/t->llink = l, l->rlink = lr, t->rlink = r, r->llink = /*compound end*/rl;/*end of stmt*/
-        /*compound start*/l->balance = t->balance != 1 ? 0 : -/*compound end*/1;/*end of stmt*/
-        /*compound start*/r->balance = t->balance != (char) -1 ? 0 : /*compound end*/1;/*end of stmt*/
-        /*compound start*/t->balance = /*compound end*/0;/*end of stmt*/
+        /*compound start*/r = links[depth], l = r->llink, t = l->rlink;/*end of stmt*/
+        /*compound start*/rl = t->rlink, lr = t->llink;/*end of stmt*/
+        /*compound start*/t->llink = l, l->rlink = lr, t->rlink = r, r->llink = rl;/*end of stmt*/
+        /*compound start*/l->balance = t->balance != 1 ? 0 : -1;/*end of stmt*/
+        /*compound start*/r->balance = t->balance != (char) -1 ? 0 : 1;/*end of stmt*/
+        /*compound start*/t->balance = 0;/*end of stmt*/
         break;
       }
     break;
@@ -10397,43 +10397,43 @@ kwsincr(kws, text, len)
     switch (dirs[depth + 1])
       {
       case R:
-        /*compound start*/l = links[depth], t = l->rlink, lr = t->/*compound end*/llink;/*end of stmt*/
-        /*compound start*/t->llink = l, l->rlink = /*compound end*/lr;/*end of stmt*/
-        /*compound start*/t->balance = l->balance = /*compound end*/0;/*end of stmt*/
+        /*compound start*/l = links[depth], t = l->rlink, lr = t->llink;/*end of stmt*/
+        /*compound start*/t->llink = l, l->rlink = lr;/*end of stmt*/
+        /*compound start*/t->balance = l->balance = 0;/*end of stmt*/
         break;
       case L:
-        /*compound start*/l = links[depth], r = l->rlink, t = r->/*compound end*/llink;/*end of stmt*/
-        /*compound start*/lr = t->llink, rl = t->/*compound end*/rlink;/*end of stmt*/
-        /*compound start*/t->llink = l, l->rlink = lr, t->rlink = r, r->llink = /*compound end*/rl;/*end of stmt*/
-        /*compound start*/l->balance = t->balance != 1 ? 0 : -/*compound end*/1;/*end of stmt*/
-        /*compound start*/r->balance = t->balance != (char) -1 ? 0 : /*compound end*/1;/*end of stmt*/
-        /*compound start*/t->balance = /*compound end*/0;/*end of stmt*/
+        /*compound start*/l = links[depth], r = l->rlink, t = r->llink;/*end of stmt*/
+        /*compound start*/lr = t->llink, rl = t->rlink;/*end of stmt*/
+        /*compound start*/t->llink = l, l->rlink = lr, t->rlink = r, r->llink = rl;/*end of stmt*/
+        /*compound start*/l->balance = t->balance != 1 ? 0 : -1;/*end of stmt*/
+        /*compound start*/r->balance = t->balance != (char) -1 ? 0 : 1;/*end of stmt*/
+        /*compound start*/t->balance = 0;/*end of stmt*/
         break;
       }
     break;
   }
 
        if (dirs[depth - 1] == L)
-  /*compound start*/links[depth - 1]->llink = /*compound end*/t;/*end of stmt*/
+  /*compound start*/links[depth - 1]->llink = t;/*end of stmt*/
        else
   links[depth - 1]->rlink = t;
      }
  }
 
-      /*compound start*/trie = link->/*compound end*/trie;/*end of stmt*/
+      /*compound start*/trie = link->trie;/*end of stmt*/
     }
 
 
 
   if (!trie->accepting)
-    /*compound start*/trie->accepting = 1 + 2 * kwset->/*compound end*/words;/*end of stmt*/
+    /*compound start*/trie->accepting = 1 + 2 * kwset->words;/*end of stmt*/
   ++kwset->words;
 
 
   if (trie->depth < kwset->mind)
-    /*compound start*/kwset->mind = trie->/*compound end*/depth;/*end of stmt*/
+    /*compound start*/kwset->mind = trie->depth;/*end of stmt*/
   if (trie->depth > kwset->maxd)
-    /*compound start*/kwset->maxd = trie->/*compound end*/depth;/*end of stmt*/
+    /*compound start*/kwset->maxd = trie->depth;/*end of stmt*/
 
   return 0;
 }
@@ -10449,7 +10449,7 @@ enqueue(tree, last)
     return;
   enqueue(tree->llink, last);
   enqueue(tree->rlink, last);
-  /*compound start*/(*last) = (*last)->next = tree->/*compound end*/trie;/*end of stmt*/
+  /*compound start*/(*last) = (*last)->next = tree->trie;/*end of stmt*/
 }
 
 
@@ -10473,21 +10473,21 @@ treefails(tree, fail, recourse)
 
   while (fail)
     {
-      /*compound start*/link = fail->/*compound end*/links;/*end of stmt*/
+      /*compound start*/link = fail->links;/*end of stmt*/
       while (link && tree->label != link->label)
  if (tree->label < link->label)
-   /*compound start*/link = link->/*compound end*/llink;/*end of stmt*/
+   /*compound start*/link = link->llink;/*end of stmt*/
  else
    link = link->rlink;
       if (link)
  {
-   /*compound start*/tree->trie->fail = link->/*compound end*/trie;/*end of stmt*/
+   /*compound start*/tree->trie->fail = link->trie;/*end of stmt*/
    return;
  }
-      /*compound start*/fail = fail->/*compound end*/fail;/*end of stmt*/
+      /*compound start*/fail = fail->fail;/*end of stmt*/
     }
 
-  /*compound start*/tree->trie->fail = /*compound end*/recourse;/*end of stmt*/
+  /*compound start*/tree->trie->fail = recourse;/*end of stmt*/
 }
 
 
@@ -10503,7 +10503,7 @@ treedelta(tree, depth, delta)
   treedelta(tree->llink, depth, delta);
   treedelta(tree->rlink, depth, delta);
   if (depth < delta[tree->label])
-    /*compound start*/delta[tree->label] = /*compound end*/depth;/*end of stmt*/
+    /*compound start*/delta[tree->label] = depth;/*end of stmt*/
 }
 
 
@@ -10520,7 +10520,7 @@ hasevery(a, b)
     return 0;
   while (a && b->label != a->label)
     if (b->label < a->label)
-      /*compound start*/a = a->/*compound end*/llink;/*end of stmt*/
+      /*compound start*/a = a->llink;/*end of stmt*/
     else
       a = a->rlink;
   return !!a;
@@ -10537,7 +10537,7 @@ treenext(tree, next)
     return;
   treenext(tree->llink, next);
   treenext(tree->rlink, next);
-  /*compound start*/next[tree->label] = tree->/*compound end*/trie;/*end of stmt*/
+  /*compound start*/next[tree->label] = tree->trie;/*end of stmt*/
 }
 
 
@@ -10553,38 +10553,38 @@ kwsprep(kws)
   unsigned char delta[((127 * 2 + 1) + 1)];
   struct trie *last, *next[((127 * 2 + 1) + 1)];
 
-  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
+  /*compound start*/kwset = (struct kwset *) kws;/*end of stmt*/
 
 
 
 
   if (kwset->mind < 256)
     for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
-      /*compound start*/delta[i] = kwset->/*compound end*/mind;/*end of stmt*/
+      /*compound start*/delta[i] = kwset->mind;/*end of stmt*/
   else
     for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
-      /*compound start*/delta[i] = /*compound end*/255;/*end of stmt*/
+      /*compound start*/delta[i] = 255;/*end of stmt*/
 
 
 
   if (kwset->words == 1 && kwset->trans == 0)
     {
 
-      /*compound start*/kwset->target = __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((kwset->mind)); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += /*compound end*/__len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = /*compound end*/1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0/*compound end*/);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->/*compound end*/next_free;/*end of stmt*/ value; }); }/*compound end*/);/*end of stmt*/
+      /*compound start*/kwset->target = __extension__ ({ struct obstack *__h = (&kwset->obstack); __extension__ ({ struct obstack *__o = (__h); int __len = ((kwset->mind)); ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk (__o, __len), 0) : 0); /*compound start*/__o->next_free += __len;/*end of stmt*/ (void) 0; }); __extension__ ({ struct obstack *__o1 = (__h); void *value = (void *) __o1->object_base; if (__o1->next_free == value) /*compound start*/__o1->maybe_empty_object = 1;/*end of stmt*/ /*compound start*/__o1->next_free = (((((__o1->next_free) - (char *)0)+__o1->alignment_mask) & ~ (__o1->alignment_mask)) + (char *)0);/*end of stmt*/ ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0); /*compound start*/__o1->object_base = __o1->next_free;/*end of stmt*/ value; }); });/*end of stmt*/
       for (i = kwset->mind - 1, curr = kwset->trie; i >= 0; --i)
  {
-   /*compound start*/kwset->target[i] = curr->links->/*compound end*/label;/*end of stmt*/
-   /*compound start*/curr = curr->links->/*compound end*/trie;/*end of stmt*/
+   /*compound start*/kwset->target[i] = curr->links->label;/*end of stmt*/
+   /*compound start*/curr = curr->links->trie;/*end of stmt*/
  }
 
       for (i = 0; i < kwset->mind; ++i)
- /*compound start*/delta[(unsigned char) kwset->target[i]] = kwset->mind - (i + 1/*compound end*/);/*end of stmt*/
-      /*compound start*/kwset->mind2 = kwset->/*compound end*/mind;/*end of stmt*/
+ /*compound start*/delta[(unsigned char) kwset->target[i]] = kwset->mind - (i + 1);/*end of stmt*/
+      /*compound start*/kwset->mind2 = kwset->mind;/*end of stmt*/
 
 
       for (i = 0; i < kwset->mind - 1; ++i)
  if (kwset->target[i] == kwset->target[kwset->mind - 1])
-   /*compound start*/kwset->mind2 = kwset->mind - (i + 1/*compound end*/);/*end of stmt*/
+   /*compound start*/kwset->mind2 = kwset->mind - (i + 1);/*end of stmt*/
     }
   else
     {
@@ -10595,8 +10595,8 @@ kwsprep(kws)
 
    enqueue(curr->links, &last);
 
-   /*compound start*/curr->shift = kwset->/*compound end*/mind;/*end of stmt*/
-   /*compound start*/curr->maxshift = kwset->/*compound end*/mind;/*end of stmt*/
+   /*compound start*/curr->shift = kwset->mind;/*end of stmt*/
+   /*compound start*/curr->maxshift = kwset->mind;/*end of stmt*/
 
 
    treedelta(curr->links, curr->depth, delta);
@@ -10613,13 +10613,13 @@ kwsprep(kws)
 
        if (!hasevery(fail->links, curr->links))
   if (curr->depth - fail->depth < fail->shift)
-    /*compound start*/fail->shift = curr->depth - fail->/*compound end*/depth;/*end of stmt*/
+    /*compound start*/fail->shift = curr->depth - fail->depth;/*end of stmt*/
 
 
 
 
        if (curr->accepting && fail->maxshift > curr->depth - fail->depth)
-  /*compound start*/fail->maxshift = curr->depth - fail->/*compound end*/depth;/*end of stmt*/
+  /*compound start*/fail->maxshift = curr->depth - fail->depth;/*end of stmt*/
      }
  }
 
@@ -10628,32 +10628,32 @@ kwsprep(kws)
       for (curr = kwset->trie->next; curr; curr = curr->next)
  {
    if (curr->maxshift > curr->parent->maxshift)
-     /*compound start*/curr->maxshift = curr->parent->/*compound end*/maxshift;/*end of stmt*/
+     /*compound start*/curr->maxshift = curr->parent->maxshift;/*end of stmt*/
    if (curr->shift > curr->maxshift)
-     /*compound start*/curr->shift = curr->/*compound end*/maxshift;/*end of stmt*/
+     /*compound start*/curr->shift = curr->maxshift;/*end of stmt*/
  }
 
 
 
       for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
- /*compound start*/next[i] = /*compound end*/0;/*end of stmt*/
+ /*compound start*/next[i] = 0;/*end of stmt*/
       treenext(kwset->trie->links, next);
 
       if ((trans = kwset->trans) != 0)
  for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
-   /*compound start*/kwset->next[i] = next[(unsigned char) trans[i]/*compound end*/];/*end of stmt*/
+   /*compound start*/kwset->next[i] = next[(unsigned char) trans[i]];/*end of stmt*/
       else
  for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
-   /*compound start*/kwset->next[i] = next[i/*compound end*/];/*end of stmt*/
+   /*compound start*/kwset->next[i] = next[i];/*end of stmt*/
     }
 
 
   if ((trans = kwset->trans) != 0)
     for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
-      /*compound start*/kwset->delta[i] = delta[(unsigned char) trans[i]/*compound end*/];/*end of stmt*/
+      /*compound start*/kwset->delta[i] = delta[(unsigned char) trans[i]];/*end of stmt*/
   else
     for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
-      /*compound start*/kwset->delta[i] = delta[i/*compound end*/];/*end of stmt*/
+      /*compound start*/kwset->delta[i] = delta[i];/*end of stmt*/
 
   return 0;
 }
@@ -10672,8 +10672,8 @@ bmexec(kws, text, size)
   register char *ep, *sp, *tp;
   register int d, gc, i, len, md2;
 
-  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
-  /*compound start*/len = kwset->/*compound end*/mind;/*end of stmt*/
+  /*compound start*/kwset = (struct kwset *) kws;/*end of stmt*/
+  /*compound start*/len = kwset->mind;/*end of stmt*/
 
   if (len == 0)
     return text;
@@ -10682,11 +10682,11 @@ bmexec(kws, text, size)
   if (len == 1)
     return memchr(text, kwset->target[0], size);
 
-  /*compound start*/d1 = kwset->/*compound end*/delta;/*end of stmt*/
-  /*compound start*/sp = kwset->target + /*compound end*/len;/*end of stmt*/
-  /*compound start*/gc = ((unsigned char) (sp[-2])/*compound end*/);/*end of stmt*/
-  /*compound start*/md2 = kwset->/*compound end*/mind2;/*end of stmt*/
-  /*compound start*/tp = text + /*compound end*/len;/*end of stmt*/
+  /*compound start*/d1 = kwset->delta;/*end of stmt*/
+  /*compound start*/sp = kwset->target + len;/*end of stmt*/
+  /*compound start*/gc = ((unsigned char) (sp[-2]));/*end of stmt*/
+  /*compound start*/md2 = kwset->mind2;/*end of stmt*/
+  /*compound start*/tp = text + len;/*end of stmt*/
 
 
   if (size > 12 * len)
@@ -10695,22 +10695,22 @@ bmexec(kws, text, size)
       {
  while (tp <= ep)
    {
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
      if (d == 0)
        goto found;
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
      if (d == 0)
        goto found;
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
      if (d == 0)
        goto found;
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
-     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += /*compound end*/d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
+     /*compound start*/d = d1[((unsigned char) (tp[-1]))], tp += d;/*end of stmt*/
    }
  break;
       found:
@@ -10721,16 +10721,16 @@ bmexec(kws, text, size)
      if (i > len)
        return tp - len;
    }
- /*compound start*/tp += /*compound end*/md2;/*end of stmt*/
+ /*compound start*/tp += md2;/*end of stmt*/
       }
 
 
 
-  /*compound start*/ep = text + /*compound end*/size;/*end of stmt*/
-  /*compound start*/d = d1[((unsigned char) (tp[-1]))/*compound end*/];/*end of stmt*/
+  /*compound start*/ep = text + size;/*end of stmt*/
+  /*compound start*/d = d1[((unsigned char) (tp[-1]))];/*end of stmt*/
   while (d <= ep - tp)
     {
-      /*compound start*/d = d1[((unsigned char) ((tp += d)[-1]))/*compound end*/];/*end of stmt*/
+      /*compound start*/d = d1[((unsigned char) ((tp += d)[-1]))];/*end of stmt*/
       if (d != 0)
  continue;
       if (tp[-2] == gc)
@@ -10740,7 +10740,7 @@ bmexec(kws, text, size)
    if (i > len)
      return tp - len;
  }
-      /*compound start*/d = /*compound end*/md2;/*end of stmt*/
+      /*compound start*/d = md2;/*end of stmt*/
     }
 
   return 0;
@@ -10764,24 +10764,24 @@ cwexec(kws, text, len, kwsmatch)
   register char *trans;
 
 
-  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
+  /*compound start*/kwset = (struct kwset *) kws;/*end of stmt*/
   if (len < kwset->mind)
     return 0;
-  /*compound start*/next = kwset->/*compound end*/next;/*end of stmt*/
-  /*compound start*/delta = kwset->/*compound end*/delta;/*end of stmt*/
-  /*compound start*/trans = kwset->/*compound end*/trans;/*end of stmt*/
-  /*compound start*/lim = text + /*compound end*/len;/*end of stmt*/
-  /*compound start*/end = /*compound end*/text;/*end of stmt*/
+  /*compound start*/next = kwset->next;/*end of stmt*/
+  /*compound start*/delta = kwset->delta;/*end of stmt*/
+  /*compound start*/trans = kwset->trans;/*end of stmt*/
+  /*compound start*/lim = text + len;/*end of stmt*/
+  /*compound start*/end = text;/*end of stmt*/
   if ((d = kwset->mind) != 0)
-    /*compound start*/mch = /*compound end*/0;/*end of stmt*/
+    /*compound start*/mch = 0;/*end of stmt*/
   else
     {
-      /*compound start*/mch = text, accept = kwset->/*compound end*/trie;/*end of stmt*/
+      /*compound start*/mch = text, accept = kwset->trie;/*end of stmt*/
       goto match;
     }
 
   if (len >= 4 * kwset->mind)
-    /*compound start*/qlim = lim - 4 * kwset->/*compound end*/mind;/*end of stmt*/
+    /*compound start*/qlim = lim - 4 * kwset->mind;/*end of stmt*/
   else
     qlim = 0;
 
@@ -10789,12 +10789,12 @@ cwexec(kws, text, len, kwsmatch)
     {
       if (qlim && end <= qlim)
  {
-   /*compound start*/end += d - /*compound end*/1;/*end of stmt*/
+   /*compound start*/end += d - 1;/*end of stmt*/
    while ((d = delta[c = *end]) && end < qlim)
      {
-       /*compound start*/end += /*compound end*/d;/*end of stmt*/
-       /*compound start*/end += delta[(unsigned char) *end/*compound end*/];/*end of stmt*/
-       /*compound start*/end += delta[(unsigned char) *end/*compound end*/];/*end of stmt*/
+       /*compound start*/end += d;/*end of stmt*/
+       /*compound start*/end += delta[(unsigned char) *end];/*end of stmt*/
+       /*compound start*/end += delta[(unsigned char) *end];/*end of stmt*/
      }
    ++end;
  }
@@ -10802,35 +10802,35 @@ cwexec(kws, text, len, kwsmatch)
  d = delta[c = (end += d)[-1]];
       if (d)
  continue;
-      /*compound start*/beg = end - /*compound end*/1;/*end of stmt*/
-      /*compound start*/trie = next[c/*compound end*/];/*end of stmt*/
+      /*compound start*/beg = end - 1;/*end of stmt*/
+      /*compound start*/trie = next[c];/*end of stmt*/
       if (trie->accepting)
  {
-   /*compound start*/mch = /*compound end*/beg;/*end of stmt*/
-   /*compound start*/accept = /*compound end*/trie;/*end of stmt*/
+   /*compound start*/mch = beg;/*end of stmt*/
+   /*compound start*/accept = trie;/*end of stmt*/
  }
-      /*compound start*/d = trie->/*compound end*/shift;/*end of stmt*/
+      /*compound start*/d = trie->shift;/*end of stmt*/
       while (beg > text)
  {
-   /*compound start*/c = trans ? trans[(unsigned char) *--beg] : *--/*compound end*/beg;/*end of stmt*/
-   /*compound start*/tree = trie->/*compound end*/links;/*end of stmt*/
+   /*compound start*/c = trans ? trans[(unsigned char) *--beg] : *--beg;/*end of stmt*/
+   /*compound start*/tree = trie->links;/*end of stmt*/
    while (tree && c != tree->label)
      if (c < tree->label)
-       /*compound start*/tree = tree->/*compound end*/llink;/*end of stmt*/
+       /*compound start*/tree = tree->llink;/*end of stmt*/
      else
        tree = tree->rlink;
    if (tree)
      {
-       /*compound start*/trie = tree->/*compound end*/trie;/*end of stmt*/
+       /*compound start*/trie = tree->trie;/*end of stmt*/
        if (trie->accepting)
   {
-    /*compound start*/mch = /*compound end*/beg;/*end of stmt*/
-    /*compound start*/accept = /*compound end*/trie;/*end of stmt*/
+    /*compound start*/mch = beg;/*end of stmt*/
+    /*compound start*/accept = trie;/*end of stmt*/
   }
      }
    else
      break;
-   /*compound start*/d = trie->/*compound end*/shift;/*end of stmt*/
+   /*compound start*/d = trie->shift;/*end of stmt*/
  }
       if (mch)
  goto match;
@@ -10842,61 +10842,61 @@ cwexec(kws, text, len, kwsmatch)
 
 
   if (lim - mch > kwset->maxd)
-    /*compound start*/lim = mch + kwset->/*compound end*/maxd;/*end of stmt*/
-  /*compound start*/lmch = /*compound end*/0;/*end of stmt*/
-  /*compound start*/d = /*compound end*/1;/*end of stmt*/
+    /*compound start*/lim = mch + kwset->maxd;/*end of stmt*/
+  /*compound start*/lmch = 0;/*end of stmt*/
+  /*compound start*/d = 1;/*end of stmt*/
   while (lim - end >= d)
     {
       if ((d = delta[c = (end += d)[-1]]) != 0)
  continue;
-      /*compound start*/beg = end - /*compound end*/1;/*end of stmt*/
+      /*compound start*/beg = end - 1;/*end of stmt*/
       if (!(trie = next[c]))
  {
-   /*compound start*/d = /*compound end*/1;/*end of stmt*/
+   /*compound start*/d = 1;/*end of stmt*/
    continue;
  }
       if (trie->accepting && beg <= mch)
  {
-   /*compound start*/lmch = /*compound end*/beg;/*end of stmt*/
-   /*compound start*/accept = /*compound end*/trie;/*end of stmt*/
+   /*compound start*/lmch = beg;/*end of stmt*/
+   /*compound start*/accept = trie;/*end of stmt*/
  }
-      /*compound start*/d = trie->/*compound end*/shift;/*end of stmt*/
+      /*compound start*/d = trie->shift;/*end of stmt*/
       while (beg > text)
  {
-   /*compound start*/c = trans ? trans[(unsigned char) *--beg] : *--/*compound end*/beg;/*end of stmt*/
-   /*compound start*/tree = trie->/*compound end*/links;/*end of stmt*/
+   /*compound start*/c = trans ? trans[(unsigned char) *--beg] : *--beg;/*end of stmt*/
+   /*compound start*/tree = trie->links;/*end of stmt*/
    while (tree && c != tree->label)
      if (c < tree->label)
-       /*compound start*/tree = tree->/*compound end*/llink;/*end of stmt*/
+       /*compound start*/tree = tree->llink;/*end of stmt*/
      else
        tree = tree->rlink;
    if (tree)
      {
-       /*compound start*/trie = tree->/*compound end*/trie;/*end of stmt*/
+       /*compound start*/trie = tree->trie;/*end of stmt*/
        if (trie->accepting && beg <= mch)
   {
-    /*compound start*/lmch = /*compound end*/beg;/*end of stmt*/
-    /*compound start*/accept = /*compound end*/trie;/*end of stmt*/
+    /*compound start*/lmch = beg;/*end of stmt*/
+    /*compound start*/accept = trie;/*end of stmt*/
   }
      }
    else
      break;
-   /*compound start*/d = trie->/*compound end*/shift;/*end of stmt*/
+   /*compound start*/d = trie->shift;/*end of stmt*/
  }
       if (lmch)
  {
-   /*compound start*/mch = /*compound end*/lmch;/*end of stmt*/
+   /*compound start*/mch = lmch;/*end of stmt*/
    goto match;
  }
       if (!d)
- /*compound start*/d = /*compound end*/1;/*end of stmt*/
+ /*compound start*/d = 1;/*end of stmt*/
     }
 
   if (kwsmatch)
     {
-      /*compound start*/kwsmatch->strchr = accept->accepting / /*compound end*/2;/*end of stmt*/
-      /*compound start*/kwsmatch->beg[0] = /*compound end*/mch;/*end of stmt*/
-      /*compound start*/kwsmatch->size[0] = accept->/*compound end*/depth;/*end of stmt*/
+      /*compound start*/kwsmatch->strchr = accept->accepting / 2;/*end of stmt*/
+      /*compound start*/kwsmatch->beg[0] = mch;/*end of stmt*/
+      /*compound start*/kwsmatch->size[0] = accept->depth;/*end of stmt*/
     }
   return mch;
 }
@@ -10911,15 +10911,15 @@ kwsexec(kws, text, size, kwsmatch)
   struct kwset *kwset;
   char *ret;
 
-  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
+  /*compound start*/kwset = (struct kwset *) kws;/*end of stmt*/
   if (kwset->words == 1 && kwset->trans == 0)
     {
-      /*compound start*/ret = bmexec(kws, text, size/*compound end*/);/*end of stmt*/
+      /*compound start*/ret = bmexec(kws, text, size);/*end of stmt*/
       if (kwsmatch != 0 && ret != 0)
  {
-   /*compound start*/kwsmatch->strchr = /*compound end*/0;/*end of stmt*/
-   /*compound start*/kwsmatch->beg[0] = /*compound end*/ret;/*end of stmt*/
-   /*compound start*/kwsmatch->size[0] = kwset->/*compound end*/mind;/*end of stmt*/
+   /*compound start*/kwsmatch->strchr = 0;/*end of stmt*/
+   /*compound start*/kwsmatch->beg[0] = ret;/*end of stmt*/
+   /*compound start*/kwsmatch->size[0] = kwset->mind;/*end of stmt*/
  }
       return ret;
     }
@@ -10934,8 +10934,8 @@ kwsfree(kws)
 {
   struct kwset *kwset;
 
-  /*compound start*/kwset = (struct kwset *) /*compound end*/kws;/*end of stmt*/
-  __extension__ ({ struct obstack *__o = (&kwset->obstack); void *__obj = (0); if (__obj > (void *)__o->chunk && __obj < (void *)__o->chunk_limit) /*compound start*/__o->next_free = __o->object_base = /*compound end*/__obj;/*end of stmt*/ else (obstack_free) (__o, __obj); });
+  /*compound start*/kwset = (struct kwset *) kws;/*end of stmt*/
+  __extension__ ({ struct obstack *__o = (&kwset->obstack); void *__obj = (0); if (__obj > (void *)__o->chunk && __obj < (void *)__o->chunk_limit) /*compound start*/__o->next_free = __o->object_base = __obj;/*end of stmt*/ else (obstack_free) (__o, __obj); });
   free(kws);
 }
 # 10515 "target/grep.c"
@@ -10991,7 +10991,7 @@ kwsinit()
 
   if (match_icase)
     for (i = 0; i < ((127 * 2 + 1) + 1); ++i)
-      /*compound start*/trans[i] = ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISupper)) ? tolower(i) : (i)/*compound end*/);/*end of stmt*/
+      /*compound start*/trans[i] = ((1 && ((*__ctype_b_loc ())[(int) ((i))] & (unsigned short int) _ISupper)) ? tolower(i) : (i));/*end of stmt*/
 
   if (!(kwset = kwsalloc(match_icase ? trans : (char *) 0)))
     fatal("memory exhausted", 0);
@@ -11075,16 +11075,16 @@ Gcompile(pattern, size)
       if (match_words)
  strcpy(n, "\\(^\\|[^0-9A-Za-z_]\\)\\(");
 
-      /*compound start*/i = strlen(n/*compound end*/);/*end of stmt*/
+      /*compound start*/i = strlen(n);/*end of stmt*/
       memcpy((n + i), (pattern), (size));
-      /*compound start*/i += /*compound end*/size;/*end of stmt*/
+      /*compound start*/i += size;/*end of stmt*/
 
       if (match_words)
  strcpy(n + i, "\\)\\([^0-9A-Za-z_]\\|$\\)");
       if (match_lines)
  strcpy(n + i, "\\)$");
 
-      /*compound start*/i += strlen(n + i/*compound end*/);/*end of stmt*/
+      /*compound start*/i += strlen(n + i);/*end of stmt*/
       dfacomp(n, i, &dfa_1, 1);
     }
   else
@@ -11141,16 +11141,16 @@ Ecompile(pattern, size)
       if (match_words)
  strcpy(n, "(^|[^0-9A-Za-z_])(");
 
-      /*compound start*/i = strlen(n/*compound end*/);/*end of stmt*/
+      /*compound start*/i = strlen(n);/*end of stmt*/
       memcpy((n + i), (pattern), (size));
-      /*compound start*/i += /*compound end*/size;/*end of stmt*/
+      /*compound start*/i += size;/*end of stmt*/
 
       if (match_words)
  strcpy(n + i, ")([^0-9A-Za-z_]|$)");
       if (match_lines)
  strcpy(n + i, ")$");
 
-      /*compound start*/i += strlen(n + i/*compound end*/);/*end of stmt*/
+      /*compound start*/i += strlen(n + i);/*end of stmt*/
       dfacomp(n, i, &dfa_1, 1);
     }
   else
@@ -11171,32 +11171,32 @@ EGexecute(buf, size, endp)
   static struct re_registers regs;
 
 
-  /*compound start*/buflim = buf + /*compound end*/size;/*end of stmt*/
+  /*compound start*/buflim = buf + size;/*end of stmt*/
 
   for (beg = end = buf; end < buflim; beg = end + 1)
     {
       if (kwset)
  {
 
-   /*compound start*/beg = kwsexec(kwset, beg, buflim - beg, &kwsm/*compound end*/);/*end of stmt*/
+   /*compound start*/beg = kwsexec(kwset, beg, buflim - beg, &kwsm);/*end of stmt*/
    if (!beg)
      goto failure;
 
 
-   /*compound start*/end = memchr(beg, '\n', buflim - beg/*compound end*/);/*end of stmt*/
+   /*compound start*/end = memchr(beg, '\n', buflim - beg);/*end of stmt*/
    if (!end)
-     /*compound start*/end = /*compound end*/buflim;/*end of stmt*/
+     /*compound start*/end = buflim;/*end of stmt*/
    while (beg > buf && beg[-1] != '\n')
      --beg;
-   /*compound start*/save = */*compound end*/end;/*end of stmt*/
+   /*compound start*/save = *end;/*end of stmt*/
    if (kwsm.strchr < lastexact)
      goto success;
    if (!dfaexec(&dfa_1, beg, end, 0, (int *) 0, &backref))
      {
-       /*compound start*/*end = /*compound end*/save;/*end of stmt*/
+       /*compound start*/*end = save;/*end of stmt*/
        continue;
      }
-   /*compound start*/*end = /*compound end*/save;/*end of stmt*/
+   /*compound start*/*end = save;/*end of stmt*/
 
    if (!backref)
      goto success;
@@ -11204,15 +11204,15 @@ EGexecute(buf, size, endp)
       else
  {
 
-   /*compound start*/save = */*compound end*/buflim;/*end of stmt*/
-   /*compound start*/beg = dfaexec(&dfa_1, beg, buflim, 0, (int *) 0, &backref/*compound end*/);/*end of stmt*/
-   /*compound start*/*buflim = /*compound end*/save;/*end of stmt*/
+   /*compound start*/save = *buflim;/*end of stmt*/
+   /*compound start*/beg = dfaexec(&dfa_1, beg, buflim, 0, (int *) 0, &backref);/*end of stmt*/
+   /*compound start*/*buflim = save;/*end of stmt*/
    if (!beg)
      goto failure;
 
-   /*compound start*/end = memchr(beg, '\n', buflim - beg/*compound end*/);/*end of stmt*/
+   /*compound start*/end = memchr(beg, '\n', buflim - beg);/*end of stmt*/
    if (!end)
-     /*compound start*/end = /*compound end*/buflim;/*end of stmt*/
+     /*compound start*/end = buflim;/*end of stmt*/
    while (beg > buf && beg[-1] != '\n')
      --beg;
 
@@ -11221,10 +11221,10 @@ EGexecute(buf, size, endp)
  }
 
 
-      /*compound start*/regex.not_eol = /*compound end*/0;/*end of stmt*/
+      /*compound start*/regex.not_eol = 0;/*end of stmt*/
       if ((start = re_search(&regex, beg, end - beg, 0, end - beg, &regs)) >= 0)
  {
-   /*compound start*/len = regs.end[0] - /*compound end*/start;/*end of stmt*/
+   /*compound start*/len = regs.end[0] - start;/*end of stmt*/
    if (!match_lines && !match_words || match_lines && len == end - beg)
      goto success;
 
@@ -11243,8 +11243,8 @@ EGexecute(buf, size, endp)
     {
 
       --len;
-      /*compound start*/regex.not_eol = /*compound end*/1;/*end of stmt*/
-      /*compound start*/len = re_match(&regex, beg, start + len, start, &regs/*compound end*/);/*end of stmt*/
+      /*compound start*/regex.not_eol = 1;/*end of stmt*/
+      /*compound start*/len = re_match(&regex, beg, start + len, start, &regs);/*end of stmt*/
     }
   if (len <= 0)
     {
@@ -11252,10 +11252,10 @@ EGexecute(buf, size, endp)
       if (start == end - beg)
         break;
       ++start;
-      /*compound start*/regex.not_eol = /*compound end*/0;/*end of stmt*/
+      /*compound start*/regex.not_eol = 0;/*end of stmt*/
       /*compound start*/start = re_search(&regex, beg, end - beg,
-          start, end - beg - start, &regs/*compound end*/);/*end of stmt*/
-      /*compound start*/len = regs.end[0] - /*compound end*/start;/*end of stmt*/
+          start, end - beg - start, &regs);/*end of stmt*/
+      /*compound start*/len = regs.end[0] - start;/*end of stmt*/
     }
        }
  }
@@ -11277,7 +11277,7 @@ Fcompile(pattern, size)
   char *beg, *lim, *err;
 
   kwsinit();
-  /*compound start*/beg = /*compound end*/pattern;/*end of stmt*/
+  /*compound start*/beg = pattern;/*end of stmt*/
   do
     {
       for (lim = beg; lim < pattern + size && *lim != '\n'; ++lim)
@@ -11286,7 +11286,7 @@ Fcompile(pattern, size)
  fatal(err, 0);
       if (lim < pattern + size)
  ++lim;
-      /*compound start*/beg = /*compound end*/lim;/*end of stmt*/
+      /*compound start*/beg = lim;/*end of stmt*/
     }
   while (beg < pattern + size);
 
@@ -11308,7 +11308,7 @@ Fexecute(buf, size, endp)
     {
       if (!(beg = kwsexec(kwset, beg, buf + size - beg, &kwsmatch)))
  return 0;
-      /*compound start*/len = kwsmatch.size[0/*compound end*/];/*end of stmt*/
+      /*compound start*/len = kwsmatch.size[0];/*end of stmt*/
       if (match_lines)
  {
    if (beg > buf && beg[-1] != '\n')
@@ -11324,8 +11324,8 @@ Fexecute(buf, size, endp)
        break;
      if (try + len < buf + size && ((1 && ((*__ctype_b_loc ())[(int) (((unsigned char) try[len]))] & (unsigned short int) _ISalnum)) || ((unsigned char) try[len]) == '_'))
        {
-  /*compound start*/try = kwsexec(kwset, beg, --len, &kwsmatch/*compound end*/);/*end of stmt*/
-  /*compound start*/len = kwsmatch.size[0/*compound end*/];/*end of stmt*/
+  /*compound start*/try = kwsexec(kwset, beg, --len, &kwsmatch);/*end of stmt*/
+  /*compound start*/len = kwsmatch.size[0];/*end of stmt*/
        }
      else
        goto success;
@@ -11341,7 +11341,7 @@ Fexecute(buf, size, endp)
     ++end;
   else
     end = buf + size;
-  /*compound start*/*endp = /*compound end*/end;/*end of stmt*/
+  /*compound start*/*endp = end;/*end of stmt*/
   while (beg > buf && beg[-1] != '\n')
     --beg;
   return beg;

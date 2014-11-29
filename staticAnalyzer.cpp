@@ -61,7 +61,6 @@ public:
 		(*varOutput)<<tp.getAsString()<<"@";
 		(*varOutput)<<d->getDeclKindName()<<"@";
 		(*varOutput)<<lineNum<<endl;
-		printf(" @ %s lineNum: %d\n",d->getDeclKindName(),lineNum);
 	}
 	return true;
     }
@@ -87,7 +86,7 @@ public:
 			
 		}
 	}
-	
+	/*
 	if(isa<CompoundStmt>(s)){
 		CompoundStmt *cmdSt = cast<CompoundStmt>(s);
 		//printf("TT %d %d\n",lineNum,colNum);
@@ -102,19 +101,18 @@ public:
 			}
 		
 		}
-	}
+	}*/
 
-	if(isa<CaseStmt>(s)||isa<DefaultStmt>(s)){
+	if(isa<CompoundStmt>(s)||isa<CaseStmt>(s)||isa<DefaultStmt>(s)){
 		//printf("TR %d %d\n",lineNum,colNum);
 		for(StmtIterator b = s->child_begin();b!=s->child_end();b++){
 			if(*b==NULL){
 				printf("NULL!\n");
 				continue;
 			}
-			if(!strcmp("BinaryOperator",b->getStmtClassName())||!strcmp("CompoundAssignOperator",b->getStmtClassName())){
+			if(!strcmp("BinaryOperator",b->getStmtClassName())
+			||!strcmp("CompoundAssignOperator",b->getStmtClassName())){
 				insertProbeOnStmt(b);
-				//m_rewriter->InsertTextAfter(b->getLocStart(),"/*case comp start*/");
-				//m_rewriter->InsertTextAfter(b->getLocEnd(),"/*case comp end*/");
 			}
 		
 		}
