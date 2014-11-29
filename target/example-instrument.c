@@ -16,56 +16,57 @@ int main() {
 	int a = 0;		
 	int *bb;
 	int arr[100] = {0};
-
+	{_varCheck_();bb = arr;}
 	f1(a);
 	
 	//if-else if-else
 	if( a == 1) {
-		/*compound start*/a =  2;/*end of stmt*/
+		{_varCheck_();a =  2;}
 	} else if ( a == 2)
-		/*compound start*/a = 1;/*end of stmt*/
+		{_varCheck_();a = 1;}
 	 else {
-		/*compound start*/a = 4;/*end of stmt*/
-		/*compound start*/arr[a] = 20;/*end of stmt*/
+		{_varCheck_();a = f1(1);}
+		{_varCheck_();arr[a] = 20;}
 	}
-	
-	/*compound start*/arr[99] = 30;/*end of stmt*/
+	{_varCheck_();*(bb+30) = 10;}
+	{_varCheck_();arr[99] = 30;}
 //	printf("%d",arr[140]);
+	{_varCheck_();bb = /*start*//*compound start*//*compound end*/malloc(sizeof(int)*4)/*semi*/;}
 
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
-		/*compound start*/a += i;/*end of stmt*/
+		{_varCheck_();a += i;}
 	}
 	for(int i=0;i<10;i++)
-		/*compound start*/a = a+i;/*end of stmt*/
+		{_varCheck_();a = a+i;}
 	
 	
 	//while
 	while( a < 100 ) {
-		/*compound start*/a += a;/*end of stmt*/
+		{_varCheck_();a += a;}
 	}
 	
 	//do-while
 	do {
 		switch(a) {
 			case 100: 
-				/*compound start*/a += 10;/*end of stmt*/
+				{_varCheck_();a += 10;}
 				break;
 			case 200: 
-				/*compound start*/a = a == 3 ? 1 : 2;/*end of stmt*/// ?: operator 
-				/*compound start*/a += 20;/*end of stmt*/
+				{_varCheck_();a = a == 3 ? 1 : 2;}// ?: operator 
+				{_varCheck_();a += 20;}
 				break;
 			default:
-				/*compound start*/a += 1;/*end of stmt*/
+				{_varCheck_();a += 1;}
 		}
 	} while( a == 0 );
 
 	switch(a) {
 		case 150:
-			/*compound start*/a+=20;/*end of stmt*/
+			{_varCheck_();a+=20;}
 			break;
 		case 250:
-			/*compound start*/a=a+30;/*end of stmt*/
+			{_varCheck_();a=a+30;}
 			break;
 	}
 }

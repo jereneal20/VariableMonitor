@@ -16,7 +16,7 @@ int main() {
 	int a = 0;		
 	int *bb;
 	int arr[100] = {0};
-
+	bb = arr;
 	f1(a);
 	
 	//if-else if-else
@@ -25,12 +25,13 @@ int main() {
 	} else if ( a == 2)
 		a = 1;
 	 else {
-		a = 4;
+		a = f1(1);
 		arr[a] = 20;
 	}
-	
+	*(bb+30) = 10;
 	arr[99] = 30;
 //	printf("%d",arr[140]);
+	bb = malloc(sizeof(int)*4);
 
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {

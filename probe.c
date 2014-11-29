@@ -15,5 +15,5 @@ typedef struct VarMonitor{
 
 
 extern int _varCheck_(){
-	printf("Execute varCheck!\n");
+	printf("E");
 }

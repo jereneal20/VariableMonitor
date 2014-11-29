@@ -3,5 +3,5 @@ a@int@ParmVar@5
 a@int@Var@16
 bb@int *@Var@17
 arr@int [100]@Var@18
-i@int@Var@36
-i@int@Var@39
+i@int@Var@37
+i@int@Var@40

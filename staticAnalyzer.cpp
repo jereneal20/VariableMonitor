@@ -36,10 +36,26 @@ class MyASTVisitor : public RecursiveASTVisitor<MyASTVisitor>
 public:
 
     void insertProbeOnStmt(StmtIterator stmt){ //semicolon is essentially needed
+	//stmt.GetDeclExpr();
+	BinaryOperator *binOp = cast<BinaryOperator>(*stmt);
+	//stmt.getLHS();
+	string lhsSent = m_rewriter->ConvertToString(binOp->getLHS());
+	string rhsSent = m_rewriter->ConvertToString(binOp->getRHS());
+	cout<<lhsSent<<" "<<rhsSent<<endl;
+
+	if(!rhsSent.compare(0,6,"malloc")){
+		cout<<"This is malloc!!!!"<<endl;
+		SourceLocation endOfStmt2 = Lexer::findLocationAfterToken(binOp->getRHS()->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
+		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart(),"/*start*/");
+		m_rewriter->InsertTextBefore(endOfStmt2.getLocWithOffset(-1),"/*semi*/");
+	}
+
+
 	SourceLocation endOfStmt = Lexer::findLocationAfterToken(stmt->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
-	m_rewriter->InsertTextBefore(endOfStmt,"/*end of stmt*/");
-	m_rewriter->InsertTextAfter(stmt->getLocStart(),"/*compound start*/");
+	m_rewriter->InsertTextAfter(stmt->getLocStart(),"{_varCheck_();");//"/*compound start*/");
+	m_rewriter->InsertTextBefore(endOfStmt,"}");//"/*end of stmt*/");
 	//m_rewriter->InsertTextAfter(stmt->getLocEnd(),"/*compound end*/");
+
     }
 
     bool VisitDecl(Decl *d){
@@ -76,6 +92,22 @@ public:
 //	}	
 //	printf("%s\n",s->getStmtClassName());
 
+	if(isa<DeclRefExpr>(s)){
+		DeclRefExpr *declExpr = cast<DeclRefExpr>(s);
+		if(declExpr->getDecl()->isFunctionOrFunctionTemplate()){
+			FunctionDecl *funcD = cast<FunctionDecl>(declExpr->getDecl());
+			if(!funcD->getNameInfo().getAsString().compare("malloc")){
+				cout<<"MAlloc find! 아옳옳옳옳"<<endl;
+				SourceLocation endOfStmt = Lexer::findLocationAfterToken(s->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
+				m_rewriter->InsertTextAfter(s->getLocStart(),"/*compound start*/");
+				m_rewriter->InsertTextAfter(s->getLocEnd(),"/*compound end*/");
+				//m_rewriter->InsertTextBefore(endOfStmt.getLocWithOffset(-1),"/*end of stmt*/");
+
+			}
+		}
+	}
+
+
 	if(isa<IfStmt>(s)||isa<WhileStmt>(s)||isa<ForStmt>(s)){
 		int iter = 0;
 		for(StmtIterator b = s->child_begin();b!=s->child_end();b++,iter++){
@@ -86,8 +118,8 @@ public:
 			
 		}
 	}
-	/*
-	if(isa<CompoundStmt>(s)){
+	
+	/*if(isa<CompoundStmt>(s)){
 		CompoundStmt *cmdSt = cast<CompoundStmt>(s);
 		//printf("TT %d %d\n",lineNum,colNum);
 		for(StmtIterator b = cmdSt->child_begin();b!=cmdSt->child_end();b++){
