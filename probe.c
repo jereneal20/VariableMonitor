@@ -13,7 +13,10 @@ typedef struct VarMonitor{
 }VarMonitor;
 
 
+extern void _varCheck_(){
+//	printf("E");
+}
 
-extern int _varCheck_(){
-	printf("E");
+extern size_t _mallocCheck_(size_t size){
+	return size;
 }

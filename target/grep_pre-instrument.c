@@ -3347,7 +3347,7 @@ xmalloc(size)
 {
   char *result;
 
-  {_varCheck_();result = malloc(size);}
+  {_varCheck_();result = /*start*/malloc(_mallocCheck_(size));}
   if (size && !result)
     fatal("memory exhausted", 0);
   return result;
@@ -9546,7 +9546,7 @@ dfacomp(s, len, d, searchflag)
       char *copy;
       int i;
 
-      {_varCheck_();copy = malloc(len);}
+      {_varCheck_();copy = /*start*/malloc(_mallocCheck_(len));}
       if (!copy)
  dfaerror("out of memory");
 
@@ -9856,9 +9856,9 @@ struct dfa *dfa;
   for (i = 0; i <= dfa->tindex; ++i)
     {
       {_varCheck_();mp[i].in = (char **) malloc(sizeof *mp[i].in);}
-      {_varCheck_();mp[i].left = malloc(2);}
-      {_varCheck_();mp[i].right = malloc(2);}
-      {_varCheck_();mp[i].is = malloc(2);}
+      {_varCheck_();mp[i].left = /*start*/malloc(_mallocCheck_(2));}
+      {_varCheck_();mp[i].right = /*start*/malloc(_mallocCheck_(2));}
+      {_varCheck_();mp[i].is = /*start*/malloc(_mallocCheck_(2));}
       if (mp[i].in == ((void *)0) || mp[i].left == ((void *)0) ||
    mp[i].right == ((void *)0) || mp[i].is == ((void *)0))
  goto done;
@@ -10038,7 +10038,7 @@ struct dfa *dfa;
     {
       {_varCheck_();dm = (struct dfamust *) malloc(sizeof (struct dfamust));}
       {_varCheck_();dm->exact = exact;}
-      {_varCheck_();dm->must = malloc(strlen(result) + 1);}
+      {_varCheck_();dm->must = /*start*/malloc(_mallocCheck_(strlen(result) + 1));}
       strcpy(dm->must, result);
       {_varCheck_();dm->next = dfa->musts;}
       {_varCheck_();dfa->musts = dm;}

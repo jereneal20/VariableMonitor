@@ -47,7 +47,8 @@ public:
 		cout<<"This is malloc!!!!"<<endl;
 		SourceLocation endOfStmt2 = Lexer::findLocationAfterToken(binOp->getRHS()->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
 		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart(),"/*start*/");
-		m_rewriter->InsertTextBefore(endOfStmt2.getLocWithOffset(-1),"/*semi*/");
+		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart().getLocWithOffset(7),"_mallocCheck_(");
+		m_rewriter->InsertTextBefore(endOfStmt2.getLocWithOffset(-1),")");
 	}
 
 
@@ -97,12 +98,6 @@ public:
 		if(declExpr->getDecl()->isFunctionOrFunctionTemplate()){
 			FunctionDecl *funcD = cast<FunctionDecl>(declExpr->getDecl());
 			if(!funcD->getNameInfo().getAsString().compare("malloc")){
-				cout<<"MAlloc find! 아옳옳옳옳"<<endl;
-				SourceLocation endOfStmt = Lexer::findLocationAfterToken(s->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
-				m_rewriter->InsertTextAfter(s->getLocStart(),"/*compound start*/");
-				m_rewriter->InsertTextAfter(s->getLocEnd(),"/*compound end*/");
-				//m_rewriter->InsertTextBefore(endOfStmt.getLocWithOffset(-1),"/*end of stmt*/");
-
 			}
 		}
 	}

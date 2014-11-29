@@ -31,7 +31,7 @@ int main() {
 	{_varCheck_();*(bb+30) = 10;}
 	{_varCheck_();arr[99] = 30;}
 //	printf("%d",arr[140]);
-	{_varCheck_();bb = /*start*//*compound start*//*compound end*/malloc(sizeof(int)*4)/*semi*/;}
+	{_varCheck_();bb = /*start*/malloc(_mallocCheck_(sizeof(int)*4));}
 
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
