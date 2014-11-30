@@ -4038,7 +4038,8 @@ main(argc, argv)
      int argc;
      char *argv[];
 {
-  char *keys;
+  _monitor_init("target/grep_pre.c");
+char *keys;
   size_t keycc, oldcc, keyalloc;
   int keyfound, count_matches, no_filenames, list_files, suppress_errors;
   int opt, cc, desc, count, status;

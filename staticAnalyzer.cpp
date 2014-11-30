@@ -99,7 +99,11 @@ public:
 		cout<<" @ "<<d->getDeclKindName()<<" lineNum:"<<lineNum<<endl;
 		(*varOutput)<<varDe->getQualifiedNameAsString()<<"@";
 		(*varOutput)<<tp.getAsString()<<"@";
-		(*varOutput)<<d->getDeclKindName()<<"@";
+		if(*(d->getDeclKindName())=='P'){
+			(*varOutput)<<"1 ";
+		}else{
+			(*varOutput)<<"0 ";
+		}
 		(*varOutput)<<lineNum<<endl;
 	}
 	return true;
@@ -268,7 +272,7 @@ int main(int argc, char *argv[])
 
     // Set the main file handled by the source manager to the input file.
     const FileEntry *FileIn = FileMgr.getFile(argv[1]);
-    SourceMgr.createMainFileID(FileIn);
+    FileID targetFileID = SourceMgr.createMainFileID(FileIn);
     
     // Inform Diagnostics that processing of a source file is beginning. 
     TheCompInst.getDiagnosticClient().BeginSourceFile(TheCompInst.getLangOpts(),&TheCompInst.getPreprocessor());
@@ -291,6 +295,11 @@ int main(int argc, char *argv[])
     ParseAST(TheCompInst.getPreprocessor(), &TheConsumer, TheCompInst.getASTContext());
     astcontext = &TheCompInst.getASTContext();
 
+    string defSent = "";//"#include<stdio.h>\n";
+    defSent += "void _monitor_init(char*);\n";
+    defSent += "size_t _mallocCheck_(size_t);\n";
+    defSent += "void _varCheck_();\n";
+    m_rewriter->InsertTextAfter(SourceMgr.getLocForStartOfFile(targetFileID), defSent);
 
     const RewriteBuffer *RewriteBuf = TheRewriter.getRewriteBufferFor(SourceMgr.getMainFileID());
     

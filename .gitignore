@@ -1,7 +1,5 @@
 *.out
-*.swo
-*.swn
-*.swp
+.nf
 staticAnalyzer
 Tamplate.zip
 kcov-template.zip

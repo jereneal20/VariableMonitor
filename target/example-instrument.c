@@ -1,4 +1,7 @@
 #include<stdio.h>
+void _monitor_init(char*);
+size_t _mallocCheck_(size_t);
+void _varCheck_();
 //example.c
 int static_var = 1;
 struct asdf{
@@ -35,8 +38,8 @@ int a = 0;
 	{_varCheck_();*(bb+30) = 10;}
 	{_varCheck_();arr[99] = 30;}
 //	printf("%d",arr[140]);
-//	{_varCheck_();bb = (struct asdf *)malloc( sizeof(int)*4);}
-//	{_varCheck_();bb = /*start*/malloc _mallocCheck_((sizeof(int)*5));}
+	{_varCheck_();bb = (struct asdf *)malloc( sizeof(int)*4);}
+	{_varCheck_();bb = /*start*/malloc(_mallocCheck_(sizeof(int)*5));}
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
 		{_varCheck_();a += i;}

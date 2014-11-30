@@ -1,4 +1,3 @@
-#include<stdio.h>
 //example.c
 int static_var = 1;
 struct asdf{
@@ -35,7 +34,7 @@ int main() {
 	arr[99] = 30;
 //	printf("%d",arr[140]);
 	bb = (struct asdf *)malloc( sizeof(int)*4);
-	bb = malloc (sizeof(int)*5);
+	bb = malloc(sizeof(int)*5);
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
 		a += i;

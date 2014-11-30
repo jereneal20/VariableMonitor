@@ -1,7 +1,7 @@
-static_var@int@Var@3
-a@int@ParmVar@8
-a@int@Var@19
-bb@int *@Var@20
-arr@int [100]@Var@21
-i@int@Var@40
-i@int@Var@43
+static_var@int@0 2
+a@int@1 7
+a@int@0 18
+bb@int *@0 19
+arr@int [100]@0 20
+i@int@0 39
+i@int@0 42
