@@ -3,5 +3,6 @@ a@int@1 7
 a@int@0 18
 bb@int *@0 19
 arr@int [100]@0 20
-i@int@0 39
-i@int@0 42
+i@int@0 41
+i@int@0 44
+ba@int *@0 46

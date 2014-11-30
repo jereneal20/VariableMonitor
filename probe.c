@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 //enum TypeName{
 //INT, INTPTR, CHAR, CHARPTR,ETC};
 enum VarType{
 Var,ParmVar};
 
-
+int varMonitNum;
 typedef struct VarMonitor{
 	int varibleID;
+	size_t varAddr;
 	int declLineNum;
 	char variableName[200];
 	char typeName[60];
@@ -19,11 +21,14 @@ typedef struct VarMonitor{
 }VarMonitor;
 
 VarMonitor varMonit[5000];
+int mallocAddrChecker;
 
 extern void _monitor_init(char* fileNameArr){
-	int fileLength;
+	int fileLength;	
 	char instruName[100] = "-varData";
 	char inputFileName[100];
+	varMonitNum = 0;
+	mallocAddrChecker = -1;
 	for(int i=0;i<100;i++){
 		if(fileNameArr[i]=='\0'){
 			fileLength = i;
@@ -63,7 +68,7 @@ extern void _monitor_init(char* fileNameArr){
 		    varMonit[varNum].arrSize[iter-5] = varMonit[varNum].typeName[iter];
 		}
 		varMonit[varNum].arrSize[iter] ='\0';
-		varMonit[varNum].arrSpace = atoi(varMonit[varNum].arrSize);	
+		varMonit[varNum].arrSpace = atoi(varMonit[varNum].arrSize)*4;
 		printf("%d All k \n",varMonit[varNum].arrSpace);
 	    }
 
@@ -80,20 +85,91 @@ extern void _monitor_init(char* fileNameArr){
 	    fscanf(varData,"%c",&charTmp);
 	    varNum++;
 	}
-
+	varMonitNum = varNum;
 	//printf("Init Monitor %s!\n",inputFileName);
 }
 
-extern void _varCheck_(int lineNum, size_t varAddress,int isAddr){
 
-	printf("lineNum : %d",lineNum);
-	if(isAddr){
+
+extern void _varCheck_(int lineNum, size_t varAddress,size_t isAddr, char* varName){
+	char varOriginName[100] = {0};
+	printf("%s lineNum : %d",varName,lineNum);
+	if(isAddr==1){//pointer
 		printf(" addr : %zu\n",varAddress);
+/*		size_t min=100000000;
+		int mini;
+		for(int i=varMonitNum;i>=0;i--){
+		    if(varMonit[i].varAddr<=varAddress){
+			if(varMonit[i].varAddr<min){
+			    min = varMonit[i].varAddr;
+			    mini = i;
+			}
+		    }
+		}
+		    //int res = strcmp(varMonit[i].variableName,varName);
+		if(varMonit[mini].varAddr+varMonit[mini].arrSpace*4<varAddress){
+
+//		    if(res==0){
+//			printf("Find pointer ref");
+//			if(varMonit[i].varAddr+varMonit[i].arrSpace*4<varAddress){
+			    printf("Pointer reference bound Error on %d\n",lineNum);
+			    assert(0);
+//			}
+		    }
+//		}*/
+	}else if(isAddr>1){//array
+		for(int i=1;varName[i]!='[';i++){
+		    varOriginName[i-1] = varName[i];
+		}
+		for(int i=varMonitNum;i>=0;i--){
+		    int res = strcmp(varMonit[i].variableName,varOriginName);
+		    if(res==0){
+			printf(" Find Var!!");
+			varMonit[i].varAddr = isAddr;
+			break;
+		    }
+		}
+		printf(" addr : %zu, %s originAddr %zu\n",varAddress,varOriginName,isAddr);
 	}else{
 		printf("\n");
+		return;
+	}
+	
+	
+	size_t min=240733765965600;
+	int mini=-1;
+	for(int i=varMonitNum;i>=0;i--){
+	    printf("%zu~ ",varMonit[i].varAddr);
+	    if(varMonit[i].varAddr<=varAddress
+	    &&varMonit[i].varAddr!=0){
+		if(varMonit[i].varAddr<min){
+		    min = varMonit[i].varAddr;
+		    mini = i;
+		}
+	    }
+	}
+	printf("@%d %zu, %zu@",mini,varMonit[mini].varAddr+varMonit[mini].arrSpace,varAddress);
+	if(mini!=-1&&varMonit[mini].varAddr+varMonit[mini].arrSpace<varAddress){
+	    //printf("Index bound: %zu, Pointer's Index : %zu",varMonit[mini].varAddr+varMonit[mini].arrSpace,varAddress);
+	    printf("Pointer reference bound Error on %d\n",lineNum);
+	    assert(0);
 	}
 }
 
-extern size_t _mallocCheck_(size_t size){
+extern size_t _mallocCheck_(int lineNum,char* varName,size_t varAddr, size_t size){
+	for(int i=varMonitNum;i>=0;i--){
+	    int res = strcmp(varMonit[i].variableName,varName);
+	    if(res==0){
+		printf("Find var! ");
+		mallocAddrChecker = i;
+		//varMonit[i].varAddr = varAddr;
+		varMonit[i].arrSpace = size;
+	    }
+	}
+	printf("Mal lineNum : %d size: %zu %s\n",lineNum,size, varName);
 	return size;
+}
+extern void _afterMalloc_(size_t varAddr){
+	varMonit[mallocAddrChecker].varAddr = varAddr;
+	mallocAddrChecker = -1;
 }

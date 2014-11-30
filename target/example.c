@@ -32,8 +32,10 @@ int main() {
 	}
 	*(bb+30) = 10;
 	arr[99] = 30;
+//	arr[101] = 4;
+//	*(bb+110) = 20; //error value
 //	printf("%d",arr[140]);
-	bb = (struct asdf *)malloc( sizeof(int)*4);
+//	bb = (struct asdf *)malloc( sizeof(int)*4);
 	bb = malloc(sizeof(int)*5);
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
@@ -41,8 +43,10 @@ int main() {
 	}
 	for(int i=0;i<10;i++)
 		a = a+i;
-	
-	
+	int *ba;
+	ba = bb;
+	*(ba+7) = 23;	
+	*(bb+3) = 10;	
 	//while
 	while( a < 100 ) {
 		a += a;

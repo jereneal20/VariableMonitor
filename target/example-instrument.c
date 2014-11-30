@@ -19,57 +19,61 @@ int main() {
 int a = 0;		
 	int *bb;
 	int arr[100] = {0};
-	{_varCheck_(21,bb,0);bb = arr;}
+	{_varCheck_(21,bb,0,"bb");bb = arr;}
 	f1(a);
 	
 	//if-else if-else
 	if( a == 1) {
-		{_varCheck_(26,a,0);a =  2;}
+		{_varCheck_(26,a,0,"a");a =  2;}
 	} else if ( a == 2)
-		{_varCheck_(28,a,0);a = 1;}
+		{_varCheck_(28,a,0,"a");a = 1;}
 	 else {
-		{_varCheck_(30,a,0);a = f1(1);}
-		{_varCheck_(31,arr[a],0);arr[a] = 20;}
+		{_varCheck_(30,a,0,"a");a = f1(1);}
+		{_varCheck_(31,&arr[a],arr,"&arr[a]");arr[a] = 20;}
 	}
-	{_varCheck_(33,(bb + 30),1);*(bb+30) = 10;}
-	{_varCheck_(34,arr[99],0);arr[99] = 30;}
+	{_varCheck_(33,(bb + 30),1,"(bb + 30)");*(bb+30) = 10;}
+	{_varCheck_(34,&arr[99],arr,"&arr[99]");arr[99] = 30;}
+//	arr[101] = 4;
+//	*(bb+110) = 20; //error value
 //	printf("%d",arr[140]);
-	{_varCheck_(36,bb,0);bb = (struct asdf *)malloc( sizeof(int)*4);}
-	{_varCheck_(37,bb,0);bb = malloc(_mallocCheck_(sizeof(int)*5));}
+//	bb = (struct asdf *)malloc( sizeof(int)*4);
+	{_varCheck_(39,bb,0,"bb");bb = malloc(_mallocCheck_(39,"bb",bb,sizeof(int)*5));_afterMalloc_(bb);}
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
-		{_varCheck_(40,a,0);a += i;}
+		{_varCheck_(42,a,0,"a");a += i;}
 	}
 	for(int i=0;i<10;i++)
-		{_varCheck_(43,a,0);a = a+i;}
-	
-	
+		{_varCheck_(45,a,0,"a");a = a+i;}
+	int *ba;
+	{_varCheck_(47,ba,0,"ba");ba = bb;}
+	{_varCheck_(48,(ba + 7),1,"(ba + 7)");*(ba+7) = 23;}	
+	{_varCheck_(49,(bb + 3),1,"(bb + 3)");*(bb+3) = 10;}	
 	//while
 	while( a < 100 ) {
-		{_varCheck_(48,a,0);a += a;}
+		{_varCheck_(52,a,0,"a");a += a;}
 	}
 	
 	//do-while
 	do {
 		switch(a) {
 			case 100: 
-				{_varCheck_(55,a,0);a += 10;}
+				{_varCheck_(59,a,0,"a");a += 10;}
 				break;
 			case 200: 
-				{_varCheck_(58,a,0);a = a == 3 ? 1 : 2;}// ?: operator 
-				{_varCheck_(59,a,0);a += 20;}
+				{_varCheck_(62,a,0,"a");a = a == 3 ? 1 : 2;}// ?: operator 
+				{_varCheck_(63,a,0,"a");a += 20;}
 				break;
 			default:
-				{_varCheck_(62,a,0);a += 1;}
+				{_varCheck_(66,a,0,"a");a += 1;}
 		}
 	} while( a == 0 );
 
 	switch(a) {
 		case 150:
-			{_varCheck_(68,a,0);a+=20;}
+			{_varCheck_(72,a,0,"a");a+=20;}
 			break;
 		case 250:
-			{_varCheck_(71,a,0);a=a+30;}
+			{_varCheck_(75,a,0,"a");a=a+30;}
 			break;
 	}
 }

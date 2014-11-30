@@ -31,6 +31,7 @@ LangOptions *m_langOpts = NULL;
 ASTContext *astcontext = NULL;
 ofstream *varOutput = NULL;
 char **argvPtr = NULL;
+string originAddr ="";
 
 std::string IntToString ( int number)
 {
@@ -49,6 +50,14 @@ public:
 	if(sent[0]=='*'){
 	    sent.replace(0,1,"");
 	    changeCheck = 1;
+	}
+	if(sent.find("[")!=string::npos){
+		size_t findL = sent.find("[");
+		size_t findR = sent.find("]");
+		originAddr = sent;
+		originAddr.replace(findL,findR-findL+1,"");
+		sent.insert(0,"&");
+		changeCheck = 2;
 	}
 	return sent;
     }
@@ -87,8 +96,9 @@ public:
 		SourceLocation endOfStmt2 = Lexer::findLocationAfterToken(binOp->getRHS()->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
 		//m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart(),"/*start*/");
 		size_t found = rhsSent.find("malloc");
-		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart().getLocWithOffset(found+7),"_mallocCheck_(");
-		m_rewriter->InsertTextBefore(endOfStmt2.getLocWithOffset(-1),")");
+		string malCheckStart = "_mallocCheck_("+IntToString(lineNum)+",\""+lhsSent+"\","+lhsSent+",";
+		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart().getLocWithOffset(found+7),malCheckStart);
+		m_rewriter->InsertTextBefore(endOfStmt2.getLocWithOffset(-1),");_afterMalloc_("+lhsSent+")");
 	}
 
 
@@ -96,7 +106,11 @@ public:
 	string varChStart = "{_varCheck_(";
 	int checker=0;
 	varChStart += IntToString(lineNum)+","+tokPointer(lhsSent,checker)+",";
-	varChStart += IntToString(checker)+");";
+	if(checker==1||checker==0){
+		varChStart += IntToString(checker)+",\""+tokPointer(lhsSent,checker)+"\");";
+	}else if(checker==2){
+		varChStart += originAddr+",\""+tokPointer(lhsSent,checker)+"\");";
+	}
 	m_rewriter->InsertTextAfter(stmt->getLocStart(),varChStart);//"/*compound start*/");
 	m_rewriter->InsertTextBefore(endOfStmt,"}");//"/*end of stmt*/");
 	//m_rewriter->InsertTextAfter(stmt->getLocEnd(),"/*compound end*/");
