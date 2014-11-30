@@ -1,7 +1,3 @@
-#include<stdio.h>
-void _monitor_init(char*);
-size_t _mallocCheck_(size_t);
-void _varCheck_();
 //example.c
 int static_var = 1;
 struct asdf{
@@ -23,57 +19,57 @@ int main() {
 int a = 0;		
 	int *bb;
 	int arr[100] = {0};
-	{_varCheck_();bb = arr;}
+	{_varCheck_(21,bb,0);bb = arr;}
 	f1(a);
 	
 	//if-else if-else
 	if( a == 1) {
-		{_varCheck_();a =  2;}
+		{_varCheck_(26,a,0);a =  2;}
 	} else if ( a == 2)
-		{_varCheck_();a = 1;}
+		{_varCheck_(28,a,0);a = 1;}
 	 else {
-		{_varCheck_();a = f1(1);}
-		{_varCheck_();arr[a] = 20;}
+		{_varCheck_(30,a,0);a = f1(1);}
+		{_varCheck_(31,arr[a],0);arr[a] = 20;}
 	}
-	{_varCheck_();*(bb+30) = 10;}
-	{_varCheck_();arr[99] = 30;}
+	{_varCheck_(33,(bb + 30),1);*(bb+30) = 10;}
+	{_varCheck_(34,arr[99],0);arr[99] = 30;}
 //	printf("%d",arr[140]);
-	{_varCheck_();bb = (struct asdf *)malloc( sizeof(int)*4);}
-	{_varCheck_();bb = /*start*/malloc(_mallocCheck_(sizeof(int)*5));}
+	{_varCheck_(36,bb,0);bb = (struct asdf *)malloc( sizeof(int)*4);}
+	{_varCheck_(37,bb,0);bb = malloc(_mallocCheck_(sizeof(int)*5));}
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
-		{_varCheck_();a += i;}
+		{_varCheck_(40,a,0);a += i;}
 	}
 	for(int i=0;i<10;i++)
-		{_varCheck_();a = a+i;}
+		{_varCheck_(43,a,0);a = a+i;}
 	
 	
 	//while
 	while( a < 100 ) {
-		{_varCheck_();a += a;}
+		{_varCheck_(48,a,0);a += a;}
 	}
 	
 	//do-while
 	do {
 		switch(a) {
 			case 100: 
-				{_varCheck_();a += 10;}
+				{_varCheck_(55,a,0);a += 10;}
 				break;
 			case 200: 
-				{_varCheck_();a = a == 3 ? 1 : 2;}// ?: operator 
-				{_varCheck_();a += 20;}
+				{_varCheck_(58,a,0);a = a == 3 ? 1 : 2;}// ?: operator 
+				{_varCheck_(59,a,0);a += 20;}
 				break;
 			default:
-				{_varCheck_();a += 1;}
+				{_varCheck_(62,a,0);a += 1;}
 		}
 	} while( a == 0 );
 
 	switch(a) {
 		case 150:
-			{_varCheck_();a+=20;}
+			{_varCheck_(68,a,0);a+=20;}
 			break;
 		case 250:
-			{_varCheck_();a=a+30;}
+			{_varCheck_(71,a,0);a=a+30;}
 			break;
 	}
 }

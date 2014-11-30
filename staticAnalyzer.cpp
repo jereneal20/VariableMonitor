@@ -32,20 +32,37 @@ ASTContext *astcontext = NULL;
 ofstream *varOutput = NULL;
 char **argvPtr = NULL;
 
+std::string IntToString ( int number)
+{
+  std::ostringstream oss;
+  // Works just like cout
+  oss<< number;
+  // Return the underlying string
+  return oss.str();
+}
 
 class MyASTVisitor : public RecursiveASTVisitor<MyASTVisitor>
 {
 public:
 
+    std::string tokPointer(string sent,int& changeCheck){
+	if(sent[0]=='*'){
+	    sent.replace(0,1,"");
+	    changeCheck = 1;
+	}
+	return sent;
+    }
+
     void insertProbeOnStmt(StmtIterator stmt){ //semicolon is essentially needed
 	//stmt.GetDeclExpr();
 	BinaryOperator *binOp = cast<BinaryOperator>(*stmt);
-	//stmt.getLHS();
+	SourceLocation startLocation = binOp->getLocStart();
+	SourceManager &srcmgr = *m_srcMgr;
+	unsigned int lineNum = srcmgr.getExpansionLineNumber(startLocation);
 	string lhsSent = m_rewriter->ConvertToString(binOp->getLHS());
 	string rhsSent = m_rewriter->ConvertToString(binOp->getRHS());
-	cout<<lhsSent<<" "<<rhsSent<<endl;
-
-
+	
+	//cout<<lhsSent<<" "<<rhsSent<<endl;
 	if(!rhsSent.compare(0,6,"malloc")){
 	/*
 	if(rhsSent.find("malloc(")!=string::npos){
@@ -66,9 +83,9 @@ public:
 			
 		}
 	*/
-//}
+
 		SourceLocation endOfStmt2 = Lexer::findLocationAfterToken(binOp->getRHS()->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
-		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart(),"/*start*/");
+		//m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart(),"/*start*/");
 		size_t found = rhsSent.find("malloc");
 		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart().getLocWithOffset(found+7),"_mallocCheck_(");
 		m_rewriter->InsertTextBefore(endOfStmt2.getLocWithOffset(-1),")");
@@ -76,7 +93,11 @@ public:
 
 
 	SourceLocation endOfStmt = Lexer::findLocationAfterToken(stmt->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
-	m_rewriter->InsertTextAfter(stmt->getLocStart(),"{_varCheck_();");//"/*compound start*/");
+	string varChStart = "{_varCheck_(";
+	int checker=0;
+	varChStart += IntToString(lineNum)+","+tokPointer(lhsSent,checker)+",";
+	varChStart += IntToString(checker)+");";
+	m_rewriter->InsertTextAfter(stmt->getLocStart(),varChStart);//"/*compound start*/");
 	m_rewriter->InsertTextBefore(endOfStmt,"}");//"/*end of stmt*/");
 	//m_rewriter->InsertTextAfter(stmt->getLocEnd(),"/*compound end*/");
 
@@ -294,13 +315,13 @@ int main(int argc, char *argv[])
     // Parse the file to AST, registering our consumer as the AST consumer.
     ParseAST(TheCompInst.getPreprocessor(), &TheConsumer, TheCompInst.getASTContext());
     astcontext = &TheCompInst.getASTContext();
-
+/*
     string defSent = "";//"#include<stdio.h>\n";
     defSent += "void _monitor_init(char*);\n";
     defSent += "size_t _mallocCheck_(size_t);\n";
-    defSent += "void _varCheck_();\n";
+    defSent += "void _varCheck_(int,size_t);\n";
     m_rewriter->InsertTextAfter(SourceMgr.getLocForStartOfFile(targetFileID), defSent);
-
+*/
     const RewriteBuffer *RewriteBuf = TheRewriter.getRewriteBufferFor(SourceMgr.getMainFileID());
     
     string fileNameInstru = string(argv[1]);

@@ -11,6 +11,8 @@ typedef struct VarMonitor{
 	int declLineNum;
 	char variableName[200];
 	char typeName[60];
+	char arrSize[50];
+	int arrSpace;
 	enum VarType varType;
 	int referVarID;
 	int refAddress;
@@ -55,6 +57,17 @@ extern void _monitor_init(char* fileNameArr){
 		    break;
 		}
 	    }
+	    if(varMonit[varNum].typeName[4]=='['){
+		int iter = 5;
+		for(;varMonit[varNum].typeName[iter]!=']';iter++){
+		    varMonit[varNum].arrSize[iter-5] = varMonit[varNum].typeName[iter];
+		}
+		varMonit[varNum].arrSize[iter] ='\0';
+		varMonit[varNum].arrSpace = atoi(varMonit[varNum].arrSize);	
+		printf("%d All k \n",varMonit[varNum].arrSpace);
+	    }
+
+
 	    int tmp;
 	    ret = fscanf(varData,"%d",&tmp);
 	    if(tmp==1){
@@ -71,8 +84,14 @@ extern void _monitor_init(char* fileNameArr){
 	//printf("Init Monitor %s!\n",inputFileName);
 }
 
-extern void _varCheck_(){
-//	printf("E");
+extern void _varCheck_(int lineNum, size_t varAddress,int isAddr){
+
+	printf("lineNum : %d",lineNum);
+	if(isAddr){
+		printf(" addr : %zu\n",varAddress);
+	}else{
+		printf("\n");
+	}
 }
 
 extern size_t _mallocCheck_(size_t size){
