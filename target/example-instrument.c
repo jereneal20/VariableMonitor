@@ -1,6 +1,9 @@
 #include<stdio.h>
 //example.c
 int static_var = 1;
+struct asdf{
+
+};
 
 int f1(int a) {
 	static_var++;
@@ -13,7 +16,8 @@ int f1(int a) {
 }
 
 int main() {
-	int a = 0;		
+	_monitor_init("target/example.c");
+int a = 0;		
 	int *bb;
 	int arr[100] = {0};
 	{_varCheck_();bb = arr;}
@@ -31,8 +35,8 @@ int main() {
 	{_varCheck_();*(bb+30) = 10;}
 	{_varCheck_();arr[99] = 30;}
 //	printf("%d",arr[140]);
-	{_varCheck_();bb = /*start*/malloc(_mallocCheck_(sizeof(int)*4));}
-
+//	{_varCheck_();bb = (struct asdf *)malloc( sizeof(int)*4);}
+//	{_varCheck_();bb = /*start*/malloc _mallocCheck_((sizeof(int)*5));}
 	//for	
 	for( int i = 0 ; i < 10 ; i++ ) {
 		{_varCheck_();a += i;}

@@ -1,0 +1,4062 @@
+function: __errno_location
+_IO_2_1_stdin_ @ struct _IO_FILE_plus @ Var lineNum:318
+_IO_2_1_stdout_ @ struct _IO_FILE_plus @ Var lineNum:319
+_IO_2_1_stderr_ @ struct _IO_FILE_plus @ Var lineNum:320
+__cookie @ void * @ ParmVar lineNum:322
+__buf @ char * @ ParmVar lineNum:322
+__nbytes @ size_t @ ParmVar lineNum:322
+__cookie @ void * @ ParmVar lineNum:330
+__buf @ const char * @ ParmVar lineNum:330
+__n @ size_t @ ParmVar lineNum:331
+__cookie @ void * @ ParmVar lineNum:339
+__pos @ __off64_t * @ ParmVar lineNum:339
+__w @ int @ ParmVar lineNum:339
+__cookie @ void * @ ParmVar lineNum:342
+function: __underflow
+ @ _IO_FILE * @ ParmVar lineNum:344
+function: __uflow
+ @ _IO_FILE * @ ParmVar lineNum:345
+function: __overflow
+ @ _IO_FILE * @ ParmVar lineNum:346
+ @ int @ ParmVar lineNum:346
+function: _IO_getc
+__fp @ _IO_FILE * @ ParmVar lineNum:348
+function: _IO_putc
+__c @ int @ ParmVar lineNum:349
+__fp @ _IO_FILE * @ ParmVar lineNum:349
+function: _IO_feof
+__fp @ _IO_FILE * @ ParmVar lineNum:350
+function: _IO_ferror
+__fp @ _IO_FILE * @ ParmVar lineNum:351
+function: _IO_peekc_locked
+__fp @ _IO_FILE * @ ParmVar lineNum:353
+function: _IO_flockfile
+ @ _IO_FILE * @ ParmVar lineNum:359
+function: _IO_funlockfile
+ @ _IO_FILE * @ ParmVar lineNum:360
+function: _IO_ftrylockfile
+ @ _IO_FILE * @ ParmVar lineNum:361
+function: _IO_vfscanf
+ @ _IO_FILE *restrict @ ParmVar lineNum:363
+ @ const char *restrict @ ParmVar lineNum:363
+ @ __va_list_tag * @ ParmVar lineNum:364
+ @ int *restrict @ ParmVar lineNum:364
+function: _IO_vfprintf
+ @ _IO_FILE *restrict @ ParmVar lineNum:365
+ @ const char *restrict @ ParmVar lineNum:365
+ @ __va_list_tag * @ ParmVar lineNum:366
+function: _IO_padn
+ @ _IO_FILE * @ ParmVar lineNum:367
+ @ int @ ParmVar lineNum:367
+ @ __ssize_t @ ParmVar lineNum:367
+function: _IO_sgetn
+ @ _IO_FILE * @ ParmVar lineNum:368
+ @ void * @ ParmVar lineNum:368
+ @ size_t @ ParmVar lineNum:368
+function: _IO_seekoff
+ @ _IO_FILE * @ ParmVar lineNum:370
+ @ __off64_t @ ParmVar lineNum:370
+ @ int @ ParmVar lineNum:370
+ @ int @ ParmVar lineNum:370
+function: _IO_seekpos
+ @ _IO_FILE * @ ParmVar lineNum:371
+ @ __off64_t @ ParmVar lineNum:371
+ @ int @ ParmVar lineNum:371
+function: _IO_free_backup_area
+ @ _IO_FILE * @ ParmVar lineNum:373
+stdin @ struct _IO_FILE * @ Var lineNum:389
+stdout @ struct _IO_FILE * @ Var lineNum:390
+stderr @ struct _IO_FILE * @ Var lineNum:391
+function: remove
+__filename @ const char * @ ParmVar lineNum:399
+function: rename
+__old @ const char * @ ParmVar lineNum:401
+__new @ const char * @ ParmVar lineNum:401
+function: renameat
+__oldfd @ int @ ParmVar lineNum:406
+__old @ const char * @ ParmVar lineNum:406
+__newfd @ int @ ParmVar lineNum:406
+__new @ const char * @ ParmVar lineNum:407
+function: tmpfile
+function: tmpnam
+__s @ char * @ ParmVar lineNum:418
+function: tmpnam_r
+__s @ char * @ ParmVar lineNum:424
+function: tempnam
+__dir @ const char * @ ParmVar lineNum:426
+__pfx @ const char * @ ParmVar lineNum:426
+function: fclose
+__stream @ FILE * @ ParmVar lineNum:436
+function: fflush
+__stream @ FILE * @ ParmVar lineNum:441
+function: fflush_unlocked
+__stream @ FILE * @ ParmVar lineNum:444
+function: fopen
+__filename @ const char *restrict @ ParmVar lineNum:452
+__modes @ const char *restrict @ ParmVar lineNum:453
+function: freopen
+__filename @ const char *restrict @ ParmVar lineNum:458
+__modes @ const char *restrict @ ParmVar lineNum:459
+__stream @ FILE *restrict @ ParmVar lineNum:460
+function: fdopen
+__fd @ int @ ParmVar lineNum:464
+__modes @ const char * @ ParmVar lineNum:464
+function: fmemopen
+__s @ void * @ ParmVar lineNum:466
+__len @ size_t @ ParmVar lineNum:466
+__modes @ const char * @ ParmVar lineNum:466
+function: open_memstream
+__bufloc @ char ** @ ParmVar lineNum:472
+__sizeloc @ size_t * @ ParmVar lineNum:472
+function: setbuf
+__stream @ FILE *restrict @ ParmVar lineNum:479
+__buf @ char *restrict @ ParmVar lineNum:479
+function: setvbuf
+__stream @ FILE *restrict @ ParmVar lineNum:483
+__buf @ char *restrict @ ParmVar lineNum:483
+__modes @ int @ ParmVar lineNum:484
+__n @ size_t @ ParmVar lineNum:484
+function: setbuffer
+__stream @ FILE *restrict @ ParmVar lineNum:490
+__buf @ char *restrict @ ParmVar lineNum:490
+__size @ size_t @ ParmVar lineNum:491
+function: setlinebuf
+__stream @ FILE * @ ParmVar lineNum:494
+function: fprintf
+__stream @ FILE *restrict @ ParmVar lineNum:503
+__format @ const char *restrict @ ParmVar lineNum:504
+function: printf
+__format @ const char *restrict @ ParmVar lineNum:509
+function: sprintf
+__s @ char *restrict @ ParmVar lineNum:511
+__format @ const char *restrict @ ParmVar lineNum:512
+function: vfprintf
+__s @ FILE *restrict @ ParmVar lineNum:518
+__format @ const char *restrict @ ParmVar lineNum:518
+__arg @ __va_list_tag * @ ParmVar lineNum:519
+function: vprintf
+__format @ const char *restrict @ ParmVar lineNum:524
+__arg @ __va_list_tag * @ ParmVar lineNum:524
+function: vsprintf
+__s @ char *restrict @ ParmVar lineNum:526
+__format @ const char *restrict @ ParmVar lineNum:526
+__arg @ __va_list_tag * @ ParmVar lineNum:527
+function: snprintf
+__s @ char *restrict @ ParmVar lineNum:533
+__maxlen @ size_t @ ParmVar lineNum:533
+__format @ const char *restrict @ ParmVar lineNum:534
+function: vsnprintf
+__s @ char *restrict @ ParmVar lineNum:537
+__maxlen @ size_t @ ParmVar lineNum:537
+__format @ const char *restrict @ ParmVar lineNum:538
+__arg @ __va_list_tag * @ ParmVar lineNum:538
+function: vdprintf
+__fd @ int @ ParmVar lineNum:542
+__fmt @ const char *restrict @ ParmVar lineNum:542
+__arg @ __va_list_tag * @ ParmVar lineNum:543
+function: dprintf
+__fd @ int @ ParmVar lineNum:545
+__fmt @ const char *restrict @ ParmVar lineNum:545
+function: fscanf
+__stream @ FILE *restrict @ ParmVar lineNum:555
+__format @ const char *restrict @ ParmVar lineNum:556
+function: scanf
+__format @ const char *restrict @ ParmVar lineNum:561
+function: sscanf
+__s @ const char *restrict @ ParmVar lineNum:563
+__format @ const char *restrict @ ParmVar lineNum:564
+function: fscanf
+__stream @ FILE *restrict @ ParmVar lineNum:566
+__format @ const char *restrict @ ParmVar lineNum:566
+function: scanf
+__format @ const char *restrict @ ParmVar lineNum:569
+function: sscanf
+__s @ const char *restrict @ ParmVar lineNum:571
+__format @ const char *restrict @ ParmVar lineNum:571
+function: vfscanf
+__s @ FILE *restrict @ ParmVar lineNum:581
+__format @ const char *restrict @ ParmVar lineNum:581
+__arg @ __va_list_tag * @ ParmVar lineNum:582
+function: vscanf
+__format @ const char *restrict @ ParmVar lineNum:589
+__arg @ __va_list_tag * @ ParmVar lineNum:589
+function: vsscanf
+__s @ const char *restrict @ ParmVar lineNum:593
+__format @ const char *restrict @ ParmVar lineNum:594
+__arg @ __va_list_tag * @ ParmVar lineNum:594
+function: vfscanf
+__s @ FILE *restrict @ ParmVar lineNum:597
+__format @ const char *restrict @ ParmVar lineNum:597
+__arg @ __va_list_tag * @ ParmVar lineNum:597
+function: vscanf
+__format @ const char *restrict @ ParmVar lineNum:602
+__arg @ __va_list_tag * @ ParmVar lineNum:602
+function: vsscanf
+__s @ const char *restrict @ ParmVar lineNum:605
+__format @ const char *restrict @ ParmVar lineNum:605
+__arg @ __va_list_tag * @ ParmVar lineNum:605
+function: fgetc
+__stream @ FILE * @ ParmVar lineNum:620
+function: getc
+__stream @ FILE * @ ParmVar lineNum:621
+function: getchar
+function: getc_unlocked
+__stream @ FILE * @ ParmVar lineNum:630
+function: getchar_unlocked
+function: fgetc_unlocked
+__stream @ FILE * @ ParmVar lineNum:633
+function: fputc
+__c @ int @ ParmVar lineNum:645
+__stream @ FILE * @ ParmVar lineNum:645
+function: putc
+__c @ int @ ParmVar lineNum:646
+__stream @ FILE * @ ParmVar lineNum:646
+function: putchar
+__c @ int @ ParmVar lineNum:652
+function: fputc_unlocked
+__c @ int @ ParmVar lineNum:655
+__stream @ FILE * @ ParmVar lineNum:655
+function: putc_unlocked
+__c @ int @ ParmVar lineNum:663
+__stream @ FILE * @ ParmVar lineNum:663
+function: putchar_unlocked
+__c @ int @ ParmVar lineNum:664
+function: getw
+__stream @ FILE * @ ParmVar lineNum:671
+function: putw
+__w @ int @ ParmVar lineNum:674
+__stream @ FILE * @ ParmVar lineNum:674
+function: fgets
+__s @ char *restrict @ ParmVar lineNum:683
+__n @ int @ ParmVar lineNum:683
+__stream @ FILE *restrict @ ParmVar lineNum:683
+function: gets
+__s @ char * @ ParmVar lineNum:691
+function: __getdelim
+__lineptr @ char **restrict @ ParmVar lineNum:694
+__n @ size_t *restrict @ ParmVar lineNum:695
+__delimiter @ int @ ParmVar lineNum:695
+__stream @ FILE *restrict @ ParmVar lineNum:696
+function: getdelim
+__lineptr @ char **restrict @ ParmVar lineNum:697
+__n @ size_t *restrict @ ParmVar lineNum:698
+__delimiter @ int @ ParmVar lineNum:698
+__stream @ FILE *restrict @ ParmVar lineNum:699
+function: getline
+__lineptr @ char **restrict @ ParmVar lineNum:707
+__n @ size_t *restrict @ ParmVar lineNum:708
+__stream @ FILE *restrict @ ParmVar lineNum:709
+function: fputs
+__s @ const char *restrict @ ParmVar lineNum:718
+__stream @ FILE *restrict @ ParmVar lineNum:718
+function: puts
+__s @ const char * @ ParmVar lineNum:724
+function: ungetc
+__c @ int @ ParmVar lineNum:731
+__stream @ FILE * @ ParmVar lineNum:731
+function: fread
+__ptr @ void *restrict @ ParmVar lineNum:738
+__size @ size_t @ ParmVar lineNum:738
+__n @ size_t @ ParmVar lineNum:739
+__stream @ FILE *restrict @ ParmVar lineNum:739
+function: fwrite
+__ptr @ const void *restrict @ ParmVar lineNum:744
+__size @ size_t @ ParmVar lineNum:744
+__n @ size_t @ ParmVar lineNum:745
+__s @ FILE *restrict @ ParmVar lineNum:745
+function: fread_unlocked
+__ptr @ void *restrict @ ParmVar lineNum:748
+__size @ size_t @ ParmVar lineNum:748
+__n @ size_t @ ParmVar lineNum:749
+__stream @ FILE *restrict @ ParmVar lineNum:749
+function: fwrite_unlocked
+__ptr @ const void *restrict @ ParmVar lineNum:750
+__size @ size_t @ ParmVar lineNum:750
+__n @ size_t @ ParmVar lineNum:751
+__stream @ FILE *restrict @ ParmVar lineNum:751
+function: fseek
+__stream @ FILE * @ ParmVar lineNum:760
+__off @ long @ ParmVar lineNum:760
+__whence @ int @ ParmVar lineNum:760
+function: ftell
+__stream @ FILE * @ ParmVar lineNum:765
+function: rewind
+__stream @ FILE * @ ParmVar lineNum:770
+function: fseeko
+__stream @ FILE * @ ParmVar lineNum:773
+__off @ __off_t @ ParmVar lineNum:773
+__whence @ int @ ParmVar lineNum:773
+function: ftello
+__stream @ FILE * @ ParmVar lineNum:778
+function: fgetpos
+__stream @ FILE *restrict @ ParmVar lineNum:786
+__pos @ fpos_t *restrict @ ParmVar lineNum:786
+function: fsetpos
+__stream @ FILE * @ ParmVar lineNum:791
+__pos @ const fpos_t * @ ParmVar lineNum:791
+function: clearerr
+__stream @ FILE * @ ParmVar lineNum:797
+function: feof
+__stream @ FILE * @ ParmVar lineNum:799
+function: ferror
+__stream @ FILE * @ ParmVar lineNum:801
+function: clearerr_unlocked
+__stream @ FILE * @ ParmVar lineNum:806
+function: feof_unlocked
+__stream @ FILE * @ ParmVar lineNum:807
+function: ferror_unlocked
+__stream @ FILE * @ ParmVar lineNum:808
+function: perror
+__s @ const char * @ ParmVar lineNum:817
+sys_nerr @ int @ Var lineNum:826
+sys_errlist @ const char *const [] @ Var lineNum:827
+function: fileno
+__stream @ FILE * @ ParmVar lineNum:833
+function: fileno_unlocked
+__stream @ FILE * @ ParmVar lineNum:838
+function: popen
+__command @ const char * @ ParmVar lineNum:840
+__modes @ const char * @ ParmVar lineNum:840
+function: pclose
+__stream @ FILE * @ ParmVar lineNum:846
+function: ctermid
+__s @ char * @ ParmVar lineNum:852
+function: flockfile
+__stream @ FILE * @ ParmVar lineNum:854
+function: ftrylockfile
+__stream @ FILE * @ ParmVar lineNum:858
+function: funlockfile
+__stream @ FILE * @ ParmVar lineNum:861
+function: __ctype_get_mb_cur_max
+function: atof
+__nptr @ const char * @ ParmVar lineNum:910
+function: atoi
+__nptr @ const char * @ ParmVar lineNum:913
+function: atol
+__nptr @ const char * @ ParmVar lineNum:916
+function: atoll
+__nptr @ const char * @ ParmVar lineNum:923
+function: strtod
+__nptr @ const char *restrict @ ParmVar lineNum:930
+__endptr @ char **restrict @ ParmVar lineNum:931
+function: strtof
+__nptr @ const char *restrict @ ParmVar lineNum:938
+__endptr @ char **restrict @ ParmVar lineNum:939
+function: strtold
+__nptr @ const char *restrict @ ParmVar lineNum:941
+__endptr @ char **restrict @ ParmVar lineNum:942
+function: strtol
+__nptr @ const char *restrict @ ParmVar lineNum:949
+__endptr @ char **restrict @ ParmVar lineNum:950
+__base @ int @ ParmVar lineNum:950
+function: strtoul
+__nptr @ const char *restrict @ ParmVar lineNum:953
+__endptr @ char **restrict @ ParmVar lineNum:954
+__base @ int @ ParmVar lineNum:954
+function: strtoq
+__nptr @ const char *restrict @ ParmVar lineNum:961
+__endptr @ char **restrict @ ParmVar lineNum:962
+__base @ int @ ParmVar lineNum:962
+function: strtouq
+__nptr @ const char *restrict @ ParmVar lineNum:966
+__endptr @ char **restrict @ ParmVar lineNum:967
+__base @ int @ ParmVar lineNum:967
+function: strtoll
+__nptr @ const char *restrict @ ParmVar lineNum:975
+__endptr @ char **restrict @ ParmVar lineNum:976
+__base @ int @ ParmVar lineNum:976
+function: strtoull
+__nptr @ const char *restrict @ ParmVar lineNum:980
+__endptr @ char **restrict @ ParmVar lineNum:981
+__base @ int @ ParmVar lineNum:981
+function: l64a
+__n @ long @ ParmVar lineNum:985
+function: a64l
+__s @ const char * @ ParmVar lineNum:988
+function: select
+__nfds @ int @ ParmVar lineNum:1200
+__readfds @ fd_set *restrict @ ParmVar lineNum:1200
+__writefds @ fd_set *restrict @ ParmVar lineNum:1201
+__exceptfds @ fd_set *restrict @ ParmVar lineNum:1202
+__timeout @ struct timeval *restrict @ ParmVar lineNum:1203
+function: pselect
+__nfds @ int @ ParmVar lineNum:1205
+__readfds @ fd_set *restrict @ ParmVar lineNum:1205
+__writefds @ fd_set *restrict @ ParmVar lineNum:1206
+__exceptfds @ fd_set *restrict @ ParmVar lineNum:1207
+__timeout @ const struct timespec *restrict @ ParmVar lineNum:1208
+__sigmask @ const __sigset_t *restrict @ ParmVar lineNum:1209
+function: gnu_dev_major
+__dev @ unsigned long long @ ParmVar lineNum:1219
+function: gnu_dev_minor
+__dev @ unsigned long long @ ParmVar lineNum:1222
+function: gnu_dev_makedev
+__major @ unsigned int @ ParmVar lineNum:1225
+__minor @ unsigned int @ ParmVar lineNum:1226
+function: random
+function: srandom
+__seed @ unsigned int @ ParmVar lineNum:1392
+function: initstate
+__seed @ unsigned int @ ParmVar lineNum:1398
+__statebuf @ char * @ ParmVar lineNum:1398
+__statelen @ size_t @ ParmVar lineNum:1399
+function: setstate
+__statebuf @ char * @ ParmVar lineNum:1403
+function: random_r
+__buf @ struct random_data *restrict @ ParmVar lineNum:1422
+__result @ int32_t *restrict @ ParmVar lineNum:1423
+function: srandom_r
+__seed @ unsigned int @ ParmVar lineNum:1425
+__buf @ struct random_data * @ ParmVar lineNum:1425
+function: initstate_r
+__seed @ unsigned int @ ParmVar lineNum:1428
+__statebuf @ char *restrict @ ParmVar lineNum:1428
+__statelen @ size_t @ ParmVar lineNum:1429
+__buf @ struct random_data *restrict @ ParmVar lineNum:1430
+function: setstate_r
+__statebuf @ char *restrict @ ParmVar lineNum:1433
+__buf @ struct random_data *restrict @ ParmVar lineNum:1434
+function: rand
+function: srand
+__seed @ unsigned int @ ParmVar lineNum:1444
+function: rand_r
+__seed @ unsigned int * @ ParmVar lineNum:1449
+function: drand48
+function: erand48
+__xsubi @ unsigned short * @ ParmVar lineNum:1458
+function: lrand48
+function: nrand48
+__xsubi @ unsigned short * @ ParmVar lineNum:1462
+function: mrand48
+function: jrand48
+__xsubi @ unsigned short * @ ParmVar lineNum:1467
+function: srand48
+__seedval @ long @ ParmVar lineNum:1471
+function: seed48
+__seed16v @ unsigned short * @ ParmVar lineNum:1472
+function: lcong48
+__param @ unsigned short * @ ParmVar lineNum:1474
+function: drand48_r
+__buffer @ struct drand48_data *restrict @ ParmVar lineNum:1490
+__result @ double *restrict @ ParmVar lineNum:1491
+function: erand48_r
+__xsubi @ unsigned short * @ ParmVar lineNum:1492
+__buffer @ struct drand48_data *restrict @ ParmVar lineNum:1493
+__result @ double *restrict @ ParmVar lineNum:1494
+function: lrand48_r
+__buffer @ struct drand48_data *restrict @ ParmVar lineNum:1497
+__result @ long *restrict @ ParmVar lineNum:1498
+function: nrand48_r
+__xsubi @ unsigned short * @ ParmVar lineNum:1500
+__buffer @ struct drand48_data *restrict @ ParmVar lineNum:1501
+__result @ long *restrict @ ParmVar lineNum:1502
+function: mrand48_r
+__buffer @ struct drand48_data *restrict @ ParmVar lineNum:1506
+__result @ long *restrict @ ParmVar lineNum:1507
+function: jrand48_r
+__xsubi @ unsigned short * @ ParmVar lineNum:1509
+__buffer @ struct drand48_data *restrict @ ParmVar lineNum:1510
+__result @ long *restrict @ ParmVar lineNum:1511
+function: srand48_r
+__seedval @ long @ ParmVar lineNum:1515
+__buffer @ struct drand48_data * @ ParmVar lineNum:1515
+function: seed48_r
+__seed16v @ unsigned short * @ ParmVar lineNum:1518
+__buffer @ struct drand48_data * @ ParmVar lineNum:1519
+function: lcong48_r
+__param @ unsigned short * @ ParmVar lineNum:1521
+__buffer @ struct drand48_data * @ ParmVar lineNum:1522
+function: malloc
+__size @ size_t @ ParmVar lineNum:1533
+function: calloc
+__nmemb @ size_t @ ParmVar lineNum:1535
+__size @ size_t @ ParmVar lineNum:1535
+function: realloc
+__ptr @ void * @ ParmVar lineNum:1547
+__size @ size_t @ ParmVar lineNum:1547
+function: free
+__ptr @ void * @ ParmVar lineNum:1550
+function: cfree
+__ptr @ void * @ ParmVar lineNum:1555
+function: alloca
+__size @ size_t @ ParmVar lineNum:1570
+function: valloc
+__size @ size_t @ ParmVar lineNum:1582
+function: posix_memalign
+__memptr @ void ** @ ParmVar lineNum:1587
+__alignment @ size_t @ ParmVar lineNum:1587
+__size @ size_t @ ParmVar lineNum:1587
+function: abort
+function: atexit
+__func @ void (*)(void) @ ParmVar lineNum:1597
+function: on_exit
+__func @ void (*)(int, void *) @ ParmVar lineNum:1604
+__status @ int @ ParmVar lineNum:1604
+__arg @ void * @ ParmVar lineNum:1604
+__arg @ void * @ ParmVar lineNum:1604
+function: exit
+__status @ int @ ParmVar lineNum:1612
+function: _Exit
+__status @ int @ ParmVar lineNum:1620
+function: getenv
+__name @ const char * @ ParmVar lineNum:1627
+function: __secure_getenv
+__name @ const char * @ ParmVar lineNum:1632
+function: putenv
+__string @ char * @ ParmVar lineNum:1639
+function: setenv
+__name @ const char * @ ParmVar lineNum:1645
+__value @ const char * @ ParmVar lineNum:1645
+__replace @ int @ ParmVar lineNum:1645
+function: unsetenv
+__name @ const char * @ ParmVar lineNum:1649
+function: clearenv
+function: mktemp
+__template @ char * @ ParmVar lineNum:1658
+function: mkstemp
+__template @ char * @ ParmVar lineNum:1660
+function: mkstemps
+__template @ char * @ ParmVar lineNum:1662
+__suffixlen @ int @ ParmVar lineNum:1662
+function: mkdtemp
+__template @ char * @ ParmVar lineNum:1664
+function: system
+__command @ const char * @ ParmVar lineNum:1671
+function: realpath
+__name @ const char *restrict @ ParmVar lineNum:1674
+__resolved @ char *restrict @ ParmVar lineNum:1675
+<anonymous> @ const void * @ ParmVar lineNum:1682
+<anonymous> @ const void * @ ParmVar lineNum:1682
+function: bsearch
+__key @ const void * @ ParmVar lineNum:1687
+__base @ const void * @ ParmVar lineNum:1687
+__nmemb @ size_t @ ParmVar lineNum:1688
+__size @ size_t @ ParmVar lineNum:1688
+__compar @ __compar_fn_t @ ParmVar lineNum:1688
+function: qsort
+__base @ void * @ ParmVar lineNum:1693
+__nmemb @ size_t @ ParmVar lineNum:1693
+__size @ size_t @ ParmVar lineNum:1693
+__compar @ __compar_fn_t @ ParmVar lineNum:1694
+function: abs
+__x @ int @ ParmVar lineNum:1696
+function: labs
+__x @ long @ ParmVar lineNum:1697
+function: llabs
+__x @ long long @ ParmVar lineNum:1701
+function: div
+__numer @ int @ ParmVar lineNum:1710
+__denom @ int @ ParmVar lineNum:1710
+function: ldiv
+__numer @ long @ ParmVar lineNum:1712
+__denom @ long @ ParmVar lineNum:1712
+function: lldiv
+__numer @ long long @ ParmVar lineNum:1718
+__denom @ long long @ ParmVar lineNum:1719
+function: ecvt
+__value @ double @ ParmVar lineNum:1723
+__ndigit @ int @ ParmVar lineNum:1723
+__decpt @ int *restrict @ ParmVar lineNum:1723
+__sign @ int *restrict @ ParmVar lineNum:1724
+function: fcvt
+__value @ double @ ParmVar lineNum:1729
+__ndigit @ int @ ParmVar lineNum:1729
+__decpt @ int *restrict @ ParmVar lineNum:1729
+__sign @ int *restrict @ ParmVar lineNum:1730
+function: gcvt
+__value @ double @ ParmVar lineNum:1735
+__ndigit @ int @ ParmVar lineNum:1735
+__buf @ char * @ ParmVar lineNum:1735
+function: qecvt
+__value @ long double @ ParmVar lineNum:1741
+__ndigit @ int @ ParmVar lineNum:1741
+__decpt @ int *restrict @ ParmVar lineNum:1742
+__sign @ int *restrict @ ParmVar lineNum:1742
+function: qfcvt
+__value @ long double @ ParmVar lineNum:1744
+__ndigit @ int @ ParmVar lineNum:1744
+__decpt @ int *restrict @ ParmVar lineNum:1745
+__sign @ int *restrict @ ParmVar lineNum:1745
+function: qgcvt
+__value @ long double @ ParmVar lineNum:1747
+__ndigit @ int @ ParmVar lineNum:1747
+__buf @ char * @ ParmVar lineNum:1747
+function: ecvt_r
+__value @ double @ ParmVar lineNum:1753
+__ndigit @ int @ ParmVar lineNum:1753
+__decpt @ int *restrict @ ParmVar lineNum:1753
+__sign @ int *restrict @ ParmVar lineNum:1754
+__buf @ char *restrict @ ParmVar lineNum:1754
+__len @ size_t @ ParmVar lineNum:1755
+function: fcvt_r
+__value @ double @ ParmVar lineNum:1756
+__ndigit @ int @ ParmVar lineNum:1756
+__decpt @ int *restrict @ ParmVar lineNum:1756
+__sign @ int *restrict @ ParmVar lineNum:1757
+__buf @ char *restrict @ ParmVar lineNum:1757
+__len @ size_t @ ParmVar lineNum:1758
+function: qecvt_r
+__value @ long double @ ParmVar lineNum:1760
+__ndigit @ int @ ParmVar lineNum:1760
+__decpt @ int *restrict @ ParmVar lineNum:1761
+__sign @ int *restrict @ ParmVar lineNum:1761
+__buf @ char *restrict @ ParmVar lineNum:1762
+__len @ size_t @ ParmVar lineNum:1762
+function: qfcvt_r
+__value @ long double @ ParmVar lineNum:1764
+__ndigit @ int @ ParmVar lineNum:1764
+__decpt @ int *restrict @ ParmVar lineNum:1765
+__sign @ int *restrict @ ParmVar lineNum:1765
+__buf @ char *restrict @ ParmVar lineNum:1766
+__len @ size_t @ ParmVar lineNum:1766
+function: mblen
+__s @ const char * @ ParmVar lineNum:1775
+__n @ size_t @ ParmVar lineNum:1775
+function: mbtowc
+__pwc @ wchar_t *restrict @ ParmVar lineNum:1778
+__s @ const char *restrict @ ParmVar lineNum:1779
+__n @ size_t @ ParmVar lineNum:1779
+function: wctomb
+__s @ char * @ ParmVar lineNum:1782
+__wchar @ wchar_t @ ParmVar lineNum:1782
+function: mbstowcs
+__pwcs @ wchar_t *restrict @ ParmVar lineNum:1786
+__s @ const char *restrict @ ParmVar lineNum:1787
+__n @ size_t @ ParmVar lineNum:1787
+function: wcstombs
+__s @ char *restrict @ ParmVar lineNum:1789
+__pwcs @ const wchar_t *restrict @ ParmVar lineNum:1790
+__n @ size_t @ ParmVar lineNum:1790
+function: rpmatch
+__response @ const char * @ ParmVar lineNum:1800
+function: posix_openpt
+__oflag @ int @ ParmVar lineNum:1802
+function: getloadavg
+__loadavg @ double * @ ParmVar lineNum:1804
+__nelem @ int @ ParmVar lineNum:1804
+function: memcpy
+__dest @ void *restrict @ ParmVar lineNum:1828
+__src @ const void *restrict @ ParmVar lineNum:1829
+__n @ size_t @ ParmVar lineNum:1829
+function: memmove
+__dest @ void * @ ParmVar lineNum:1833
+__src @ const void * @ ParmVar lineNum:1833
+__n @ size_t @ ParmVar lineNum:1833
+function: memccpy
+__dest @ void *restrict @ ParmVar lineNum:1841
+__src @ const void *restrict @ ParmVar lineNum:1841
+__c @ int @ ParmVar lineNum:1842
+__n @ size_t @ ParmVar lineNum:1842
+function: memset
+__s @ void * @ ParmVar lineNum:1849
+__c @ int @ ParmVar lineNum:1849
+__n @ size_t @ ParmVar lineNum:1849
+function: memcmp
+__s1 @ const void * @ ParmVar lineNum:1852
+__s2 @ const void * @ ParmVar lineNum:1852
+__n @ size_t @ ParmVar lineNum:1852
+function: memchr
+__s @ const void * @ ParmVar lineNum:1855
+__c @ int @ ParmVar lineNum:1855
+__n @ size_t @ ParmVar lineNum:1855
+function: strcpy
+__dest @ char *restrict @ ParmVar lineNum:1862
+__src @ const char *restrict @ ParmVar lineNum:1862
+function: strncpy
+__dest @ char *restrict @ ParmVar lineNum:1865
+__src @ const char *restrict @ ParmVar lineNum:1866
+__n @ size_t @ ParmVar lineNum:1866
+function: strcat
+__dest @ char *restrict @ ParmVar lineNum:1870
+__src @ const char *restrict @ ParmVar lineNum:1870
+function: strncat
+__dest @ char *restrict @ ParmVar lineNum:1873
+__src @ const char *restrict @ ParmVar lineNum:1873
+__n @ size_t @ ParmVar lineNum:1874
+function: strcmp
+__s1 @ const char * @ ParmVar lineNum:1877
+__s2 @ const char * @ ParmVar lineNum:1877
+function: strncmp
+__s1 @ const char * @ ParmVar lineNum:1880
+__s2 @ const char * @ ParmVar lineNum:1880
+__n @ size_t @ ParmVar lineNum:1880
+function: strcoll
+__s1 @ const char * @ ParmVar lineNum:1884
+__s2 @ const char * @ ParmVar lineNum:1884
+function: strxfrm
+__dest @ char *restrict @ ParmVar lineNum:1887
+__src @ const char *restrict @ ParmVar lineNum:1888
+__n @ size_t @ ParmVar lineNum:1888
+function: strcoll_l
+__s1 @ const char * @ ParmVar lineNum:1917
+__s2 @ const char * @ ParmVar lineNum:1917
+__l @ __locale_t @ ParmVar lineNum:1917
+function: strxfrm_l
+__dest @ char * @ ParmVar lineNum:1920
+__src @ const char * @ ParmVar lineNum:1920
+__n @ size_t @ ParmVar lineNum:1920
+__l @ __locale_t @ ParmVar lineNum:1921
+function: strdup
+__s @ const char * @ ParmVar lineNum:1926
+function: strndup
+__string @ const char * @ ParmVar lineNum:1934
+__n @ size_t @ ParmVar lineNum:1934
+function: strchr
+__s @ const char * @ ParmVar lineNum:1939
+__c @ int @ ParmVar lineNum:1939
+function: strrchr
+__s @ const char * @ ParmVar lineNum:1942
+__c @ int @ ParmVar lineNum:1942
+function: strcspn
+__s @ const char * @ ParmVar lineNum:1950
+__reject @ const char * @ ParmVar lineNum:1950
+function: strspn
+__s @ const char * @ ParmVar lineNum:1954
+__accept @ const char * @ ParmVar lineNum:1954
+function: strpbrk
+__s @ const char * @ ParmVar lineNum:1957
+__accept @ const char * @ ParmVar lineNum:1957
+function: strstr
+__haystack @ const char * @ ParmVar lineNum:1960
+__needle @ const char * @ ParmVar lineNum:1960
+function: strtok
+__s @ char *restrict @ ParmVar lineNum:1966
+__delim @ const char *restrict @ ParmVar lineNum:1966
+function: __strtok_r
+__s @ char *restrict @ ParmVar lineNum:1972
+__delim @ const char *restrict @ ParmVar lineNum:1973
+__save_ptr @ char **restrict @ ParmVar lineNum:1974
+function: strtok_r
+__s @ char *restrict @ ParmVar lineNum:1977
+__delim @ const char *restrict @ ParmVar lineNum:1977
+__save_ptr @ char **restrict @ ParmVar lineNum:1978
+function: strlen
+__s @ const char * @ ParmVar lineNum:1983
+function: strnlen
+__string @ const char * @ ParmVar lineNum:1990
+__maxlen @ size_t @ ParmVar lineNum:1990
+function: strerror
+__errnum @ int @ ParmVar lineNum:1997
+function: strerror_r
+__errnum @ int @ ParmVar lineNum:2000
+__buf @ char * @ ParmVar lineNum:2000
+__buflen @ size_t @ ParmVar lineNum:2000
+function: strerror_l
+__errnum @ int @ ParmVar lineNum:2002
+__l @ __locale_t @ ParmVar lineNum:2002
+function: __bzero
+__s @ void * @ ParmVar lineNum:2008
+__n @ size_t @ ParmVar lineNum:2008
+function: bcopy
+__src @ const void * @ ParmVar lineNum:2012
+__dest @ void * @ ParmVar lineNum:2012
+__n @ size_t @ ParmVar lineNum:2012
+function: bzero
+__s @ void * @ ParmVar lineNum:2016
+__n @ size_t @ ParmVar lineNum:2016
+function: bcmp
+__s1 @ const void * @ ParmVar lineNum:2019
+__s2 @ const void * @ ParmVar lineNum:2019
+__n @ size_t @ ParmVar lineNum:2019
+function: index
+__s @ const char * @ ParmVar lineNum:2022
+__c @ int @ ParmVar lineNum:2022
+function: rindex
+__s @ const char * @ ParmVar lineNum:2025
+__c @ int @ ParmVar lineNum:2025
+function: ffs
+__i @ int @ ParmVar lineNum:2031
+function: strcasecmp
+__s1 @ const char * @ ParmVar lineNum:2033
+__s2 @ const char * @ ParmVar lineNum:2033
+function: strncasecmp
+__s1 @ const char * @ ParmVar lineNum:2037
+__s2 @ const char * @ ParmVar lineNum:2037
+__n @ size_t @ ParmVar lineNum:2037
+function: strsep
+__stringp @ char **restrict @ ParmVar lineNum:2040
+__delim @ const char *restrict @ ParmVar lineNum:2041
+function: strsignal
+__sig @ int @ ParmVar lineNum:2047
+function: __stpcpy
+__dest @ char *restrict @ ParmVar lineNum:2050
+__src @ const char *restrict @ ParmVar lineNum:2050
+function: stpcpy
+__dest @ char *restrict @ ParmVar lineNum:2052
+__src @ const char *restrict @ ParmVar lineNum:2052
+function: __stpncpy
+__dest @ char *restrict @ ParmVar lineNum:2057
+__src @ const char *restrict @ ParmVar lineNum:2058
+__n @ size_t @ ParmVar lineNum:2058
+function: stpncpy
+__dest @ char *restrict @ ParmVar lineNum:2060
+__src @ const char *restrict @ ParmVar lineNum:2061
+__n @ size_t @ ParmVar lineNum:2061
+function: fcntl
+__fd @ int @ ParmVar lineNum:2097
+__cmd @ int @ ParmVar lineNum:2097
+function: open
+__file @ const char * @ ParmVar lineNum:2099
+__oflag @ int @ ParmVar lineNum:2099
+function: openat
+__fd @ int @ ParmVar lineNum:2101
+__file @ const char * @ ParmVar lineNum:2101
+__oflag @ int @ ParmVar lineNum:2101
+function: openat64
+__fd @ int @ ParmVar lineNum:2104
+__file @ const char * @ ParmVar lineNum:2104
+__oflag @ int @ ParmVar lineNum:2104
+function: creat
+__file @ const char * @ ParmVar lineNum:2107
+__mode @ __mode_t @ ParmVar lineNum:2107
+function: lockf
+__fd @ int @ ParmVar lineNum:2109
+__cmd @ int @ ParmVar lineNum:2109
+__len @ __off_t @ ParmVar lineNum:2109
+function: posix_fadvise
+__fd @ int @ ParmVar lineNum:2111
+__offset @ __off_t @ ParmVar lineNum:2111
+__len @ __off_t @ ParmVar lineNum:2111
+__advise @ int @ ParmVar lineNum:2112
+function: posix_fallocate
+__fd @ int @ ParmVar lineNum:2114
+__offset @ __off_t @ ParmVar lineNum:2114
+__len @ __off_t @ ParmVar lineNum:2114
+function: access
+__name @ const char * @ ParmVar lineNum:2139
+__type @ int @ ParmVar lineNum:2139
+function: faccessat
+__fd @ int @ ParmVar lineNum:2141
+__file @ const char * @ ParmVar lineNum:2141
+__type @ int @ ParmVar lineNum:2141
+__flag @ int @ ParmVar lineNum:2141
+function: lseek
+__fd @ int @ ParmVar lineNum:2144
+__offset @ __off_t @ ParmVar lineNum:2144
+__whence @ int @ ParmVar lineNum:2144
+function: close
+__fd @ int @ ParmVar lineNum:2146
+function: read
+__fd @ int @ ParmVar lineNum:2153
+__buf @ void * @ ParmVar lineNum:2153
+__nbytes @ size_t @ ParmVar lineNum:2153
+function: write
+__fd @ int @ ParmVar lineNum:2159
+__buf @ const void * @ ParmVar lineNum:2159
+__n @ size_t @ ParmVar lineNum:2159
+function: pipe
+__pipedes @ int * @ ParmVar lineNum:2161
+function: alarm
+__seconds @ unsigned int @ ParmVar lineNum:2163
+function: sleep
+__seconds @ unsigned int @ ParmVar lineNum:2165
+function: ualarm
+__value @ __useconds_t @ ParmVar lineNum:2172
+__interval @ __useconds_t @ ParmVar lineNum:2172
+function: usleep
+__useconds @ __useconds_t @ ParmVar lineNum:2180
+function: pause
+function: chown
+__file @ const char * @ ParmVar lineNum:2186
+__owner @ __uid_t @ ParmVar lineNum:2186
+__group @ __gid_t @ ParmVar lineNum:2186
+function: fchown
+__fd @ int @ ParmVar lineNum:2191
+__owner @ __uid_t @ ParmVar lineNum:2191
+__group @ __gid_t @ ParmVar lineNum:2191
+function: lchown
+__file @ const char * @ ParmVar lineNum:2196
+__owner @ __uid_t @ ParmVar lineNum:2196
+__group @ __gid_t @ ParmVar lineNum:2196
+function: fchownat
+__fd @ int @ ParmVar lineNum:2204
+__file @ const char * @ ParmVar lineNum:2204
+__owner @ __uid_t @ ParmVar lineNum:2204
+__group @ __gid_t @ ParmVar lineNum:2205
+__flag @ int @ ParmVar lineNum:2205
+function: chdir
+__path @ const char * @ ParmVar lineNum:2210
+function: fchdir
+__fd @ int @ ParmVar lineNum:2214
+function: getcwd
+__buf @ char * @ ParmVar lineNum:2216
+__size @ size_t @ ParmVar lineNum:2216
+function: getwd
+__buf @ char * @ ParmVar lineNum:2218
+function: dup
+__fd @ int @ ParmVar lineNum:2224
+function: dup2
+__fd @ int @ ParmVar lineNum:2227
+__fd2 @ int @ ParmVar lineNum:2227
+__environ @ char ** @ Var lineNum:2229
+function: execve
+__path @ const char * @ ParmVar lineNum:2237
+__argv @ char *const * @ ParmVar lineNum:2237
+__envp @ char *const * @ ParmVar lineNum:2238
+function: fexecve
+__fd @ int @ ParmVar lineNum:2243
+__argv @ char *const * @ ParmVar lineNum:2243
+__envp @ char *const * @ ParmVar lineNum:2243
+function: execv
+__path @ const char * @ ParmVar lineNum:2249
+__argv @ char *const * @ ParmVar lineNum:2249
+function: execle
+__path @ const char * @ ParmVar lineNum:2254
+__arg @ const char * @ ParmVar lineNum:2254
+function: execl
+__path @ const char * @ ParmVar lineNum:2259
+__arg @ const char * @ ParmVar lineNum:2259
+function: execvp
+__file @ const char * @ ParmVar lineNum:2264
+__argv @ char *const * @ ParmVar lineNum:2264
+function: execlp
+__file @ const char * @ ParmVar lineNum:2270
+__arg @ const char * @ ParmVar lineNum:2270
+function: nice
+__inc @ int @ ParmVar lineNum:2273
+function: _exit
+__status @ int @ ParmVar lineNum:2278
+function: pathconf
+__path @ const char * @ ParmVar lineNum:2936
+__name @ int @ ParmVar lineNum:2936
+function: fpathconf
+__fd @ int @ ParmVar lineNum:2940
+__name @ int @ ParmVar lineNum:2940
+function: sysconf
+__name @ int @ ParmVar lineNum:2943
+function: confstr
+__name @ int @ ParmVar lineNum:2947
+__buf @ char * @ ParmVar lineNum:2947
+__len @ size_t @ ParmVar lineNum:2947
+function: getpid
+function: getppid
+function: getpgrp
+function: __getpgid
+__pid @ __pid_t @ ParmVar lineNum:2962
+function: setpgid
+__pid @ __pid_t @ ParmVar lineNum:2964
+__pgid @ __pid_t @ ParmVar lineNum:2964
+function: setpgrp
+function: setsid
+function: getuid
+function: geteuid
+function: getgid
+function: getegid
+function: getgroups
+__size @ int @ ParmVar lineNum:2990
+__list @ __gid_t * @ ParmVar lineNum:2990
+function: setuid
+__uid @ __uid_t @ ParmVar lineNum:2992
+function: setreuid
+__ruid @ __uid_t @ ParmVar lineNum:2997
+__euid @ __uid_t @ ParmVar lineNum:2997
+function: seteuid
+__uid @ __uid_t @ ParmVar lineNum:3002
+function: setgid
+__gid @ __gid_t @ ParmVar lineNum:3009
+function: setregid
+__rgid @ __gid_t @ ParmVar lineNum:3014
+__egid @ __gid_t @ ParmVar lineNum:3014
+function: setegid
+__gid @ __gid_t @ ParmVar lineNum:3019
+function: fork
+function: vfork
+function: ttyname
+__fd @ int @ ParmVar lineNum:3034
+function: ttyname_r
+__fd @ int @ ParmVar lineNum:3038
+__buf @ char * @ ParmVar lineNum:3038
+__buflen @ size_t @ ParmVar lineNum:3038
+function: isatty
+__fd @ int @ ParmVar lineNum:3043
+function: ttyslot
+function: link
+__from @ const char * @ ParmVar lineNum:3054
+__to @ const char * @ ParmVar lineNum:3054
+function: linkat
+__fromfd @ int @ ParmVar lineNum:3060
+__from @ const char * @ ParmVar lineNum:3060
+__tofd @ int @ ParmVar lineNum:3060
+__to @ const char * @ ParmVar lineNum:3061
+__flags @ int @ ParmVar lineNum:3061
+function: symlink
+__from @ const char * @ ParmVar lineNum:3067
+__to @ const char * @ ParmVar lineNum:3067
+function: readlink
+__path @ const char *restrict @ ParmVar lineNum:3073
+__buf @ char *restrict @ ParmVar lineNum:3074
+__len @ size_t @ ParmVar lineNum:3074
+function: symlinkat
+__from @ const char * @ ParmVar lineNum:3080
+__tofd @ int @ ParmVar lineNum:3080
+__to @ const char * @ ParmVar lineNum:3081
+function: readlinkat
+__fd @ int @ ParmVar lineNum:3084
+__path @ const char *restrict @ ParmVar lineNum:3084
+__buf @ char *restrict @ ParmVar lineNum:3085
+__len @ size_t @ ParmVar lineNum:3085
+function: unlink
+__name @ const char * @ ParmVar lineNum:3090
+function: unlinkat
+__fd @ int @ ParmVar lineNum:3094
+__name @ const char * @ ParmVar lineNum:3094
+__flag @ int @ ParmVar lineNum:3094
+function: rmdir
+__path @ const char * @ ParmVar lineNum:3099
+function: tcgetpgrp
+__fd @ int @ ParmVar lineNum:3103
+function: tcsetpgrp
+__fd @ int @ ParmVar lineNum:3106
+__pgrp_id @ __pid_t @ ParmVar lineNum:3106
+function: getlogin
+function: getlogin_r
+__name @ char * @ ParmVar lineNum:3121
+__name_len @ size_t @ ParmVar lineNum:3121
+function: setlogin
+__name @ const char * @ ParmVar lineNum:3126
+optarg @ char * @ Var lineNum:3130
+optind @ int @ Var lineNum:3132
+opterr @ int @ Var lineNum:3137
+optopt @ int @ Var lineNum:3141
+function: getopt
+___argc @ int @ ParmVar lineNum:3143
+___argv @ char *const * @ ParmVar lineNum:3143
+__shortopts @ const char * @ ParmVar lineNum:3143
+function: gethostname
+__name @ char * @ ParmVar lineNum:3153
+__len @ size_t @ ParmVar lineNum:3153
+function: sethostname
+__name @ const char * @ ParmVar lineNum:3160
+__len @ size_t @ ParmVar lineNum:3160
+function: sethostid
+__id @ long @ ParmVar lineNum:3165
+function: getdomainname
+__name @ char * @ ParmVar lineNum:3171
+__len @ size_t @ ParmVar lineNum:3171
+function: setdomainname
+__name @ const char * @ ParmVar lineNum:3173
+__len @ size_t @ ParmVar lineNum:3173
+function: vhangup
+function: revoke
+__file @ const char * @ ParmVar lineNum:3183
+function: profil
+__sample_buffer @ unsigned short * @ ParmVar lineNum:3191
+__size @ size_t @ ParmVar lineNum:3191
+__offset @ size_t @ ParmVar lineNum:3192
+__scale @ unsigned int @ ParmVar lineNum:3192
+function: acct
+__name @ const char * @ ParmVar lineNum:3199
+function: getusershell
+function: endusershell
+function: setusershell
+function: daemon
+__nochdir @ int @ ParmVar lineNum:3211
+__noclose @ int @ ParmVar lineNum:3211
+function: chroot
+__path @ const char * @ ParmVar lineNum:3218
+function: getpass
+__prompt @ const char * @ ParmVar lineNum:3222
+function: fsync
+__fd @ int @ ParmVar lineNum:3224
+function: gethostid
+function: sync
+function: getpagesize
+function: getdtablesize
+function: truncate
+__file @ const char * @ ParmVar lineNum:3249
+__length @ __off_t @ ParmVar lineNum:3249
+function: ftruncate
+__fd @ int @ ParmVar lineNum:3252
+__length @ __off_t @ ParmVar lineNum:3252
+function: brk
+__addr @ void * @ ParmVar lineNum:3254
+function: sbrk
+__delta @ intptr_t @ ParmVar lineNum:3260
+function: syscall
+__sysno @ long @ ParmVar lineNum:3262
+function: fdatasync
+__fildes @ int @ ParmVar lineNum:3264
+function: fatal
+ @ const char * @ ParmVar lineNum:3277
+ @ int @ ParmVar lineNum:3277
+<anonymous> @ char * @ ParmVar lineNum:3286
+<anonymous> @ size_t @ ParmVar lineNum:3286
+<anonymous> @ char * @ ParmVar lineNum:3287
+<anonymous> @ size_t @ ParmVar lineNum:3287
+<anonymous> @ char ** @ ParmVar lineNum:3287
+matchers @ struct matcher [] @ Var lineNum:3283
+matcher @ char * @ Var lineNum:3290
+match_icase @ int @ Var lineNum:3294
+match_words @ int @ Var lineNum:3295
+match_lines @ int @ Var lineNum:3296
+matcher @ char * @ Var lineNum:3299
+match_icase @ int @ Var lineNum:3300
+match_words @ int @ Var lineNum:3301
+match_lines @ int @ Var lineNum:3302
+compile @ void (*)() @ Var lineNum:3305
+execute @ char *(*)() @ Var lineNum:3306
+prog @ char * @ Var lineNum:3309
+filename @ char * @ Var lineNum:3310
+errseen @ int @ Var lineNum:3311
+function: error
+mesg @ const char * @ ParmVar lineNum:3318
+errnum @ int @ ParmVar lineNum:3321
+errseen 1
+function: fatal
+mesg @ const char * @ ParmVar lineNum:3334
+errnum @ int @ ParmVar lineNum:3337
+function: xmalloc
+size @ size_t @ ParmVar lineNum:3346
+result malloc(size)
+This is malloc!!!!
+result @ char * @ Var lineNum:3348
+function: xrealloc
+ptr @ char * @ ParmVar lineNum:3359
+size @ size_t @ ParmVar lineNum:3360
+result @ char * @ Var lineNum:3362
+result realloc(ptr, size)
+function: valloc
+ @ size_t @ ParmVar lineNum:3377
+buffer @ char * @ Var lineNum:3379
+bufsalloc @ size_t @ Var lineNum:3380
+bufalloc @ size_t @ Var lineNum:3381
+bufdesc @ int @ Var lineNum:3382
+bufbeg @ char * @ Var lineNum:3383
+buflim @ char * @ Var lineNum:3384
+function: stat
+__file @ const char *restrict @ ParmVar lineNum:3445
+__buf @ struct stat *restrict @ ParmVar lineNum:3446
+function: fstat
+__fd @ int @ ParmVar lineNum:3450
+__buf @ struct stat * @ ParmVar lineNum:3450
+function: fstatat
+__fd @ int @ ParmVar lineNum:3452
+__file @ const char *restrict @ ParmVar lineNum:3452
+__buf @ struct stat *restrict @ ParmVar lineNum:3453
+__flag @ int @ ParmVar lineNum:3453
+function: lstat
+__file @ const char *restrict @ ParmVar lineNum:3456
+__buf @ struct stat *restrict @ ParmVar lineNum:3457
+function: chmod
+__file @ const char * @ ParmVar lineNum:3459
+__mode @ __mode_t @ ParmVar lineNum:3459
+function: lchmod
+__file @ const char * @ ParmVar lineNum:3466
+__mode @ __mode_t @ ParmVar lineNum:3466
+function: fchmod
+__fd @ int @ ParmVar lineNum:3472
+__mode @ __mode_t @ ParmVar lineNum:3472
+function: fchmodat
+__fd @ int @ ParmVar lineNum:3478
+__file @ const char * @ ParmVar lineNum:3478
+__mode @ __mode_t @ ParmVar lineNum:3478
+__flag @ int @ ParmVar lineNum:3479
+function: umask
+__mask @ __mode_t @ ParmVar lineNum:3487
+function: mkdir
+__path @ const char * @ ParmVar lineNum:3489
+__mode @ __mode_t @ ParmVar lineNum:3489
+function: mkdirat
+__fd @ int @ ParmVar lineNum:3496
+__path @ const char * @ ParmVar lineNum:3496
+__mode @ __mode_t @ ParmVar lineNum:3496
+function: mknod
+__path @ const char * @ ParmVar lineNum:3504
+__mode @ __mode_t @ ParmVar lineNum:3504
+__dev @ __dev_t @ ParmVar lineNum:3504
+function: mknodat
+__fd @ int @ ParmVar lineNum:3511
+__path @ const char * @ ParmVar lineNum:3511
+__mode @ __mode_t @ ParmVar lineNum:3511
+__dev @ __dev_t @ ParmVar lineNum:3512
+function: mkfifo
+__path @ const char * @ ParmVar lineNum:3518
+__mode @ __mode_t @ ParmVar lineNum:3518
+function: mkfifoat
+__fd @ int @ ParmVar lineNum:3525
+__path @ const char * @ ParmVar lineNum:3525
+__mode @ __mode_t @ ParmVar lineNum:3525
+function: utimensat
+__fd @ int @ ParmVar lineNum:3532
+__path @ const char * @ ParmVar lineNum:3532
+__times @ const struct timespec * @ ParmVar lineNum:3533
+__flags @ int @ ParmVar lineNum:3534
+function: futimens
+__fd @ int @ ParmVar lineNum:3540
+__times @ const struct timespec * @ ParmVar lineNum:3540
+function: __fxstat
+__ver @ int @ ParmVar lineNum:3542
+__fildes @ int @ ParmVar lineNum:3542
+__stat_buf @ struct stat * @ ParmVar lineNum:3542
+function: __xstat
+__ver @ int @ ParmVar lineNum:3544
+__filename @ const char * @ ParmVar lineNum:3544
+__stat_buf @ struct stat * @ ParmVar lineNum:3545
+function: __lxstat
+__ver @ int @ ParmVar lineNum:3546
+__filename @ const char * @ ParmVar lineNum:3546
+__stat_buf @ struct stat * @ ParmVar lineNum:3547
+function: __fxstatat
+__ver @ int @ ParmVar lineNum:3548
+__fildes @ int @ ParmVar lineNum:3548
+__filename @ const char * @ ParmVar lineNum:3548
+__stat_buf @ struct stat * @ ParmVar lineNum:3549
+__flag @ int @ ParmVar lineNum:3549
+function: __xmknod
+__ver @ int @ ParmVar lineNum:3552
+__path @ const char * @ ParmVar lineNum:3552
+__mode @ __mode_t @ ParmVar lineNum:3552
+__dev @ __dev_t * @ ParmVar lineNum:3553
+function: __xmknodat
+__ver @ int @ ParmVar lineNum:3555
+__fd @ int @ ParmVar lineNum:3555
+__path @ const char * @ ParmVar lineNum:3555
+__mode @ __mode_t @ ParmVar lineNum:3556
+__dev @ __dev_t * @ ParmVar lineNum:3556
+function: mmap
+__addr @ void * @ ParmVar lineNum:3574
+__len @ size_t @ ParmVar lineNum:3574
+__prot @ int @ ParmVar lineNum:3574
+__flags @ int @ ParmVar lineNum:3575
+__fd @ int @ ParmVar lineNum:3575
+__offset @ __off_t @ ParmVar lineNum:3575
+function: munmap
+__addr @ void * @ ParmVar lineNum:3577
+__len @ size_t @ ParmVar lineNum:3577
+function: mprotect
+__addr @ void * @ ParmVar lineNum:3582
+__len @ size_t @ ParmVar lineNum:3582
+__prot @ int @ ParmVar lineNum:3582
+function: msync
+__addr @ void * @ ParmVar lineNum:3590
+__len @ size_t @ ParmVar lineNum:3590
+__flags @ int @ ParmVar lineNum:3590
+function: madvise
+__addr @ void * @ ParmVar lineNum:3595
+__len @ size_t @ ParmVar lineNum:3595
+__advice @ int @ ParmVar lineNum:3595
+function: posix_madvise
+__addr @ void * @ ParmVar lineNum:3599
+__len @ size_t @ ParmVar lineNum:3599
+__advice @ int @ ParmVar lineNum:3599
+function: mlock
+__addr @ const void * @ ParmVar lineNum:3604
+__len @ size_t @ ParmVar lineNum:3604
+function: munlock
+__addr @ const void * @ ParmVar lineNum:3607
+__len @ size_t @ ParmVar lineNum:3607
+function: mlockall
+__flags @ int @ ParmVar lineNum:3612
+function: munlockall
+function: mincore
+__start @ void * @ ParmVar lineNum:3624
+__len @ size_t @ ParmVar lineNum:3624
+__vec @ unsigned char * @ ParmVar lineNum:3624
+function: shm_open
+__name @ const char * @ ParmVar lineNum:3627
+__oflag @ int @ ParmVar lineNum:3627
+__mode @ mode_t @ ParmVar lineNum:3627
+function: shm_unlink
+__name @ const char * @ ParmVar lineNum:3630
+bufmapped @ int @ Var lineNum:3635
+bufstat @ struct stat @ Var lineNum:3636
+bufoffset @ off_t @ Var lineNum:3637
+function: reset
+fd @ int @ ParmVar lineNum:3644
+bufdesc fd
+initialized @ int @ Var lineNum:3646
+initialized 1
+bufsalloc ((8192) > (getpagesize()) ? (8192) : (getpagesize()))
+bufalloc 5 * bufsalloc
+buffer valloc(bufalloc + 1)
+bufbeg buffer
+buflim buffer
+bufmapped 0
+bufmapped 1
+bufoffset lseek(fd, 0, 1)
+function: fillbuf
+save @ size_t @ ParmVar lineNum:3684
+sp buflim - save
+dp nbuffer + bufsalloc - save
+bufbeg dp
+buffer nbuffer
+nbuffer @ char * @ Var lineNum:3686
+dp @ char * @ Var lineNum:3686
+sp @ char * @ Var lineNum:3686
+cc @ int @ Var lineNum:3687
+maddr @ caddr_t @ Var lineNum:3689
+pagesize @ int @ Var lineNum:3691
+bufalloc 5 * bufsalloc
+nbuffer valloc(bufalloc + 1)
+*dp++ *sp++
+maddr buffer + bufsalloc
+maddr mmap(maddr, bufalloc - bufsalloc, 1 | 2, 2 | 16, bufdesc, bufoffset)
+cc bufalloc - bufsalloc
+bufoffset cc
+cc read(bufdesc, buffer + bufsalloc, bufalloc - bufsalloc)
+bufmapped 0
+buflim buffer + bufsalloc + cc
+out_quiet @ int @ Var lineNum:3765
+out_invert @ int @ Var lineNum:3766
+out_file @ int @ Var lineNum:3767
+out_line @ int @ Var lineNum:3768
+out_byte @ int @ Var lineNum:3769
+out_before @ int @ Var lineNum:3770
+out_after @ int @ Var lineNum:3771
+totalcc @ size_t @ Var lineNum:3774
+lastnl @ char * @ Var lineNum:3775
+lastout @ char * @ Var lineNum:3776
+totalnl @ size_t @ Var lineNum:3779
+pending @ int @ Var lineNum:3780
+function: nlscan
+lim @ char * @ ParmVar lineNum:3784
+lastnl beg
+beg @ char * @ Var lineNum:3786
+function: prline
+beg @ char * @ ParmVar lineNum:3796
+lim @ char * @ ParmVar lineNum:3797
+sep @ char @ ParmVar lineNum:3798
+lastout lim
+lastnl lim
+function: prpending
+lim @ char * @ ParmVar lineNum:3819
+nl @ char * @ Var lineNum:3821
+lastout bufbeg
+function: prtext
+beg @ char * @ ParmVar lineNum:3840
+lim @ char * @ ParmVar lineNum:3841
+nlinesp @ int * @ ParmVar lineNum:3842
+p beg
+pending out_after
+used 1
+used @ int @ Var lineNum:3844
+bp @ char * @ Var lineNum:3845
+p @ char * @ Var lineNum:3845
+nl @ char * @ Var lineNum:3845
+i @ int @ Var lineNum:3846
+n @ int @ Var lineNum:3846
+bp lastout ? lastout : bufbeg
+nl memchr(p, '\n', beg - p)
+p nl + 1
+*nlinesp n
+p nl
+function: grepbuf
+beg @ char * @ ParmVar lineNum:3905
+lim @ char * @ ParmVar lineNum:3906
+nlines 0
+p beg
+nlines @ int @ Var lineNum:3908
+n @ int @ Var lineNum:3908
+p @ char * @ Var lineNum:3909
+b @ char * @ Var lineNum:3909
+endp @ char * @ Var lineNum:3910
+p endp
+nlines 1
+nlines n
+nlines n
+function: grep
+fd @ int @ ParmVar lineNum:3942
+totalcc 0
+lastout 0
+totalnl 0
+pending 0
+nlines 0
+residue 0
+save 0
+nlines @ int @ Var lineNum:3944
+i @ int @ Var lineNum:3944
+residue @ size_t @ Var lineNum:3945
+save @ size_t @ Var lineNum:3945
+beg @ char * @ Var lineNum:3946
+lim @ char * @ Var lineNum:3946
+lastnl bufbeg
+beg bufbeg + save - residue
+residue buflim - lim
+i 0
+beg lim
+save residue + lim - beg
+totalcc buflim - bufbeg - save
+lastout bufbeg
+nlines grepbuf(beg, lim)
+lastout 0
+nlines grepbuf(bufbeg + save - residue, buflim)
+version @ char [21] @ Var lineNum:4006
+function: usage
+function: setmatcher
+name @ char * @ ParmVar lineNum:4022
+i @ int @ Var lineNum:4024
+compile matchers[i].compile
+execute matchers[i].execute
+function: main
+argc @ int @ ParmVar lineNum:4038
+argv @ char ** @ ParmVar lineNum:4039
+argv[0] "target"
+prog argv[0]
+keys ((void *)0)
+keycc 0
+keyfound 0
+count_matches 0
+no_filenames 0
+list_files 0
+suppress_errors 0
+matcher ((void *)0)
+status 1
+keys @ char * @ Var lineNum:4041
+keycc @ size_t @ Var lineNum:4042
+oldcc @ size_t @ Var lineNum:4042
+keyalloc @ size_t @ Var lineNum:4042
+keyfound @ int @ Var lineNum:4043
+count_matches @ int @ Var lineNum:4043
+no_filenames @ int @ Var lineNum:4043
+list_files @ int @ Var lineNum:4043
+suppress_errors @ int @ Var lineNum:4043
+opt @ int @ Var lineNum:4044
+cc @ int @ Var lineNum:4044
+desc @ int @ Var lineNum:4044
+count @ int @ Var lineNum:4044
+status @ int @ Var lineNum:4044
+fp @ FILE * @ Var lineNum:4045
+optarg @ char * @ Var lineNum:4046
+optind @ int @ Var lineNum:4047
+prog strrchr(prog, '/') + 1
+out_after 10 * out_after + opt - '0'
+matcher "posix-egrep"
+matcher "fgrep"
+matcher "grep"
+matcher optarg
+count_matches 1
+keys xrealloc(keys, keycc + cc + 1)
+keycc cc
+keyfound 1
+keys xrealloc(keys, keyalloc)
+oldcc keycc
+keyfound 1
+list_files -1
+list_files 1
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+out_before 10 * out_before + opt - '0'
+NULL!
+out_after atoi(optarg)
+NULL!
+out_before atoi(optarg)
+NULL!
+out_before out_after = 2
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+out_byte 1
+NULL!
+out_quiet 1
+NULL!
+cc strlen(optarg)
+keys[keycc++] '\n'
+NULL!
+fp strcmp(optarg, "-") != 0 ? fopen(optarg, "r") : stdin
+keys[keycc++] '\n'
+keycc cc
+keys xrealloc(keys, keyalloc *= 2)
+NULL!
+no_filenames 1
+NULL!
+NULL!
+match_icase 1
+NULL!
+out_quiet 1
+NULL!
+out_quiet 1
+NULL!
+out_line 1
+NULL!
+out_quiet 1
+NULL!
+suppress_errors 1
+NULL!
+out_invert 1
+NULL!
+match_words 1
+NULL!
+match_lines 1
+keys argv[optind++]
+keycc strlen(keys)
+matcher prog
+out_file 1
+desc strcmp(argv[optind], "-") ? open(argv[optind], 0) : 0
+filename desc == 0 ? "(standard input)" : argv[optind]
+count grep(desc)
+status 0
+filename "(standard input)"
+count grep(0)
+status 0
+re_syntax_table @ char [256] @ Var lineNum:4270
+function: init_syntax_once
+re_syntax_table['_'] 1
+done 1
+c @ int @ Var lineNum:4275
+done @ int @ Var lineNum:4276
+re_syntax_table[c] 1
+re_syntax_table[c] 1
+re_syntax_table[c] 1
+re_syntax_options @ reg_syntax_t @ Var lineNum:4301
+function: re_set_syntax
+syntax @ reg_syntax_t @ ParmVar lineNum:4422
+function: re_compile_pattern
+pattern @ const char * @ ParmVar lineNum:4428
+length @ int @ ParmVar lineNum:4428
+buffer @ struct re_pattern_buffer * @ ParmVar lineNum:4428
+function: re_compile_fastmap
+buffer @ struct re_pattern_buffer * @ ParmVar lineNum:4435
+function: re_search
+buffer @ struct re_pattern_buffer * @ ParmVar lineNum:4444
+string @ const char * @ ParmVar lineNum:4444
+length @ int @ ParmVar lineNum:4444
+start @ int @ ParmVar lineNum:4444
+range @ int @ ParmVar lineNum:4444
+regs @ struct re_registers * @ ParmVar lineNum:4444
+function: re_search_2
+buffer @ struct re_pattern_buffer * @ ParmVar lineNum:4451
+string1 @ const char * @ ParmVar lineNum:4451
+length1 @ int @ ParmVar lineNum:4451
+string2 @ const char * @ ParmVar lineNum:4451
+length2 @ int @ ParmVar lineNum:4451
+start @ int @ ParmVar lineNum:4451
+range @ int @ ParmVar lineNum:4451
+regs @ struct re_registers * @ ParmVar lineNum:4451
+stop @ int @ ParmVar lineNum:4451
+function: re_match
+buffer @ struct re_pattern_buffer * @ ParmVar lineNum:4459
+string @ const char * @ ParmVar lineNum:4459
+length @ int @ ParmVar lineNum:4459
+start @ int @ ParmVar lineNum:4459
+regs @ struct re_registers * @ ParmVar lineNum:4459
+function: re_match_2
+buffer @ struct re_pattern_buffer * @ ParmVar lineNum:4465
+string1 @ const char * @ ParmVar lineNum:4465
+length1 @ int @ ParmVar lineNum:4465
+string2 @ const char * @ ParmVar lineNum:4465
+length2 @ int @ ParmVar lineNum:4465
+start @ int @ ParmVar lineNum:4465
+regs @ struct re_registers * @ ParmVar lineNum:4465
+stop @ int @ ParmVar lineNum:4465
+function: re_set_registers
+buffer @ struct re_pattern_buffer * @ ParmVar lineNum:4468
+regs @ struct re_registers * @ ParmVar lineNum:4468
+num_regs @ unsigned int @ ParmVar lineNum:4468
+starts @ regoff_t * @ ParmVar lineNum:4468
+ends @ regoff_t * @ ParmVar lineNum:4468
+function: re_comp
+ @ const char * @ ParmVar lineNum:4472
+function: re_exec
+ @ const char * @ ParmVar lineNum:4473
+function: regcomp
+preg @ regex_t * @ ParmVar lineNum:4476
+pattern @ const char * @ ParmVar lineNum:4476
+cflags @ int @ ParmVar lineNum:4476
+function: regexec
+preg @ const regex_t * @ ParmVar lineNum:4478
+string @ const char * @ ParmVar lineNum:4478
+nmatch @ size_t @ ParmVar lineNum:4478
+pmatch @ regmatch_t * @ ParmVar lineNum:4478
+eflags @ int @ ParmVar lineNum:4478
+function: regerror
+errcode @ int @ ParmVar lineNum:4481
+preg @ const regex_t * @ ParmVar lineNum:4481
+errbuf @ char * @ ParmVar lineNum:4481
+errbuf_size @ size_t @ ParmVar lineNum:4481
+function: regfree
+preg @ regex_t * @ ParmVar lineNum:4483
+function: __ctype_b_loc
+function: __ctype_tolower_loc
+function: __ctype_toupper_loc
+function: isalnum
+ @ int @ ParmVar lineNum:4520
+function: isalpha
+ @ int @ ParmVar lineNum:4521
+function: iscntrl
+ @ int @ ParmVar lineNum:4522
+function: isdigit
+ @ int @ ParmVar lineNum:4523
+function: islower
+ @ int @ ParmVar lineNum:4524
+function: isgraph
+ @ int @ ParmVar lineNum:4525
+function: isprint
+ @ int @ ParmVar lineNum:4526
+function: ispunct
+ @ int @ ParmVar lineNum:4527
+function: isspace
+ @ int @ ParmVar lineNum:4528
+function: isupper
+ @ int @ ParmVar lineNum:4529
+function: isxdigit
+ @ int @ ParmVar lineNum:4530
+function: tolower
+__c @ int @ ParmVar lineNum:4534
+function: toupper
+__c @ int @ ParmVar lineNum:4537
+function: isblank
+ @ int @ ParmVar lineNum:4546
+function: isascii
+__c @ int @ ParmVar lineNum:4550
+function: toascii
+__c @ int @ ParmVar lineNum:4554
+function: _toupper
+ @ int @ ParmVar lineNum:4558
+function: _tolower
+ @ int @ ParmVar lineNum:4559
+function: isalnum_l
+ @ int @ ParmVar lineNum:4561
+ @ __locale_t @ ParmVar lineNum:4561
+function: isalpha_l
+ @ int @ ParmVar lineNum:4562
+ @ __locale_t @ ParmVar lineNum:4562
+function: iscntrl_l
+ @ int @ ParmVar lineNum:4563
+ @ __locale_t @ ParmVar lineNum:4563
+function: isdigit_l
+ @ int @ ParmVar lineNum:4564
+ @ __locale_t @ ParmVar lineNum:4564
+function: islower_l
+ @ int @ ParmVar lineNum:4565
+ @ __locale_t @ ParmVar lineNum:4565
+function: isgraph_l
+ @ int @ ParmVar lineNum:4566
+ @ __locale_t @ ParmVar lineNum:4566
+function: isprint_l
+ @ int @ ParmVar lineNum:4567
+ @ __locale_t @ ParmVar lineNum:4567
+function: ispunct_l
+ @ int @ ParmVar lineNum:4568
+ @ __locale_t @ ParmVar lineNum:4568
+function: isspace_l
+ @ int @ ParmVar lineNum:4569
+ @ __locale_t @ ParmVar lineNum:4569
+function: isupper_l
+ @ int @ ParmVar lineNum:4570
+ @ __locale_t @ ParmVar lineNum:4570
+function: isxdigit_l
+ @ int @ ParmVar lineNum:4571
+ @ __locale_t @ ParmVar lineNum:4571
+function: isblank_l
+ @ int @ ParmVar lineNum:4573
+ @ __locale_t @ ParmVar lineNum:4573
+function: __tolower_l
+__c @ int @ ParmVar lineNum:4577
+__l @ __locale_t @ ParmVar lineNum:4577
+function: tolower_l
+__c @ int @ ParmVar lineNum:4578
+__l @ __locale_t @ ParmVar lineNum:4578
+function: __toupper_l
+__c @ int @ ParmVar lineNum:4581
+__l @ __locale_t @ ParmVar lineNum:4581
+function: toupper_l
+__c @ int @ ParmVar lineNum:4582
+__l @ __locale_t @ ParmVar lineNum:4582
+re_syntax_options @ reg_syntax_t @ Var lineNum:4687
+function: re_set_syntax
+syntax @ reg_syntax_t @ ParmVar lineNum:4691
+re_syntax_options syntax
+ret @ reg_syntax_t @ Var lineNum:4693
+re_error_msg @ const char *[17] @ Var lineNum:4702
+function: store_op1
+function: store_op2
+function: insert_op1
+function: insert_op2
+function: at_begline_loc_p
+function: at_endline_loc_p
+function: group_in_compile_stack
+function: compile_range
+function: regex_compile
+pattern @ const char * @ ParmVar lineNum:4758
+size @ int @ ParmVar lineNum:4759
+syntax @ reg_syntax_t @ ParmVar lineNum:4760
+bufp @ struct re_pattern_buffer * @ ParmVar lineNum:4761
+compile_stack.stack ((compile_stack_elt_t *)malloc((32) * sizeof(compile_stack_elt_t)))
+compile_stack.size 32
+compile_stack.avail 0
+bufp->syntax syntax
+bufp->fastmap_accurate 0
+bufp->not_bol bufp->not_eol = 0
+bufp->used 0
+bufp->re_nsub 0
+begalt b = bufp->buffer
+bufp->used b - bufp->buffer
+c @ unsigned char @ Var lineNum:4766
+c1 @ unsigned char @ Var lineNum:4766
+p1 @ const char * @ Var lineNum:4769
+b @ unsigned char * @ Var lineNum:4772
+compile_stack @ compile_stack_type @ Var lineNum:4775
+p @ const char * @ Var lineNum:4778
+pend @ const char * @ Var lineNum:4779
+translate @ char * @ Var lineNum:4782
+pending_exact @ unsigned char * @ Var lineNum:4788
+laststart @ unsigned char * @ Var lineNum:4793
+begalt @ unsigned char * @ Var lineNum:4796
+beg_interval @ const char * @ Var lineNum:4800
+fixup_alt_jump @ unsigned char * @ Var lineNum:4805
+regnum @ regnum_t @ Var lineNum:4810
+bufp->allocated 32
+bufp->buffer ((unsigned char *)malloc((32) * sizeof(unsigned char)))
+c (unsigned char)*p++
+c translate[c]
+NULL!
+*b++ (unsigned char)(begline)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:4871
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+*b++ (unsigned char)(endline)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:4886
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+NULL!
+NULL!
+pending_exact 0
+b 3
+keep_string_p @ boolean @ Var lineNum:4911
+zero_times_ok @ char @ Var lineNum:4914
+many_times_ok @ char @ Var lineNum:4914
+zero_times_ok c != '+'
+many_times_ok c != '?'
+c (unsigned char)*p++
+c translate[c]
+c c1
+c1 (unsigned char)*p++
+c1 translate[c1]
+b 3
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:4971
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+keep_string_p 1
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:4996
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+b 3
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5010
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+laststart b
+*b++ (unsigned char)(anychar)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5020
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+laststart b
+p1 p
+b b[-1]
+had_char_class @ boolean @ Var lineNum:5026
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5032
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+*b++ (unsigned char)(*p == '^' ? charset_not : charset)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5038
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+*b++ (unsigned char)((1 << 8) / 8)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5046
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+c (unsigned char)*p++
+c translate[c]
+c1 (unsigned char)*p++
+c1 translate[c1]
+ret @ reg_errcode_t @ Var lineNum:5093
+ret compile_range(&p, pend, translate, syntax, b)
+ret @ reg_errcode_t @ Var lineNum:5100
+c1 (unsigned char)*p++
+c1 translate[c1]
+c1 0
+str[c1] '\x00'
+str @ char [7] @ Var lineNum:5114
+c (unsigned char)*p++
+c translate[c]
+str[c1++] c
+c (unsigned char)*p++
+c translate[c]
+had_char_class 1
+ch @ int @ Var lineNum:5137
+is_alnum @ boolean @ Var lineNum:5138
+is_alpha @ boolean @ Var lineNum:5139
+is_blank @ boolean @ Var lineNum:5140
+is_cntrl @ boolean @ Var lineNum:5141
+is_digit @ boolean @ Var lineNum:5142
+is_graph @ boolean @ Var lineNum:5143
+is_lower @ boolean @ Var lineNum:5144
+is_print @ boolean @ Var lineNum:5145
+is_punct @ boolean @ Var lineNum:5146
+is_space @ boolean @ Var lineNum:5147
+is_upper @ boolean @ Var lineNum:5148
+is_xdigit @ boolean @ Var lineNum:5149
+c (unsigned char)*p++
+c translate[c]
+had_char_class 0
+had_char_class 0
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+c (unsigned char)*p++
+(compile_stack.stack[compile_stack.avail]).begalt_offset begalt - bufp->buffer
+(compile_stack.stack[compile_stack.avail]).fixup_alt_jump fixup_alt_jump ? fixup_alt_jump - bufp->buffer + 1 : 0
+(compile_stack.stack[compile_stack.avail]).laststart_offset b - bufp->buffer
+(compile_stack.stack[compile_stack.avail]).regnum regnum
+fixup_alt_jump 0
+laststart 0
+begalt b
+pending_exact 0
+pending_exact 0
+b 3
+fixup_alt_jump b
+b 3
+laststart 0
+begalt b
+p beg_interval
+beg_interval ((void *)0)
+c1 c - '0'
+laststart b
+NULL!
+compile_stack.size 1
+(compile_stack.stack[compile_stack.avail]).inner_group_offset b - bufp->buffer + 2
+*b++ (unsigned char)(start_memory)
+*b++ (unsigned char)(regnum)
+*b++ (unsigned char)(0)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5282
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+*b++ (unsigned char)(push_dummy_failure)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5312
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+begalt bufp->buffer + (compile_stack.stack[compile_stack.avail]).begalt_offset
+fixup_alt_jump (compile_stack.stack[compile_stack.avail]).fixup_alt_jump ? bufp->buffer + (compile_stack.stack[compile_stack.avail]).fixup_alt_jump - 1 : 0
+laststart bufp->buffer + (compile_stack.stack[compile_stack.avail]).laststart_offset
+this_group_regnum (compile_stack.stack[compile_stack.avail]).regnum
+pending_exact 0
+this_group_regnum @ regnum_t @ Var lineNum:5333
+*inner_group_loc regnum - this_group_regnum
+inner_group_loc @ unsigned char * @ Var lineNum:5352
+*b++ (unsigned char)(stop_memory)
+*b++ (unsigned char)(this_group_regnum)
+*b++ (unsigned char)(regnum - this_group_regnum)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5356
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5372
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5384
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+beg_interval p - 1
+pending_exact 0
+beg_interval ((void *)0)
+lower_bound @ int @ Var lineNum:5406
+upper_bound @ int @ Var lineNum:5406
+c (unsigned char)*p++
+c translate[c]
+lower_bound lower_bound * 10 + c - '0'
+lower_bound 0
+c (unsigned char)*p++
+c translate[c]
+c (unsigned char)*p++
+c translate[c]
+upper_bound upper_bound * 10 + c - '0'
+upper_bound 0
+c (unsigned char)*p++
+c translate[c]
+upper_bound ((1 << 15) - 1)
+c (unsigned char)*p++
+c translate[c]
+laststart b
+b 3
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5471
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+b 5
+b 5
+nbytes @ unsigned int @ Var lineNum:5479
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5481
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+b 5
+b 5
+c (unsigned char)*p++
+c translate[c]
+NULL!
+laststart b
+*b++ (unsigned char)(wordchar)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5540
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+laststart b
+*b++ (unsigned char)(notwordchar)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5546
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+*b++ (unsigned char)(wordbeg)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5551
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+*b++ (unsigned char)(wordend)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5555
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+*b++ (unsigned char)(wordbound)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5559
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+*b++ (unsigned char)(notwordbound)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5563
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+*b++ (unsigned char)(begbuf)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5567
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+*b++ (unsigned char)(endbuf)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5571
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+*b++ (unsigned char)(duplicate)
+*b++ (unsigned char)(c1)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5589
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+NULL!
+NULL!
+laststart b
+pending_exact b - 1
+*b++ (unsigned char)(exactn)
+*b++ (unsigned char)(0)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5637
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+*b++ (unsigned char)(c)
+bufp->allocated 1
+bufp->buffer (unsigned char *)realloc(bufp->buffer, bufp->allocated)
+old_buffer @ unsigned char * @ Var lineNum:5641
+bufp->allocated (1L << 16)
+b (b - old_buffer) + bufp->buffer
+begalt (begalt - old_buffer) + bufp->buffer
+fixup_alt_jump (fixup_alt_jump - old_buffer) + bufp->buffer
+laststart (laststart - old_buffer) + bufp->buffer
+pending_exact (pending_exact - old_buffer) + bufp->buffer
+function: store_op1
+op @ re_opcode_t @ ParmVar lineNum:5670
+loc @ unsigned char * @ ParmVar lineNum:5671
+arg @ int @ ParmVar lineNum:5672
+*loc (unsigned char)op
+(loc + 1)[0] (arg) & 255
+(loc + 1)[1] (arg) >> 8
+function: store_op2
+op @ re_opcode_t @ ParmVar lineNum:5683
+loc @ unsigned char * @ ParmVar lineNum:5684
+arg1 @ int @ ParmVar lineNum:5685
+arg2 @ int @ ParmVar lineNum:5685
+*loc (unsigned char)op
+(loc + 1)[0] (arg1) & 255
+(loc + 1)[1] (arg1) >> 8
+(loc + 3)[0] (arg2) & 255
+(loc + 3)[1] (arg2) >> 8
+function: insert_op1
+op @ re_opcode_t @ ParmVar lineNum:5698
+loc @ unsigned char * @ ParmVar lineNum:5699
+arg @ int @ ParmVar lineNum:5700
+end @ unsigned char * @ ParmVar lineNum:5701
+pfrom @ unsigned char * @ Var lineNum:5703
+pto @ unsigned char * @ Var lineNum:5704
+*--pto *--pfrom
+function: insert_op2
+op @ re_opcode_t @ ParmVar lineNum:5717
+loc @ unsigned char * @ ParmVar lineNum:5718
+arg1 @ int @ ParmVar lineNum:5719
+arg2 @ int @ ParmVar lineNum:5719
+end @ unsigned char * @ ParmVar lineNum:5720
+pfrom @ unsigned char * @ Var lineNum:5722
+pto @ unsigned char * @ Var lineNum:5723
+*--pto *--pfrom
+function: at_begline_loc_p
+pattern @ const char * @ ParmVar lineNum:5738
+p @ const char * @ ParmVar lineNum:5738
+syntax @ reg_syntax_t @ ParmVar lineNum:5739
+prev @ const char * @ Var lineNum:5741
+prev_prev_backslash @ boolean @ Var lineNum:5742
+function: at_endline_loc_p
+p @ const char * @ ParmVar lineNum:5757
+pend @ const char * @ ParmVar lineNum:5757
+syntax @ int @ ParmVar lineNum:5758
+next @ const char * @ Var lineNum:5760
+next_backslash @ boolean @ Var lineNum:5761
+next_next @ const char * @ Var lineNum:5762
+function: group_in_compile_stack
+compile_stack @ compile_stack_type @ ParmVar lineNum:5779
+regnum @ regnum_t @ ParmVar lineNum:5780
+this_element @ int @ Var lineNum:5782
+function: compile_range
+p_ptr @ const char ** @ ParmVar lineNum:5795
+pend @ const char * @ ParmVar lineNum:5795
+translate @ char * @ ParmVar lineNum:5796
+syntax @ reg_syntax_t @ ParmVar lineNum:5797
+b @ unsigned char * @ ParmVar lineNum:5798
+range_start ((unsigned char *)p)[-2]
+range_end ((unsigned char *)p)[0]
+this_char @ unsigned int @ Var lineNum:5800
+p @ const char * @ Var lineNum:5802
+range_start @ int @ Var lineNum:5803
+range_end @ int @ Var lineNum:5803
+re_max_failures @ int @ Var lineNum:5831
+function: re_compile_fastmap
+bufp @ struct re_pattern_buffer * @ ParmVar lineNum:5844
+bufp->fastmap_accurate 1
+bufp->can_be_null 0
+bufp->can_be_null path_can_be_null
+j @ int @ Var lineNum:5846
+k @ int @ Var lineNum:5846
+fail_stack @ fail_stack_type @ Var lineNum:5847
+destination @ char * @ Var lineNum:5849
+num_regs @ unsigned int @ Var lineNum:5852
+fastmap @ char * @ Var lineNum:5854
+pattern @ unsigned char * @ Var lineNum:5855
+size @ unsigned long @ Var lineNum:5856
+p @ const unsigned char * @ Var lineNum:5857
+pend @ unsigned char * @ Var lineNum:5858
+path_can_be_null @ boolean @ Var lineNum:5864
+succeed_n_p @ boolean @ Var lineNum:5867
+fail_stack.stack (fail_stack_elt_t *)__builtin_alloca(5 * sizeof(fail_stack_elt_t))
+fail_stack.size 5
+fail_stack.avail 0
+path_can_be_null 0
+p pend
+bufp->can_be_null path_can_be_null
+path_can_be_null 1
+p fail_stack.stack[--fail_stack.avail]
+p j
+p j
+NULL!
+bufp->can_be_null 1
+NULL!
+fastmap[p[1]] 1
+NULL!
+fastmap[j] 1
+NULL!
+fastmap[j] 1
+fastmap[j] 1
+NULL!
+fastmap[j] 1
+NULL!
+fastmap[j] 1
+NULL!
+fastmap[j] 1
+fastmap['\n'] 0
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+(p) 2
+(j) *(p) & 255
+(j) ((signed char)(*((p) + 1))) << 8
+(p) 2
+(j) *(p) & 255
+(j) ((signed char)(*((p) + 1))) << 8
+NULL!
+NULL!
+(p) 2
+(j) *(p) & 255
+(j) ((signed char)(*((p) + 1))) << 8
+succeed_n_p 0
+(p) 2
+(k) *(p) & 255
+(k) ((signed char)(*((p) + 1))) << 8
+NULL!
+p 2
+(p) 2
+(k) *(p) & 255
+(k) ((signed char)(*((p) + 1))) << 8
+p 4
+succeed_n_p 1
+NULL!
+p 4
+NULL!
+NULL!
+p 2
+function: re_set_registers
+bufp @ struct re_pattern_buffer * @ ParmVar lineNum:6080
+regs @ struct re_registers * @ ParmVar lineNum:6081
+num_regs @ unsigned int @ ParmVar lineNum:6082
+starts @ regoff_t * @ ParmVar lineNum:6083
+ends @ regoff_t * @ ParmVar lineNum:6083
+bufp->regs_allocated 1
+regs->num_regs num_regs
+regs->start starts
+regs->end ends
+bufp->regs_allocated 0
+regs->num_regs 0
+regs->start regs->end = (regoff_t)0
+function: re_search
+bufp @ struct re_pattern_buffer * @ ParmVar lineNum:6107
+string @ const char * @ ParmVar lineNum:6108
+size @ int @ ParmVar lineNum:6109
+startpos @ int @ ParmVar lineNum:6109
+range @ int @ ParmVar lineNum:6109
+regs @ struct re_registers * @ ParmVar lineNum:6110
+function: re_search_2
+bufp @ struct re_pattern_buffer * @ ParmVar lineNum:6118
+string1 @ const char * @ ParmVar lineNum:6119
+size1 @ int @ ParmVar lineNum:6120
+string2 @ const char * @ ParmVar lineNum:6119
+size2 @ int @ ParmVar lineNum:6120
+startpos @ int @ ParmVar lineNum:6121
+range @ int @ ParmVar lineNum:6122
+regs @ struct re_registers * @ ParmVar lineNum:6123
+stop @ int @ ParmVar lineNum:6124
+val @ int @ Var lineNum:6126
+fastmap @ char * @ Var lineNum:6127
+translate @ char * @ Var lineNum:6128
+total_size @ int @ Var lineNum:6129
+endpos @ int @ Var lineNum:6130
+range -1 - startpos
+range total_size - startpos
+val re_match_2(bufp, string1, size1, string2, size2, startpos, regs, stop)
+d (startpos >= size1 ? string2 - size1 : string1) + startpos
+startpos irange - range
+d @ const char * @ Var lineNum:6169
+lim @ int @ Var lineNum:6170
+irange @ int @ Var lineNum:6171
+lim range - (size1 - startpos)
+c @ char @ Var lineNum:6193
+function: bcmp_translate
+function: alt_match_null_string_p
+function: common_op_match_null_string_p
+function: group_match_null_string_p
+function: re_match
+bufp @ struct re_pattern_buffer * @ ParmVar lineNum:6256
+string @ const char * @ ParmVar lineNum:6257
+size @ int @ ParmVar lineNum:6258
+pos @ int @ ParmVar lineNum:6258
+regs @ struct re_registers * @ ParmVar lineNum:6259
+function: re_match_2
+bufp @ struct re_pattern_buffer * @ ParmVar lineNum:6266
+string1 @ const char * @ ParmVar lineNum:6267
+size1 @ int @ ParmVar lineNum:6268
+string2 @ const char * @ ParmVar lineNum:6267
+size2 @ int @ ParmVar lineNum:6268
+pos @ int @ ParmVar lineNum:6269
+regs @ struct re_registers * @ ParmVar lineNum:6270
+stop @ int @ ParmVar lineNum:6271
+end1 string1 + size1
+end2 string2 + size2
+mcnt @ int @ Var lineNum:6274
+p1 @ unsigned char * @ Var lineNum:6275
+end1 @ const char * @ Var lineNum:6278
+end2 @ const char * @ Var lineNum:6278
+end_match_1 @ const char * @ Var lineNum:6282
+end_match_2 @ const char * @ Var lineNum:6282
+d @ const char * @ Var lineNum:6285
+dend @ const char * @ Var lineNum:6285
+p @ unsigned char * @ Var lineNum:6288
+pend @ unsigned char * @ Var lineNum:6289
+translate @ char * @ Var lineNum:6292
+fail_stack @ fail_stack_type @ Var lineNum:6294
+num_regs @ unsigned int @ Var lineNum:6296
+lowest_active_reg @ unsigned int @ Var lineNum:6299
+highest_active_reg @ unsigned int @ Var lineNum:6300
+regstart @ const char ** @ Var lineNum:6302
+regend @ const char ** @ Var lineNum:6302
+old_regstart @ const char ** @ Var lineNum:6309
+old_regend @ const char ** @ Var lineNum:6309
+reg_info @ register_info_type * @ Var lineNum:6317
+best_regs_set @ unsigned int @ Var lineNum:6323
+best_regstart @ const char ** @ Var lineNum:6324
+best_regend @ const char ** @ Var lineNum:6324
+match_end @ const char * @ Var lineNum:6326
+reg_dummy @ const char ** @ Var lineNum:6329
+reg_info_dummy @ register_info_type * @ Var lineNum:6330
+fail_stack.stack (fail_stack_elt_t *)__builtin_alloca(5 * sizeof(fail_stack_elt_t))
+fail_stack.size 5
+fail_stack.avail 0
+regstart ((const char **)__builtin_alloca((num_regs) * sizeof(const char *)))
+regend ((const char **)__builtin_alloca((num_regs) * sizeof(const char *)))
+old_regstart ((const char **)__builtin_alloca((num_regs) * sizeof(const char *)))
+old_regend ((const char **)__builtin_alloca((num_regs) * sizeof(const char *)))
+best_regstart ((const char **)__builtin_alloca((num_regs) * sizeof(const char *)))
+best_regend ((const char **)__builtin_alloca((num_regs) * sizeof(const char *)))
+reg_info ((register_info_type *)__builtin_alloca((num_regs) * sizeof(register_info_type)))
+reg_dummy ((const char **)__builtin_alloca((num_regs) * sizeof(const char *)))
+reg_info_dummy ((register_info_type *)__builtin_alloca((num_regs) * sizeof(register_info_type)))
+regstart[mcnt] regend[mcnt] = old_regstart[mcnt] = old_regend[mcnt] = ((char *)-1)
+((reg_info[mcnt]).bits.match_null_string_p) 3
+((reg_info[mcnt]).bits.is_active) 0
+((reg_info[mcnt]).bits.matched_something) 0
+((reg_info[mcnt]).bits.ever_matched_something) 0
+string2 string1
+size2 size1
+string1 0
+size1 0
+end_match_1 string1 + stop
+end_match_2 string2
+end_match_1 end1
+end_match_2 string2 + stop - size1
+d string1 + pos
+dend end_match_1
+d string2 + pos - size1
+dend end_match_2
+mcnt d - pos - ((dend == end_match_1) ? string1 : string2 - size1)
+same_str_p @ boolean @ Var lineNum:6452
+best_regs_set 1
+match_end d
+best_regstart[mcnt] regstart[mcnt]
+best_regend[mcnt] regend[mcnt]
+d match_end
+dend ((d >= string1 && d <= end1) ? end_match_1 : end_match_2)
+regstart[mcnt] best_regstart[mcnt]
+regend[mcnt] best_regend[mcnt]
+regs->num_regs ((30) > (num_regs + 1) ? (30) : (num_regs + 1))
+regs->start ((regoff_t *)malloc((regs->num_regs) * sizeof(regoff_t)))
+regs->end ((regoff_t *)malloc((regs->num_regs) * sizeof(regoff_t)))
+bufp->regs_allocated 1
+regs->num_regs num_regs + 1
+regs->start[0] pos
+regs->end[0] ((dend == end_match_1) ? d - string1 : d - string2 + size1)
+regs->start[mcnt] regs->end[mcnt] = -1
+regs->start[mcnt] ((size1 && string1 <= (regstart[mcnt]) && (regstart[mcnt]) <= string1 + size1) ? (regstart[mcnt]) - string1 : (regstart[mcnt]) - string2 + size1)
+regs->end[mcnt] ((size1 && string1 <= (regend[mcnt]) && (regend[mcnt]) <= string1 + size1) ? (regend[mcnt]) - string1 : (regend[mcnt]) - string2 + size1)
+regs->start[mcnt] regs->end[mcnt] = -1
+p1 p
+old_regstart[*p] ((reg_info[*p]).bits.match_null_string_p) ? ((regstart[*p]) == ((char *)-1)) ? d : regstart[*p] : regstart[*p]
+regstart[*p] d
+((reg_info[*p]).bits.is_active) 1
+((reg_info[*p]).bits.matched_something) 0
+highest_active_reg *p
+p 2
+old_regend[*p] ((reg_info[*p]).bits.match_null_string_p) ? ((regend[*p]) == ((char *)-1)) ? d : regend[*p] : regend[*p]
+regend[*p] d
+((reg_info[*p]).bits.is_active) 0
+p 2
+p1 p
+p 2
+p mcnt
+NULL!
+NULL!
+mcnt *p++
+d string2
+dend end_match_2
+d string2
+dend end_match_2
+r @ unsigned int @ Var lineNum:6623
+((reg_info[r]).bits.matched_something) ((reg_info[r]).bits.ever_matched_something) = 1
+NULL!
+d string2
+dend end_match_2
+r @ unsigned int @ Var lineNum:6637
+((reg_info[r]).bits.matched_something) ((reg_info[r]).bits.ever_matched_something) = 1
+NULL!
+NULL!
+c (translate ? translate[(unsigned char)(*d)] : (*d))
+p 1 + *p
+c @ unsigned char @ Var lineNum:6646
+not @ boolean @ Var lineNum:6647
+d string2
+dend end_match_2
+not !not
+r @ unsigned int @ Var lineNum:6664
+((reg_info[r]).bits.matched_something) ((reg_info[r]).bits.ever_matched_something) = 1
+NULL!
+((reg_info[*p]).bits.match_null_string_p) group_match_null_string_p(&p1, pend, reg_info)
+lowest_active_reg *p
+NULL!
+lowest_active_reg ((1 << 8) + 1)
+highest_active_reg (1 << 8)
+r @ unsigned char @ Var lineNum:6750
+lowest_active_reg ((1 << 8) + 1)
+highest_active_reg (1 << 8)
+p1 p + 2
+mcnt 0
+p1 mcnt
+is_a_jump_n @ boolean @ Var lineNum:6772
+NULL!
+is_a_jump_n 1
+NULL!
+NULL!
+NULL!
+NULL!
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+((reg_info[*p]).bits.ever_matched_something) 0
+r @ unsigned int @ Var lineNum:6805
+regstart[r] old_regstart[r]
+regend[r] old_regend[r]
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)lowest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)highest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)p1 + mcnt
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)d
+destination @ char * @ Var lineNum:6821
+this_reg @ int @ Var lineNum:6821
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regstart[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regend[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)reg_info[this_reg].word
+NULL!
+d2 regstart[regno]
+dend2 (((size1 && string1 <= (regstart[regno]) && (regstart[regno]) <= string1 + size1) == (size1 && string1 <= (regend[regno]) && (regend[regno]) <= string1 + size1)) ? regend[regno] : end_match_1)
+d2 @ const char * @ Var lineNum:6836
+dend2 @ const char * @ Var lineNum:6836
+regno @ int @ Var lineNum:6837
+mcnt dend - d
+d += mcnt d2 += mcnt
+d2 string2
+dend2 regend[regno]
+d string2
+dend end_match_2
+mcnt dend2 - d2
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+(p) 2
+(mcnt) *(p) & 255
+(mcnt) ((signed char)(*((p) + 1))) << 8
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)lowest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)highest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)p + mcnt
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)((void *)0)
+destination @ char * @ Var lineNum:6951
+this_reg @ int @ Var lineNum:6951
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regstart[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regend[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)reg_info[this_reg].word
+NULL!
+(p) 2
+(mcnt) *(p) & 255
+(mcnt) ((signed char)(*((p) + 1))) << 8
+highest_active_reg *(p1 + 1) + *(p1 + 2)
+lowest_active_reg *(p1 + 1)
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)lowest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)highest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)p + mcnt
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)d
+destination @ char * @ Var lineNum:6982
+this_reg @ int @ Var lineNum:6982
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regstart[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regend[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)reg_info[this_reg].word
+NULL!
+(p) 2
+(mcnt) *(p) & 255
+(mcnt) ((signed char)(*((p) + 1))) << 8
+p2 @ unsigned char * @ Var lineNum:6992
+p[-3] (unsigned char)pop_failure_jump
+p1 p + mcnt
+c @ unsigned char @ Var lineNum:7013
+p[-3] (unsigned char)pop_failure_jump
+not @ int @ Var lineNum:7030
+not !not
+p[-3] (unsigned char)pop_failure_jump
+p[-1] (unsigned char)jump
+NULL!
+dummy_low_reg @ unsigned int @ Var lineNum:7061
+dummy_high_reg @ unsigned int @ Var lineNum:7061
+pdummy @ unsigned char * @ Var lineNum:7062
+sdummy @ const char * @ Var lineNum:7063
+string_temp fail_stack.stack[--fail_stack.avail]
+pdummy (unsigned char *)fail_stack.stack[--fail_stack.avail]
+dummy_high_reg (unsigned int)fail_stack.stack[--fail_stack.avail]
+dummy_low_reg (unsigned int)fail_stack.stack[--fail_stack.avail]
+this_reg @ int @ Var lineNum:7066
+string_temp @ const unsigned char * @ Var lineNum:7066
+sdummy (const char *)string_temp
+reg_info_dummy[this_reg].word fail_stack.stack[--fail_stack.avail]
+reg_dummy[this_reg] (const char *)fail_stack.stack[--fail_stack.avail]
+reg_dummy[this_reg] (const char *)fail_stack.stack[--fail_stack.avail]
+NULL!
+(p) 2
+(mcnt) *(p) & 255
+(mcnt) ((signed char)(*((p) + 1))) << 8
+NULL!
+NULL!
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)lowest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)highest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)0
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)0
+destination @ char * @ Var lineNum:7099
+this_reg @ int @ Var lineNum:7099
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regstart[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regend[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)reg_info[this_reg].word
+NULL!
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)lowest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)highest_active_reg
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)0
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)0
+destination @ char * @ Var lineNum:7112
+this_reg @ int @ Var lineNum:7112
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regstart[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)regend[this_reg]
+fail_stack.stack[fail_stack.avail++] (fail_stack_elt_t)reg_info[this_reg].word
+NULL!
+(mcnt) *(p + 2) & 255
+(mcnt) ((signed char)(*((p + 2) + 1))) << 8
+p 2
+(p) 2
+(p)[0] (mcnt) & 255
+(p)[1] (mcnt) >> 8
+p[2] (unsigned char)no_op
+p[3] (unsigned char)no_op
+NULL!
+(mcnt) *(p + 2) & 255
+(mcnt) ((signed char)(*((p + 2) + 1))) << 8
+(p + 2)[0] (mcnt) & 255
+(p + 2)[1] (mcnt) >> 8
+NULL!
+p1 p + mcnt
+(p) 2
+(mcnt) *(p) & 255
+(mcnt) ((signed char)(*((p) + 1))) << 8
+(p) 2
+(mcnt) *(p) & 255
+(mcnt) ((signed char)(*((p) + 1))) << 8
+(p1)[0] (mcnt) & 255
+(p1)[1] (mcnt) >> 8
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+d string2
+dend end_match_2
+r @ unsigned int @ Var lineNum:7197
+((reg_info[r]).bits.matched_something) ((reg_info[r]).bits.ever_matched_something) = 1
+NULL!
+d string2
+dend end_match_2
+r @ unsigned int @ Var lineNum:7206
+((reg_info[r]).bits.matched_something) ((reg_info[r]).bits.ever_matched_something) = 1
+string_temp fail_stack.stack[--fail_stack.avail]
+p (unsigned char *)fail_stack.stack[--fail_stack.avail]
+highest_active_reg (unsigned int)fail_stack.stack[--fail_stack.avail]
+lowest_active_reg (unsigned int)fail_stack.stack[--fail_stack.avail]
+this_reg @ int @ Var lineNum:7222
+string_temp @ const unsigned char * @ Var lineNum:7222
+d (const char *)string_temp
+reg_info[this_reg].word fail_stack.stack[--fail_stack.avail]
+regend[this_reg] (const char *)fail_stack.stack[--fail_stack.avail]
+regstart[this_reg] (const char *)fail_stack.stack[--fail_stack.avail]
+is_a_jump_n @ boolean @ Var lineNum:7234
+p1 mcnt
+NULL!
+is_a_jump_n 1
+NULL!
+NULL!
+NULL!
+p1 p + 1
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+dend end_match_1
+function: group_match_null_string_p
+p @ unsigned char ** @ ParmVar lineNum:7276
+end @ unsigned char * @ ParmVar lineNum:7276
+reg_info @ register_info_type * @ ParmVar lineNum:7277
+mcnt @ int @ Var lineNum:7279
+p1 @ unsigned char * @ Var lineNum:7281
+*p p1 + 2
+NULL!
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+p1 mcnt
+p1 mcnt
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+p1 3
+(mcnt) *(p1 - 2) & 255
+(mcnt) ((signed char)(*((p1 - 2) + 1))) << 8
+NULL!
+function: alt_match_null_string_p
+p @ unsigned char * @ ParmVar lineNum:7368
+end @ unsigned char * @ ParmVar lineNum:7368
+reg_info @ register_info_type * @ ParmVar lineNum:7369
+mcnt @ int @ Var lineNum:7371
+p1 @ unsigned char * @ Var lineNum:7372
+p1 mcnt
+NULL!
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+function: common_op_match_null_string_p
+p @ unsigned char ** @ ParmVar lineNum:7405
+end @ unsigned char * @ ParmVar lineNum:7405
+reg_info @ register_info_type * @ ParmVar lineNum:7406
+*p p1
+mcnt @ int @ Var lineNum:7408
+ret @ boolean @ Var lineNum:7409
+reg_no @ int @ Var lineNum:7410
+p1 @ unsigned char * @ Var lineNum:7411
+ret group_match_null_string_p(&p1, end, reg_info)
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+reg_no *p1
+((reg_info[reg_no]).bits.match_null_string_p) ret
+NULL!
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+NULL!
+p1 2
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+p1 4
+p1 mcnt
+(p1) 2
+(mcnt) *(p1) & 255
+(mcnt) ((signed char)(*((p1) + 1))) << 8
+NULL!
+NULL!
+p1 4
+function: bcmp_translate
+s1 @ unsigned char * @ ParmVar lineNum:7493
+s2 @ unsigned char * @ ParmVar lineNum:7493
+len @ int @ ParmVar lineNum:7494
+translate @ char * @ ParmVar lineNum:7495
+p1 @ unsigned char * @ Var lineNum:7497
+p2 @ unsigned char * @ Var lineNum:7497
+function: re_compile_pattern
+pattern @ const char * @ ParmVar lineNum:7508
+length @ int @ ParmVar lineNum:7509
+bufp @ struct re_pattern_buffer * @ ParmVar lineNum:7510
+bufp->regs_allocated 0
+bufp->no_sub 0
+bufp->newline_anchor 1
+ret regex_compile(pattern, length, re_syntax_options, bufp)
+ret @ reg_errcode_t @ Var lineNum:7512
+function: regcomp
+preg @ regex_t * @ ParmVar lineNum:7533
+pattern @ const char * @ ParmVar lineNum:7534
+cflags @ int @ ParmVar lineNum:7535
+preg->buffer 0
+preg->allocated 0
+preg->used 0
+preg->fastmap 0
+preg->no_sub !!(cflags & (((1 << 1) << 1) << 1))
+ret regex_compile(pattern, strlen(pattern), syntax, preg)
+ret @ reg_errcode_t @ Var lineNum:7537
+syntax @ unsigned int @ Var lineNum:7538
+preg->translate (char *)malloc(256)
+i @ unsigned int @ Var lineNum:7555
+preg->translate[i] (1 && ((*__ctype_b_loc())[(int)((i))] & (unsigned short)_ISupper)) ? tolower(i) : i
+syntax ~(((((((1) << 1) << 1) << 1) << 1) << 1) << 1)
+syntax (((((((((1) << 1) << 1) << 1) << 1) << 1) << 1) << 1) << 1)
+preg->newline_anchor 1
+ret REG_EPAREN
+function: regexec
+preg @ const regex_t * @ ParmVar lineNum:7594
+string @ const char * @ ParmVar lineNum:7595
+nmatch @ size_t @ ParmVar lineNum:7596
+pmatch @ regmatch_t * @ ParmVar lineNum:7597
+eflags @ int @ ParmVar lineNum:7598
+private_preg *preg
+private_preg.not_bol !!(eflags & 1)
+private_preg.not_eol !!(eflags & (1 << 1))
+private_preg.regs_allocated 2
+ret re_search(&private_preg, string, len, 0, len, want_reg_info ? &regs : (struct re_registers *)0)
+ret @ int @ Var lineNum:7600
+regs @ struct re_registers @ Var lineNum:7601
+private_preg @ regex_t @ Var lineNum:7602
+len @ int @ Var lineNum:7603
+want_reg_info @ boolean @ Var lineNum:7604
+regs.num_regs nmatch
+regs.start ((regoff_t *)malloc((nmatch) * sizeof(regoff_t)))
+regs.end ((regoff_t *)malloc((nmatch) * sizeof(regoff_t)))
+r @ unsigned int @ Var lineNum:7635
+pmatch[r].rm_so regs.start[r]
+pmatch[r].rm_eo regs.end[r]
+function: regerror
+errcode @ int @ ParmVar lineNum:7659
+preg @ const regex_t * @ ParmVar lineNum:7660
+errbuf @ char * @ ParmVar lineNum:7661
+errbuf_size @ size_t @ ParmVar lineNum:7662
+msg re_error_msg[errcode]
+msg_size strlen(msg) + 1
+msg @ const char * @ Var lineNum:7664
+msg_size @ size_t @ Var lineNum:7665
+msg "Success"
+errbuf[errbuf_size - 1] 0
+function: regfree
+preg @ regex_t * @ ParmVar lineNum:7703
+preg->buffer ((void *)0)
+preg->allocated 0
+preg->used 0
+preg->fastmap ((void *)0)
+preg->fastmap_accurate 0
+preg->translate ((void *)0)
+function: dfasyntax
+ @ int @ ParmVar lineNum:7908
+ @ int @ ParmVar lineNum:7908
+function: dfacomp
+ @ char * @ ParmVar lineNum:7913
+ @ size_t @ ParmVar lineNum:7913
+ @ struct dfa * @ ParmVar lineNum:7913
+ @ int @ ParmVar lineNum:7913
+function: dfaexec
+ @ struct dfa * @ ParmVar lineNum:7915
+ @ char * @ ParmVar lineNum:7915
+ @ char * @ ParmVar lineNum:7915
+ @ int @ ParmVar lineNum:7915
+ @ int * @ ParmVar lineNum:7915
+ @ int * @ ParmVar lineNum:7915
+function: dfafree
+ @ struct dfa * @ ParmVar lineNum:7918
+function: dfainit
+ @ struct dfa * @ ParmVar lineNum:7923
+function: dfaparse
+ @ char * @ ParmVar lineNum:7926
+ @ size_t @ ParmVar lineNum:7926
+ @ struct dfa * @ ParmVar lineNum:7926
+function: dfaanalyze
+ @ struct dfa * @ ParmVar lineNum:7930
+ @ int @ ParmVar lineNum:7930
+function: dfastate
+ @ int @ ParmVar lineNum:7934
+ @ struct dfa * @ ParmVar lineNum:7934
+ @ int * @ ParmVar lineNum:7934
+function: dfaerror
+ @ char * @ ParmVar lineNum:7942
+function: dfamust
+function: xcalloc
+n @ int @ ParmVar lineNum:7956
+s @ size_t @ ParmVar lineNum:7957
+r @ ptr_t @ Var lineNum:7959
+function: xmalloc_1
+n @ size_t @ ParmVar lineNum:7968
+r @ ptr_t @ Var lineNum:7970
+function: xrealloc_1
+p @ ptr_t @ ParmVar lineNum:7980
+n @ size_t @ ParmVar lineNum:7981
+r @ ptr_t @ Var lineNum:7983
+function: tstbit
+b @ int @ ParmVar lineNum:7993
+c @ int * @ ParmVar lineNum:7994
+function: setbit
+b @ int @ ParmVar lineNum:8001
+c @ int * @ ParmVar lineNum:8002
+c[b / (8 * sizeof(int))] 1 << b % (8 * sizeof(int))
+function: clrbit
+b @ int @ ParmVar lineNum:8009
+c @ int * @ ParmVar lineNum:8010
+c[b / (8 * sizeof(int))] ~(1 << b % (8 * sizeof(int)))
+function: copyset
+src @ int * @ ParmVar lineNum:8017
+dst @ int * @ ParmVar lineNum:8018
+i @ int @ Var lineNum:8020
+dst[i] src[i]
+function: zeroset
+s @ int * @ ParmVar lineNum:8028
+i @ int @ Var lineNum:8030
+s[i] 0
+function: notset
+s @ int * @ ParmVar lineNum:8038
+i @ int @ Var lineNum:8040
+s[i] ~s[i]
+function: equal
+s1 @ int * @ ParmVar lineNum:8048
+s2 @ int * @ ParmVar lineNum:8049
+i @ int @ Var lineNum:8051
+dfa @ struct dfa * @ Var lineNum:8060
+function: charclass_index
+s @ int * @ ParmVar lineNum:8065
+i @ int @ Var lineNum:8067
+syntax_bits @ int @ Var lineNum:8079
+syntax_bits_set @ int @ Var lineNum:8079
+case_fold @ int @ Var lineNum:8082
+function: dfasyntax
+bits @ int @ ParmVar lineNum:8087
+fold @ int @ ParmVar lineNum:8088
+syntax_bits_set 1
+syntax_bits bits
+case_fold fold
+lexstart @ char * @ Var lineNum:8100
+lexptr @ char * @ Var lineNum:8101
+lexleft @ int @ Var lineNum:8102
+lasttok @ token @ Var lineNum:8103
+laststart @ int @ Var lineNum:8104
+parens @ int @ Var lineNum:8106
+minrep @ int @ Var lineNum:8107
+maxrep @ int @ Var lineNum:8107
+function: is_alpha
+c @ int @ ParmVar lineNum:8109
+function: is_upper
+c @ int @ ParmVar lineNum:8110
+function: is_lower
+c @ int @ ParmVar lineNum:8111
+function: is_digit
+c @ int @ ParmVar lineNum:8112
+function: is_xdigit
+c @ int @ ParmVar lineNum:8113
+function: is_space
+c @ int @ ParmVar lineNum:8114
+function: is_punct
+c @ int @ ParmVar lineNum:8115
+function: is_alnum
+c @ int @ ParmVar lineNum:8116
+function: is_print
+c @ int @ ParmVar lineNum:8117
+function: is_graph
+c @ int @ ParmVar lineNum:8118
+function: is_cntrl
+c @ int @ ParmVar lineNum:8119
+prednames @ struct <anonymous struct at target/grep.c:6949:8> [12] @ Var lineNum:8124
+function: looking_at
+s @ char * @ ParmVar lineNum:8144
+len strlen(s)
+len @ int @ Var lineNum:8146
+function: lex
+c @ token @ Var lineNum:8157
+c1 @ token @ Var lineNum:8157
+c2 @ token @ Var lineNum:8157
+backslash @ int @ Var lineNum:8158
+invert @ int @ Var lineNum:8158
+ccl @ charclass @ Var lineNum:8159
+i @ int @ Var lineNum:8160
+(c) (unsigned char)*lexptr++
+backslash 1
+minrep maxrep = 0
+laststart 0
+laststart 1
+laststart 1
+laststart 1
+laststart 0
+laststart 0
+laststart 0
+laststart 0
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+laststart 0
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+(c) (unsigned char)*lexptr++
+minrep c - '0'
+minrep 10 * minrep + c - '0'
+(c) (unsigned char)*lexptr++
+maxrep 10 * maxrep + c - '0'
+(c) (unsigned char)*lexptr++
+(c) (unsigned char)*lexptr++
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+(c) (unsigned char)*lexptr++
+invert 1
+(c) (unsigned char)*lexptr++
+lexptr strlen(prednames[c1].name)
+lexleft strlen(prednames[c1].name)
+(c1) (unsigned char)*lexptr++
+(c) (unsigned char)*lexptr++
+(c1) (unsigned char)*lexptr++
+(c2) (unsigned char)*lexptr++
+c2 c
+(c2) (unsigned char)*lexptr++
+(c1) (unsigned char)*lexptr++
+tok @ token @ Var lineNum:8474
+depth @ int @ Var lineNum:8475
+function: addtok
+t @ token @ ParmVar lineNum:8485
+dfa->tokens[dfa->tindex++] t
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+dfa->depth depth
+function: regexp
+ @ int @ ParmVar lineNum:8513
+function: atom
+tok lex()
+tok lex()
+tok lex()
+function: nsubtoks
+tindex @ int @ ParmVar lineNum:8542
+ntoks1 @ int @ Var lineNum:8544
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+ntoks1 nsubtoks(tindex - 1)
+function: copytoks
+tindex @ int @ ParmVar lineNum:8565
+ntokens @ int @ ParmVar lineNum:8565
+i @ int @ Var lineNum:8567
+function: closure
+tindex @ int @ Var lineNum:8576
+ntokens @ int @ Var lineNum:8576
+i @ int @ Var lineNum:8576
+ntokens nsubtoks(dfa->tindex)
+tindex dfa->tindex - ntokens
+tok lex()
+tok lex()
+function: branch
+function: regexp
+toplevel @ int @ ParmVar lineNum:8621
+tok lex()
+function: dfaparse
+s @ char * @ ParmVar lineNum:8640
+len @ size_t @ ParmVar lineNum:8641
+d @ struct dfa * @ ParmVar lineNum:8642
+dfa d
+lexstart lexptr = s
+lexleft len
+lasttok END
+laststart 1
+parens 0
+tok lex()
+depth d->depth
+function: copy
+src @ position_set * @ ParmVar lineNum:8677
+dst @ position_set * @ ParmVar lineNum:8678
+dst->nelem src->nelem
+i @ int @ Var lineNum:8680
+dst->elems[i] src->elems[i]
+function: insert
+p @ position @ ParmVar lineNum:8693
+s @ position_set * @ ParmVar lineNum:8694
+i @ int @ Var lineNum:8696
+t1 @ position @ Var lineNum:8697
+t2 @ position @ Var lineNum:8697
+t1 p
+t2 s->elems[i]
+s->elems[i++] t1
+t1 t2
+function: merge
+s1 @ position_set * @ ParmVar lineNum:8720
+s2 @ position_set * @ ParmVar lineNum:8721
+m @ position_set * @ ParmVar lineNum:8722
+m->nelem 0
+i @ int @ Var lineNum:8724
+j @ int @ Var lineNum:8724
+m->elems[m->nelem++] s1->elems[i++]
+m->elems[m->nelem++] s2->elems[j++]
+m->elems[m->nelem] s1->elems[i++]
+m->elems[m->nelem++].constraint s2->elems[j++].constraint
+m->elems[m->nelem++] s1->elems[i++]
+m->elems[m->nelem++] s2->elems[j++]
+function: delete
+p @ position @ ParmVar lineNum:8746
+s @ position_set * @ ParmVar lineNum:8747
+i @ int @ Var lineNum:8749
+s->elems[i] s->elems[i + 1]
+function: state_index
+d @ struct dfa * @ ParmVar lineNum:8765
+s @ position_set * @ ParmVar lineNum:8766
+newline @ int @ ParmVar lineNum:8767
+letter @ int @ ParmVar lineNum:8768
+newline newline ? 1 : 0
+letter letter ? 1 : 0
+d->states[i].hash hash
+d->states[i].newline newline
+d->states[i].letter letter
+d->states[i].backref 0
+d->states[i].constraint 0
+d->states[i].first_end 0
+hash @ int @ Var lineNum:8770
+constraint @ int @ Var lineNum:8771
+i @ int @ Var lineNum:8772
+j @ int @ Var lineNum:8772
+constraint s->elems[j].constraint
+d->states[i].first_end d->tokens[s->elems[j].strchr]
+d->states[i].constraint 255
+d->states[i].backref 1
+function: epsclosure
+s @ position_set * @ ParmVar lineNum:8835
+d @ struct dfa * @ ParmVar lineNum:8836
+i @ int @ Var lineNum:8838
+j @ int @ Var lineNum:8838
+visited @ int * @ Var lineNum:8839
+p @ position @ Var lineNum:8840
+old @ position @ Var lineNum:8840
+visited[i] 0
+old s->elems[i]
+p.constraint old.constraint
+visited[old.strchr] 1
+i -1
+NULL!
+p.constraint 207
+NULL!
+p.constraint 175
+NULL!
+p.constraint 242
+NULL!
+p.constraint 244
+NULL!
+p.constraint 246
+NULL!
+p.constraint 249
+p.strchr d->follows[old.strchr].elems[j].strchr
+function: dfaanalyze
+d @ struct dfa * @ ParmVar lineNum:8897
+searchflag @ int @ ParmVar lineNum:8898
+d->searchflag searchflag
+o_nullable nullable
+o_nfirst nfirstpos
+o_firstpos = firstpos firstpos += d->nleaves
+o_nlast nlastpos
+o_lastpos = lastpos lastpos += d->nleaves
+merged.nelem 0
+wants_newline 0
+d->salloc 1
+d->sindex 0
+nullable @ int * @ Var lineNum:8900
+nfirstpos @ int * @ Var lineNum:8901
+firstpos @ position * @ Var lineNum:8902
+nlastpos @ int * @ Var lineNum:8903
+lastpos @ position * @ Var lineNum:8904
+nalloc @ int * @ Var lineNum:8905
+tmp @ position_set @ Var lineNum:8906
+merged @ position_set @ Var lineNum:8907
+wants_newline @ int @ Var lineNum:8908
+o_nullable @ int * @ Var lineNum:8909
+o_nfirst @ int * @ Var lineNum:8910
+o_nlast @ int * @ Var lineNum:8910
+o_firstpos @ position * @ Var lineNum:8911
+o_lastpos @ position * @ Var lineNum:8911
+i @ int @ Var lineNum:8912
+j @ int @ Var lineNum:8912
+pos @ position * @ Var lineNum:8913
+nalloc[i] 0
+*nfirstpos++ *nlastpos++ = 0
+tmp.elems firstpos
+pos lastpos
+tmp.elems firstpos
+pos lastpos + nlastpos[-1]
+nullable[-2] nullable[-1] && nullable[-2]
+nlastpos[-2] nlastpos[-1]
+nullable[-2] nullable[-1] || nullable[-2]
+*nfirstpos++ *nlastpos++ = 1
+--firstpos --lastpos
+firstpos->strchr lastpos->strchr = i
+firstpos->constraint lastpos->constraint = 255
+nalloc[i] 1
+NULL!
+*nullable++ 1
+NULL!
+NULL!
+tmp.nelem nfirstpos[-1]
+NULL!
+nullable[-1] 1
+NULL!
+tmp.nelem nfirstpos[-1]
+pos lastpos + nlastpos[-2]
+lastpos nlastpos[-2]
+nlastpos[-2] nlastpos[-1]
+pos[j] lastpos[j]
+NULL!
+NULL!
+nfirstpos[-2] nfirstpos[-1]
+*nullable++ d->tokens[i] == BACKREF
+wants_newline 1
+function: dfastate
+s @ int @ ParmVar lineNum:9087
+d @ struct dfa * @ ParmVar lineNum:9088
+trans @ int * @ ParmVar lineNum:9089
+grps @ position_set [256] @ Var lineNum:9091
+labels @ charclass [256] @ Var lineNum:9092
+ngrps @ int @ Var lineNum:9093
+pos @ position @ Var lineNum:9094
+matches @ charclass @ Var lineNum:9095
+matchesf @ int @ Var lineNum:9096
+intersect @ charclass @ Var lineNum:9097
+intersectf @ int @ Var lineNum:9098
+leftovers @ charclass @ Var lineNum:9099
+leftoversf @ int @ Var lineNum:9100
+letters @ charclass @ Var lineNum:9101
+newline @ charclass @ Var lineNum:9102
+follows @ position_set @ Var lineNum:9103
+tmp @ position_set @ Var lineNum:9104
+state @ int @ Var lineNum:9105
+wants_newline @ int @ Var lineNum:9106
+state_newline @ int @ Var lineNum:9107
+wants_letter @ int @ Var lineNum:9108
+state_letter @ int @ Var lineNum:9109
+initialized @ int @ Var lineNum:9110
+i @ int @ Var lineNum:9111
+j @ int @ Var lineNum:9111
+k @ int @ Var lineNum:9111
+initialized 1
+pos d->states[s].elems.elems[i]
+intersectf 0
+leftoversf matchesf = 0
+grps[j].elems[grps[j].nelem++] pos
+match @ int @ Var lineNum:9184
+label @ int @ Var lineNum:9184
+grps[ngrps].nelem 1
+grps[ngrps].elems[0] pos
+wants_newline 0
+wants_letter 0
+state state_index(d, &follows, 0, 0)
+wants_newline 1
+wants_letter 1
+state_newline state_index(d, &follows, 1, 0)
+state_letter state_index(d, &follows, 0, 1)
+trans[i] state_newline
+trans[i] state_letter
+trans[i] -1
+follows.nelem 0
+wants_newline 0
+wants_letter 0
+state state_index(d, &follows, 0, 0)
+wants_newline 1
+wants_letter 1
+state_newline state_index(d, &follows, 1, 0)
+state_letter state_index(d, &follows, 0, 1)
+c @ int @ Var lineNum:9310
+trans[c] state_newline
+trans[c] state_letter
+trans[c] state
+function: build_state
+s @ int @ ParmVar lineNum:9329
+d @ struct dfa * @ ParmVar lineNum:9330
+d->success[s] 0
+d->newlines[s] trans['\n']
+trans['\n'] -1
+trans @ int * @ Var lineNum:9332
+i @ int @ Var lineNum:9333
+d->trcount 0
+d->trans[i] ((void *)0)
+d->fails[i] ((void *)0)
+d->trans d->realtrans + 1
+oldalloc @ int @ Var lineNum:9378
+d->trans[oldalloc] ((void *)0)
+d->fails[oldalloc++] ((void *)0)
+d->fails[s] trans
+function: build_state_zero
+d @ struct dfa * @ ParmVar lineNum:9407
+d->tralloc 1
+d->trcount 0
+d->trans d->realtrans + 1
+function: dfaexec
+d @ struct dfa * @ ParmVar lineNum:9421
+begin @ char * @ ParmVar lineNum:9422
+end @ char * @ ParmVar lineNum:9423
+newline @ int @ ParmVar lineNum:9424
+count @ int * @ ParmVar lineNum:9425
+backref @ int * @ ParmVar lineNum:9426
+s s1 = 0
+p (unsigned char *)begin
+trans d->trans
+*end '\n'
+s @ int @ Var lineNum:9428
+s1 @ int @ Var lineNum:9428
+tmp @ int @ Var lineNum:9428
+p @ unsigned char * @ Var lineNum:9429
+trans @ int ** @ Var lineNum:9430
+t @ int * @ Var lineNum:9430
+sbit @ int [256] @ Var lineNum:9432
+sbit_init @ int @ Var lineNum:9433
+sbit_init 1
+i @ int @ Var lineNum:9437
+sbit[i] 4
+sbit[i] 2
+s 0
+s1 t[*p++]
+s t[*p++]
+s1 s
+s d->fails[s][*p++]
+*backref 1
+trans d->trans
+s d->newlines[s1]
+function: dfainit
+d @ struct dfa * @ ParmVar lineNum:9520
+d->calloc 1
+d->cindex 0
+d->talloc 1
+d->tindex d->depth = d->nleaves = d->nregexps = 0
+d->searchflag 0
+d->tralloc 0
+d->musts 0
+function: dfacomp
+s @ char * @ ParmVar lineNum:9539
+len @ size_t @ ParmVar lineNum:9540
+d @ struct dfa * @ ParmVar lineNum:9541
+searchflag @ int @ ParmVar lineNum:9542
+copy malloc(len)
+This is malloc!!!!
+case_fold 0
+d->cindex d->tindex = d->depth = d->nleaves = d->nregexps = 0
+case_fold 1
+copy @ char * @ Var lineNum:9546
+i @ int @ Var lineNum:9547
+copy[i] tolower(s[i])
+function: dfafree
+d @ struct dfa * @ ParmVar lineNum:9582
+i @ int @ Var lineNum:9584
+dm @ struct dfamust * @ Var lineNum:9585
+ndm @ struct dfamust * @ Var lineNum:9585
+ndm dm->next
+function: icatalloc
+old @ char * @ ParmVar lineNum:9614
+new @ char * @ ParmVar lineNum:9615
+newsize (new == ((void *)0)) ? 0 : strlen(new)
+result @ char * @ Var lineNum:9617
+oldsize @ int @ Var lineNum:9618
+newsize @ int @ Var lineNum:9618
+oldsize 0
+result (char *)malloc(newsize + 1)
+function: icpyalloc
+string @ char * @ ParmVar lineNum:9637
+function: istrstr
+lookin @ char * @ ParmVar lineNum:9644
+lookfor @ char * @ ParmVar lineNum:9645
+len strlen(lookfor)
+cp @ char * @ Var lineNum:9647
+len @ int @ Var lineNum:9648
+function: ifree
+cp @ char * @ ParmVar lineNum:9659
+function: freelist
+cpp @ char ** @ ParmVar lineNum:9667
+i @ int @ Var lineNum:9669
+cpp[i] ((void *)0)
+function: enlist
+cpp @ char ** @ ParmVar lineNum:9682
+new @ char * @ ParmVar lineNum:9683
+len @ int @ ParmVar lineNum:9684
+new[len] '\x00'
+j 0
+cpp (char **)realloc((char *)cpp, (i + 2) * sizeof *cpp)
+cpp[i] new
+cpp[i + 1] ((void *)0)
+i @ int @ Var lineNum:9686
+j @ int @ Var lineNum:9686
+cpp[j] cpp[i]
+cpp[i] ((void *)0)
+function: comsubs
+left @ char * @ ParmVar lineNum:9730
+right @ char * @ ParmVar lineNum:9731
+cpp (char **)malloc(sizeof *cpp)
+cpp[0] ((void *)0)
+cpp @ char ** @ Var lineNum:9733
+lcp @ char * @ Var lineNum:9734
+rcp @ char * @ Var lineNum:9735
+i @ int @ Var lineNum:9736
+len @ int @ Var lineNum:9736
+len 0
+rcp strchr(right, *lcp)
+rcp strchr(rcp + 1, *lcp)
+len i
+function: addlists
+old @ char ** @ ParmVar lineNum:9766
+new @ char ** @ ParmVar lineNum:9767
+i @ int @ Var lineNum:9769
+old enlist(old, new[i], strlen(new[i]))
+function: inboth
+left @ char ** @ ParmVar lineNum:9786
+right @ char ** @ ParmVar lineNum:9787
+both (char **)malloc(sizeof *both)
+both[0] ((void *)0)
+both @ char ** @ Var lineNum:9789
+temp @ char ** @ Var lineNum:9790
+lnum @ int @ Var lineNum:9791
+rnum @ int @ Var lineNum:9791
+temp comsubs(left[lnum], right[rnum])
+both addlists(both, temp)
+function: resetmust
+mp @ must * @ ParmVar lineNum:9828
+mp->left[0] mp->right[0] = mp->is[0] = '\x00'
+function: dfamust
+dfa @ struct dfa * @ ParmVar lineNum:9836
+result ""
+exact 0
+musts (must *)malloc((dfa->tindex + 1) * sizeof *musts)
+mp musts
+mp musts
+musts @ must * @ Var lineNum:9838
+mp @ must * @ Var lineNum:9839
+result @ char * @ Var lineNum:9840
+ri @ int @ Var lineNum:9841
+i @ int @ Var lineNum:9842
+exact @ int @ Var lineNum:9843
+t @ token @ Var lineNum:9844
+must0 @ must @ Var lineNum:9845
+dm @ struct dfamust * @ Var lineNum:9846
+mp[i] must0
+mp[i].in (char **)malloc(sizeof *mp[i].in)
+mp[i].left malloc(2)
+This is malloc!!!!
+mp[i].right malloc(2)
+This is malloc!!!!
+mp[i].is malloc(2)
+This is malloc!!!!
+mp[i].left[0] mp[i].right[0] = mp[i].is[0] = '\x00'
+mp[i].in[0] ((void *)0)
+mp->is[0] '\x00'
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+NULL!
+rmp --mp
+lmp --mp
+i 0
+lmp->left[i] '\x00'
+ln strlen(lmp->right)
+rn strlen(rmp->right)
+n ln
+lmp->right[j] '\x00'
+new inboth(lmp->in, rmp->in)
+lmp->in new
+new @ char ** @ Var lineNum:9898
+lmp @ must * @ Var lineNum:9899
+rmp @ must * @ Var lineNum:9900
+j @ int @ Var lineNum:9901
+ln @ int @ Var lineNum:9901
+rn @ int @ Var lineNum:9901
+n @ int @ Var lineNum:9901
+lmp->is[0] '\x00'
+n rn
+lmp->right[j] lmp->right[(ln - i) + j]
+NULL!
+NULL!
+result musts[0].in[i]
+exact 1
+NULL!
+rmp --mp
+lmp --mp
+lmp->in addlists(lmp->in, rmp->in)
+lmp->right icatalloc(lmp->right, rmp->right)
+lmp @ must * @ Var lineNum:9952
+rmp @ must * @ Var lineNum:9953
+tp icpyalloc(lmp->right)
+tp icatalloc(tp, rmp->left)
+lmp->in enlist(lmp->in, tp, strlen(tp))
+tp @ char * @ Var lineNum:9966
+lmp->left icatalloc(lmp->left, rmp->left)
+lmp->right[0] '\x00'
+lmp->is icatalloc(lmp->is, rmp->is)
+mp->is[0] mp->left[0] = mp->right[0] = t
+mp->is[1] mp->left[1] = mp->right[1] = '\x00'
+mp->in enlist(mp->in, mp->is, 1)
+dm (struct dfamust *)malloc(sizeof(struct dfamust))
+dm->exact exact
+dm->must malloc(strlen(result) + 1)
+This is malloc!!!!
+dm->next dfa->musts
+dfa->musts dm
+function: xmalloc
+function: kwsalloc
+ @ char * @ ParmVar lineNum:10110
+function: kwsincr
+ @ kwset_t @ ParmVar lineNum:10115
+ @ char * @ ParmVar lineNum:10115
+ @ size_t @ ParmVar lineNum:10115
+function: kwsprep
+ @ kwset_t @ ParmVar lineNum:10119
+function: kwsexec
+ @ kwset_t @ ParmVar lineNum:10127
+ @ char * @ ParmVar lineNum:10127
+ @ size_t @ ParmVar lineNum:10127
+ @ struct kwsmatch * @ ParmVar lineNum:10127
+function: kwsfree
+ @ kwset_t @ ParmVar lineNum:10130
+function: _obstack_newchunk
+ @ struct obstack * @ ParmVar lineNum:10168
+ @ int @ ParmVar lineNum:10168
+function: _obstack_free
+ @ struct obstack * @ ParmVar lineNum:10169
+ @ void * @ ParmVar lineNum:10169
+function: _obstack_begin
+ @ struct obstack * @ ParmVar lineNum:10170
+ @ int @ ParmVar lineNum:10170
+ @ int @ ParmVar lineNum:10170
+ @ void *(*)() @ ParmVar lineNum:10171
+ @ void (*)() @ ParmVar lineNum:10171
+function: _obstack_begin_1
+ @ struct obstack * @ ParmVar lineNum:10172
+ @ int @ ParmVar lineNum:10172
+ @ int @ ParmVar lineNum:10172
+ @ void *(*)() @ ParmVar lineNum:10173
+ @ void (*)() @ ParmVar lineNum:10173
+ @ void * @ ParmVar lineNum:10173
+function: obstack_init
+obstack @ struct obstack * @ ParmVar lineNum:10175
+function: obstack_alloc
+obstack @ struct obstack * @ ParmVar lineNum:10177
+size @ int @ ParmVar lineNum:10177
+function: obstack_copy
+obstack @ struct obstack * @ ParmVar lineNum:10179
+address @ void * @ ParmVar lineNum:10179
+size @ int @ ParmVar lineNum:10179
+function: obstack_copy0
+obstack @ struct obstack * @ ParmVar lineNum:10180
+address @ void * @ ParmVar lineNum:10180
+size @ int @ ParmVar lineNum:10180
+function: obstack_free
+obstack @ struct obstack * @ ParmVar lineNum:10182
+block @ void * @ ParmVar lineNum:10182
+function: obstack_blank
+obstack @ struct obstack * @ ParmVar lineNum:10184
+size @ int @ ParmVar lineNum:10184
+function: obstack_grow
+obstack @ struct obstack * @ ParmVar lineNum:10186
+data @ void * @ ParmVar lineNum:10186
+size @ int @ ParmVar lineNum:10186
+function: obstack_grow0
+obstack @ struct obstack * @ ParmVar lineNum:10187
+data @ void * @ ParmVar lineNum:10187
+size @ int @ ParmVar lineNum:10187
+function: obstack_1grow
+obstack @ struct obstack * @ ParmVar lineNum:10189
+data_char @ int @ ParmVar lineNum:10189
+function: obstack_ptr_grow
+obstack @ struct obstack * @ ParmVar lineNum:10190
+data @ void * @ ParmVar lineNum:10190
+function: obstack_int_grow
+obstack @ struct obstack * @ ParmVar lineNum:10191
+data @ int @ ParmVar lineNum:10191
+function: obstack_finish
+obstack @ struct obstack * @ ParmVar lineNum:10193
+function: obstack_object_size
+obstack @ struct obstack * @ ParmVar lineNum:10195
+function: obstack_room
+obstack @ struct obstack * @ ParmVar lineNum:10197
+function: obstack_1grow_fast
+obstack @ struct obstack * @ ParmVar lineNum:10198
+data_char @ int @ ParmVar lineNum:10198
+function: obstack_ptr_grow_fast
+obstack @ struct obstack * @ ParmVar lineNum:10199
+data @ void * @ ParmVar lineNum:10199
+function: obstack_int_grow_fast
+obstack @ struct obstack * @ ParmVar lineNum:10200
+data @ int @ ParmVar lineNum:10200
+function: obstack_blank_fast
+obstack @ struct obstack * @ ParmVar lineNum:10201
+size @ int @ ParmVar lineNum:10201
+function: obstack_base
+obstack @ struct obstack * @ ParmVar lineNum:10203
+function: obstack_next_free
+obstack @ struct obstack * @ ParmVar lineNum:10204
+function: obstack_alignment_mask
+obstack @ struct obstack * @ ParmVar lineNum:10205
+function: obstack_chunk_size
+obstack @ struct obstack * @ ParmVar lineNum:10206
+function: kwsalloc
+trans @ char * @ ParmVar lineNum:10255
+kwset (struct kwset *)xmalloc(sizeof(struct kwset))
+kwset->words 0
+kwset->trie (struct trie *)__extension__ ({
+    struct obstack *__h = (&kwset->obstack);
+    __extension__ ({
+        struct obstack *__o = (__h);
+        int __len = ((sizeof(struct trie)));
+        ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk(__o, __len) , 0) : 0);
+        __o->next_free += __len;
+        (void)0;
+    });
+    __extension__ ({
+        struct obstack *__o1 = (__h);
+        void *value = (void *)__o1->object_base;
+        if (__o1->next_free == value)
+            __o1->maybe_empty_object = 1;
+        __o1->next_free = (((((__o1->next_free) - (char *)0) + __o1->alignment_mask) & ~(__o1->alignment_mask)) + (char *)0);
+        ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0);
+        __o1->object_base = __o1->next_free;
+        value;
+    });
+})
+kwset->trie->accepting 0
+kwset->trie->links 0
+kwset->trie->parent 0
+kwset->trie->next 0
+kwset->trie->fail 0
+kwset->trie->depth 0
+kwset->trie->shift 0
+kwset->mind 2147483647
+kwset->maxd -1
+kwset->target 0
+kwset->trans trans
+kwset @ struct kwset * @ Var lineNum:10257
+__h @ struct obstack * @ Var lineNum:10266
+__o->next_free __len
+__o @ struct obstack * @ Var lineNum:10266
+__len @ int @ Var lineNum:10266
+__o1->next_free (((((__o1->next_free) - (char *)0) + __o1->alignment_mask) & ~(__o1->alignment_mask)) + (char *)0)
+__o1->object_base __o1->next_free
+__o1 @ struct obstack * @ Var lineNum:10266
+value @ void * @ Var lineNum:10266
+__o1->maybe_empty_object 1
+function: kwsincr
+kws @ kwset_t @ ParmVar lineNum:10291
+text @ char * @ ParmVar lineNum:10292
+len @ size_t @ ParmVar lineNum:10293
+kwset (struct kwset *)kws
+trie kwset->trie
+text len
+kwset @ struct kwset * @ Var lineNum:10295
+trie @ struct trie * @ Var lineNum:10296
+label @ unsigned char @ Var lineNum:10297
+link @ struct tree * @ Var lineNum:10298
+depth @ int @ Var lineNum:10299
+links @ struct tree *[12] @ Var lineNum:10300
+dirs @ enum <anonymous enum at target/grep.c:9327:3> [12] @ Var lineNum:10301
+t @ struct tree * @ Var lineNum:10302
+r @ struct tree * @ Var lineNum:10302
+l @ struct tree * @ Var lineNum:10302
+rl @ struct tree * @ Var lineNum:10302
+lr @ struct tree * @ Var lineNum:10302
+label kwset->trans ? kwset->trans[(unsigned char)*--text] : *--text
+link trie->links
+links[0] (struct tree *)&trie->links
+dirs[0] L
+depth 1
+trie link->trie
+links[depth] link
+dirs[depth++] = L link = link->llink
+link (struct tree *)__extension__ ({
+    struct obstack *__h = (&kwset->obstack);
+    __extension__ ({
+        struct obstack *__o = (__h);
+        int __len = ((sizeof(struct tree)));
+        ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk(__o, __len) , 0) : 0);
+        __o->next_free += __len;
+        (void)0;
+    });
+    __extension__ ({
+        struct obstack *__o1 = (__h);
+        void *value = (void *)__o1->object_base;
+        if (__o1->next_free == value)
+            __o1->maybe_empty_object = 1;
+        __o1->next_free = (((((__o1->next_free) - (char *)0) + __o1->alignment_mask) & ~(__o1->alignment_mask)) + (char *)0);
+        ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0);
+        __o1->object_base = __o1->next_free;
+        value;
+    });
+})
+link->llink 0
+link->rlink 0
+link->trie (struct trie *)__extension__ ({
+    struct obstack *__h = (&kwset->obstack);
+    __extension__ ({
+        struct obstack *__o = (__h);
+        int __len = ((sizeof(struct trie)));
+        ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk(__o, __len) , 0) : 0);
+        __o->next_free += __len;
+        (void)0;
+    });
+    __extension__ ({
+        struct obstack *__o1 = (__h);
+        void *value = (void *)__o1->object_base;
+        if (__o1->next_free == value)
+            __o1->maybe_empty_object = 1;
+        __o1->next_free = (((((__o1->next_free) - (char *)0) + __o1->alignment_mask) & ~(__o1->alignment_mask)) + (char *)0);
+        ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0);
+        __o1->object_base = __o1->next_free;
+        value;
+    });
+})
+link->trie->accepting 0
+link->trie->links 0
+link->trie->parent trie
+link->trie->next 0
+link->trie->fail 0
+link->trie->depth trie->depth + 1
+link->trie->shift 0
+link->label label
+link->balance 0
+__h @ struct obstack * @ Var lineNum:10336
+__o->next_free __len
+__o @ struct obstack * @ Var lineNum:10336
+__len @ int @ Var lineNum:10336
+__o1->next_free (((((__o1->next_free) - (char *)0) + __o1->alignment_mask) & ~(__o1->alignment_mask)) + (char *)0)
+__o1->object_base __o1->next_free
+__o1 @ struct obstack * @ Var lineNum:10336
+value @ void * @ Var lineNum:10336
+__o1->maybe_empty_object 1
+__h @ struct obstack * @ Var lineNum:10342
+__o->next_free __len
+__o @ struct obstack * @ Var lineNum:10342
+__len @ int @ Var lineNum:10342
+__o1->next_free (((((__o1->next_free) - (char *)0) + __o1->alignment_mask) & ~(__o1->alignment_mask)) + (char *)0)
+__o1->object_base __o1->next_free
+__o1 @ struct obstack * @ Var lineNum:10342
+value @ void * @ Var lineNum:10342
+__o1->maybe_empty_object 1
+links[depth]->llink link
+NULL!
+t->rlink = r r->llink = rl
+t->balance r->balance = 0
+rl = t->rlink lr = t->llink
+t->llink = l , l->rlink = lr , t->rlink = r r->llink = rl
+l->balance t->balance != 1 ? 0 : -1
+r->balance t->balance != (char)-1 ? 0 : 1
+t->balance 0
+NULL!
+r = links[depth] , t = r->llink rl = t->rlink
+NULL!
+r = links[depth] , l = r->llink t = l->rlink
+NULL!
+t->llink = l l->rlink = lr
+t->balance l->balance = 0
+lr = t->llink rl = t->rlink
+t->llink = l , l->rlink = lr , t->rlink = r r->llink = rl
+l->balance t->balance != 1 ? 0 : -1
+r->balance t->balance != (char)-1 ? 0 : 1
+t->balance 0
+NULL!
+l = links[depth] , t = l->rlink lr = t->llink
+NULL!
+l = links[depth] , r = l->rlink t = r->llink
+links[depth - 1]->llink t
+trie->accepting 1 + 2 * kwset->words
+kwset->mind trie->depth
+kwset->maxd trie->depth
+function: enqueue
+tree @ struct tree * @ ParmVar lineNum:10445
+last @ struct trie ** @ ParmVar lineNum:10446
+(*last) (*last)->next = tree->trie
+function: treefails
+tree @ struct tree * @ ParmVar lineNum:10460
+fail @ struct trie * @ ParmVar lineNum:10461
+recourse @ struct trie * @ ParmVar lineNum:10462
+tree->trie->fail recourse
+link @ struct tree * @ Var lineNum:10464
+link fail->links
+fail fail->fail
+link link->llink
+tree->trie->fail link->trie
+function: treedelta
+tree @ struct tree * @ ParmVar lineNum:10497
+depth @ unsigned int @ ParmVar lineNum:10498
+delta @ unsigned char * @ ParmVar lineNum:10499
+delta[tree->label] depth
+function: hasevery
+a @ struct tree * @ ParmVar lineNum:10512
+b @ struct tree * @ ParmVar lineNum:10513
+a a->llink
+function: treenext
+tree @ struct tree * @ ParmVar lineNum:10533
+next @ struct trie ** @ ParmVar lineNum:10534
+next[tree->label] tree->trie
+function: kwsprep
+kws @ kwset_t @ ParmVar lineNum:10547
+kwset (struct kwset *)kws
+kwset @ struct kwset * @ Var lineNum:10549
+i @ int @ Var lineNum:10550
+curr @ struct trie * @ Var lineNum:10551
+fail @ struct trie * @ Var lineNum:10551
+trans @ char * @ Var lineNum:10552
+delta @ unsigned char [256] @ Var lineNum:10553
+last @ struct trie * @ Var lineNum:10554
+next @ struct trie *[256] @ Var lineNum:10554
+delta[i] kwset->mind
+delta[i] 255
+kwset->target __extension__ ({
+    struct obstack *__h = (&kwset->obstack);
+    __extension__ ({
+        struct obstack *__o = (__h);
+        int __len = ((kwset->mind));
+        ((__o->chunk_limit - __o->next_free < __len) ? (_obstack_newchunk(__o, __len) , 0) : 0);
+        __o->next_free += __len;
+        (void)0;
+    });
+    __extension__ ({
+        struct obstack *__o1 = (__h);
+        void *value = (void *)__o1->object_base;
+        if (__o1->next_free == value)
+            __o1->maybe_empty_object = 1;
+        __o1->next_free = (((((__o1->next_free) - (char *)0) + __o1->alignment_mask) & ~(__o1->alignment_mask)) + (char *)0);
+        ((__o1->next_free - (char *)__o1->chunk > __o1->chunk_limit - (char *)__o1->chunk) ? (__o1->next_free = __o1->chunk_limit) : 0);
+        __o1->object_base = __o1->next_free;
+        value;
+    });
+})
+kwset->mind2 kwset->mind
+__h @ struct obstack * @ Var lineNum:10573
+__o->next_free __len
+__o @ struct obstack * @ Var lineNum:10573
+__len @ int @ Var lineNum:10573
+__o1->next_free (((((__o1->next_free) - (char *)0) + __o1->alignment_mask) & ~(__o1->alignment_mask)) + (char *)0)
+__o1->object_base __o1->next_free
+__o1 @ struct obstack * @ Var lineNum:10573
+value @ void * @ Var lineNum:10573
+__o1->maybe_empty_object 1
+kwset->target[i] curr->links->label
+curr curr->links->trie
+delta[(unsigned char)kwset->target[i]] kwset->mind - (i + 1)
+kwset->mind2 kwset->mind - (i + 1)
+curr->shift kwset->mind
+curr->maxshift kwset->mind
+fail->shift curr->depth - fail->depth
+fail->maxshift curr->depth - fail->depth
+curr->maxshift curr->parent->maxshift
+curr->shift curr->maxshift
+next[i] 0
+kwset->next[i] next[(unsigned char)trans[i]]
+kwset->next[i] next[i]
+kwset->delta[i] delta[(unsigned char)trans[i]]
+kwset->delta[i] delta[i]
+function: bmexec
+kws @ kwset_t @ ParmVar lineNum:10666
+text @ char * @ ParmVar lineNum:10667
+size @ size_t @ ParmVar lineNum:10668
+kwset (struct kwset *)kws
+len kwset->mind
+d1 kwset->delta
+sp kwset->target + len
+gc ((unsigned char)(sp[-2]))
+md2 kwset->mind2
+tp text + len
+ep text + size
+d d1[((unsigned char)(tp[-1]))]
+kwset @ struct kwset * @ Var lineNum:10670
+d1 @ unsigned char * @ Var lineNum:10671
+ep @ char * @ Var lineNum:10672
+sp @ char * @ Var lineNum:10672
+tp @ char * @ Var lineNum:10672
+d @ int @ Var lineNum:10673
+gc @ int @ Var lineNum:10673
+i @ int @ Var lineNum:10673
+len @ int @ Var lineNum:10673
+md2 @ int @ Var lineNum:10673
+tp md2
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d = d1[((unsigned char)(tp[-1]))] tp += d
+d d1[((unsigned char)((tp += d)[-1]))]
+d md2
+function: cwexec
+kws @ kwset_t @ ParmVar lineNum:10752
+text @ char * @ ParmVar lineNum:10753
+len @ size_t @ ParmVar lineNum:10754
+kwsmatch @ struct kwsmatch * @ ParmVar lineNum:10755
+kwset (struct kwset *)kws
+next kwset->next
+delta kwset->delta
+trans kwset->trans
+lim text + len
+end text
+lmch 0
+d 1
+kwset @ struct kwset * @ Var lineNum:10757
+next @ struct trie ** @ Var lineNum:10758
+trie @ struct trie * @ Var lineNum:10758
+accept @ struct trie * @ Var lineNum:10758
+beg @ char * @ Var lineNum:10759
+lim @ char * @ Var lineNum:10759
+mch @ char * @ Var lineNum:10759
+lmch @ char * @ Var lineNum:10759
+c @ unsigned char @ Var lineNum:10760
+delta @ unsigned char * @ Var lineNum:10760
+d @ int @ Var lineNum:10761
+end @ char * @ Var lineNum:10762
+qlim @ char * @ Var lineNum:10762
+tree @ struct tree * @ Var lineNum:10763
+trans @ char * @ Var lineNum:10764
+mch 0
+mch = text accept = kwset->trie
+qlim lim - 4 * kwset->mind
+beg end - 1
+trie next[c]
+d trie->shift
+end d - 1
+end d
+end delta[(unsigned char)*end]
+end delta[(unsigned char)*end]
+mch beg
+accept trie
+c trans ? trans[(unsigned char)*--beg] : *--beg
+tree trie->links
+d trie->shift
+tree tree->llink
+trie tree->trie
+mch beg
+accept trie
+lim mch + kwset->maxd
+beg end - 1
+d trie->shift
+d 1
+lmch beg
+accept trie
+c trans ? trans[(unsigned char)*--beg] : *--beg
+tree trie->links
+d trie->shift
+tree tree->llink
+trie tree->trie
+lmch beg
+accept trie
+mch lmch
+d 1
+kwsmatch->strchr accept->accepting / 2
+kwsmatch->beg[0] mch
+kwsmatch->size[0] accept->depth
+function: kwsexec
+kws @ kwset_t @ ParmVar lineNum:10906
+text @ char * @ ParmVar lineNum:10907
+size @ size_t @ ParmVar lineNum:10908
+kwsmatch @ struct kwsmatch * @ ParmVar lineNum:10909
+kwset (struct kwset *)kws
+kwset @ struct kwset * @ Var lineNum:10911
+ret @ char * @ Var lineNum:10912
+ret bmexec(kws, text, size)
+kwsmatch->strchr 0
+kwsmatch->beg[0] ret
+kwsmatch->size[0] kwset->mind
+function: kwsfree
+kws @ kwset_t @ ParmVar lineNum:10933
+kwset (struct kwset *)kws
+kwset @ struct kwset * @ Var lineNum:10935
+__o @ struct obstack * @ Var lineNum:10938
+__obj @ void * @ Var lineNum:10938
+__o->next_free __o->object_base = __obj
+function: Gcompile
+ @ char * @ ParmVar lineNum:10942
+ @ size_t @ ParmVar lineNum:10942
+function: Ecompile
+ @ char * @ ParmVar lineNum:10943
+ @ size_t @ ParmVar lineNum:10943
+function: EGexecute
+ @ char * @ ParmVar lineNum:10944
+ @ size_t @ ParmVar lineNum:10944
+ @ char ** @ ParmVar lineNum:10944
+function: Fcompile
+ @ char * @ ParmVar lineNum:10945
+ @ size_t @ ParmVar lineNum:10945
+function: Fexecute
+ @ char * @ ParmVar lineNum:10946
+ @ size_t @ ParmVar lineNum:10946
+ @ char ** @ ParmVar lineNum:10946
+matchers @ struct matcher [9] @ Var lineNum:10948
+dfa_1 @ struct dfa @ Var lineNum:10964
+regex @ struct re_pattern_buffer @ Var lineNum:10967
+kwset @ kwset_t @ Var lineNum:10972
+lastexact @ int @ Var lineNum:10977
+function: dfaerror
+mesg @ char * @ ParmVar lineNum:10981
+function: kwsinit
+trans @ char [256] @ Var lineNum:10989
+i @ int @ Var lineNum:10990
+trans[i] ((1 && ((*__ctype_b_loc())[(int)((i))] & (unsigned short)_ISupper)) ? tolower(i) : (i))
+function: kwsmusts
+dm @ struct dfamust * @ Var lineNum:11007
+err @ char * @ Var lineNum:11008
+function: Gcompile
+pattern @ char * @ ParmVar lineNum:11040
+size @ size_t @ ParmVar lineNum:11041
+err @ const char * @ Var lineNum:11044
+i strlen(n)
+i size
+i strlen(n + i)
+n @ char * @ Var lineNum:11068
+i @ int @ Var lineNum:11069
+function: Ecompile
+pattern @ char * @ ParmVar lineNum:11098
+size @ size_t @ ParmVar lineNum:11099
+err @ const char * @ Var lineNum:11102
+i strlen(n)
+i size
+i strlen(n + i)
+n @ char * @ Var lineNum:11134
+i @ int @ Var lineNum:11135
+function: EGexecute
+buf @ char * @ ParmVar lineNum:11164
+size @ size_t @ ParmVar lineNum:11165
+endp @ char ** @ ParmVar lineNum:11166
+buflim buf + size
+buflim @ char * @ Var lineNum:11168
+beg @ char * @ Var lineNum:11168
+end @ char * @ Var lineNum:11168
+save @ char @ Var lineNum:11168
+backref @ int @ Var lineNum:11169
+start @ int @ Var lineNum:11169
+len @ int @ Var lineNum:11169
+kwsm @ struct kwsmatch @ Var lineNum:11170
+regs @ struct re_registers @ Var lineNum:11171
+regex.not_eol 0
+beg kwsexec(kwset, beg, buflim - beg, &kwsm)
+end memchr(beg, '\n', buflim - beg)
+save *end
+*end save
+end buflim
+*end save
+save *buflim
+beg dfaexec(&dfa_1, beg, buflim, 0, (int *)0, &backref)
+*buflim save
+end memchr(beg, '\n', buflim - beg)
+end buflim
+len regs.end[0] - start
+regex.not_eol 1
+len re_match(&regex, beg, start + len, start, &regs)
+regex.not_eol 0
+start re_search(&regex, beg, end - beg, start, end - beg - start, &regs)
+len regs.end[0] - start
+function: Fcompile
+pattern @ char * @ ParmVar lineNum:11274
+size @ size_t @ ParmVar lineNum:11275
+beg pattern
+beg @ char * @ Var lineNum:11277
+lim @ char * @ Var lineNum:11277
+err @ char * @ Var lineNum:11277
+beg lim
+function: Fexecute
+buf @ char * @ ParmVar lineNum:11299
+size @ size_t @ ParmVar lineNum:11300
+endp @ char ** @ ParmVar lineNum:11301
+*endp end
+beg @ char * @ Var lineNum:11303
+try @ char * @ Var lineNum:11303
+end @ char * @ Var lineNum:11303
+len @ size_t @ Var lineNum:11304
+kwsmatch @ struct kwsmatch @ Var lineNum:11305
+len kwsmatch.size[0]
+try kwsexec(kwset, beg, --len, &kwsmatch)
+len kwsmatch.size[0]

@@ -30,6 +30,8 @@ Rewriter *m_rewriter = NULL;
 LangOptions *m_langOpts = NULL;
 ASTContext *astcontext = NULL;
 ofstream *varOutput = NULL;
+char **argvPtr = NULL;
+
 
 class MyASTVisitor : public RecursiveASTVisitor<MyASTVisitor>
 {
@@ -43,11 +45,32 @@ public:
 	string rhsSent = m_rewriter->ConvertToString(binOp->getRHS());
 	cout<<lhsSent<<" "<<rhsSent<<endl;
 
+
 	if(!rhsSent.compare(0,6,"malloc")){
+	/*
+	if(rhsSent.find("malloc(")!=string::npos){
+		// need to implement xmalloc, calloc, and realloc
 		cout<<"This is malloc!!!!"<<endl;
+		StmtIterator iter = binOp->child_begin();
+		iter++;
+		if(!strcmp("ImplicitCastExpr",iter->getStmtClassName())){
+			StmtIterator iter2 = iter->child_begin();
+			if(strcmp("CallExpr",iter2->getStmtClassName())){
+				iter2 = iter2->child_begin();	
+			}
+				StmtIterator iter3 = iter2->child_begin();	
+				//ImplicitCastExpr *binOp2 = cast<ImplicitCastExpr>(*iter);
+				m_rewriter->InsertTextAfter(iter3->getLocStart(),"//");
+				iter3++;
+				m_rewriter->InsertTextAfter(iter3->getLocStart(),"//");
+			
+		}
+	*/
+//}
 		SourceLocation endOfStmt2 = Lexer::findLocationAfterToken(binOp->getRHS()->getLocEnd(),tok::semi,*m_srcMgr,*m_langOpts,false);
 		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart(),"/*start*/");
-		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart().getLocWithOffset(7),"_mallocCheck_(");
+		size_t found = rhsSent.find("malloc");
+		m_rewriter->InsertTextAfter(binOp->getRHS()->getLocStart().getLocWithOffset(found+7),"_mallocCheck_(");
 		m_rewriter->InsertTextBefore(endOfStmt2.getLocWithOffset(-1),")");
 	}
 
@@ -169,7 +192,12 @@ public:
     }
     
     bool VisitFunctionDecl(FunctionDecl *f) {
-        string funcName = f->getNameInfo().getAsString();
+        if(f->hasBody()&&f->isMain()){
+		Stmt *FuncBody = f->getBody();
+		string initialSent = "_monitor_init(\""+string(argvPtr[1])+"\");\n";
+		m_rewriter->InsertTextAfter((FuncBody->child_begin())->getLocStart(), initialSent);
+	}
+	string funcName = f->getNameInfo().getAsString();
 	cout<<"function: " <<f->getName().str() <<endl;
 	return true;
     }
@@ -202,6 +230,7 @@ int main(int argc, char *argv[])
         llvm::errs() << "Usage: kcov-branch-identify <filename>\n";
         return 1;
     }
+    argvPtr = argv;
 
     // CompilerInstance will hold the instance of the Clang compiler for us,
     // managing the various objects needed to run the compiler.
