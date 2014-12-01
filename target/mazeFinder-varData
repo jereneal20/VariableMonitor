@@ -1,0 +1,26 @@
+Maze@char (*)[13]@1 19
+Check@int@1 19
+i@int@1 19
+j@int@1 19
+Maze@char (*)[13]@1 20
+Check@int@1 20
+i@int@1 20
+j@int@1 20
+Maze@char (*)[13]@1 21
+Check@int@1 21
+i@int@1 21
+j@int@1 21
+Maze@char (*)[13]@1 22
+Check@int@1 22
+i@int@1 22
+j@int@1 22
+Maze@char (*)[13]@1 23
+i@int@0 28
+j@int@0 28
+x@int@0 28
+y@int@0 28
+check@int@0 29
+maze@char [12][13]@0 30
+Maze@char (*)[13]@1 167
+a@int@0 169
+b@int@0 169
